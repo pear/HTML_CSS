@@ -243,14 +243,14 @@ class HTML_CSS extends HTML_Common {
             $element = '';
             $pseudo  = '';
             // check if it's an ID
-            if (strpos('#', $selector)) {
+            if (strpos($selector, '#')) {
                 $id      = '#' . strstr($selector, '#');
             } else { // if it's not an ID, expect an element or a class
-                if (strpos('.', $selector)){
+                if (strpos($selector, '.')){
                     $class   = '.' . strstr($selector, '.');
                 }
                 $element = substr($selector, 0 , strpos($selector, '.')-1);
-                if (strpos(':' . $selector)) {
+                if (strpos($selector, ':')) {
                     $pseudo = ':' . $strstr($selector, ':');
                 }
                 if ($this->_xhtmlCompliant){
