@@ -34,14 +34,18 @@ In addition, it shares the following with HTML_Common based classes:
     <date>2003-09-03</date>
     <state>beta</state>
     <notes>
+Warning:
+Major BC break!
+
 License change:
 Now PHP License 3.0
 
 New features:
 * Parse CSS from string (Laurent)
 * Read and parse CSS from file (Laurent)
+* Retrieve the settings of individual properties (Laurent)
+* Fully redesigned group handling
 * Output to file
-* Now you can retrieve the settings of individual properties (Laurent)
 
 Bugfixes:
 * Examples updated
