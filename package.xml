@@ -31,17 +31,20 @@ In addition, it shares the following with HTML_Common based classes:
   </maintainers>
   <release>
     <version>0.3.0</version>
-    <date>2003-09-??</date>
+    <date>2003-09-03</date>
     <state>beta</state>
     <notes>
-New features:
-* Parse CSS from string
-* Read and parse CSS from file
-* Output to file
-* Now you can retrieve the settings of individual properties
-
 License change:
 Now PHP License 3.0
+
+New features:
+* Parse CSS from string (Laurent)
+* Read and parse CSS from file (Laurent)
+* Output to file
+* Now you can retrieve the settings of individual properties (Laurent)
+
+Bugfixes:
+* Examples updated
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="HTML">
