@@ -5,10 +5,10 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 1997 - 2003 The PHP Group                              |
 // +----------------------------------------------------------------------+
-// | This source file is subject to version 2.0 of the PHP license,       |
+// | This source file is subject to version 3.0 of the PHP license,       |
 // | that is bundled with this package in the file LICENSE, and is        |
 // | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
+// | http://www.php.net/license/3_0.txt.                                  |
 // | If you did not receive a copy of the PHP license and are unable to   |
 // | obtain it through the world-wide-web, please send a note to          |
 // | license@php.net so we can mail you a copy immediately.               |
@@ -18,6 +18,7 @@
 //
 // $Id$
 
+require_once "PEAR.php";
 require_once "HTML/Common.php";
 
 /**
@@ -58,8 +59,8 @@ require_once "HTML/Common.php";
  *
  * $p->setTitle("My page");
  * // it can be added as an object
- * $p->addStyleDeclaration('text/css', &$css);
- * $p->addMetaData("author", "My Name");
+ * $p->addStyleDeclaration($css, 'text/css');
+ * $p->setMetaData("author", "My Name");
  * $p->addBodyContent = "<h1>headline</h1>";
  * $p->addBodyContent = "<p>some text</p>";
  * $p->addBodyContent = "<p>some more text</p>";
@@ -233,7 +234,6 @@ class HTML_CSS extends HTML_Common {
      * Parse a textstring that contains css information
      *
      * @param    string  $str    text string to parse
-     * @author   Laurent Laville <pear@laurent-laville.org>
      * @since    0.3.0
      * @access   public
      * @return   void
@@ -241,33 +241,33 @@ class HTML_CSS extends HTML_Common {
     function parseString($str) 
     {
         // Remove comments
-	    $str = preg_replace("/\/\*(.*)?\*\//Usi", "", $str);
+        $str = preg_replace("/\/\*(.*)?\*\//Usi", "", $str);
         
-	    // Parse each element of csscode
-	    $parts = explode("}",$str);
+        // Parse each element of csscode
+        $parts = explode("}",$str);
         foreach($parts as $part) {
             $part = trim($part);
             if (strlen($part) > 0) {
                 
                 // Parse each group of element in csscode
-	            list($keystr,$codestr) = explode("{",$part);
-	            $keys = explode(",",trim($keystr));
-	            foreach($keys as $key) {
+                list($keystr,$codestr) = explode("{",$part);
+                $keys = explode(",",trim($keystr));
+                foreach($keys as $key) {
                     $key = trim($key);
                     if (strlen($key) > 0) {
                         
-                   	    // Parse each property of an element
+                        // Parse each property of an element
                         $codes = explode(";",trim($codestr));
                         foreach ($codes as $code) {
                             if (strlen($code) > 0) {
-	                        list($property,$value) = explode(":",trim($code));
+                                list($property,$value) = explode(":",trim($code));
                                 $this->setStyle($key, $property, $value);
                             }
                         }
                     }
                 }
             }
-	    }
+        }
     } // end func parseString
     
     /**
@@ -282,15 +282,16 @@ class HTML_CSS extends HTML_Common {
     { 
         if (file_exists($filename)) {
             if (function_exists('file_get_contents')){
-            $this->parseString(file_get_contents($filename));
+                $this->parseString(file_get_contents($filename));
             } else {
                 $file = fopen("$filename", "rb");
                 $this->parseString(fread($file, filesize($filename)));
-                fclose($fd);
+                fclose($file);
             }
             
         } else {
-            PEAR::raiseError("HTML_CSS::parseFile() error: $filename does not exist.");
+            return PEAR::raiseError("HTML_CSS::parseFile() error: $filename does not exist.",
+                                        0, PEAR_ERROR_TRIGGER);
         }
     } // func parseFile
     
@@ -314,7 +315,6 @@ class HTML_CSS extends HTML_Common {
      */
     function toInline($element)
     {
-        
         $strCss = '';
         $newCssArray = '';
         
@@ -367,7 +367,8 @@ class HTML_CSS extends HTML_Common {
             fclose($file);
         }
         if (!file_exists($filename)){
-            PEAR::raiseError("HTML_CSS::toFile() error: Failed to write to $filename");
+            return PEAR::raiseError("HTML_CSS::toFile() error: Failed to write to $filename",
+                                        0, PEAR_ERROR_TRIGGER);
         }
         
     } // end func toFile
@@ -380,7 +381,6 @@ class HTML_CSS extends HTML_Common {
      */
     function toString()
     {
-        
         // get line endings
         $lnEnd = $this->_getLineEnd();
         $tabs = $this->_getTabs();
@@ -426,7 +426,6 @@ class HTML_CSS extends HTML_Common {
      */
     function display()
     {
-        
         $lnEnd = $this->_getLineEnd();
         
         if(! $this->_cache) {
@@ -442,6 +441,5 @@ class HTML_CSS extends HTML_Common {
         $strCss = $this->toString();
         print $strCss;
     } // end func display
-    
 }
 ?>
