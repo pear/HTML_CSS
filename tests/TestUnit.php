@@ -1,5 +1,4 @@
 <?php
-
 /**
  * TestUnit runs a TestSuite and returns a TestResult object.
  * And more than PHPUnit attach a listener to TestResult. 
@@ -11,9 +10,10 @@
 
 require_once 'PHPUnit.php';
 
-class TestUnit extends PHPUnit {
-
-    function &run(&$suite, $listener) {
+class TestUnit extends PHPUnit 
+{
+    function &run(&$suite, $listener) 
+    {
         $result = new TestResult();
 	$result->addListener($listener);
         $suite->run($result);
@@ -22,10 +22,11 @@ class TestUnit extends PHPUnit {
     }
 }
 
-class TestResult extends PHPUnit_TestResult {
-
+class TestResult extends PHPUnit_TestResult 
+{
     /* report result of test run */
-    function report() {
+    function report() 
+    {
 	echo "</TABLE>";
 
 	$nRun = $this->runCount();
@@ -50,6 +51,5 @@ class TestResult extends PHPUnit_TestResult {
             print("</ol>\n");
 	}
     }
-
 }
 ?>

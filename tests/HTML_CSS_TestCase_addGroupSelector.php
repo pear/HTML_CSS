@@ -1,6 +1,6 @@
 <?php
 /**
- * API Unit tests for HTML_CSS package.
+ * API addGroupSelector Unit tests for HTML_CSS class.
  * 
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
@@ -26,9 +26,9 @@ class HTML_CSS_TestCase_addGroupSelector extends PHPUnit_TestCase
     {
         error_reporting(E_ALL & ~E_NOTICE);
 
-        $logger['pushCallback'] = array(&$this, '_pushCallback'); // don't die when an exception is thrown
         $attrs = array();
-        $this->stylesheet = new HTML_CSS($attrs, $logger);
+        $prefs= array('push_callback' => array(&$this, '_handleError'));
+        $this->stylesheet = new HTML_CSS($attrs, $prefs);
 
         $this->css_group1 = $this->stylesheet->createGroup('body, html');
         $this->stylesheet->setGroupStyle($this->css_group1, 'color', '#ffffff');
@@ -39,11 +39,6 @@ class HTML_CSS_TestCase_addGroupSelector extends PHPUnit_TestCase
     function tearDown()
     {
         unset($this->stylesheet);
-    }
-
-    function _stripWhitespace($str)
-    {
-        return preg_replace('/\\s+/', '', $str);
     }
 
     function _methodExists($name) 
@@ -60,28 +55,40 @@ class HTML_CSS_TestCase_addGroupSelector extends PHPUnit_TestCase
         return false;
     }
 
-    function _pushCallback($code, $level)
+    function _handleError($code, $level)
     {
         // don't die if the error is an exception (as default callback)
-        return true;
+        return PEAR_ERROR_RETURN;
     }
 
     function _getResult($res)
     {
         if (PEAR::isError($res)) {
-            $this->assertTrue(false, $res->getMessage());
+            $msg = $res->getMessage() . '&nbsp;&gt;&gt;';
+            $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
 	}
     }
 
-
     /**
      * Tests a addGroupSelector method 
-     *
-     * - fail1: wrong group id
      */  
-    function test_addGroupSelector_fail1()
+    function test_addGroupSelector_fail_group_no_integer()
+    {
+        $group = '1';
+        $val = $this->stylesheet->addGroupSelector($group, 'body');
+        $this->_getResult($val);
+    }
+
+    function test_addGroupSelector_fail_selectors_no_string()
+    {
+        $group = $this->css_grpcnt;
+        $val = $this->stylesheet->addGroupSelector($group, true);
+        $this->_getResult($val);
+    }
+
+    function test_addGroupSelector_fail_invalid_groupid()
     {
         $group = $this->css_grpcnt + 1;
         $val = $this->stylesheet->addGroupSelector($group, 'html');
