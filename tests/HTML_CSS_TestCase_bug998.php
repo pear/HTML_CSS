@@ -7,6 +7,8 @@
  * @package    HTML_CSS
  */
 
+require_once 'PEAR.php';
+
 class HTML_CSS_TestCase_bug998 extends PHPUnit_TestCase
 {
     /**
@@ -24,10 +26,7 @@ class HTML_CSS_TestCase_bug998 extends PHPUnit_TestCase
     {
         error_reporting(E_ALL & ~E_NOTICE);
 
-        $logger['display_errors'] = 'off';                        // don't use PEAR::Log display driver
-        $logger['msgCallback'] = array(&$this, '_msgCallback');   // remove file&line context in error message
         $logger['pushCallback'] = array(&$this, '_pushCallback'); // don't die when an exception is thrown
-
         $attrs = array();
         $this->stylesheet = new HTML_CSS($attrs, $logger);
 
@@ -65,33 +64,21 @@ class HTML_CSS_TestCase_bug998 extends PHPUnit_TestCase
         return false;
     }
 
-    function _msgCallback(&$stack, $err)
-    {
-        $message = call_user_func_array(array(&$stack, 'getErrorMessage'), array(&$stack, $err, '%__msg%'));
-        return $message;
-    }
-
-    function _pushCallback($err)
+    function _pushCallback($code, $level)
     {
         // don't die if the error is an exception (as default callback)
+        return true;
     }
 
-    function _getResult()
+    function _getResult($res)
     {
-        $s = &PEAR_ErrorStack::singleton('HTML_CSS');
-        if ($s->hasErrors()) {
-            $err = $s->pop();
-            $this->assertTrue(false, $err['message']);
+        if (PEAR::isError($res)) {
+            $this->assertTrue(false, $res->getMessage());
         } else {
             $this->assertTrue(true);
 	}
     }
 
-    function raiseError($code, $level, $params, $msg)
-    {
-        $err = PEAR_ErrorStack::staticPush($this->stylesheet->_package, $code, $level, $params, $msg, false, null);
-        return $err;
-    }
 
     /**
      * BUG#998 parseString incorrectly reads attribute values with colons in
@@ -117,14 +104,12 @@ class HTML_CSS_TestCase_bug998 extends PHPUnit_TestCase
         if (!$this->_methodExists('toArray')) {
             return;
         }
-        $css = $this->stylesheet->toArray();
+        $e = $css = $this->stylesheet->toArray();
         if ($css['.min:before']['content'] != '":"') {
-            $this->raiseError(998,'error',
-                              array(),
-                              'parseString incorrectly reads attribute values with colons in');
-
+            $e = PEAR::raiseError('parseString incorrectly reads attribute values with colons in',
+                                  998);
         }
-        $this->_getResult();
+        $this->_getResult($e);
     }
 }
 ?>

@@ -53,6 +53,7 @@ $title = 'PhpUnit test run, HTML_CSS class';
             'HTML_CSS_TestCase_removeGroupSelector',
             'HTML_CSS_TestCase_getStyle',
             'HTML_CSS_TestCase_setSameStyle',
+            'HTML_CSS_TestCase_setXhtmlCompliance',
             'HTML_CSS_TestCase_bug725',
             'HTML_CSS_TestCase_bug998',
             'HTML_CSS_TestCase_bug1066',
