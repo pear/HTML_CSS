@@ -205,8 +205,8 @@ class HTML_CSS extends HTML_Common {
             $this->_groupCount++;
             $group = $this->_groupCount;
         } else {
-            if ($this->_checkGroup($identifier, 'createGroup') == true){
-                return PEAR::raiseError("HTML_CSS::$method() error: group $identifier already exists.",
+            if (isset($this->_group[$identifier])){
+                return PEAR::raiseError("HTML_CSS::createGroup() error: group $identifier already exists.",
                                             0, PEAR_ERROR_TRIGGER);
             }
             $group = $identifier;
@@ -215,10 +215,10 @@ class HTML_CSS extends HTML_Common {
         foreach ($selectors as $selector) {
             $selector = trim($selector);
             $this->_groups[$group]['selectors'][] = $selector;
-            $this->_alibis[$selector][$this->_groupCount] = true;
+            $this->_alibis[$selector][$group] = true;
         }
         if ($identifier == null){
-            return $this->_groupCount;
+            return $group;
         }
     } // end func createGroup
 
@@ -538,7 +538,7 @@ class HTML_CSS extends HTML_Common {
         $newCssArray = array();
 
         // If there are groups, iterate through the array and generate the CSS
-        if ($this->_groupCount > 0 && count($this->_groups) > 0) {
+        if (count($this->_groups) > 0) {
             foreach ($this->_groups as $group) {
 
                 // Start group definition
@@ -655,7 +655,7 @@ class HTML_CSS extends HTML_Common {
         }
         
         // If there are groups, iterate through the array and generate the CSS
-        if ($this->_groupCount > 0 && count($this->_groups) > 0) {
+        if (count($this->_groups) > 0) {
             foreach ($this->_groups as $group) {
 
                 // Start group definition
