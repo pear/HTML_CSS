@@ -195,19 +195,31 @@ class HTML_CSS extends HTML_Common {
      * Creates a new CSS definition group. Returns an integer identifying the group.
      *
      * @param    string  $selectors   Selector(s) to be defined, comma delimited.
+     * @param    mixed   $identifier  Group identifier. If not passed, will return an automatically assigned integer.
      * @returns  int
      * @access   public
      */
-    function createGroup($selectors)
+    function createGroup($selectors, $identifier = null)
     {
-        $this->_groupCount++;
+        if ($identifier === null) {
+            $this->_groupCount++;
+            $group = $this->_groupCount;
+        } else {
+            if ($this->_checkGroup($identifier, 'createGroup') == true){
+                return PEAR::raiseError("HTML_CSS::$method() error: group $identifier already exists.",
+                                            0, PEAR_ERROR_TRIGGER);
+            }
+            $group = $identifier;
+        }
         $selectors =  explode(',', $selectors);
         foreach ($selectors as $selector) {
             $selector = trim($selector);
-            $this->_groups[$this->_groupCount]['selectors'][] = $selector;
+            $this->_groups[$group]['selectors'][] = $selector;
             $this->_alibis[$selector][$this->_groupCount] = true;
         }
-        return $this->_groupCount;
+        if ($identifier == null){
+            return $this->_groupCount;
+        }
     } // end func createGroup
 
     /**
