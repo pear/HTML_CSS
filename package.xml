@@ -37,7 +37,7 @@ In addition, it shares the following with HTML_Common based classes:
   </maintainers>
   <release>
     <version>0.3.0</version>
-    <date>2003-09-03</date>
+    <date>2003-11-03</date>
     <state>beta</state>
     <notes>
 Warning:
@@ -53,7 +53,6 @@ New features:
 * Fully redesigned group handling
 * Output to file
 * Error handling introduced (Laurent)
-* Advanced CSS generator (allows duplicate property definition)
 * Added unit tests (Laurent)
 
 Bugfixes:
@@ -62,11 +61,7 @@ Bugfixes:
     <filelist>
       <dir name="/" baseinstalldir="HTML">
         <file role="php">CSS.php</file>
-        <dir name="CSS">
-          <file role="php">Advanced.php</file>
-        </dir>
         <dir name="examples">
-          <file role="doc">CSS_Advanced.php</file>
           <file role="doc">CSS_InHeader.php</file>
           <file role="doc">CSS_Inline.php</file>
           <file role="doc">CSS_Stylesheet.php</file>
