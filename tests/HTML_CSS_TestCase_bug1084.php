@@ -123,6 +123,26 @@ class HTML_CSS_TestCase_bug1084 extends PHPUnit_TestCase
 
         }
         $this->_getResult();
+
+        $sd = 'a#heading.icon:active';
+        $d = $this->stylesheet->parseSelectors($sd);
+        if ($d != $sd) {
+            $this->raiseError(1084,'error',
+                              array('selector' => $sd),
+                              'parseSelectors does not correctly parse selector structure "%selector%"');
+
+        }
+        $this->_getResult();
+
+        $se = '#heading';
+        $e = $this->stylesheet->parseSelectors($se);
+        if ($e != $se) {
+            $this->raiseError(1084,'error',
+                              array('selector' => $se),
+                              'parseSelectors does not correctly parse selector structure "%selector%"');
+
+        }
+        $this->_getResult();
     }
 }
 ?>
