@@ -85,20 +85,21 @@ require_once "HTML/Common.php";
  * // <body style="font:12pt helvetica, arial, sans-serif;background-color:#0c0c0c;color:#ffffff;">
  * </code>
  *
- * @author       Klaus Guenther <klaus@capitalfocus.org>
- * @version      0.1.0
+ * @author     Klaus Guenther <klaus@capitalfocus.org>
+ * @package    HTML_CSS
+ * @version    0.3.0
+ * @access     public
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  */
 class HTML_CSS extends HTML_Common {
     
     /**
-     * Contains the content of the &lt;body&gt; tag.
+     * Contains the CSS definitions.
      *
      * @var     array
      * @access  private
      */
-    var $_css = array('body'=>array(
-                                    'background-color'=>'#ffffff'
-                                    ));
+    var $_css = array();
     
     /**
      * Contains "alibis" (other elements that share a definition) of an element defined in CSS
@@ -146,7 +147,7 @@ class HTML_CSS extends HTML_Common {
      */
     function apiVersion()
     {
-        return 0.1;
+        return 0.3;
     } // end func apiVersion
     
     /**
@@ -161,6 +162,18 @@ class HTML_CSS extends HTML_Common {
     {
         $this->_css[$element][$property]= $value;
     } // end func setStyle
+    
+    /**
+     * Retrieves the value of a CSS property
+     *
+     * @param    string  $element   Element (or class) to be defined
+     * @param    string  $property  Property defined
+     * @access   public
+     */
+    function getStyle($element, $property)
+    {
+        return $this->_css[$element][$property];
+    } // end func getStyle
     
     /**
      * Sets or adds a CSS definition
@@ -217,6 +230,71 @@ class HTML_CSS extends HTML_Common {
     } // end func getCharset
     
     /**
+     * Parse a textstring that contains css information
+     *
+     * @param    string  $str    text string to parse
+     * @author   Laurent Laville <pear@laurent-laville.org>
+     * @since    0.3.0
+     * @access   public
+     * @return   void
+     */
+    function parseString($str) 
+    {
+        // Remove comments
+	    $str = preg_replace("/\/\*(.*)?\*\//Usi", "", $str);
+        
+	    // Parse each element of csscode
+	    $parts = explode("}",$str);
+        foreach($parts as $part) {
+            $part = trim($part);
+            if (strlen($part) > 0) {
+                
+                // Parse each group of element in csscode
+	            list($keystr,$codestr) = explode("{",$part);
+	            $keys = explode(",",trim($keystr));
+	            foreach($keys as $key) {
+                    $key = trim($key);
+                    if (strlen($key) > 0) {
+                        
+                   	    // Parse each property of an element
+                        $codes = explode(";",trim($codestr));
+                        foreach ($codes as $code) {
+                            if (strlen($code) > 0) {
+	                        list($property,$value) = explode(":",trim($code));
+                                $this->setStyle($key, $property, $value);
+                            }
+                        }
+                    }
+                }
+            }
+	    }
+    } // end func parseString
+    
+    /**
+     * Parse a file that contains CSS information
+     *
+     * @param    string  $filename    file to parse
+     * @since    0.3.0
+     * @return   void
+     * @access   public
+     */
+    function parseFile($filename) 
+    { 
+        if (file_exists($filename)) {
+            if (function_exists('file_get_contents')){
+            $this->parseString(file_get_contents($filename));
+            } else {
+                $file = fopen("$filename", "rb");
+                $this->parseString(fread($file, filesize($filename)));
+                fclose($fd);
+            }
+            
+        } else {
+            PEAR::raiseError("HTML_CSS::parseFile() error: $filename does not exist.");
+        }
+    } // func parseFile
+    
+    /**
      * Generates and returns the array of CSS properties
      *
      * @return  array
@@ -271,6 +349,28 @@ class HTML_CSS extends HTML_Common {
         // Let's roll!
         return $strCss;
     } // end func toInline
+    
+    /**
+     * Generates CSS and stores it in a file.
+     *
+     * @return  void
+     * @since   0.3.0
+     * @access  public
+     */
+    function toFile($filename)
+    {
+        if (function_exists('file_put_content')){
+            file_put_content($filename, $this->toString());
+        } else {
+            $file = fopen($filename,'wb');
+            fwrite($file, $this->toString());
+            fclose($file);
+        }
+        if (!file_exists($filename)){
+            PEAR::raiseError("HTML_CSS::toFile() error: Failed to write to $filename");
+        }
+        
+    } // end func toFile
     
     /**
      * Generates and returns the complete CSS as a string.
