@@ -236,7 +236,7 @@ class HTML_CSS extends HTML_Common {
         $i = 0;
         foreach ($selectors_array as $selector) {
             // trim to remove possible whitespace
-            $selector = trim($selector);
+            $selector = trim($this->collapseInternalSpaces($selector));
             // initialize variables
             $id      = '';
             $class   = '';
@@ -282,7 +282,18 @@ class HTML_CSS extends HTML_Common {
             return $array;
         }
     } // end func parseSelectors
-
+    
+    /**
+     * Strips excess spaces in string.
+     *
+     * @return    string
+     * @access    public
+     */
+    function collapseInternalSpaces($subject){
+        $string = preg_replace("/\s+/", " ", $subject);
+        return $string;
+    } // end func collapseInternalSpaces
+    
     /**
      * Sets or adds a CSS definition for a CSS definition group
      *
@@ -458,6 +469,7 @@ class HTML_CSS extends HTML_Common {
      */
     function setStyle ($element, $property, $value)
     {
+        $element = $this->parseSelectors($element);
         $this->_css[$element][$property]= $value;
     } // end func setStyle
     
@@ -470,6 +482,7 @@ class HTML_CSS extends HTML_Common {
      */
     function getStyle($element, $property)
     {
+        $element = $this->parseSelectors($element);
         $elm = $this->_checkElement($element, 'getStyle');
         if (PEAR::isError($elm)) {
             return $elm;
@@ -486,11 +499,12 @@ class HTML_CSS extends HTML_Common {
      */
     function setSameStyle ($new, $old)
     {
+        $old = $this->parseSelectors($old);
         $elm = $this->_checkElement($old, 'setSameStyle');
         if (PEAR::isError($elm)) {
             return $elm;
         }
-        $others =  explode(',', $new);
+        $others = $this->parseSelectors($new, 1);
         foreach ($others as $other) {
             $other = trim($other);
             foreach($this->_css[$old] as $property => $value) {
