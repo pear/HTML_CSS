@@ -233,6 +233,7 @@ class HTML_CSS extends HTML_Common {
     function parseSelectors($selectors, $outputMode = 0)
     {
         $selectors_array =  explode(',', $selectors);
+        $i = 0;
         foreach ($selectors_array as $selector) {
             // trim to remove possible whitespace
             $selector = trim($selector);
@@ -240,6 +241,7 @@ class HTML_CSS extends HTML_Common {
             $id      = '';
             $class   = '';
             $element = '';
+            $pseudo  = '';
             // check if it's an ID
             if (strpos('#', $selector)) {
                 $id      = '#' . strstr($selector, '#');
@@ -248,25 +250,30 @@ class HTML_CSS extends HTML_Common {
                     $class   = '.' . strstr($selector, '.');
                 }
                 $element = substr($selector, 0 , strpos($selector, '.')-1);
+                if (strpos(':' . $selector)) {
+                    $pseudo = ':' . $strstr($selector, ':');
+                }
                 if ($this->_xhtmlCompliant){
                     $element = strtolower($element);
                 }
             }
             if ($outputMode == 2) {
-                $array[]['element'] = $element;
-                $array[]['class']   = $class;
-                $array[]['id']      = $id;
+                $array[$i]['element'] = $element;
+                $array[$i]['class']   = $class;
+                $array[$i]['id']      = $id;
+                $array[$i]['pseudo']  = $pseudo;
             } else {
                 if ($element) {
-                    $array[] = $element.$class;
+                    $array[$i] = $element.$class.$pseudo;
                 } else {
-                    $array[] = $id;
+                    $array[$i] = $id;
                 }
             }
+            $i++;
         }
 
         if ($outputMode == 0) {
-            $output = implode(',', $array);
+            $output = implode(', ', $array);
             return $output;
         } else {
             return $array;
