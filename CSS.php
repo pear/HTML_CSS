@@ -242,25 +242,24 @@ class HTML_CSS extends HTML_Common {
             $class   = '';
             $element = '';
             $pseudo  = '';
-            // check if it's an ID
-            if (strpos($selector, '#')) {
-                $id      = '#' . strstr($selector, '#');
-            } else { // if it's not an ID, expect an element or a class
-                if (strpos($selector, ':')) {
-                    $pseudo = strstr($selector, ':');
-                    $selector = substr($selector, 0 , strpos($selector, ':'));
-                }
-                if (strpos($selector, '.')){
-                    $class   = strstr($selector, '.');
-                    $selector = substr($selector, 0 , strpos($selector, '.'));
-                }
-                if ($element == '') {
-                    $element = $selector;
-                }
-                if ($this->_xhtmlCompliant){
-                    $element = strtolower($element);
-                    $pseudo  = strtolower($pseudo);
-                }
+            if (strpos($selector, ':')) {
+                $pseudo   = strstr($selector, ':');
+                $selector = substr($selector, 0 , strpos($selector, ':'));
+            }
+            if (strpos($selector, '.')){
+                $class    = strstr($selector, '.');
+                $selector = substr($selector, 0 , strpos($selector, '.'));
+            }
+            if ($element == '') {
+                $element  = $selector;
+            }
+            if (strstr($element, '#')) {
+                $id       = $element;
+                $element  = '';
+            }
+            if ($this->_xhtmlCompliant){
+                $element  = strtolower($element);
+                $pseudo   = strtolower($pseudo);
             }
             if ($outputMode == 2) {
                 $array[$i]['element'] = $element;
