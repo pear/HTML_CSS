@@ -874,6 +874,14 @@ class HTML_CSS extends HTML_Common {
     {
         $this->_package = 'HTML_CSS';
         $stack =& PEAR_ErrorStack::singleton($this->_package);
+
+        if (isset($prefs['pushCallback']) && is_callable($prefs['pushCallback'])) {
+            $cb = $prefs['pushCallback'];
+        } else {
+            $cb = array('HTML_CSS', '_handleError');
+        }
+        $stack->pushCallback($cb);
+
         if (isset($prefs['msgCallback'])) {
             $cb = $prefs['msgCallback'];
         } else {
@@ -966,6 +974,22 @@ class HTML_CSS extends HTML_Common {
                 'failed to write to "%filename%"'
         );
         return $messages;
+    }
+
+    /**
+     * Default internal error handler
+     * Dies if the error is an exception (and would have died anyway)
+     *
+     * @since      0.3.3
+     * @access     private
+     */
+    function _handleError($err)
+    {
+        if ($err['level'] == 'exception') {
+            die();
+        } else {
+            return $err;
+        }
     }
 
     /**
