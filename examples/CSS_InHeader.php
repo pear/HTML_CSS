@@ -37,7 +37,7 @@ $css->setStyle('p', 'font', '12pt helvetica, arial, sans-serif');
 $p = new HTML_Page();
 $p->setTitle("My page");
 // it can be added as an object
-$p->addStyleDeclaration(&$css, 'text/css');
+$p->addStyleDeclaration($css, 'text/css');
 $p->setMetaData("author", "My Name");
 $p->addBodyContent = "<h1>headline</h1>";
 $p->addBodyContent = "<p>some text</p>";
