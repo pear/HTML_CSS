@@ -43,8 +43,10 @@ In addition, it shares the following with HTML_Common based classes:
 New features:
 * New error implementation (PEAR_Error_Stack) (Laurent)
 * Added more testcases (Laurent)
+* Output definitions on single line
 
 Bugfixes:
+* #1072 (incomplete internal inheritance support in parseString and getStyle)
 * #1084 (parseSelectors unable to handle inheritance)
     </notes>
     <filelist>
