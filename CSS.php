@@ -167,6 +167,15 @@ class HTML_CSS extends HTML_Common {
     var $_groupCount = 0;
 
     /**
+     * Defines whether element selectors should be automatically lowercased.
+     * Determines how _selectorParse treats the data.
+     *
+     * @var     bool
+     * @access  private
+     */
+    var $_xhtmlCompliant = true;
+
+    /**
      * Class constructor
      *
      * @access  public
@@ -191,6 +200,60 @@ class HTML_CSS extends HTML_Common {
         return 0.3;
     } // end func apiVersion
     
+    /**
+     * Parses a string containing selector(s).
+     * It processes it and returns an array or string containing
+     * modified selectors (depends on XHTML compliance setting;
+     * defaults to ensure lowercase element names)
+     *
+     * @param    string  $string      Selector string
+     * @param    int     $outputMode  0 = string; 1 = array; 3 = deep array
+     * @access   public
+     * @return   mixed
+     */
+    function selectorParse($string, $outputMode = 0)
+    {
+        $selectors =  explode(',', $string);
+        foreach ($selectors as $selector) {
+            // trim to remove possible whitespace
+            $selector = trim($selector);
+            // initialize variables
+            $id      = '';
+            $class   = '';
+            $element = '';
+            // check if it's an ID
+            if (strpos('#', $selector)){
+                $id      = '#' . strstr($selector, '#');
+            } else { // if it's not an ID, expect an element or a class
+                if (strpos('.', $selector)){
+                    $class   = '.' . strstr($selector, '.');
+                }
+                $element = substr($selector, 0 , strpos($selector, '.')-1);
+                if ($this->_xhtmlCompliant){
+                    $element = strtolower($element);
+                }
+            }
+            if ($outputMode = 2) {
+                $array[]['element'] = $element;
+                $array[]['class']   = $class;
+                $array[]['id']      = $id;
+            } else {
+                if ($element) {
+                    $array[] = $element.$class;
+                } else {
+                    $array[] = $id;
+                }
+            }
+        }
+
+        if ($output = 0){
+            $o = implode(',', $array);
+            return $o;
+        } else {
+            return $array;
+        }
+    } // end func _selectorParse
+
     /**
      * Creates a new CSS definition group. Returns an integer identifying the group.
      *
