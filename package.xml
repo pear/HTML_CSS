@@ -28,6 +28,12 @@ In addition, it shares the following with HTML_Common based classes:
       <email>klaus@capitalfocus.org</email>
       <role>lead</role>
     </maintainer>
+    <maintainer>
+      <user>farell</user>
+      <name>Laurent Laville</name>
+      <email>pear@laurent-laville.org</email>
+      <role>developer</role>
+    </maintainer>
   </maintainers>
   <release>
     <version>0.3.0</version>
