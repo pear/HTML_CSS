@@ -218,6 +218,11 @@ class HTML_CSS extends HTML_Common {
      */
     function unsetGroup($group)
     {
+        $grp = $this->_checkGroup($group, 'unsetGroup');
+        if (PEAR::isError($grp)) {
+            return $grp;
+        }
+        
         foreach ($this->_groups[$group]['selectors'] as $selector) {
             unset ($this->_alibis[$selector][$group]);
             if (count($this->_alibis[$selector]) == 0) {
@@ -237,6 +242,10 @@ class HTML_CSS extends HTML_Common {
      */
     function setGroupStyle($group, $property, $value)
     {
+        $grp = $this->_checkGroup($group, 'setGroupStyle');
+        if (PEAR::isError($grp)) {
+            return $grp;
+        }
         $this->_groups[$group]['properties'][$property]= $value;
     } // end func setGroupStyle
 
@@ -250,6 +259,10 @@ class HTML_CSS extends HTML_Common {
      */
     function getGroupStyle($group, $property)
     {
+        $grp = $this->_checkGroup($group, 'getGroupStyle');
+        if (PEAR::isError($grp)) {
+            return $grp;
+        }
         return $this->_groups[$group]['properties'][$property];
     } // end func getGroupStyle
 
@@ -263,6 +276,10 @@ class HTML_CSS extends HTML_Common {
      */
     function addGroupSelector($group, $selectors)
     {
+        $grp = $this->_checkGroup($group, 'addGroupStyle');
+        if (PEAR::isError($grp)) {
+            return $grp;
+        }
         $selectors =  explode(',', $selectors);
         foreach ($selectors as $selector) {
             $selector = trim($selector);
@@ -281,6 +298,10 @@ class HTML_CSS extends HTML_Common {
      */
     function removeGroupSelector($group, $selectors)
     {
+        $grp = $this->_checkGroup($group, 'removeGroupSelector');
+        if (PEAR::isError($grp)) {
+            return $grp;
+        }
         $selectors =  explode(',', $selectors);
         foreach ($selectors as $selector) {
             $selector = trim($selector);
@@ -293,6 +314,23 @@ class HTML_CSS extends HTML_Common {
         }
     } // end func removeGroupSelector
 
+    /**
+     * Check if a group is valid (exists)
+     *
+     * @param    int     $group       CSS definition group identifier
+     * @param    sring   $method      comes from
+     * @returns  bool                 TRUE if group exists, PEAR error otherwise
+     * @access   private
+     */
+    function _checkGroup($group, $method)
+    {
+        if ($group < 0 || $group > $this->_groupCount) {
+            return PEAR::raiseError("HTML_CSS::$method() error: group $group does not exist.",
+                                        0, PEAR_ERROR_TRIGGER);
+        }
+        return true;
+    }
+    
     /**
      * Sets or adds a CSS definition
      *
@@ -315,6 +353,10 @@ class HTML_CSS extends HTML_Common {
      */
     function getStyle($element, $property)
     {
+        $elm = $this->_checkElement($element, 'getStyle');
+        if (PEAR::isError($elm)) {
+            return $elm;
+        }
         return $this->_css[$element][$property];
     } // end func getStyle
     
@@ -327,6 +369,10 @@ class HTML_CSS extends HTML_Common {
      */
     function setSameStyle ($new, $old)
     {
+        $elm = $this->_checkElement($old, 'setSameStyle');
+        if (PEAR::isError($elm)) {
+            return $elm;
+        }
         $others =  explode(',', $new);
         foreach ($others as $other) {
             $other = trim($other);
@@ -334,6 +380,23 @@ class HTML_CSS extends HTML_Common {
         }
     } // end func setSameStyle
     
+    /**
+     * Check if an element is valid (exists)
+     *
+     * @param    string  $element     Element already defined
+     * @param    sring   $method      comes from
+     * @returns  bool                 TRUE if group exists, PEAR error otherwise
+     * @access   private
+     */
+    function _checkElement($element, $method)
+    {
+        if (!isset($this->_css[$element])) {
+            return PEAR::raiseError("HTML_CSS::$method() error: element $element does not exist.",
+                                        0, PEAR_ERROR_TRIGGER);
+        }
+        return true;
+    }
+
     /**
      * Defines if the document should be cached by the browser. Defaults to false.
      *
