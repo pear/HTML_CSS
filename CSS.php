@@ -18,24 +18,6 @@
 //
 // $Id$
 
-require_once 'PEAR/ErrorStack.php';
-require_once 'Log.php';
-require_once 'HTML/Common.php';
-
-/**#@+
- * Basic error codes
- *
- * @var        integer
- * @since      0.3.3
- */
-define ('HTML_CSS_ERROR_INVALID_INPUT',   -100);
-define ('HTML_CSS_ERROR_INVALID_GROUP',   -101);
-define ('HTML_CSS_ERROR_NO_GROUP',        -102);
-define ('HTML_CSS_ERROR_NO_ELEMENT',      -103);
-define ('HTML_CSS_ERROR_NO_FILE',         -104);
-define ('HTML_CSS_ERROR_WRITE_FILE',      -105);
-/**#@-*/
-
 /**
  * Base class for CSS definitions
  *
@@ -128,9 +110,49 @@ define ('HTML_CSS_ERROR_WRITE_FILE',      -105);
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @package    HTML_CSS
  * @version    0.3.3
- * @access     public
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  */
+
+
+require_once 'HTML/Common.php';
+
+/**#@+
+ * Error logging file
+ * 
+ * The reason these are required here is because they are needed in
+ * _initErrorStack, which is called in the constructor.
+ * 
+ * @since      0.3.3
+ */
+require_once 'Log.php';
+require_once 'PEAR/ErrorStack.php';
+/**#@-*/
+
+/**#@+
+ * Basic error codes
+ *
+ * @var        integer
+ * @since      0.3.3
+ */
+define ('HTML_CSS_ERROR_INVALID_INPUT',   -100);
+define ('HTML_CSS_ERROR_INVALID_GROUP',   -101);
+define ('HTML_CSS_ERROR_NO_GROUP',        -102);
+define ('HTML_CSS_ERROR_NO_ELEMENT',      -103);
+define ('HTML_CSS_ERROR_NO_FILE',         -104);
+define ('HTML_CSS_ERROR_WRITE_FILE',      -105);
+/**#@-*/
+
+/**
+ * Base class for CSS definitions
+ * 
+ * This class handles the details for creating properly constructed CSS declarations.
+ * 
+ * @author     Klaus Guenther <klaus@capitalfocus.org>
+ * @package    HTML_CSS
+ * @version    0.3.3
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ */
+
 class HTML_CSS extends HTML_Common {
     
     /**
@@ -273,43 +295,60 @@ class HTML_CSS extends HTML_Common {
         foreach ($selectors_array as $selector) {
             // trim to remove possible whitespace
             $selector = trim($this->collapseInternalSpaces($selector));
-            // initialize variables
-            $id      = '';
-            $class   = '';
-            $element = '';
-            $pseudo  = '';
-            if (strpos($selector, ':')) {
-                $pseudo   = strstr($selector, ':');
-                $selector = substr($selector, 0 , strpos($selector, ':'));
-            }
-            if (strpos($selector, '.')){
-                $class    = strstr($selector, '.');
-                $selector = substr($selector, 0 , strpos($selector, '.'));
-            }
-            if ($element == '') {
-                $element  = $selector;
-            }
-            if (strstr($element, '#')) {
-                $id       = $element;
-                $element  = '';
-            }
-            if ($this->_xhtmlCompliant){
-                $element  = strtolower($element);
-                $pseudo   = strtolower($pseudo);
-            }
-            if ($outputMode == 2) {
-                $array[$i]['element'] = $element;
-                $array[$i]['class']   = $class;
-                $array[$i]['id']      = $id;
-                $array[$i]['pseudo']  = $pseudo;
-            } else {
-                if ($element) {
-                    $array[$i] = $element.$class.$pseudo;
-                } else {
-                    $array[$i] = $id;
+            if (strpos($selector, ' ')) {
+                $sel_a = array();
+                foreach(explode(' ', $selector) as $sub_selector) {
+                    $sel_a[] = $this->parseSelectors($sub_selector, $outputMode);
                 }
+                $sel_a2 = array();
+                foreach ($sel_a as $sel_a_temp) {
+                    $sel_a2 = array_merge($sel_a2, $sel_a_temp);
+                }
+                if ($outputMode == 2) {
+                    $array[$i]['inheritance'] = $sel_a2;
+                } else {
+                    $array[$i] = implode(' ', $sel_a2);
+                }
+                $i++;
+            } else {
+                // initialize variables
+                $id      = '';
+                $class   = '';
+                $element = '';
+                $pseudo  = '';
+                if (strpos($selector, ':')) {
+                    $pseudo   = strstr($selector, ':');
+                    $selector = substr($selector, 0 , strpos($selector, ':'));
+                }
+                if (strpos($selector, '.')){
+                    $class    = strstr($selector, '.');
+                    $selector = substr($selector, 0 , strpos($selector, '.'));
+                }
+                if ($element == '') {
+                    $element  = $selector;
+                }
+                if (strstr($element, '#')) {
+                    $id       = $element;
+                    $element  = '';
+                }
+                if ($this->_xhtmlCompliant){
+                    $element  = strtolower($element);
+                    $pseudo   = strtolower($pseudo);
+                }
+                if ($outputMode == 2) {
+                    $array[$i]['element'] = $element;
+                    $array[$i]['class']   = $class;
+                    $array[$i]['id']      = $id;
+                    $array[$i]['pseudo']  = $pseudo;
+                } else {
+                    if ($element) {
+                        $array[$i] = $element.$class.$pseudo;
+                    } else {
+                        $array[$i] = $id;
+                    }
+                }
+                $i++;
             }
-            $i++;
         }
         if ($outputMode == 0) {
             $output = implode(', ', $array);
@@ -525,7 +564,8 @@ class HTML_CSS extends HTML_Common {
      * Sets or changes the properties of new selectors to the values of an existing selector
      *
      * @param    string  $old    Selector that is already defined
-     * @param    string  $new    New selector(s) that should share the same definitions, separated by commas
+     * @param    string  $new    New selector(s) that should share the same 
+     *                           definitions, separated by commas
      * @since    0.2.0
      * @access   public
      */
@@ -845,7 +885,6 @@ class HTML_CSS extends HTML_Common {
      */
     function display()
     {
-        $lnEnd = $this->_getLineEnd();
         
         if(! $this->_cache) {
             header("Expires: Tue, 1 Jan 1980 12:00:00 GMT");
