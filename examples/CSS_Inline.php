@@ -42,7 +42,7 @@ $css->setSameStyle('body', 'p');
 // and let's put this into a tag:
 echo '<body style="' . $css->toInline('body') . '">';
 // will output:
-// <body style="font:12pt helvetica, arial, sans-serif;background-color:#0c0c0c;color:#ffffff;">
+// <body style="background-color:#0c0c0c;color:#ffffff;font:12pt helvetica, arial, sans-serif;">
 
 // ideas for inline use:
 //    * use in conjunction with HTML_Table to assign styles for cells

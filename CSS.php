@@ -373,7 +373,7 @@ class HTML_CSS extends HTML_Common {
     } // end func getStyle
     
     /**
-     * Sets or adds a CSS definition
+     * Sets or changes the properties of new selectors to the values of an existing selector
      *
      * @param    string  $old    Selector that is already defined
      * @param    string  $new    New selector(s) that should share the same definitions, separated by commas
@@ -388,7 +388,9 @@ class HTML_CSS extends HTML_Common {
         $others =  explode(',', $new);
         foreach ($others as $other) {
             $other = trim($other);
-            $this->_css[$other] = $this->_css[$old];
+            foreach($this->_css[$old] as $property => $value) {
+                $this->_css[$other][$property] = $value;
+            }
         }
     } // end func setSameStyle
     

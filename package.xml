@@ -36,7 +36,7 @@ In addition, it shares the following with HTML_Common based classes:
     </maintainer>
   </maintainers>
   <release>
-    <version>0.3.0</version>
+    <version>0.3.1</version>
     <date>2003-11-03</date>
     <state>beta</state>
     <notes>
@@ -80,6 +80,30 @@ Bugfixes:
     </deps>
   </release>
   <changelog>
+  <release>
+    <version>0.3.0</version>
+    <date>2003-11-03</date>
+    <state>beta</state>
+    <notes>
+Warning:
+Major BC break!
+
+License change:
+Now PHP License 3.0
+
+New features:
+* Parse CSS from string (Laurent)
+* Read and parse CSS from file (Laurent)
+* Retrieve the settings of individual properties (Laurent)
+* Fully redesigned group handling
+* Output to file
+* Error handling introduced (Laurent)
+* Added unit tests (Laurent)
+
+Bugfixes:
+* Fixed setSameStyle functionality
+    </notes>
+    </release>
     <release>
       <version>0.2.0</version>
       <date>2003-07-31</date>
