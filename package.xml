@@ -8,17 +8,19 @@ HTML_CSS provides a simple interface for generating
 a stylesheet declaration. It is completely standards compliant, and
 has some great features:
 * Simple OO interface to CSS definitions
+* Can parse existing CSS (string or file)
 * Output to
     - Inline stylesheet declarations
     - Document internal stylesheet declarations
     - Standalone stylesheet declarations
     - Array of definitions
+    - File
 
 In addition, it shares the following with HTML_Common based classes:
 * Indent style support
 * Line ending style
   </description>
-  <license>PHP License</license>
+  <license>PHP License 3.0</license>
   <maintainers>
     <maintainer>
       <user>thesaur</user>
@@ -28,18 +30,18 @@ In addition, it shares the following with HTML_Common based classes:
     </maintainer>
   </maintainers>
   <release>
-    <version>0.2.0</version>
-    <date>2003-07-31</date>
-    <state>stable</state>
+    <version>0.3.0</version>
+    <date>2003-09-??</date>
+    <state>beta</state>
     <notes>
-It is completely standards compliant, and has some great features:
-* Inline stylesheet declarations
-* Document internal stylesheet declarations
-* Standalone stylesheet declarations
+New features:
+* Parse CSS from string
+* Read and parse CSS from file
+* Output to file
+* Now you can retrieve the settings of individual properties
 
-In addition, it shares the following with HTML_Common based classes:
-* Indent style support
-* Line ending style
+License change:
+Now PHP License 3.0
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="HTML">
@@ -55,4 +57,21 @@ In addition, it shares the following with HTML_Common based classes:
       <dep type="pkg" rel="ge" version="1.2">HTML_Common</dep>
     </deps>
   </release>
+  <changelog>
+    <release>
+      <version>0.2.0</version>
+      <date>2003-07-31</date>
+      <state>stable</state>
+      <notes>
+It is completely standards compliant, and has some great features:
+* Inline stylesheet declarations
+* Document internal stylesheet declarations
+* Standalone stylesheet declarations
+
+In addition, it shares the following with HTML_Common based classes:
+* Indent style support
+* Line ending style
+      </notes>
+    </release>
+  </changelog>
 </package>
