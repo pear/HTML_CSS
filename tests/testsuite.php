@@ -53,6 +53,11 @@ $title = 'PhpUnit test run, HTML_CSS class';
             'HTML_CSS_TestCase_removeGroupSelector',
             'HTML_CSS_TestCase_getStyle',
             'HTML_CSS_TestCase_setSameStyle',
+            'HTML_CSS_TestCase_bug725',
+            'HTML_CSS_TestCase_bug998',
+            'HTML_CSS_TestCase_bug1066',
+            'HTML_CSS_TestCase_bug1072',
+            'HTML_CSS_TestCase_bug1084',
 	);
 	
 	$suite = new PHPUnit_TestSuite();
