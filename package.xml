@@ -54,6 +54,7 @@ New features:
 * Output to file
 * Error handling introduced (Laurent)
 * Advanced CSS generator (allows duplicate property definition)
+* Added unit tests (Laurent)
 
 Bugfixes:
 * Examples updated
@@ -70,6 +71,13 @@ Bugfixes:
           <file role="doc">CSS_Inline.php</file>
           <file role="doc">CSS_Stylesheet.php</file>
         </dir>
+      </dir>
+      <dir name="tests">
+        <file role="test">CSS_Api_TestCase.php</file>
+        <file role="test">HTML_TestListener.php</file>
+        <file role="test">TestUnit.php</file>
+        <file role="test">testsuite.php</file>
+        <file role="test">stylesheet.css</file>
       </dir>
     </filelist>
     <deps>
