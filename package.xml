@@ -36,18 +36,15 @@ In addition, it shares the following with HTML_Common based classes:
     </maintainer>
   </maintainers>
   <release>
-	<version>0.3.3</version>
-	<date>2004-05-20</date>
+	<version>0.3.4</version>
+	<date>2004-05-21</date>
     <state>beta</state>
     <notes>
 New features:
-* New error implementation (PEAR_Error_Stack) (Laurent)
-* Added more testcases (Laurent)
-* Output definitions on single line
+* Added testcases for all bugs (Laurent)
 
 Bugfixes:
-* #1072 (incomplete internal inheritance support in parseString and getStyle)
-* #1084 (parseSelectors unable to handle inheritance)
+* Added dependency on PEAR 1.3.1 or greater (necessary for error handling)
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="HTML">
@@ -61,6 +58,11 @@ Bugfixes:
       </dir>
       <dir name="tests">
         <file role="test">HTML_CSS_TestCase_addGroupSelector.php</file>
+        <file role="test">HTML_CSS_TestCase_bug725.php</file>
+        <file role="test">HTML_CSS_TestCase_bug998.php</file>
+        <file role="test">HTML_CSS_TestCase_bug1066.php</file>
+        <file role="test">HTML_CSS_TestCase_bug1072.php</file>
+        <file role="test">HTML_CSS_TestCase_bug1084.php</file>
         <file role="test">HTML_CSS_TestCase_createGroup.php</file>
         <file role="test">HTML_CSS_TestCase_getGroupStyle.php</file>
         <file role="test">HTML_CSS_TestCase_getStyle.php</file>
@@ -76,9 +78,25 @@ Bugfixes:
     </filelist>
     <deps>
       <dep type="pkg" rel="ge" version="1.2">HTML_Common</dep>
+      <dep type="pkg" rel="ge" version="1.3.1">PEAR</dep>
     </deps>
   </release>
   <changelog>
+  <release>
+	<version>0.3.3</version>
+	<date>2004-05-20</date>
+    <state>beta</state>
+    <notes>
+New features:
+* New error implementation (PEAR_Error_Stack) (Laurent)
+* Added more testcases (Laurent)
+* Output definitions on single line
+
+Bugfixes:
+* #1072 (incomplete internal inheritance support in parseString and getStyle)
+* #1084 (parseSelectors unable to handle inheritance)
+    </notes>
+  </release>
   <release>
     <version>0.3.2</version>
     <date>2004-03-24</date>
