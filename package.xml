@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE package SYSTEM "../package.dtd">
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
 <package version="1.0">
   <name>HTML_CSS</name>
   <summary>HTML_CSS is a class for generating CSS declarations.</summary>
@@ -36,6 +36,48 @@ In addition, it shares the following with HTML_Common based classes:
     </maintainer>
   </maintainers>
   <release>
+	<version>0.3.3</version>
+	<date>2004-05-20</date>
+    <state>beta</state>
+    <notes>
+New features:
+* New error implementation (PEAR_Error_Stack) (Laurent)
+* Added more testcases (Laurent)
+
+Bugfixes:
+* #1084 (parseSelectors unable to handle inheritance)
+    </notes>
+    <filelist>
+      <dir name="/" baseinstalldir="HTML">
+        <file role="php">CSS.php</file>
+        <dir name="examples">
+          <file role="doc">CSS_InHeader.php</file>
+          <file role="doc">CSS_Inline.php</file>
+	      <file role="doc">CSS_Stylesheet.php</file>
+	      <file role="doc">CSS_Logger.php</file>
+        </dir>
+      </dir>
+      <dir name="tests">
+        <file role="test">HTML_CSS_TestCase_addGroupSelector.php</file>
+        <file role="test">HTML_CSS_TestCase_createGroup.php</file>
+        <file role="test">HTML_CSS_TestCase_getGroupStyle.php</file>
+        <file role="test">HTML_CSS_TestCase_getStyle.php</file>
+        <file role="test">HTML_CSS_TestCase_removeGroupSelector.php</file>
+        <file role="test">HTML_CSS_TestCase_setGroupStyle.php</file>
+        <file role="test">HTML_CSS_TestCase_setSameStyle.php</file>
+        <file role="test">HTML_CSS_TestCase_unsetGroup.php</file>
+        <file role="test">HTML_TestListener.php</file>
+        <file role="test">TestUnit.php</file>
+        <file role="test">testsuite.php</file>
+        <file role="test">stylesheet.css</file>
+      </dir>
+    </filelist>
+    <deps>
+      <dep type="pkg" rel="ge" version="1.2">HTML_Common</dep>
+    </deps>
+  </release>
+  <changelog>
+  <release>
     <version>0.3.2</version>
     <date>2004-03-24</date>
     <state>beta</state>
@@ -52,28 +94,7 @@ Bugfixes:
 * #998  (parseString failure to parse property value when it contained a colon)
 * #1066 (Trim property values in parseString)
     </notes>
-    <filelist>
-      <dir name="/" baseinstalldir="HTML">
-        <file role="php">CSS.php</file>
-        <dir name="examples">
-          <file role="doc">CSS_InHeader.php</file>
-          <file role="doc">CSS_Inline.php</file>
-          <file role="doc">CSS_Stylesheet.php</file>
-        </dir>
-      </dir>
-      <dir name="tests">
-        <file role="test">CSS_Api_TestCase.php</file>
-        <file role="test">HTML_TestListener.php</file>
-        <file role="test">TestUnit.php</file>
-        <file role="test">testsuite.php</file>
-        <file role="test">stylesheet.css</file>
-      </dir>
-    </filelist>
-    <deps>
-      <dep type="pkg" rel="ge" version="1.2">HTML_Common</dep>
-    </deps>
   </release>
-  <changelog>
   <release>
     <version>0.3.1</version>
     <date>2003-11-03</date>
