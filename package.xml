@@ -46,6 +46,8 @@ New features:
 * Retrieve the settings of individual properties (Laurent)
 * Fully redesigned group handling
 * Output to file
+* Error handling introduced (Laurent)
+* Advanced CSS generator (allows duplicate property definition)
 
 Bugfixes:
 * Examples updated
@@ -53,7 +55,11 @@ Bugfixes:
     <filelist>
       <dir name="/" baseinstalldir="HTML">
         <file role="php">CSS.php</file>
+        <dir name="CSS">
+          <file role="php">Advanced.php</file>
+        </dir>
         <dir name="examples">
+          <file role="doc">CSS_Advanced.php</file>
           <file role="doc">CSS_InHeader.php</file>
           <file role="doc">CSS_Inline.php</file>
           <file role="doc">CSS_Stylesheet.php</file>
