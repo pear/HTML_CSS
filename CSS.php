@@ -61,10 +61,10 @@ require_once "HTML/Common.php";
  * // it can be added as an object
  * $p->addStyleDeclaration($css, 'text/css');
  * $p->setMetaData("author", "My Name");
- * $p->addBodyContent = "<h1>headline</h1>";
- * $p->addBodyContent = "<p>some text</p>";
- * $p->addBodyContent = "<p>some more text</p>";
- * $p->addBodyContent = "<p>yet even more text</p>";
+ * $p->addBodyContent("<h1>headline</h1>");
+ * $p->addBodyContent("<p>some text</p>");
+ * $p->addBodyContent("<p>some more text</p>");
+ * $p->addBodyContent("<p>yet even more text</p>");
  * $p->display();
  * </code>
  * 
