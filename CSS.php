@@ -168,7 +168,7 @@ class HTML_CSS extends HTML_Common {
 
     /**
      * Defines whether element selectors should be automatically lowercased.
-     * Determines how _selectorParse treats the data.
+     * Determines how parseSelectors treats the data.
      *
      * @var     bool
      * @access  private
@@ -178,14 +178,33 @@ class HTML_CSS extends HTML_Common {
     /**
      * Class constructor
      *
+     * @param   array    Pass options to the constructor. Valid options are
+     *                   xhtml (sets xhtml compliance), tab (sets indent
+     *                   string), cache (determines whether the nocache
+     *                   headers are sent), filename (name of file to be
+     *                   parsed)
      * @access  public
      */
-    function HTML_CSS()
+    function HTML_CSS($attributes = array())
     {
-        $commonVersion = 1.7;
-        if (HTML_Common::apiVersion() < $commonVersion) {
-            return PEAR::raiseError("HTML_CSS version " . $this->apiVersion() . " requires " .
-            "HTML_Common version 1.2 or greater.", 0, PEAR_ERROR_TRIGGER);
+        if ($attributes) {
+            $attributes = $this->_parseAttributes($attributes);
+        }
+        
+        if (isset($attributes['xhtml'])) {
+            $this->setXhtmlCompliance($attributes['xhtml']);
+        }
+        
+        if (isset($attributes['tab'])) {
+            $this->setTab($attributes['tab']);
+        }
+        
+        if (isset($attributes['cache'])) {
+            $this->setCache($attributes['cache']);
+        }
+        
+        if (isset($attributes['filename'])) {
+            $this->parseFile($attributes['filename']);
         }
     } // end constructor HTML_CSS
     
@@ -211,9 +230,9 @@ class HTML_CSS extends HTML_Common {
      * @access   public
      * @return   mixed
      */
-    function parseSelectors($string, $outputMode = 0)
+    function parseSelectors($selectors, $outputMode = 0)
     {
-        $selectors =  explode(',', $string);
+        $selectors =  explode(',', $selectors);
         foreach ($selectors as $selector) {
             // trim to remove possible whitespace
             $selector = trim($selector);
@@ -253,6 +272,22 @@ class HTML_CSS extends HTML_Common {
             return $array;
         }
     } // end func parseSelectors
+
+    /**
+     * Sets or adds a CSS definition for a CSS definition group
+     *
+     * @param    bool     $value    Boolean value
+     * @access   public
+     */
+    function setXhtmlCompliance($value)
+    {
+        if (is_bool($value)) {
+            $this->_xhtmlCompliant = $value;
+        } else {
+            return PEAR::raiseError("HTML_CSS::setXhtmlCompliance() error: argument is not boolean.",
+                                        0, PEAR_ERROR_TRIGGER);
+        }
+    } // end func setGroupStyle
 
     /**
      * Creates a new CSS definition group. Returns an integer identifying the group.
