@@ -597,7 +597,8 @@ class HTML_CSS extends HTML_Common {
                     $codes = explode(";",trim($codestr));
                     foreach ($codes as $code) {
                         if (strlen($code) > 0) {
-                            list($property,$value) = explode(":",trim($code));
+                            $property = substr($code, 0 , strpos($code, ':'));
+                            $value    = substr($code, strpos($code, ':') + 1);
                             $this->setGroupStyle($group, $property, trim($value));
                         }
                     }
@@ -610,7 +611,8 @@ class HTML_CSS extends HTML_Common {
                         $codes = explode(";",trim($codestr));
                         foreach ($codes as $code) {
                             if (strlen($code) > 0) {
-                                list($property,$value) = explode(":",trim($code));
+                                $property = substr($code, 0 , strpos($code, ':'));
+                                $value    = substr($code, strpos($code, ':') + 1);
                                 $this->setStyle($key, $property, trim($value));
                             }
                         }
