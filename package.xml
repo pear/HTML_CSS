@@ -45,7 +45,7 @@ New features:
 
 Bugfixes:
 * Added dependency on PEAR 1.3.1 or greater (necessary for error handling)
-* Compatability fix for PHP5 in parseSelectors
+* Compatibility fix for PHP5 in parseSelectors
 * Now parseSelectors correctly divides selectors with IDs (output mode 2)
     </notes>
     <filelist>
