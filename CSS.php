@@ -328,36 +328,41 @@ class HTML_CSS extends HTML_Common {
                 foreach(explode(' ', $selector) as $sub_selector) {
                     $sel_a[] = $this->parseSelectors($sub_selector, $outputMode);
                 }
-                $sel_a2 = array();
-                foreach ($sel_a as $sel_a_temp) {
-                    $sel_a2 = array_merge($sel_a2, $sel_a_temp);
-                }
-                if ($outputMode == 2) {
-                    $array[$i]['inheritance'] = $sel_a2;
+                if ($outputMode === 0) {
+                        $array[$i] = implode(' ', $sel_a);
                 } else {
-                    $array[$i] = implode(' ', $sel_a2);
+                    $sel_a2 = array();
+                    foreach ($sel_a as $sel_a_temp) {
+                        $sel_a2 = array_merge($sel_a2, $sel_a_temp);
+                    }
+                    if ($outputMode == 2) {
+                        $array[$i]['inheritance'] = $sel_a2;
+                    } else {
+                        $array[$i] = implode(' ', $sel_a2);
+                    }
                 }
                 $i++;
             } else {
                 // initialize variables
+                $element = '';
                 $id      = '';
                 $class   = '';
-                $element = '';
                 $pseudo  = '';
-                if (strpos($selector, ':')) {
+                
+                if (strpos($selector, ':') !== false) {
                     $pseudo   = strstr($selector, ':');
                     $selector = substr($selector, 0 , strpos($selector, ':'));
                 }
-                if (strpos($selector, '.')){
+                if (strpos($selector, '.') !== false){
                     $class    = strstr($selector, '.');
                     $selector = substr($selector, 0 , strpos($selector, '.'));
                 }
-                if ($element == '') {
-                    $element  = $selector;
+                if (strpos($selector, '#') !== false) {
+                    $id       = strstr($selector, '#');
+                    $selector = substr($selector, 0 , strpos($selector, '#'));
                 }
-                if (strstr($element, '#')) {
-                    $id       = $element;
-                    $element  = '';
+                if ($selector != '') {
+                    $element  = $selector;
                 }
                 if ($this->_xhtmlCompliant){
                     $element  = strtolower($element);
@@ -365,15 +370,11 @@ class HTML_CSS extends HTML_Common {
                 }
                 if ($outputMode == 2) {
                     $array[$i]['element'] = $element;
-                    $array[$i]['class']   = $class;
                     $array[$i]['id']      = $id;
+                    $array[$i]['class']   = $class;
                     $array[$i]['pseudo']  = $pseudo;
                 } else {
-                    if ($element) {
-                        $array[$i] = $element.$class.$pseudo;
-                    } else {
-                        $array[$i] = $id;
-                    }
+                    $array[$i] = $element.$id.$class.$pseudo;
                 }
                 $i++;
             }
