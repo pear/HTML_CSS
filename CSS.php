@@ -109,24 +109,12 @@
  *
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @package    HTML_CSS
- * @version    0.3.3
+ * @version    0.3.5
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  */
 
-
+require_once 'PEAR.php';
 require_once 'HTML/Common.php';
-
-/**#@+
- * Error logging file
- * 
- * The reason these are required here is because they are needed in
- * _initErrorStack, which is called in the constructor.
- * 
- * @since      0.3.3
- */
-require_once 'Log.php';
-require_once 'PEAR/ErrorStack.php';
-/**#@-*/
 
 /**#@+
  * Basic error codes
@@ -150,7 +138,7 @@ define ('HTML_CSS_ERROR_WRITE_FILE',            -106);
  * 
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @package    HTML_CSS
- * @version    0.3.3
+ * @version    0.3.5
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  */
 
@@ -230,14 +218,15 @@ class HTML_CSS extends HTML_Common {
     var $_xhtmlCompliant = true;
 
     /**
-     * Package name used by PEAR_ErrorStack functions
+     * Routines to manage error messages
      *
-     * @var        string
-     * @since      0.3.3
+     * @var        string|array|false
+     * @since      0.3.5
      * @access     private
      */
-    var $_package;
-
+    var $_pushCallback;
+    var $_msgCallback;
+    
     /**
      * Class constructor
      *
@@ -409,7 +398,7 @@ class HTML_CSS extends HTML_Common {
     function setXhtmlCompliance($value)
     {
         if (!is_bool($value)) {
-            $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$value',
                       'was' => gettype($value),
                       'expected' => 'boolean',
@@ -977,9 +966,9 @@ class HTML_CSS extends HTML_Common {
     } // end func display
 
     /**
-     * Initialize Error Stack engine
+     * Initialize Error engine preferences
      *
-     * @param      array     $prefs         hash of params for PEAR::Log object list
+     * @param      array     $prefs         hash of params to customize error generation
      *
      * @return     void
      * @since      0.3.3
@@ -987,80 +976,59 @@ class HTML_CSS extends HTML_Common {
      */
     function _initErrorStack($prefs = array())
     {
-        $this->_package = 'HTML_CSS';
-        $stack =& PEAR_ErrorStack::singleton($this->_package);
-
         if (isset($prefs['pushCallback']) && is_callable($prefs['pushCallback'])) {
-            $cb = $prefs['pushCallback'];
+            $this->_pushCallback = $prefs['pushCallback'];
         } else {
-            $cb = array('HTML_CSS', '_handleError');
+            $this->_pushCallback = array(&$this, '_handleError');
         }
-        $stack->pushCallback($cb);
 
-        if (isset($prefs['msgCallback'])) {
-            $cb = $prefs['msgCallback'];
+        if (isset($prefs['msgCallback']) && is_callable($prefs['msgCallback'])) {
+            $this->_msgCallback = $prefs['msgCallback'];
         } else {
-            $cb = array('HTML_CSS', '_msgCallback');
-        }
-        $stack->setMessageCallback($cb);
-        if (isset($prefs['contextCallback'])) {
-            $stack->setContextCallback($prefs['contextCallback']);
-        }
-        $messages = $this->_getErrorMessage();
-        $stack->setErrorMessageTemplate($messages);
-        $composite = &Log::singleton('composite');
-        $stack->setLogger($composite);
-
-        $drivers = isset($prefs['handler']) ? $prefs['handler'] : array();
-        $display_errors = isset($prefs['display_errors']) ? strtolower($prefs['display_errors']) : 'on';
-        $log_errors = isset($prefs['log_errors']) ? strtolower($prefs['log_errors']) : 'on';
-        
-        foreach ($drivers as $handler => $params) {
-            if ((strtolower($handler) == 'display') && ($display_errors == 'off')) {
-                continue;
-            }
-            if ((strtolower($handler) != 'display') && ($log_errors == 'off')) {
-                continue;
-            }       
-            $name = isset($params['name']) ? $params['name'] : '';
-            $ident = isset($params['ident']) ? $params['ident'] : '';
-            $conf = isset($params['conf']) ? $params['conf'] : array();
-            $level = isset($params['level']) ? $params['level'] : PEAR_LOG_DEBUG;
-            
-            $logger = &Log::singleton(strtolower($handler), $name, $ident, $conf, $level);
-            $composite->addChild($logger);
-        }
-
-        // Add at least the Log::display driver to output errors on browser screen
-        if (!array_key_exists('display', $drivers)) {
-            if ($display_errors == 'on') {
-                $logger = &Log::singleton('display');
-                $composite->addChild($logger);
-            }
+            $this->_msgCallback = array(&$this, '_msgCallback');
         }
     }
 
     /**
      * User callback to generate error messages for any instance
      *
-     * @param      object    $stack         PEAR_ErrorStack instance
-     * @param      array     $err           current error with context info 
+     * @param      int       $code          a numeric error code. 
+     *                                      Valid are HTML_CSS_ERROR_* constants
+     * @param      mixed     $userinfo      if you need to pass along parameters 
+     *                                      for dynamic messages
      *
      * @return     string
      * @since      0.3.3
      * @access     private
      */
-    function _msgCallback(&$stack, $err)
+    function _msgCallback($code, $userinfo)
     {
-        $message = call_user_func_array(array(&$stack, 'getErrorMessage'), array(&$stack, $err));
+        $errorMessages = $this->_getErrorMessage();
+        
+        if (isset($errorMessages[$code])) {
+            $mainmsg = $errorMessages[$code];
+        } else {
+            $mainmsg = 'unknown error';
+        }
 
-        if (isset($err['context']['function'])) {
-            $message .= ' in ' . $err['context']['class'] . '::' . $err['context']['function'];
+        if (is_array($userinfo)) {
+            foreach ($userinfo as $name => $val) {
+                if (is_array($val)) {
+                    // @ is needed in case $val is a multi-dimensional array
+                    $val = @implode(', ', $val);
+                }
+                if (is_object($val)) {
+                    if (method_exists($val, '__toString')) {
+                        $val = $val->__toString();
+                    } else {
+                        continue;
+                    }
+                }
+                $mainmsg = str_replace('%' . $name . '%', $val, $mainmsg);
+            }
         }
-        if (isset($err['context']['file'])) {
-            $message .= ' (file ' . $err['context']['file'] . ' at line ' . $err['context']['line'] .')';
-        }
-        return $message;
+
+        return $mainmsg;
     }
 
     /**
@@ -1097,41 +1065,43 @@ class HTML_CSS extends HTML_Common {
      * Default internal error handler
      * Dies if the error is an exception (and would have died anyway)
      *
+     * @param      int       $code          a numeric error code. 
+     *                                      Valid are HTML_CSS_ERROR_* constants
+     * @param      string    $level         error level ('exception', 'error', 'warning', ...)
+     *
+     * @return     boolean                  returns FALSE if error is ignored, otherwise TRUE
      * @since      0.3.3
      * @access     private
      */
-    function _handleError($err)
+    function _handleError($code, $level)
     {
-        if ($err['level'] == 'exception') {
+        if ($level == 'exception') {
             die();
         } else {
-            return $err;
+            return true;
         }
     }
 
     /**
-     * Add an error to the stack
-     * Dies if the error is an exception (and would have died anyway)
+     * A basic wrapper around the default PEAR_Error object
      *
      * @param      integer   $code       Error code.
      * @param      string    $level      The error level of the message. 
-     *                                   Valid are PEAR_LOG_* constants
      * @param      array     $params     Associative array of error parameters
-     * @param      array     $trace      Error context info (see debug_backtrace() contents)
      *
-     * @return     array     PEAR_ErrorStack instance. And with context info (if PHP 4.3+)
+     * @return     object                PEAR_Error
      * @since      0.3.3
      * @access     public
      */
     function raiseError($code, $level, $params)
     {
-        if (function_exists('debug_backtrace')) {
-            $trace = debug_backtrace();     // PHP 4.3+
-        } else {
-            $trace = null;                  // PHP 4.1.x, 4.2.x (no context info available)
-        }
-        $err = PEAR_ErrorStack::staticPush($this->_package, $code, $level, $params, false, false, $trace);
-        return $err;
+        $pass = call_user_func($this->_pushCallback, $code, $level);
+        $mode = ($pass == false) ? PEAR_ERROR_RETURN : null;
+
+        $message = call_user_func($this->_msgCallback, $code, $params);
+        $userinfo['errorLevel'] = $level; 
+        
+        return PEAR::raiseError($message, $code, $mode, null, $userinfo);
     }
 }
 ?>
