@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997 - 2004 The PHP Group                              |
+// | Copyright (c) 1997 - 2005 The PHP Group                              |
 // +----------------------------------------------------------------------+
 // | This source file is subject to version 3.0 of the PHP license,       |
 // | that is bundled with this package in the file LICENSE, and is        |
@@ -14,6 +14,7 @@
 // | license@php.net so we can mail you a copy immediately.               |
 // +----------------------------------------------------------------------+
 // | Author:  Klaus Guenther <klaus@capitalfocus.org>                     |
+// |          Laurent Laville <pear@laurent-laville.org>                  |
 // +----------------------------------------------------------------------+
 //
 // $Id$
@@ -109,11 +110,10 @@
  *
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @package    HTML_CSS
- * @version    0.3.5
+ * @version    @package_version@
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  */
 
-require_once 'PEAR.php';
 require_once 'HTML/Common.php';
 
 /**#@+
@@ -122,6 +122,7 @@ require_once 'HTML/Common.php';
  * @var        integer
  * @since      0.3.3
  */
+define ('HTML_CSS_ERROR_UNKNOWN',                 -1);
 define ('HTML_CSS_ERROR_INVALID_INPUT',         -100);
 define ('HTML_CSS_ERROR_INVALID_GROUP',         -101);
 define ('HTML_CSS_ERROR_NO_GROUP',              -102);
@@ -138,7 +139,7 @@ define ('HTML_CSS_ERROR_WRITE_FILE',            -106);
  * 
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @package    HTML_CSS
- * @version    0.3.5
+ * @version    @package_version@
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  */
 
@@ -147,63 +148,66 @@ class HTML_CSS extends HTML_Common {
     /**
      * Contains the CSS definitions.
      *
-     * @var     array
-     * @since   0.2.0
-     * @access  private
+     * @var        array
+     * @since      0.2.0
+     * @access     private
      */
     var $_css = array();
     
     /**
      * Contains "alibis" (other elements that share a definition) of an element defined in CSS
      *
-     * @var     array
-     * @since   0.2.0
-     * @access  private
+     * @var        array
+     * @since      0.2.0
+     * @access     private
      */
     var $_alibis = array();
     
     /**
      * Controls caching of the page
      *
-     * @var     bool
-     * @since   0.2.0
-     * @access  private
+     * @var        bool
+     * @since      0.2.0
+     * @access     private
+     * @see        setCache()
      */
     var $_cache = true;
     
     /**
      * Contains the character encoding string
      *
-     * @var     string
-     * @since   0.2.0
-     * @access  private
+     * @var        string
+     * @since      0.2.0
+     * @access     private
+     * @see        setCharset()
      */
     var $_charset = 'iso-8859-1';
 
     /**
      * Contains grouped styles
      *
-     * @var     array
-     * @since   0.3.0
-     * @access  private
+     * @var        array
+     * @since      0.3.0
+     * @access     private
      */
     var $_groups = array();
     
     /**
      * Number of CSS definition groups
      *
-     * @var     int
-     * @since   0.3.0
-     * @access  private
+     * @var        int
+     * @since      0.3.0
+     * @access     private
      */
     var $_groupCount = 0;
 
     /**
      * Defines whether to output all properties on one line
      *
-     * @var     bool
-     * @since   0.3.3
-     * @access  private
+     * @var        bool
+     * @since      0.3.3
+     * @access     private
+     * @see        setSingleLineOutput()
      */
     var $_singleLine = false;
 
@@ -211,33 +215,85 @@ class HTML_CSS extends HTML_Common {
      * Defines whether element selectors should be automatically lowercased.
      * Determines how parseSelectors treats the data.
      *
-     * @var     bool
-     * @since   0.3.2
-     * @access  private
+     * @var        bool
+     * @since      0.3.2
+     * @access     private
+     * @see        setXhtmlCompliance()
      */
     var $_xhtmlCompliant = true;
 
     /**
-     * Routines to manage error messages
-     *
-     * @var        string|array|false
-     * @since      0.3.5
+     * Error message callback.
+     * This will be used to generate the error message
+     * from the error code.
+     * 
+     * @var        false|string|array
+     * @since      1.0.0
      * @access     private
+     * @see        _initErrorStack()
      */
-    var $_pushCallback;
-    var $_msgCallback;
-    
+    var $_callback_message = false;
+
+    /**
+     * Error context callback.
+     * This will be used to generate the error context for an error.
+     * 
+     * @var        false|string|array
+     * @since      1.0.0
+     * @access     private
+     * @see        _initErrorStack()
+     */
+    var $_callback_context = false;
+
+    /**
+     * Error push callback.
+     * The return value will be used to determine whether to allow 
+     * an error to be pushed or logged.
+     * 
+     * @var        false|string|array
+     * @since      1.0.0
+     * @access     private
+     * @see        _initErrorStack()
+     */
+    var $_callback_push = false;
+
+    /**
+     * Error handler callback.
+     * This will handle any errors raised by this package.
+     * 
+     * @var        false|string|array
+     * @since      1.0.0
+     * @access     private
+     * @see        _initErrorStack()
+     */
+    var $_callback_errorhandler = false;
+
+    /**
+     * Associative array of key-value pairs 
+     * that are used to specify any handler-specific settings.
+     *
+     * @var        array
+     * @since      1.0.0
+     * @access     private
+     * @see        _initErrorStack()
+     */
+    var $_errorhandler_options = array();
+
+
     /**
      * Class constructor
      *
-     * @param   array    Pass options to the constructor. Valid options are
-     *                   xhtml (sets xhtml compliance), tab (sets indent
-     *                   string), cache (determines whether the nocache
-     *                   headers are sent), filename (name of file to be
-     *                   parsed), oneline (bool, whether to output each
-     *                   definition on one line)
-     * @since   0.2.0
-     * @access  public
+     * @param      array     $attributes    (optional) Pass options to the constructor.
+     *                                       Valid options are :
+     *                                       xhtml (sets xhtml compliance), 
+     *                                       tab (sets indent string),
+     *                                       filename (name of file to be parsed),
+     *                                       cache (determines whether the nocache headers are sent),
+     *                                       oneline (whether to output each definition on one line)
+     * @param      array     $prefs         (optional) has to configure error handler
+     *                   
+     * @since      0.2.0
+     * @access     public
      */
     function HTML_CSS($attributes = array(), $errorPrefs = array())
     {
@@ -270,28 +326,38 @@ class HTML_CSS extends HTML_Common {
     
     /**
      * Returns the current API version
+     * Since 1.0.0 a string is returned rather than a float (for previous versions).
      *
-     * @access   public
-     * @since    0.2.0
-     * @return   double
+     * @return     string                   compatible with php.version_compare()
+     * @since      0.2.0
+     * @access     public
      */
     function apiVersion()
     {
-        return 0.3;
+        return @package_version@;
     } // end func apiVersion
     
     /**
      * Determines whether definitions are output single line or multiline
      *
-     * @param    bool     $value
-     * @access   public
-     * @since    0.3.3
-     * @return   void
+     * @param      bool      $value
+     *
+     * @return     void|PEAR_Error
+     * @since      0.3.3
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT
      */
     function setSingleLineOutput($value)
     {
+        if (!is_bool($value)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$value',
+                      'was' => gettype($value),
+                      'expected' => 'boolean',
+                      'paramnum' => 1));
+        }
         $this->_singleLine = $value;
-    } // end func apiVersion
+    } // end func setSingleLineOutput
     
     /**
      * Parses a string containing selector(s).
@@ -299,14 +365,38 @@ class HTML_CSS extends HTML_Common {
      * modified selectors (depends on XHTML compliance setting;
      * defaults to ensure lowercase element names)
      *
-     * @param    string  $selectors   Selector string
-     * @param    int     $outputMode  0 = string; 1 = array; 3 = deep array
-     * @since    0.3.2
-     * @access   public
-     * @return   mixed
+     * @param      string    $selectors     Selector string
+     * @param      int       $outputMode    0 = string; 1 = array; 3 = deep array
+     *
+     * @return     mixed|PEAR_Error
+     * @since      0.3.2
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT
      */
     function parseSelectors($selectors, $outputMode = 0)
     {
+        if (!is_string($selectors)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$selectors',
+                      'was' => gettype($selectors),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+
+        } elseif (!is_int($outputMode)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$outputMode',
+                      'was' => gettype($outputMode),
+                      'expected' => 'integer',
+                      'paramnum' => 2));
+
+        } elseif ($outputMode < 0 || $outputMode > 3) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                array('var' => '$outputMode',
+                      'was' => $outputMode,
+                      'expected' => '0 | 1 | 2 | 3',
+                      'paramnum' => 2));
+        }
+
         $selectors_array =  explode(',', $selectors);
         $i = 0;
         foreach ($selectors_array as $selector) {
@@ -379,9 +469,9 @@ class HTML_CSS extends HTML_Common {
     /**
      * Strips excess spaces in string.
      *
-     * @return    string
-     * @since     0.3.2
-     * @access    public
+     * @return     string
+     * @since      0.3.2
+     * @access     public
      */
     function collapseInternalSpaces($subject){
         $string = preg_replace('/\s+/', ' ', $subject);
@@ -389,11 +479,14 @@ class HTML_CSS extends HTML_Common {
     } // end func collapseInternalSpaces
     
     /**
-     * Sets or adds a CSS definition for a CSS definition group
+     * Sets XHTML compliance
      *
-     * @param    bool     $value    Boolean value
-     * @since    0.3.2
-     * @access   public
+     * @param      bool      $value         Boolean value
+     *
+     * @return     void|PEAR_Error
+     * @since      0.3.2
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT
      */
     function setXhtmlCompliance($value)
     {
@@ -405,19 +498,30 @@ class HTML_CSS extends HTML_Common {
                       'paramnum' => 1));
         }
         $this->_xhtmlCompliant = $value;
-    } // end func setGroupStyle
+    } // end func setXhtmlCompliance
 
     /**
      * Creates a new CSS definition group. Returns an integer identifying the group.
      *
-     * @param    string  $selectors   Selector(s) to be defined, comma delimited.
-     * @param    mixed   $identifier  Group identifier. If not passed, will return an automatically assigned integer.
-     * @return   int
-     * @since    0.3.0
-     * @access   public
+     * @param      string    $selectors     Selector(s) to be defined, comma delimited.
+     * @param      mixed     $identifier    Group identifier. If not passed, will return an automatically assigned integer.
+     *
+     * @return     mixed|PEAR_Error
+     * @since      0.3.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_INVALID_GROUP
+     * @see        unsetGroup()
      */
     function createGroup($selectors, $identifier = null)
     {
+        if (!is_string($selectors)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$selectors',
+                      'was' => gettype($selectors),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+        }
+
         if ($identifier === null) {
             $this->_groupCount++;
             $group = $this->_groupCount;
@@ -441,12 +545,24 @@ class HTML_CSS extends HTML_Common {
     /**
      * Sets or adds a CSS definition for a CSS definition group
      *
-     * @param    int     $group     CSS definition group identifier
-     * @since    0.3.0
-     * @access   public
+     * @param      int       $group         CSS definition group identifier
+     *
+     * @return     void|PEAR_Error
+     * @since      0.3.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_GROUP
+     * @see        createGroup()
      */
     function unsetGroup($group)
     {
+        if (!is_int($group)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$group',
+                      'was' => gettype($group),
+                      'expected' => 'integer',
+                      'paramnum' => 1));
+        }
+
         if ($group < 0 || $group > $this->_groupCount) {
             return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
                 array('identifier' => $group));
@@ -464,14 +580,40 @@ class HTML_CSS extends HTML_Common {
     /**
      * Sets or adds a CSS definition for a CSS definition group
      *
-     * @param    int     $group     CSS definition group identifier
-     * @param    string  $property  Property defined
-     * @param    string  $value     Value assigned
-     * @since    0.3.0
-     * @access   public
+     * @param      int       $group         CSS definition group identifier
+     * @param      string    $property      Property defined
+     * @param      string    $value         Value assigned
+     *
+     * @return     void|PEAR_Error
+     * @since      0.3.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_GROUP
+     * @see        getGroupStyle()
      */
     function setGroupStyle($group, $property, $value)
     {
+        if (!is_int($group)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$group',
+                      'was' => gettype($group),
+                      'expected' => 'integer',
+                      'paramnum' => 1));
+
+        } elseif (!is_string($property)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$property',
+                      'was' => gettype($property),
+                      'expected' => 'string',
+                      'paramnum' => 2));
+
+        } elseif (!is_string($value)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$value',
+                      'was' => gettype($value),
+                      'expected' => 'string',
+                      'paramnum' => 3));
+        }
+
         if ($group < 0 || $group > $this->_groupCount) {
             return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
                 array('identifier' => $group));
@@ -482,14 +624,32 @@ class HTML_CSS extends HTML_Common {
     /**
      * Returns a CSS definition for a CSS definition group
      *
-     * @param    int     $group     CSS definition group identifier
-     * @param    string  $property  Property defined
-     * @return   string
-     * @since    0.3.0
-     * @access   public
+     * @param      int       $group         CSS definition group identifier
+     * @param      string    $property      Property defined
+     *
+     * @return     string|PEAR_Error
+     * @since      0.3.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_GROUP
+     * @see        setGroupStyle()
      */
     function getGroupStyle($group, $property)
     {
+        if (!is_int($group)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$group',
+                      'was' => gettype($group),
+                      'expected' => 'integer',
+                      'paramnum' => 1));
+
+        } elseif (!is_string($property)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$property',
+                      'was' => gettype($property),
+                      'expected' => 'string',
+                      'paramnum' => 2));
+        }
+        
         if ($group < 0 || $group > $this->_groupCount) {
             return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
                 array('identifier' => $group));
@@ -500,14 +660,32 @@ class HTML_CSS extends HTML_Common {
     /**
      * Adds a selector to a CSS definition group.
      *
-     * @param    int     $group       CSS definition group identifier
-     * @param    string  $selectors   Selector(s) to be defined, comma delimited.
-     * @return   int
-     * @since    0.3.0
-     * @access   public
+     * @param      int       $group         CSS definition group identifier
+     * @param      string    $selectors     Selector(s) to be defined, comma delimited.
+     *
+     * @return     void|PEAR_Error
+     * @since      0.3.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_GROUP
+     * @see        removeGroupSelector()
      */
     function addGroupSelector($group, $selectors)
     {
+        if (!is_int($group)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$group',
+                      'was' => gettype($group),
+                      'expected' => 'integer',
+                      'paramnum' => 1));
+
+        } elseif (!is_string($selectors)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$selectors',
+                      'was' => gettype($selectors),
+                      'expected' => 'string',
+                      'paramnum' => 2));
+        }
+
         if ($group < 0 || $group > $this->_groupCount) {
             return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
                 array('identifier' => $group));
@@ -522,14 +700,32 @@ class HTML_CSS extends HTML_Common {
     /**
      * Removes a selector from a group.
      *
-     * @param    int     $group       CSS definition group identifier
-     * @param    string  $selectors   Selector(s) to be removed, comma delimited.
-     * @return   int
-     * @since    0.3.0
-     * @access   public
+     * @param      int       $group         CSS definition group identifier
+     * @param      string    $selectors     Selector(s) to be removed, comma delimited.
+     *
+     * @return     void|PEAR_Error
+     * @since      0.3.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_GROUP
+     * @see        addGroupSelector()
      */
     function removeGroupSelector($group, $selectors)
     {
+        if (!is_int($group)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$group',
+                      'was' => gettype($group),
+                      'expected' => 'integer',
+                      'paramnum' => 1));
+
+        } elseif (!is_string($selectors)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$selectors',
+                      'was' => gettype($selectors),
+                      'expected' => 'string',
+                      'paramnum' => 2));
+        }
+
         if ($group < 0 || $group > $this->_groupCount) {
             return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
                 array('identifier' => $group));
@@ -548,14 +744,40 @@ class HTML_CSS extends HTML_Common {
     /**
      * Sets or adds a CSS definition
      *
-     * @param    string  $element   Element (or class) to be defined
-     * @param    string  $property  Property defined
-     * @param    string  $value     Value assigned
-     * @since    0.2.0
-     * @access   public
+     * @param      string    $element       Element (or class) to be defined
+     * @param      string    $property      Property defined
+     * @param      string    $value         Value assigned
+     *
+     * @return     void|PEAR_Error
+     * @since      0.2.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT
+     * @see        getStyle()
      */
     function setStyle ($element, $property, $value)
     {
+        if (!is_string($element)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$element',
+                      'was' => gettype($element),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+
+        } elseif (!is_string($property)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$property',
+                      'was' => gettype($property),
+                      'expected' => 'string',
+                      'paramnum' => 2));
+
+        } elseif (!is_string($value)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$value',
+                      'was' => gettype($value),
+                      'expected' => 'string',
+                      'paramnum' => 3));
+        }
+
         $element = $this->parseSelectors($element);
         $this->_css[$element][$property]= $value;
     } // end func setStyle
@@ -563,13 +785,33 @@ class HTML_CSS extends HTML_Common {
     /**
      * Retrieves the value of a CSS property
      *
-     * @param    string  $element   Element (or class) to be defined
-     * @param    string  $property  Property defined
-     * @since    0.3.0
-     * @access   public
+     * @param      string    $element       Element (or class) to be defined
+     * @param      string    $property      Property defined
+     *
+     * @return     string|PEAR_Error
+     * @since      0.3.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT, 
+     *             HTML_CSS_ERROR_NO_ELEMENT, HTML_CSS_ERROR_NO_ELEMENT_PROPERTY
+     * @see        setStyle()
      */
     function getStyle($element, $property)
     {
+        if (!is_string($element)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$element',
+                      'was' => gettype($element),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+
+        } elseif (!is_string($property)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$property',
+                      'was' => gettype($property),
+                      'expected' => 'string',
+                      'paramnum' => 2));
+        }
+
         $property_value = '';
         $element = $this->parseSelectors($element);
         if (!isset($this->_css[$element]) && !isset($this->_alibis[$element])) {
@@ -600,14 +842,32 @@ class HTML_CSS extends HTML_Common {
     /**
      * Sets or changes the properties of new selectors to the values of an existing selector
      *
-     * @param    string  $old    Selector that is already defined
-     * @param    string  $new    New selector(s) that should share the same 
-     *                           definitions, separated by commas
-     * @since    0.2.0
-     * @access   public
+     * @param      string    $old           Selector that is already defined
+     * @param      string    $new           New selector(s) that should share the same 
+     *                                      definitions, separated by commas
+     * @return     void|PEAR_Error
+     * @since      0.2.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_ELEMENT
+     * @see        parseSelectors()
      */
     function setSameStyle ($new, $old)
     {
+        if (!is_string($new)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$new',
+                      'was' => gettype($new),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+
+        } elseif (!is_string($old)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$old',
+                      'was' => gettype($old),
+                      'expected' => 'string',
+                      'paramnum' => 2));
+        }
+
         $old = $this->parseSelectors($old);
         if (!isset($this->_css[$old])) {
             return $this->raiseError(HTML_CSS_ERROR_NO_ELEMENT, 'error',
@@ -625,37 +885,58 @@ class HTML_CSS extends HTML_Common {
     /**
      * Defines if the document should be cached by the browser. Defaults to false.
      *
-     * @param string $cache Options are currently 'true' or 'false'. Defaults to 'true'.
-     * @since  0.2.0
-     * @access public
+     * @param      bool      $cache         (optional)
+     *
+     * @return     void|PEAR_Error
+     * @since      0.2.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT
      */
-    function setCache($cache = 'true')
+    function setCache($cache = true)
     {
-        if ($cache == 'true'){
-            $this->_cache = true;
-        } else {
-            $this->_cache = false;
+        if (!is_bool($cache)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$cache',
+                      'was' => gettype($cache),
+                      'expected' => 'boolean',
+                      'paramnum' => 1));
         }
+
+        $this->_cache = $cache;
     } // end func setCache
     
     /**
      * Defines the charset for the file. defaults to ISO-8859-1 because of CSS1
      * compatability issue for older browsers.
      *
-     * @param string $type Charset encoding; defaults to ISO-8859-1.
-     * @since  0.2.0
-     * @access public
+     * @param      string    $type          Charset encoding; defaults to ISO-8859-1.
+     *
+     * @return     void|PEAR_Error
+     * @since      0.2.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT
+     * @see        getCharset()
      */
     function setCharset($type = 'iso-8859-1')
     {
+        if (!is_string($type)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$type',
+                      'was' => gettype($type),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+        }
+
         $this->_charset = $type;
     } // end func setCharset
     
     /**
      * Returns the charset encoding string
      *
-     * @since  0.2.0
-     * @access public
+     * @return     string
+     * @since      0.2.0
+     * @access     public
+     * @see        setCharset()
      */
     function getCharset()
     {
@@ -665,13 +946,24 @@ class HTML_CSS extends HTML_Common {
     /**
      * Parse a textstring that contains css information
      *
-     * @param    string  $str    text string to parse
-     * @since    0.3.0
-     * @access   public
-     * @return   void
+     * @param      string    $str           text string to parse
+     *
+     * @return     void|PEAR_Error
+     * @since      0.3.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT
+     * @see        parseSelectors(), createGroup(), setGroupStyle(), setStyle()
      */
     function parseString($str) 
     {
+        if (!is_string($str)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$str',
+                      'was' => gettype($str),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+        }
+
         // Remove comments
         $str = preg_replace("/\/\*(.*)?\*\//Usi", '', $str);
         
@@ -709,7 +1001,7 @@ class HTML_CSS extends HTML_Common {
                         }
                     }
                 } else {
-                    
+
                     // let's get on with regular definitions
                     $key = trim($keystr);
                     if (strlen($key) > 0) {
@@ -731,14 +1023,24 @@ class HTML_CSS extends HTML_Common {
     /**
      * Parse a file that contains CSS information
      *
-     * @param    string  $filename    file to parse
-     * @since    0.3.0
-     * @return   void
-     * @access   public
+     * @param      string    $filename      file to parse
+     *
+     * @return     void|PEAR_Error
+     * @since      0.3.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_FILE
+     * @see        parseString()
      */
     function parseFile($filename) 
     { 
-        if (!file_exists($filename)) {
+        if (!is_string($filename)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$filename',
+                      'was' => gettype($filename),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+
+        } elseif (!file_exists($filename)) {
             return $this->raiseError(HTML_CSS_ERROR_NO_FILE, 'error',
                     array('identifier' => $filename));
         }
@@ -755,9 +1057,9 @@ class HTML_CSS extends HTML_Common {
     /**
      * Generates and returns the array of CSS properties
      *
-     * @return  array
-     * @since   0.2.0
-     * @access  public
+     * @return     array
+     * @since      0.2.0
+     * @access     public
      */
     function toArray()
     {
@@ -799,13 +1101,23 @@ class HTML_CSS extends HTML_Common {
     /**
      * Generates and returns the CSS properties of an element or class as a string for inline use.
      *
-     * @param   string  $element    Element or class for which inline CSS should be generated
-     * @return  string
-     * @since   0.2.0
-     * @access  public
+     * @param      string    $element       Element or class for which inline CSS should be generated
+     *
+     * @return     string|PEAR_Error
+     * @since      0.2.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT
      */
     function toInline($element)
     {
+        if (!is_string($element)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$element',
+                      'was' => gettype($element),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+        }
+        
         $strCss = '';
         $newCssArray = '';
         
@@ -841,14 +1153,24 @@ class HTML_CSS extends HTML_Common {
     /**
      * Generates CSS and stores it in a file.
      *
-     * @return  void
-     * @since   0.3.0
-     * @access  public
+     * @return     void|PEAR_Error
+     * @since      0.3.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_WRITE_FILE
+     * @see        toString()
      */
     function toFile($filename)
     {
-        if (function_exists('file_put_content')){
-            file_put_content($filename, $this->toString());
+        if (!is_string($filename)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$filename',
+                      'was' => gettype($filename),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+        }
+
+        if (function_exists('file_put_contents')){
+            file_put_contents($filename, $this->toString());
         } else {
             $file = fopen($filename,'wb');
             fwrite($file, $this->toString());
@@ -858,15 +1180,14 @@ class HTML_CSS extends HTML_Common {
             return $this->raiseError(HTML_CSS_ERROR_WRITE_FILE, 'error',
                     array('filename' => $filename));
         }
-        
     } // end func toFile
     
     /**
      * Generates and returns the complete CSS as a string.
      *
-     * @return string
-     * @since   0.2.0
-     * @access public
+     * @return     string
+     * @since      0.2.0
+     * @access     public
      */
     function toString()
     {
@@ -945,12 +1266,13 @@ class HTML_CSS extends HTML_Common {
     /**
      * Outputs the stylesheet to the browser.
      *
-     * @since     0.2.0
-     * @access    public
+     * @return     void
+     * @since      0.2.0
+     * @access     public
+     * @see        toString()
      */
     function display()
     {
-        
         if(! $this->_cache) {
             header("Expires: Tue, 1 Jan 1980 12:00:00 GMT");
             header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -969,139 +1291,96 @@ class HTML_CSS extends HTML_Common {
      * Initialize Error engine preferences
      *
      * @param      array     $prefs         hash of params to customize error generation
-     *
      * @return     void
      * @since      0.3.3
      * @access     private
      */
     function _initErrorStack($prefs = array())
     {
-        if (isset($prefs['pushCallback']) && is_callable($prefs['pushCallback'])) {
-            $this->_pushCallback = $prefs['pushCallback'];
+        // error message mapping callback
+        if (isset($prefs['message_callback']) && is_callable($prefs['message_callback'])) {
+            $this->_callback_message = $prefs['message_callback'];
         } else {
-            $this->_pushCallback = array(&$this, '_handleError');
+            $this->_callback_message = array('HTML_CSS_Error', '_msgCallback');
         }
 
-        if (isset($prefs['msgCallback']) && is_callable($prefs['msgCallback'])) {
-            $this->_msgCallback = $prefs['msgCallback'];
+        // error context mapping callback
+        if (isset($prefs['context_callback']) && is_callable($prefs['context_callback'])) {
+            $this->_callback_context = $prefs['context_callback'];
         } else {
-            $this->_msgCallback = array(&$this, '_msgCallback');
+            $this->_callback_context = array('HTML_CSS_Error', 'getBacktrace');
+        }
+
+        // determine whether to allow an error to be pushed or logged
+        if (isset($prefs['push_callback']) && is_callable($prefs['push_callback'])) {
+            $this->_callback_push = $prefs['push_callback'];
+        } else {
+            $this->_callback_push = array('HTML_CSS_Error', '_handleError');
+        }
+
+        // default error handler will use PEAR_Error
+        if (isset($prefs['error_handler']) && is_callable($prefs['error_handler'])) {
+            $this->_callback_errorhandler = $prefs['error_handler'];
+        } else {
+            $this->_callback_errorhandler = array(&$this, '_errorHandler');
+        }
+
+        // any handler-specific settings
+        if (isset($prefs['handler'])) {
+            $this->_errorhandler_options = $prefs['handler'];
         }
     }
 
     /**
-     * User callback to generate error messages for any instance
+     * Standard error handler that will use PEAR_Error object
      *
-     * @param      int       $code          a numeric error code. 
-     *                                      Valid are HTML_CSS_ERROR_* constants
-     * @param      mixed     $userinfo      if you need to pass along parameters 
-     *                                      for dynamic messages
-     *
-     * @return     string
-     * @since      0.3.3
-     * @access     private
-     */
-    function _msgCallback($code, $userinfo)
-    {
-        $errorMessages = $this->_getErrorMessage();
-        
-        if (isset($errorMessages[$code])) {
-            $mainmsg = $errorMessages[$code];
-        } else {
-            $mainmsg = 'unknown error';
-        }
-
-        if (is_array($userinfo)) {
-            foreach ($userinfo as $name => $val) {
-                if (is_array($val)) {
-                    // @ is needed in case $val is a multi-dimensional array
-                    $val = @implode(', ', $val);
-                }
-                if (is_object($val)) {
-                    if (method_exists($val, '__toString')) {
-                        $val = $val->__toString();
-                    } else {
-                        continue;
-                    }
-                }
-                $mainmsg = str_replace('%' . $name . '%', $val, $mainmsg);
-            }
-        }
-
-        return $mainmsg;
-    }
-
-    /**
-     * Error Message Template array
-     *
-     * @return     string
-     * @since      0.3.3
-     * @access     private
-     */
-    function _getErrorMessage()
-    {
-        $messages = array(
-            HTML_CSS_ERROR_INVALID_INPUT =>
-                'invalid input, parameter #%paramnum% '
-                    . '"%var%" was expecting '
-                    . '"%expected%", instead got "%was%"',
-            HTML_CSS_ERROR_INVALID_GROUP => 
-                'group "%identifier%" already exist ',
-            HTML_CSS_ERROR_NO_GROUP => 
-                'group "%identifier%" does not exist ',
-            HTML_CSS_ERROR_NO_ELEMENT => 
-                'element "%identifier%" does not exist ',
-            HTML_CSS_ERROR_NO_ELEMENT_PROPERTY => 
-                'element "%identifier%" does not have property "%property%" ',
-            HTML_CSS_ERROR_NO_FILE => 
-                'filename "%identifier%" does not exist ',
-            HTML_CSS_ERROR_WRITE_FILE =>
-                'failed to write to "%filename%"'
-        );
-        return $messages;
-    }
-
-    /**
-     * Default internal error handler
-     * Dies if the error is an exception (and would have died anyway)
-     *
-     * @param      int       $code          a numeric error code. 
-     *                                      Valid are HTML_CSS_ERROR_* constants
-     * @param      string    $level         error level ('exception', 'error', 'warning', ...)
-     *
-     * @return     boolean                  returns FALSE if error is ignored, otherwise TRUE
-     * @since      0.3.3
-     * @access     private
-     */
-    function _handleError($code, $level)
-    {
-        if ($level == 'exception') {
-            die();
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * A basic wrapper around the default PEAR_Error object
+     * To improve performances, the PEAR.php file is included dynamically.
+     * The file is so included only when an error is triggered. So, in most
+     * cases, the file isn't included and perfs are much better.
      *
      * @param      integer   $code       Error code.
      * @param      string    $level      The error level of the message. 
      * @param      array     $params     Associative array of error parameters
      *
-     * @return     object                PEAR_Error
+     * @return     PEAR_Error
+     * @since      1.0.0
+     * @access     private
+     */
+    function _errorHandler($code, $level, $params)
+    {
+        include_once 'HTML/CSS/Error.php';
+
+        $mode = call_user_func($this->_callback_push, $code, $level);
+
+        $message = call_user_func($this->_callback_message, $code, $params);
+        $userinfo['level'] = $level;
+
+        if (isset($this->_errorhandler_options['display'])) {
+            $userinfo['display'] = $this->_errorhandler_options['display'];
+        } else {
+            $userinfo['display'] = array();
+        }
+        if (isset($this->_errorhandler_options['log'])) {
+            $userinfo['log'] = $this->_errorhandler_options['log'];
+        } else {
+            $userinfo['log'] = array();
+        }
+        
+        return PEAR::raiseError($message, $code, $mode, null, $userinfo, 'HTML_CSS_Error');
+    }
+
+    /**
+     * A basic wrapper around the default PEAR_Error object
+     *
+     * @return     object                PEAR_Error when default error handler is used
      * @since      0.3.3
      * @access     public
+     * @see        _errorHandler()
      */
-    function raiseError($code, $level, $params)
+    function raiseError()
     {
-        $pass = call_user_func($this->_pushCallback, $code, $level);
-        $mode = ($pass == false) ? PEAR_ERROR_RETURN : null;
-
-        $message = call_user_func($this->_msgCallback, $code, $params);
-        $userinfo['errorLevel'] = $level; 
-        
-        return PEAR::raiseError($message, $code, $mode, null, $userinfo);
+        $args = func_get_args();
+        return call_user_func_array($this->_callback_errorhandler, $args);
     }
 }
 ?>
