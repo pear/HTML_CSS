@@ -1014,12 +1014,7 @@ class HTML_CSS extends HTML_Common {
             $trace = null;                  // PHP 4.1.x, 4.2.x (no context info available)
         }
         $err = PEAR_ErrorStack::staticPush($this->_package, $code, $level, $params, false, false, $trace);
- 
-        if ($level == 'exception') {
-            die();
-        } else {
-            return $err;
-        }
+        return $err;
     }
 }
 ?>
