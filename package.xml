@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "../package.dtd">
+<package version="1.0">
+  <name>HTML_CSS</name>
+  <summary>HTML_CSS is a class for generating CSS declarations.</summary>
+  <description>
+HTML_CSS provides a simple interface for generating
+a stylesheet declaration. It is completely standards compliant, and
+has some great features:
+* Simple OO interface to CSS definitions
+* Output to
+    - Inline stylesheet declarations
+    - Document internal stylesheet declarations
+    - Standalone stylesheet declarations
+    - Array of definitions
+
+In addition, it shares the following with HTML_Common based classes:
+* Indent style support
+* Line ending style
+  </description>
+  <license>PHP License</license>
+  <maintainers>
+    <maintainer>
+      <user>thesaur</user>
+      <name>Klaus Guenther</name>
+      <email>klaus@capitalfocus.org</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>0.2.0</version>
+    <date>2003-07-31</date>
+    <state>stable</state>
+    <notes>
+It is completely standards compliant, and has some great features:
+* Inline stylesheet declarations
+* Document internal stylesheet declarations
+* Standalone stylesheet declarations
+
+In addition, it shares the following with HTML_Common based classes:
+* Indent style support
+* Line ending style
+    </notes>
+    <filelist>
+      <dir name="/" baseinstalldir="HTML">
+        <file role="php">CSS.php</file>
+        <dir name="examples">
+          <file role="doc">CSS_InHeader.php</file>
+          <file role="doc">CSS_Inline.php</file>
+          <file role="doc">CSS_Stylesheet.php</file>
+        </dir>
+      </dir>
+    </filelist>
+    <deps>
+      <dep type="pkg" rel="ge" version="1.2">HTML_Common</dep>
+    </deps>
+  </release>
+</package>
