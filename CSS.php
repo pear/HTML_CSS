@@ -18,8 +18,23 @@
 //
 // $Id$
 
-require_once "PEAR.php";
-require_once "HTML/Common.php";
+require_once 'PEAR/ErrorStack.php';
+require_once 'Log.php';
+require_once 'HTML/Common.php';
+
+/**#@+
+ * Basic error codes
+ *
+ * @var        integer
+ * @since      0.3.3
+ */
+define ('HTML_CSS_ERROR_INVALID_INPUT',   -100);
+define ('HTML_CSS_ERROR_INVALID_GROUP',   -101);
+define ('HTML_CSS_ERROR_NO_GROUP',        -102);
+define ('HTML_CSS_ERROR_NO_ELEMENT',      -103);
+define ('HTML_CSS_ERROR_NO_FILE',         -104);
+define ('HTML_CSS_ERROR_WRITE_FILE',      -105);
+/**#@-*/
 
 /**
  * Base class for CSS definitions
@@ -112,7 +127,7 @@ require_once "HTML/Common.php";
  *
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @package    HTML_CSS
- * @version    0.3.0
+ * @version    0.3.3
  * @access     public
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  */
@@ -122,6 +137,7 @@ class HTML_CSS extends HTML_Common {
      * Contains the CSS definitions.
      *
      * @var     array
+     * @since   0.2.0
      * @access  private
      */
     var $_css = array();
@@ -130,6 +146,7 @@ class HTML_CSS extends HTML_Common {
      * Contains "alibis" (other elements that share a definition) of an element defined in CSS
      *
      * @var     array
+     * @since   0.2.0
      * @access  private
      */
     var $_alibis = array();
@@ -138,6 +155,7 @@ class HTML_CSS extends HTML_Common {
      * Controls caching of the page
      *
      * @var     bool
+     * @since   0.2.0
      * @access  private
      */
     var $_cache = true;
@@ -146,6 +164,7 @@ class HTML_CSS extends HTML_Common {
      * Contains the character encoding string
      *
      * @var     string
+     * @since   0.2.0
      * @access  private
      */
     var $_charset = 'iso-8859-1';
@@ -154,6 +173,7 @@ class HTML_CSS extends HTML_Common {
      * Contains grouped styles
      *
      * @var     array
+     * @since   0.3.0
      * @access  private
      */
     var $_groups = array();
@@ -162,6 +182,7 @@ class HTML_CSS extends HTML_Common {
      * Number of CSS definition groups
      *
      * @var     int
+     * @since   0.3.0
      * @access  private
      */
     var $_groupCount = 0;
@@ -171,9 +192,19 @@ class HTML_CSS extends HTML_Common {
      * Determines how parseSelectors treats the data.
      *
      * @var     bool
+     * @since   0.3.2
      * @access  private
      */
     var $_xhtmlCompliant = true;
+
+    /**
+     * Package name used by PEAR_ErrorStack functions
+     *
+     * @var        string
+     * @since      0.3.3
+     * @access     private
+     */
+    var $_package;
 
     /**
      * Class constructor
@@ -183,10 +214,13 @@ class HTML_CSS extends HTML_Common {
      *                   string), cache (determines whether the nocache
      *                   headers are sent), filename (name of file to be
      *                   parsed)
+     * @since   0.2.0
      * @access  public
      */
-    function HTML_CSS($attributes = array())
+    function HTML_CSS($attributes = array(), $errorPrefs = array())
     {
+        $this->_initErrorStack($errorPrefs);
+
         if ($attributes) {
             $attributes = $this->_parseAttributes($attributes);
         }
@@ -212,6 +246,7 @@ class HTML_CSS extends HTML_Common {
      * Returns the current API version
      *
      * @access   public
+     * @since    0.2.0
      * @return   double
      */
     function apiVersion()
@@ -227,6 +262,7 @@ class HTML_CSS extends HTML_Common {
      *
      * @param    string  $selectors   Selector string
      * @param    int     $outputMode  0 = string; 1 = array; 3 = deep array
+     * @since    0.3.2
      * @access   public
      * @return   mixed
      */
@@ -287,6 +323,7 @@ class HTML_CSS extends HTML_Common {
      * Strips excess spaces in string.
      *
      * @return    string
+     * @since     0.3.2
      * @access    public
      */
     function collapseInternalSpaces($subject){
@@ -298,16 +335,19 @@ class HTML_CSS extends HTML_Common {
      * Sets or adds a CSS definition for a CSS definition group
      *
      * @param    bool     $value    Boolean value
+     * @since    0.3.2
      * @access   public
      */
     function setXhtmlCompliance($value)
     {
-        if (is_bool($value)) {
-            $this->_xhtmlCompliant = $value;
-        } else {
-            return PEAR::raiseError("HTML_CSS::setXhtmlCompliance() error: argument is not boolean.",
-                                        0, PEAR_ERROR_TRIGGER);
+        if (!is_bool($value)) {
+            $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$value',
+                      'was' => gettype($value),
+                      'expected' => 'boolean',
+                      'paramnum' => 1));
         }
+        $this->_xhtmlCompliant = $value;
     } // end func setGroupStyle
 
     /**
@@ -316,6 +356,7 @@ class HTML_CSS extends HTML_Common {
      * @param    string  $selectors   Selector(s) to be defined, comma delimited.
      * @param    mixed   $identifier  Group identifier. If not passed, will return an automatically assigned integer.
      * @return   int
+     * @since    0.3.0
      * @access   public
      */
     function createGroup($selectors, $identifier = null)
@@ -325,8 +366,8 @@ class HTML_CSS extends HTML_Common {
             $group = $this->_groupCount;
         } else {
             if (isset($this->_groups[$identifier])){
-                return PEAR::raiseError("HTML_CSS::createGroup() error: group $identifier already exists.",
-                                            0, PEAR_ERROR_TRIGGER);
+                return $this->raiseError(HTML_CSS_ERROR_INVALID_GROUP, 'error',
+                    array('identifier' => $identifier));
             }
             $group = $identifier;
         }
@@ -344,13 +385,14 @@ class HTML_CSS extends HTML_Common {
      * Sets or adds a CSS definition for a CSS definition group
      *
      * @param    int     $group     CSS definition group identifier
+     * @since    0.3.0
      * @access   public
      */
     function unsetGroup($group)
     {
-        $grp = $this->_checkGroup($group, 'unsetGroup');
-        if (PEAR::isError($grp)) {
-            return $grp;
+        if ($group < 0 || $group > $this->_groupCount) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group));
         }
         
         foreach ($this->_groups[$group]['selectors'] as $selector) {
@@ -368,13 +410,14 @@ class HTML_CSS extends HTML_Common {
      * @param    int     $group     CSS definition group identifier
      * @param    string  $property  Property defined
      * @param    string  $value     Value assigned
+     * @since    0.3.0
      * @access   public
      */
     function setGroupStyle($group, $property, $value)
     {
-        $grp = $this->_checkGroup($group, 'setGroupStyle');
-        if (PEAR::isError($grp)) {
-            return $grp;
+        if ($group < 0 || $group > $this->_groupCount) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group));
         }
         $this->_groups[$group]['properties'][$property]= $value;
     } // end func setGroupStyle
@@ -385,13 +428,14 @@ class HTML_CSS extends HTML_Common {
      * @param    int     $group     CSS definition group identifier
      * @param    string  $property  Property defined
      * @return   string
+     * @since    0.3.0
      * @access   public
      */
     function getGroupStyle($group, $property)
     {
-        $grp = $this->_checkGroup($group, 'getGroupStyle');
-        if (PEAR::isError($grp)) {
-            return $grp;
+        if ($group < 0 || $group > $this->_groupCount) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group));
         }
         return $this->_groups[$group]['properties'][$property];
     } // end func getGroupStyle
@@ -402,13 +446,14 @@ class HTML_CSS extends HTML_Common {
      * @param    int     $group       CSS definition group identifier
      * @param    string  $selectors   Selector(s) to be defined, comma delimited.
      * @return   int
+     * @since    0.3.0
      * @access   public
      */
     function addGroupSelector($group, $selectors)
     {
-        $grp = $this->_checkGroup($group, 'addGroupStyle');
-        if (PEAR::isError($grp)) {
-            return $grp;
+        if ($group < 0 || $group > $this->_groupCount) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group));
         }
         $selectors = $this->parseSelectors($selectors, 1);
         foreach ($selectors as $selector) {
@@ -423,13 +468,14 @@ class HTML_CSS extends HTML_Common {
      * @param    int     $group       CSS definition group identifier
      * @param    string  $selectors   Selector(s) to be removed, comma delimited.
      * @return   int
+     * @since    0.3.0
      * @access   public
      */
     function removeGroupSelector($group, $selectors)
     {
-        $grp = $this->_checkGroup($group, 'removeGroupSelector');
-        if (PEAR::isError($grp)) {
-            return $grp;
+        if ($group < 0 || $group > $this->_groupCount) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group));
         }
         $selectors =  $this->parseSelectors($selectors, 1);
         foreach ($selectors as $selector) {
@@ -441,30 +487,14 @@ class HTML_CSS extends HTML_Common {
             unset($this->_alibis[$selector][$group]);
         }
     } // end func removeGroupSelector
-
-    /**
-     * Check if a group is valid (exists)
-     *
-     * @param    int     $group       CSS definition group identifier
-     * @param    sring   $method      comes from
-     * @return   bool                 TRUE if group exists, PEAR error otherwise
-     * @access   private
-     */
-    function _checkGroup($group, $method)
-    {
-        if ($group < 0 || $group > $this->_groupCount) {
-            return PEAR::raiseError("HTML_CSS::$method() error: group $group does not exist.",
-                                        0, PEAR_ERROR_TRIGGER);
-        }
-        return true;
-    } // end func _checkGroup
-    
+   
     /**
      * Sets or adds a CSS definition
      *
      * @param    string  $element   Element (or class) to be defined
      * @param    string  $property  Property defined
      * @param    string  $value     Value assigned
+     * @since    0.2.0
      * @access   public
      */
     function setStyle ($element, $property, $value)
@@ -478,14 +508,15 @@ class HTML_CSS extends HTML_Common {
      *
      * @param    string  $element   Element (or class) to be defined
      * @param    string  $property  Property defined
+     * @since    0.3.0
      * @access   public
      */
     function getStyle($element, $property)
     {
         $element = $this->parseSelectors($element);
-        $elm = $this->_checkElement($element, 'getStyle');
-        if (PEAR::isError($elm)) {
-            return $elm;
+        if (!isset($this->_css[$element])) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_ELEMENT, 'error',
+                array('identifier' => $element));
         }
         return $this->_css[$element][$property];
     } // end func getStyle
@@ -495,14 +526,15 @@ class HTML_CSS extends HTML_Common {
      *
      * @param    string  $old    Selector that is already defined
      * @param    string  $new    New selector(s) that should share the same definitions, separated by commas
+     * @since    0.2.0
      * @access   public
      */
     function setSameStyle ($new, $old)
     {
         $old = $this->parseSelectors($old);
-        $elm = $this->_checkElement($old, 'setSameStyle');
-        if (PEAR::isError($elm)) {
-            return $elm;
+        if (!isset($this->_css[$old])) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_ELEMENT, 'error',
+                array('identifier' => $old));
         }
         $others = $this->parseSelectors($new, 1);
         foreach ($others as $other) {
@@ -514,26 +546,10 @@ class HTML_CSS extends HTML_Common {
     } // end func setSameStyle
     
     /**
-     * Check if an element is valid (exists)
-     *
-     * @param    string  $element     Element already defined
-     * @param    sring   $method      comes from
-     * @return   bool                 TRUE if group exists, PEAR error otherwise
-     * @access   private
-     */
-    function _checkElement($element, $method)
-    {
-        if (!isset($this->_css[$element])) {
-            return PEAR::raiseError("HTML_CSS::$method() error: element $element does not exist.",
-                                        0, PEAR_ERROR_TRIGGER);
-        }
-        return true;
-    }
-
-    /**
      * Defines if the document should be cached by the browser. Defaults to false.
      *
      * @param string $cache Options are currently 'true' or 'false'. Defaults to 'true'.
+     * @since  0.2.0
      * @access public
      */
     function setCache($cache = 'true')
@@ -550,6 +566,7 @@ class HTML_CSS extends HTML_Common {
      * compatability issue for older browsers.
      *
      * @param string $type Charset encoding; defaults to ISO-8859-1.
+     * @since  0.2.0
      * @access public
      */
     function setCharset($type = 'iso-8859-1')
@@ -560,6 +577,7 @@ class HTML_CSS extends HTML_Common {
     /**
      * Returns the charset encoding string
      *
+     * @since  0.2.0
      * @access public
      */
     function getCharset()
@@ -632,18 +650,17 @@ class HTML_CSS extends HTML_Common {
      */
     function parseFile($filename) 
     { 
-        if (file_exists($filename)) {
-            if (function_exists('file_get_contents')){
-                $this->parseString(file_get_contents($filename));
-            } else {
-                $file = fopen("$filename", "rb");
-                $this->parseString(fread($file, filesize($filename)));
-                fclose($file);
-            }
-            
+        if (!file_exists($filename)) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_FILE, 'error',
+                    array('identifier' => $filename));
+        }
+
+        if (function_exists('file_get_contents')){
+            $this->parseString(file_get_contents($filename));
         } else {
-            return PEAR::raiseError("HTML_CSS::parseFile() error: $filename does not exist.",
-                                        0, PEAR_ERROR_TRIGGER);
+            $file = fopen("$filename", "rb");
+            $this->parseString(fread($file, filesize($filename)));
+            fclose($file);
         }
     } // func parseFile
     
@@ -651,6 +668,7 @@ class HTML_CSS extends HTML_Common {
      * Generates and returns the array of CSS properties
      *
      * @return  array
+     * @since   0.2.0
      * @access  public
      */
     function toArray()
@@ -695,6 +713,7 @@ class HTML_CSS extends HTML_Common {
      *
      * @param   string  $element    Element or class for which inline CSS should be generated
      * @return  string
+     * @since   0.2.0
      * @access  public
      */
     function toInline($element)
@@ -748,8 +767,8 @@ class HTML_CSS extends HTML_Common {
             fclose($file);
         }
         if (!file_exists($filename)){
-            return PEAR::raiseError("HTML_CSS::toFile() error: Failed to write to $filename",
-                                        0, PEAR_ERROR_TRIGGER);
+            return $this->raiseError(HTML_CSS_ERROR_WRITE_FILE, 'error',
+                    array('filename' => $filename));
         }
         
     } // end func toFile
@@ -758,6 +777,7 @@ class HTML_CSS extends HTML_Common {
      * Generates and returns the complete CSS as a string.
      *
      * @return string
+     * @since   0.2.0
      * @access public
      */
     function toString()
@@ -820,6 +840,7 @@ class HTML_CSS extends HTML_Common {
     /**
      * Outputs the stylesheet to the browser.
      *
+     * @since     0.2.0
      * @access    public
      */
     function display()
@@ -839,5 +860,142 @@ class HTML_CSS extends HTML_Common {
         $strCss = $this->toString();
         print $strCss;
     } // end func display
+
+    /**
+     * Initialize Error Stack engine
+     *
+     * @param      array     $prefs         hash of params for PEAR::Log object list
+     *
+     * @return     void
+     * @since      0.3.3
+     * @access     private
+     */
+    function _initErrorStack($prefs = array())
+    {
+        $this->_package = 'HTML_CSS';
+        $stack =& PEAR_ErrorStack::singleton($this->_package);
+        if (isset($prefs['msgCallback'])) {
+            $cb = $prefs['msgCallback'];
+        } else {
+            $cb = array('HTML_CSS', '_msgCallback');
+        }
+        $stack->setMessageCallback($cb);
+        if (isset($prefs['contextCallback'])) {
+            $stack->setContextCallback($prefs['contextCallback']);
+        }
+        $messages = $this->_getErrorMessage();
+        $stack->setErrorMessageTemplate($messages);
+        $composite = &Log::singleton('composite');
+        $stack->setLogger($composite);
+
+        $drivers = isset($prefs['handler']) ? $prefs['handler'] : array();
+        $display_errors = isset($prefs['display_errors']) ? strtolower($prefs['display_errors']) : 'on';
+        $log_errors = isset($prefs['log_errors']) ? strtolower($prefs['log_errors']) : 'on';
+        
+        foreach ($drivers as $handler => $params) {
+            if ((strtolower($handler) == 'display') && ($display_errors == 'off')) {
+                continue;
+            }
+            if ((strtolower($handler) != 'display') && ($log_errors == 'off')) {
+                continue;
+            }       
+            $name = isset($params['name']) ? $params['name'] : '';
+            $ident = isset($params['ident']) ? $params['ident'] : '';
+            $conf = isset($params['conf']) ? $params['conf'] : array();
+            $level = isset($params['level']) ? $params['level'] : PEAR_LOG_DEBUG;
+            
+            $logger = &Log::singleton(strtolower($handler), $name, $ident, $conf, $level);
+            $composite->addChild($logger);
+        }
+
+        // Add at least the Log::display driver to output errors on browser screen
+        if (!array_key_exists('display', $drivers)) {
+            if ($display_errors == 'on') {
+                $logger = &Log::singleton('display');
+                $composite->addChild($logger);
+            }
+        }
+    }
+
+    /**
+     * User callback to generate error messages for any instance
+     *
+     * @param      object    $stack         PEAR_ErrorStack instance
+     * @param      array     $err           current error with context info 
+     *
+     * @return     string
+     * @since      0.3.3
+     * @access     private
+     */
+    function _msgCallback(&$stack, $err)
+    {
+        $message = call_user_func_array(array(&$stack, 'getErrorMessage'), array(&$stack, $err));
+
+        if (isset($err['context']['function'])) {
+            $message .= ' in ' . $err['context']['class'] . '::' . $err['context']['function'];
+        }
+        if (isset($err['context']['file'])) {
+            $message .= ' (file ' . $err['context']['file'] . ' at line ' . $err['context']['line'] .')';
+        }
+        return $message;
+    }
+
+    /**
+     * Error Message Template array
+     *
+     * @return     string
+     * @since      0.3.3
+     * @access     private
+     */
+    function _getErrorMessage()
+    {
+        $messages = array(
+            HTML_CSS_ERROR_INVALID_INPUT =>
+                'invalid input, parameter #%paramnum% '
+                    . '"%var%" was expecting '
+                    . '"%expected%", instead got "%was%"',
+            HTML_CSS_ERROR_INVALID_GROUP => 
+                'group "%identifier%" already exist ',
+            HTML_CSS_ERROR_NO_GROUP => 
+                'group "%identifier%" does not exist ',
+            HTML_CSS_ERROR_NO_ELEMENT => 
+                'element "%identifier%" does not exist ',
+            HTML_CSS_ERROR_NO_FILE => 
+                'filename "%identifier%" does not exist ',
+            HTML_CSS_ERROR_WRITE_FILE =>
+                'failed to write to "%filename%"'
+        );
+        return $messages;
+    }
+
+    /**
+     * Add an error to the stack
+     * Dies if the error is an exception (and would have died anyway)
+     *
+     * @param      integer   $code       Error code.
+     * @param      string    $level      The error level of the message. 
+     *                                   Valid are PEAR_LOG_* constants
+     * @param      array     $params     Associative array of error parameters
+     * @param      array     $trace      Error context info (see debug_backtrace() contents)
+     *
+     * @return     array     PEAR_ErrorStack instance. And with context info (if PHP 4.3+)
+     * @since      0.3.3
+     * @access     public
+     */
+    function raiseError($code, $level, $params)
+    {
+        if (function_exists('debug_backtrace')) {
+            $trace = debug_backtrace();     // PHP 4.3+
+        } else {
+            $trace = null;                  // PHP 4.1.x, 4.2.x (no context info available)
+        }
+        $err = PEAR_ErrorStack::staticPush($this->_package, $code, $level, $params, false, false, $trace);
+ 
+        if ($level == 'exception') {
+            die();
+        } else {
+            return $err;
+        }
+    }
 }
 ?>
