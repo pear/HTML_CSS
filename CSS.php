@@ -232,8 +232,8 @@ class HTML_CSS extends HTML_Common {
      */
     function parseSelectors($selectors, $outputMode = 0)
     {
-        $selectors =  explode(',', $selectors);
-        foreach ($selectors as $selector) {
+        $selectors_array =  explode(',', $selectors);
+        foreach ($selectors_array as $selector) {
             // trim to remove possible whitespace
             $selector = trim($selector);
             // initialize variables
