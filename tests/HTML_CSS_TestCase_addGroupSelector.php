@@ -1,5 +1,4 @@
 <?php
-
 /**
  * API Unit tests for HTML_CSS package.
  * 
@@ -23,13 +22,12 @@ class HTML_CSS_TestCase_addGroupSelector extends PHPUnit_TestCase
 
     function setUp()
     {
-        error_reporting(E_ALL);
-        $this->errorOccured = false;
-        set_error_handler(array(&$this, 'errorHandler'));
+        error_reporting(E_ALL & ~E_NOTICE);
 
+        $logger['display_errors'] = 'off';                        // don't use PEAR::Log display driver
+        $logger['msgCallback'] = array(&$this, '_msgCallback');   // remove file&line context in error message
+        $logger['pushCallback'] = array(&$this, '_pushCallback'); // don't die when an exception is thrown
         $attrs = array();
-        $logger['display_errors'] = 'off';                      // don't use PEAR::Log display driver
-        $logger['msgCallback'] = array(&$this, '_msgCallback'); // remove file&line context in error message
         $this->stylesheet = new HTML_CSS($attrs, $logger);
 
         $this->css_group1 = $this->stylesheet->createGroup('body, html');
@@ -50,7 +48,12 @@ class HTML_CSS_TestCase_addGroupSelector extends PHPUnit_TestCase
 
     function _methodExists($name) 
     {
-        if (in_array(strtolower($name), get_class_methods($this->stylesheet))) {
+        if (substr(PHP_VERSION,0,1) < '5') {
+            $n = strtolower($name);
+        } else {
+            $n = $name;
+        }
+        if (in_array($n, get_class_methods($this->stylesheet))) {
             return true;
         }
         $this->assertTrue(false, 'method '. $name . ' not implemented in ' . get_class($this->stylesheet));
@@ -60,11 +63,12 @@ class HTML_CSS_TestCase_addGroupSelector extends PHPUnit_TestCase
     function _msgCallback(&$stack, $err)
     {
         $message = call_user_func_array(array(&$stack, 'getErrorMessage'), array(&$stack, $err));
-
-        if (isset($err['context']['function'])) {
-            $message .= ' in ' . $err['context']['class'] . '::' . $err['context']['function'];
-        }
         return $message;
+    }
+
+    function _pushCallback($err)
+    {
+        // don't die if the error is an exception (as default callback)
     }
 
     function _getResult()
@@ -78,16 +82,12 @@ class HTML_CSS_TestCase_addGroupSelector extends PHPUnit_TestCase
 	}
     }
 
-    function errorHandler($errno, $errstr, $errfile, $errline) {
-        $this->errorOccured = true;
-        $this->assertTrue(false, "$errstr at line $errline");
-    }
 
-   /**
-    * Tests a addGroupSelector method 
-    *
-    * - fail1: wrong group id
-    */  
+    /**
+     * Tests a addGroupSelector method 
+     *
+     * - fail1: wrong group id
+     */  
     function test_addGroupSelector_fail1()
     {
         $group = $this->css_grpcnt + 1;
@@ -102,5 +102,4 @@ class HTML_CSS_TestCase_addGroupSelector extends PHPUnit_TestCase
         $this->_getResult();
     }
 }
-
 ?>
