@@ -184,7 +184,7 @@ class HTML_CSS extends HTML_Common {
      * Returns the current API version
      *
      * @access   public
-     * @returns  double
+     * @return   double
      */
     function apiVersion()
     {
@@ -196,7 +196,7 @@ class HTML_CSS extends HTML_Common {
      *
      * @param    string  $selectors   Selector(s) to be defined, comma delimited.
      * @param    mixed   $identifier  Group identifier. If not passed, will return an automatically assigned integer.
-     * @returns  int
+     * @return   int
      * @access   public
      */
     function createGroup($selectors, $identifier = null)
@@ -205,7 +205,7 @@ class HTML_CSS extends HTML_Common {
             $this->_groupCount++;
             $group = $this->_groupCount;
         } else {
-            if (isset($this->_group[$identifier])){
+            if (isset($this->_groups[$identifier])){
                 return PEAR::raiseError("HTML_CSS::createGroup() error: group $identifier already exists.",
                                             0, PEAR_ERROR_TRIGGER);
             }
@@ -266,7 +266,7 @@ class HTML_CSS extends HTML_Common {
      *
      * @param    int     $group     CSS definition group identifier
      * @param    string  $property  Property defined
-     * @returns  string
+     * @return   string
      * @access   public
      */
     function getGroupStyle($group, $property)
@@ -283,7 +283,7 @@ class HTML_CSS extends HTML_Common {
      *
      * @param    int     $group       CSS definition group identifier
      * @param    string  $selectors   Selector(s) to be defined, comma delimited.
-     * @returns  int
+     * @return   int
      * @access   public
      */
     function addGroupSelector($group, $selectors)
@@ -305,7 +305,7 @@ class HTML_CSS extends HTML_Common {
      *
      * @param    int     $group       CSS definition group identifier
      * @param    string  $selectors   Selector(s) to be removed, comma delimited.
-     * @returns  int
+     * @return   int
      * @access   public
      */
     function removeGroupSelector($group, $selectors)
@@ -331,7 +331,7 @@ class HTML_CSS extends HTML_Common {
      *
      * @param    int     $group       CSS definition group identifier
      * @param    sring   $method      comes from
-     * @returns  bool                 TRUE if group exists, PEAR error otherwise
+     * @return   bool                 TRUE if group exists, PEAR error otherwise
      * @access   private
      */
     function _checkGroup($group, $method)
@@ -397,7 +397,7 @@ class HTML_CSS extends HTML_Common {
      *
      * @param    string  $element     Element already defined
      * @param    sring   $method      comes from
-     * @returns  bool                 TRUE if group exists, PEAR error otherwise
+     * @return   bool                 TRUE if group exists, PEAR error otherwise
      * @access   private
      */
     function _checkElement($element, $method)
