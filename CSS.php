@@ -246,16 +246,20 @@ class HTML_CSS extends HTML_Common {
             if (strpos($selector, '#')) {
                 $id      = '#' . strstr($selector, '#');
             } else { // if it's not an ID, expect an element or a class
-                if (strpos($selector, '.')){
-                    $class   = '.' . strstr($selector, '.');
-                }
-                $element = substr($selector, 0 , strpos($selector, '.')-1);
                 if (strpos($selector, ':')) {
-                    $pseudo = ':' . $strstr($selector, ':');
+                    $pseudo = strstr($selector, ':');
+                    $selector = substr($selector, 0 , strpos($selector, ':'));
+                }
+                if (strpos($selector, '.')){
+                    $class   = strstr($selector, '.');
+                    $selector = substr($selector, 0 , strpos($selector, '.'));
+                }
+                if ($element == '') {
+                    $element = $selector;
                 }
                 if ($this->_xhtmlCompliant){
                     $element = strtolower($element);
-                    $pseudo  = strtolower($element);
+                    $pseudo  = strtolower($pseudo);
                 }
             }
             if ($outputMode == 2) {
@@ -272,7 +276,6 @@ class HTML_CSS extends HTML_Common {
             }
             $i++;
         }
-
         if ($outputMode == 0) {
             $output = implode(', ', $array);
             return $output;
