@@ -36,27 +36,21 @@ In addition, it shares the following with HTML_Common based classes:
     </maintainer>
   </maintainers>
   <release>
-    <version>0.3.1</version>
-    <date>2003-11-03</date>
+    <version>0.3.2</version>
+    <date>2004-03-24</date>
     <state>beta</state>
     <notes>
-Warning:
-Major BC break!
-
-License change:
-Now PHP License 3.0
-
 New features:
-* Parse CSS from string (Laurent)
-* Read and parse CSS from file (Laurent)
-* Retrieve the settings of individual properties (Laurent)
-* Fully redesigned group handling
-* Output to file
-* Error handling introduced (Laurent)
-* Added unit tests (Laurent)
+* setXhtmlCompliance(bool)
+    Determines whether elements are automatically lowercased
+    for XHTML compliance. May also be passed to class constructor
+    as array element 'xhtml'.
+* Selectors are now properly parsed to ensure compliance
 
 Bugfixes:
-* Fixed setSameStyle functionality
+* #725  (Elements differentiated because of whitespace)
+* #998  (parseString failure to parse property value when it contained a colon)
+* #1066 (Trim property values in parseString)
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="HTML">
@@ -80,6 +74,30 @@ Bugfixes:
     </deps>
   </release>
   <changelog>
+  <release>
+    <version>0.3.1</version>
+    <date>2003-11-03</date>
+    <state>beta</state>
+    <notes>
+Warning:
+Major BC break!
+
+License change:
+Now PHP License 3.0
+
+New features:
+* Parse CSS from string (Laurent)
+* Read and parse CSS from file (Laurent)
+* Retrieve the settings of individual properties (Laurent)
+* Fully redesigned group handling
+* Output to file
+* Error handling introduced (Laurent)
+* Added unit tests (Laurent)
+
+Bugfixes:
+* Fixed setSameStyle functionality
+    </notes>
+  </release>
   <release>
     <version>0.3.0</version>
     <date>2003-11-03</date>
