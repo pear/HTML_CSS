@@ -87,8 +87,16 @@ class HTML_CSS_TestCase_getStyle extends PHPUnit_TestCase
     /**
      * Tests a getStyle method 
      *
-     * - fail1: wrong element
+     * - fail1: undefined element
+     * - fail2: undefined property
      */  
+    function test_getStyle_fail2()
+    {
+        $element = 'h2';
+        $val = $this->stylesheet->getStyle($element, 'width');
+        $this->_getResult();
+    }
+
     function test_getStyle_fail1()
     {
         $element = 'h1';
