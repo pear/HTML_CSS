@@ -18,8 +18,6 @@
 //
 // $Id$
 
-require_once 'PEAR.php';
-require_once 'HTML/Common.php';
 require_once 'HTML/CSS.php';
 
 /**
@@ -43,23 +41,8 @@ class HTML_CSS_Advanced extends HTML_CSS {
      */
     function HTML_CSS_Advanced()
     {
-        $commonVersion = 1.7;
-        if (HTML_Common::apiVersion() < $commonVersion) {
-            return PEAR::raiseError("HTML_CSS version " . $this->apiVersion() . " requires " .
-            "HTML_Common version 1.2 or greater.", 0, PEAR_ERROR_TRIGGER);
-        }
+        $this->HTML_CSS();
     }
-    
-    /**
-     * Returns the current API version
-     *
-     * @access   public
-     * @returns  double
-     */
-    function apiVersion()
-    {
-        return 0.1;
-    } // end func apiVersion
     
     /**
      * Sets or adds a CSS definition for a CSS definition group
@@ -78,23 +61,6 @@ class HTML_CSS_Advanced extends HTML_CSS {
         $this->_groups[$group]['properties'][][$property]= $value;
     } // end func setGroupStyle
 
-    /**
-     * Check if a group is valid (exists)
-     *
-     * @param    int     $group       CSS definition group identifier
-     * @param    sring   $method      comes from
-     * @returns  bool                 TRUE if group exists, PEAR error otherwise
-     * @access   private
-     */
-    function _checkGroup($group, $method)
-    {
-        if ($group < 0 || $group > $this->_groupCount) {
-            return PEAR::raiseError("HTML_CSS::$method() error: group $group does not exist.",
-                                        0, PEAR_ERROR_TRIGGER);
-        }
-        return true;
-    }
-    
     /**
      * Adds a CSS definition
      *
@@ -128,23 +94,6 @@ class HTML_CSS_Advanced extends HTML_CSS {
         }
     } // end func setSameStyle
     
-    /**
-     * Check if an element is valid (exists)
-     *
-     * @param    string  $element     Element already defined
-     * @param    sring   $method      comes from
-     * @returns  bool                 TRUE if group exists, PEAR error otherwise
-     * @access   private
-     */
-    function _checkElement($element, $method)
-    {
-        if (!isset($this->_css[$element])) {
-            return PEAR::raiseError("HTML_CSS::$method() error: element $element does not exist.",
-                                        0, PEAR_ERROR_TRIGGER);
-        }
-        return true;
-    }
-
     /**
      * Generates and returns the array of CSS properties
      *
