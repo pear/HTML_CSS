@@ -134,12 +134,13 @@ require_once 'PEAR/ErrorStack.php';
  * @var        integer
  * @since      0.3.3
  */
-define ('HTML_CSS_ERROR_INVALID_INPUT',   -100);
-define ('HTML_CSS_ERROR_INVALID_GROUP',   -101);
-define ('HTML_CSS_ERROR_NO_GROUP',        -102);
-define ('HTML_CSS_ERROR_NO_ELEMENT',      -103);
-define ('HTML_CSS_ERROR_NO_FILE',         -104);
-define ('HTML_CSS_ERROR_WRITE_FILE',      -105);
+define ('HTML_CSS_ERROR_INVALID_INPUT',         -100);
+define ('HTML_CSS_ERROR_INVALID_GROUP',         -101);
+define ('HTML_CSS_ERROR_NO_GROUP',              -102);
+define ('HTML_CSS_ERROR_NO_ELEMENT',            -103);
+define ('HTML_CSS_ERROR_NO_ELEMENT_PROPERTY',   -104);
+define ('HTML_CSS_ERROR_NO_FILE',               -105);
+define ('HTML_CSS_ERROR_WRITE_FILE',            -106);
 /**#@-*/
 
 /**
@@ -552,12 +553,31 @@ class HTML_CSS extends HTML_Common {
      */
     function getStyle($element, $property)
     {
+        $property_value = '';
         $element = $this->parseSelectors($element);
-        if (!isset($this->_css[$element])) {
+        if (!isset($this->_css[$element]) && !isset($this->_alibis[$element])) {
             return $this->raiseError(HTML_CSS_ERROR_NO_ELEMENT, 'error',
                 array('identifier' => $element));
         }
-        return $this->_css[$element][$property];
+        
+        if (isset($this->_alibis[$element])) {
+            foreach ($this->_alibis[$element]as $group_id => $empty) {
+                if (isset($this->_groups[$group_id]['properties'][$property])) {
+                    $property_value = $this->_groups[$group_id]['properties'][$property];
+                }
+            }
+        }
+        if (isset($this->_css[$element])) {
+            if (isset($this->_css[$element][$property])) {
+                $property_value = $this->_css[$element][$property];
+            }
+        }
+        if ($property_value == '') {
+            return $this->raiseError(HTML_CSS_ERROR_NO_ELEMENT_PROPERTY, 'error',
+                array('identifier' => $element, 
+                      'property'   => $property));
+        }
+        return $property_value;
     } // end func getStyle
     
     /**
@@ -636,7 +656,7 @@ class HTML_CSS extends HTML_Common {
     function parseString($str) 
     {
         // Remove comments
-        $str = preg_replace("/\/\*(.*)?\*\//Usi", "", $str);
+        $str = preg_replace("/\/\*(.*)?\*\//Usi", '', $str);
         
         // Parse each element of csscode
         $parts = explode("}",$str);
@@ -646,7 +666,8 @@ class HTML_CSS extends HTML_Common {
                 
                 // Parse each group of element in csscode
                 list($keystr,$codestr) = explode("{",$part);
-                $keystr = $this->parseSelectors($keystr, 0);
+                $key_a = $this->parseSelectors($keystr, 1);
+                $keystr = implode(', ', $key_a);
                 // Check if there are any groups.
                 if (strpos($keystr, ',')) {
                     $group = $this->createGroup($keystr);
@@ -654,10 +675,20 @@ class HTML_CSS extends HTML_Common {
                     // Parse each property of an element
                     $codes = explode(";",trim($codestr));
                     foreach ($codes as $code) {
-                        if (strlen($code) > 0) {
-                            $property = substr($code, 0 , strpos($code, ':'));
-                            $value    = substr($code, strpos($code, ':') + 1);
-                            $this->setGroupStyle($group, $property, trim($value));
+                        if (strlen(trim($code)) > 0) {
+                            // find the property and the value
+                            $property = trim(substr($code, 0 , strpos($code, ':', 0)));
+                            $value    = trim(substr($code, strpos($code, ':', 0) + 1));
+                            
+                            // check to see if this group comes after an individual
+                            // selector setting. If this is the case, the group setting
+                            // overrides the individual setting
+                            foreach ($key_a as $key) {
+                                if (isset($this->_css[$key][$property])) {
+                                    unset($this->_css[$key][$property]);
+                                }
+                            }
+                            $this->setGroupStyle($group, $property, $value);
                         }
                     }
                 } else {
@@ -668,8 +699,8 @@ class HTML_CSS extends HTML_Common {
                         // Parse each property of an element
                         $codes = explode(";",trim($codestr));
                         foreach ($codes as $code) {
-                            if (strlen($code) > 0) {
-                                $property = substr($code, 0 , strpos($code, ':'));
+                            if (strlen(trim($code)) > 0) {
+                                $property = trim(substr($code, 0 , strpos($code, ':')));
                                 $value    = substr($code, strpos($code, ':') + 1);
                                 $this->setStyle($key, $property, trim($value));
                             }
@@ -1007,6 +1038,8 @@ class HTML_CSS extends HTML_Common {
                 'group "%identifier%" does not exist ',
             HTML_CSS_ERROR_NO_ELEMENT => 
                 'element "%identifier%" does not exist ',
+            HTML_CSS_ERROR_NO_ELEMENT_PROPERTY => 
+                'element "%identifier%" does not have property "%property%" ',
             HTML_CSS_ERROR_NO_FILE => 
                 'filename "%identifier%" does not exist ',
             HTML_CSS_ERROR_WRITE_FILE =>
