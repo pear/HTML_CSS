@@ -475,11 +475,9 @@ class HTML_CSS extends HTML_Common {
         // Iterate through the array of properties for the supplied element
         // This allows for grouped elements definitions to work
         if (isset($this->_alibis[$element])) {
-            foreach ($alibis[$element] as $groups) {
-                foreach ($groups as $group => $status) {
-                    foreach ($this->_groups[$group]['properties'] as $key => $value) {
-                        $newCssArray[$key] = $value;
-                    }
+            foreach ($this->_alibis[$element] as $group => $status) {
+                foreach ($this->_groups[$group]['properties'] as $key => $value) {
+                    $newCssArray[$key] = $value;
                 }
             }
         }
