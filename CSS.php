@@ -457,7 +457,39 @@ class HTML_CSS extends HTML_Common {
      */
     function toArray()
     {
-        return $this->_css;
+        // initialize $alibis
+        $alibis = array();
+
+        $newCssArray = array();
+
+        // If there are groups, iterate through the array and generate the CSS
+        if ($this->_groupCount > 0 && count($this->_groups) > 0) {
+            foreach ($this->_groups as $group) {
+
+                // Start group definition
+                foreach ($group['selectors'] as $selector){
+                    $selector = trim($selector);
+                    $alibis[] = $selector;
+                }
+                $alibis = implode(', ',$alibis);
+
+                foreach ($group['properties'] as $key => $value) {
+                    $newCssArray[$alibis][$key] = $value;
+                }
+                unset($alibis);
+
+            }
+        }
+
+        // Iterate through the array and process each element
+        foreach ($this->_css as $element => $property) {
+
+            foreach ($property as $key => $value) {
+                $newCssArray[$element][$key] = $value;
+            }
+
+        }
+        return $newCssArray;
     } // end func toArray
     
     /**
