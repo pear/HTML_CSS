@@ -56,7 +56,7 @@ New features:
 * Added unit tests (Laurent)
 
 Bugfixes:
-* Examples updated
+* Fixed setSameStyle functionality
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="HTML">
@@ -101,7 +101,7 @@ New features:
 * Added unit tests (Laurent)
 
 Bugfixes:
-* Fixed setSameStyle functionality
+* Examples updated
     </notes>
     </release>
     <release>
