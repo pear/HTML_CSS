@@ -252,18 +252,23 @@ class HTML_CSS extends HTML_Common {
                 // Parse each group of element in csscode
                 list($keystr,$codestr) = explode("{",$part);
                 $keys = explode(",",trim($keystr));
-                foreach($keys as $key) {
-                    $key = trim($key);
+                $count = count($keys);
+                for ($i=0; $i<$count; $i++) {
+                    $key = trim($keys[$i]);
                     if (strlen($key) > 0) {
-                        
-                        // Parse each property of an element
-                        $codes = explode(";",trim($codestr));
-                        foreach ($codes as $code) {
-                            if (strlen($code) > 0) {
-                                list($property,$value) = explode(":",trim($code));
-                                $this->setStyle($key, $property, $value);
+                        if ($i != ($count - 1) ) {
+                            $this->setSameStyle($key, trim($keys[($count - 1)]));
+                        } else {
+
+                            // Parse each property of an element
+                            $codes = explode(";",trim($codestr));
+                            foreach ($codes as $code) {
+                                if (strlen($code) > 0) {
+                                    list($property,$value) = explode(":",trim($code));
+                                    $this->setStyle($key, $property, $value);
+                                }
                             }
-                        }
+                        }                        
                     }
                 }
             }
@@ -399,9 +404,11 @@ class HTML_CSS extends HTML_Common {
             $alibis = '';
             if (isset($property['other-elements']) && is_array($property['other-elements'])){
                 foreach ($property['other-elements'] as $int => $other) {
-                    $alibis .= "$other, ";
+                    $alibis[] = $other;
                 }
+                $alibis = implode(', ', $alibis) . ', ';
             }
+
             //start CSS element definition
             $strCss .= $tabs . $alibis . $element . ' {' . $lnEnd;
             
