@@ -46,11 +46,11 @@ Bug fixes
 
 Changes
 * Adds testcase for setXhtmlCompliance API
-* All unitTests are now fully PEAR_Error compatible</notes>
+* All unitTests are now fully PEAR_Error compatible
 
 Quality Assurance
 * This release follows the rules defined at 
-* http://pear.php.net/group/docs/20040226-vn.php
+* http://pear.php.net/group/docs/20040226-vn.php</notes>
     <deps>
       <dep type="pkg" rel="ge" version="1.2" optional="no">HTML_Common</dep>
       <dep type="pkg" rel="has" optional="no">PEAR</dep>
@@ -89,7 +89,7 @@ Quality Assurance
   </release>
   <changelog>
     <release>
-      <version>0.3.5</version>
+      <version>0.4.0</version>
       <date>2004-11-21</date>
       <license>PHP License 3.0</license>
       <state>beta</state>
@@ -102,7 +102,11 @@ Bug fixes
 
 Changes
 * Adds testcase for setXhtmlCompliance API
-* All unitTests are now fully PEAR_Error compatible</notes>
+* All unitTests are now fully PEAR_Error compatible
+
+Quality Assurance
+* This release follows the rules defined at 
+* http://pear.php.net/group/docs/20040226-vn.php</notes>
     </release>
     <release>
       <version>0.3.4</version>
