@@ -255,6 +255,7 @@ class HTML_CSS extends HTML_Common {
                 }
                 if ($this->_xhtmlCompliant){
                     $element = strtolower($element);
+                    $pseudo  = strtolower($element);
                 }
             }
             if ($outputMode == 2) {
