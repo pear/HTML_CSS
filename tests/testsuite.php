@@ -47,7 +47,6 @@ $title = 'PhpUnit test run, HTML_CSS class';
 	$testcases = array(
     	    'CSS_Api_TestCase'
 	);
-
 	
 	$suite = new PHPUnit_TestSuite();
 
@@ -60,7 +59,6 @@ $title = 'PhpUnit test run, HTML_CSS class';
         $result = TestUnit::run($suite, $listener);
 	$result->removeListener($listener);
 	$result->report();
-
 	?>
 </body>
 </html>
