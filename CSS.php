@@ -178,7 +178,7 @@ class HTML_CSS extends HTML_Common {
             return PEAR::raiseError("HTML_CSS version " . $this->apiVersion() . " requires " .
             "HTML_Common version 1.2 or greater.", 0, PEAR_ERROR_TRIGGER);
         }
-    }
+    } // end constructor HTML_CSS
     
     /**
      * Returns the current API version
@@ -341,7 +341,7 @@ class HTML_CSS extends HTML_Common {
                                         0, PEAR_ERROR_TRIGGER);
         }
         return true;
-    }
+    } // end func _checkGroup
     
     /**
      * Sets or adds a CSS definition
