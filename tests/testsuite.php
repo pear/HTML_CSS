@@ -45,7 +45,14 @@ $title = 'PhpUnit test run, HTML_CSS class';
 <h2>Tests</h2>
 	<?php
 	$testcases = array(
-    	    'CSS_Api_TestCase'
+            'HTML_CSS_TestCase_createGroup',
+            'HTML_CSS_TestCase_unsetGroup',
+            'HTML_CSS_TestCase_setGroupStyle',
+            'HTML_CSS_TestCase_getGroupStyle',
+            'HTML_CSS_TestCase_addGroupSelector',
+            'HTML_CSS_TestCase_removeGroupSelector',
+            'HTML_CSS_TestCase_getStyle',
+            'HTML_CSS_TestCase_setSameStyle',
 	);
 	
 	$suite = new PHPUnit_TestSuite();
