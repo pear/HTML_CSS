@@ -211,6 +211,15 @@ class HTML_CSS extends HTML_Common {
     var $_groupCount = 0;
 
     /**
+     * Defines whether to output all properties on one line
+     *
+     * @var     bool
+     * @since   0.3.3
+     * @access  private
+     */
+    var $_singleLine = false;
+
+    /**
      * Defines whether element selectors should be automatically lowercased.
      * Determines how parseSelectors treats the data.
      *
@@ -236,7 +245,8 @@ class HTML_CSS extends HTML_Common {
      *                   xhtml (sets xhtml compliance), tab (sets indent
      *                   string), cache (determines whether the nocache
      *                   headers are sent), filename (name of file to be
-     *                   parsed)
+     *                   parsed), oneline (bool, whether to output each
+     *                   definition on one line)
      * @since   0.2.0
      * @access  public
      */
@@ -256,12 +266,16 @@ class HTML_CSS extends HTML_Common {
             $this->setTab($attributes['tab']);
         }
         
+        if (isset($attributes['filename'])) {
+            $this->parseFile($attributes['filename']);
+        }
+        
         if (isset($attributes['cache'])) {
             $this->setCache($attributes['cache']);
         }
         
-        if (isset($attributes['filename'])) {
-            $this->parseFile($attributes['filename']);
+        if (isset($attributes['oneline'])) {
+            $this->setSingleLineOutput(true);
         }
     } // end constructor HTML_CSS
     
@@ -275,6 +289,19 @@ class HTML_CSS extends HTML_Common {
     function apiVersion()
     {
         return 0.3;
+    } // end func apiVersion
+    
+    /**
+     * Determines whether definitions are output single line or multiline
+     *
+     * @param    bool     $value
+     * @access   public
+     * @since    0.3.3
+     * @return   void
+     */
+    function setSingleLineOutput($value)
+    {
+        $this->_singleLine = $value;
     } // end func apiVersion
     
     /**
@@ -367,7 +394,7 @@ class HTML_CSS extends HTML_Common {
      * @access    public
      */
     function collapseInternalSpaces($subject){
-        $string = preg_replace("/\s+/", " ", $subject);
+        $string = preg_replace('/\s+/', ' ', $subject);
         return $string;
     } // end func collapseInternalSpaces
     
@@ -855,8 +882,8 @@ class HTML_CSS extends HTML_Common {
     {
         // get line endings
         $lnEnd = $this->_getLineEnd();
-        $tabs = $this->_getTabs();
-        $tab = $this->_getTab();
+        $tabs  = $this->_getTabs();
+        $tab   = $this->_getTab();
         
         // initialize $alibis
         $alibis = array();
@@ -871,40 +898,57 @@ class HTML_CSS extends HTML_Common {
         // If there are groups, iterate through the array and generate the CSS
         if (count($this->_groups) > 0) {
             foreach ($this->_groups as $group) {
-
+                
                 // Start group definition
                 foreach ($group['selectors'] as $selector){
                     $selector = trim($selector);
                     $alibis[] = $selector;
                 }
                 $alibis = implode(', ',$alibis);
-                $strCss .= $tabs . $alibis . ' {' . $lnEnd;
+                $definition = $alibis . ' {' . $lnEnd;
                 unset($alibis);
                 
                 // Add CSS definitions
                 foreach ($group['properties'] as $key => $value) {
-                    $strCss .= $tabs . $tab . $key . ': ' . $value . ';' . $lnEnd;
+                    $definition .= $tabs . $tab . $key . ': ' . $value . ';' . $lnEnd;
                 }
-                $strCss .= $tabs . '}' . $lnEnd;
+                $definition .= $tabs . '}';
+                
+                if ($this->_singleLine) {
+                    $definition = $this->collapseInternalSpaces($definition);
+                }
+                $strCss .= $lnEnd . $tabs . $definition . $lnEnd;
             }
         }
         
         // Iterate through the array and process each element
         foreach ($this->_css as $element => $property) {
-            $strCss .= $lnEnd;
 
             //start CSS element definition
-            $strCss .= $tabs . $element . ' {' . $lnEnd;
+            $definition = $element . ' {' . $lnEnd;
             
             foreach ($property as $key => $value) {
-                $strCss .= $tabs . $tab . $key . ': ' . $value . ';' . $lnEnd;
+                $definition .= $tabs . $tab . $key . ': ' . $value . ';' . $lnEnd;
             }
             
             // end CSS element definition
-            $strCss .= $tabs . '}' . $lnEnd;
+            $definition .= $tabs . '}';
+            
+            // if this is to be on a single line, collapse
+            if ($this->_singleLine) {
+                $definition = $this->collapseInternalSpaces($definition);
+            }
+            
+            // add to strCss
+            $strCss .= $lnEnd . $tabs . $definition . $lnEnd;
+        }
+        
+        if ($this->_singleLine) {
+            $strCss = str_replace($lnEnd.$lnEnd, $lnEnd, $strCss);
         }
         
         // Let's roll!
+        $strCss = preg_replace('/^(\n|\r\n|\r)/', '', $strCss);
         return $strCss;
     } // end func toString
     
