@@ -43,6 +43,30 @@ require_once "HTML/Common.php";
  * $css->display();
  * </code>
  *
+ * Example of group usage:
+ * <code>
+ * require_once 'HTML/CSS.php';
+ *
+ * $css = new HTML_CSS();
+ *
+ * // create new group
+ * $group1 = $css->createGroup('body, html');
+ * $group2 = $css->createGroup('p, div');
+ *
+ * // define styles
+ * $css->setGroupStyle($group1, 'background-color', '#0c0c0c');
+ * $css->setGroupStyle($group1, 'color', '#ffffff');
+ * $css->setGroupStyle($group2, 'text-align', 'left');
+ * $css->setGroupStyle($group2, 'background-color', '#ffffff');
+ * $css->setGroupStyle($group2, 'color', '#0c0c0c');
+ * $css->setStyle('h1', 'text-align', 'center');
+ * $css->setStyle('h1', 'font', '16pt helvetica, arial, sans-serif');
+ * $css->setStyle('p', 'font', '12pt helvetica, arial, sans-serif');
+ *
+ * // output the stylesheet directly to browser
+ * $css->display();
+ * </code>
+ *
  * Example in combination with HTML_Page:
  * <code>
  * require_once 'HTML/Page.php';
@@ -125,7 +149,23 @@ class HTML_CSS extends HTML_Common {
      * @access  private
      */
     var $_charset = 'iso-8859-1';
+
+    /**
+     * Contains grouped styles
+     *
+     * @var     array
+     * @access  private
+     */
+    var $_groups = array();
     
+    /**
+     * Number of CSS definition groups
+     *
+     * @var     int
+     * @access  private
+     */
+    var $_groupCount = 0;
+
     /**
      * Class constructor
      *
@@ -151,6 +191,108 @@ class HTML_CSS extends HTML_Common {
         return 0.3;
     } // end func apiVersion
     
+    /**
+     * Creates a new CSS definition group. Returns an integer identifying the group.
+     *
+     * @param    string  $selectors   Selector(s) to be defined, comma delimited.
+     * @returns  int
+     * @access   public
+     */
+    function createGroup($selectors)
+    {
+        $this->_groupCount++;
+        $selectors =  explode(',', $selectors);
+        foreach ($selectors as $selector) {
+            $selector = trim($selector);
+            $this->_groups[$this->_groupCount]['selectors'][] = $selector;
+            $this->_alibis[$selector][$this->_groupCount] = true;
+        }
+        return $this->_groupCount;
+    } // end func createGroup
+
+    /**
+     * Sets or adds a CSS definition for a CSS definition group
+     *
+     * @param    int     $group     CSS definition group identifier
+     * @access   public
+     */
+    function unsetGroup($group)
+    {
+        foreach ($this->_groups[$group]['selectors'] as $selector) {
+            unset ($this->_alibis[$selector][$group]);
+            if (count($this->_alibis[$selector]) == 0) {
+                unset($this->_alibis[$selector]);
+            }
+        }
+        unset($this->_groups[$group]);
+    } // end func unsetGroup
+
+    /**
+     * Sets or adds a CSS definition for a CSS definition group
+     *
+     * @param    int     $group     CSS definition group identifier
+     * @param    string  $property  Property defined
+     * @param    string  $value     Value assigned
+     * @access   public
+     */
+    function setGroupStyle($group, $property, $value)
+    {
+        $this->_groups[$group]['properties'][$property]= $value;
+    } // end func setGroupStyle
+
+    /**
+     * Returns a CSS definition for a CSS definition group
+     *
+     * @param    int     $group     CSS definition group identifier
+     * @param    string  $property  Property defined
+     * @returns  string
+     * @access   public
+     */
+    function getGroupStyle($group, $property)
+    {
+        return $this->_groups[$group]['properties'][$property];
+    } // end func getGroupStyle
+
+    /**
+     * Adds a selector to a CSS definition group.
+     *
+     * @param    int     $group       CSS definition group identifier
+     * @param    string  $selectors   Selector(s) to be defined, comma delimited.
+     * @returns  int
+     * @access   public
+     */
+    function addGroupSelector($group, $selectors)
+    {
+        $selectors =  explode(',', $selectors);
+        foreach ($selectors as $selector) {
+            $selector = trim($selector);
+            $this->_groups[$group]['selectors'][] = $selector;
+            $this->_alibis[$selector][$group] = true;
+        }
+    } // end func addGroupSelector
+
+    /**
+     * Removes a selector from a group.
+     *
+     * @param    int     $group       CSS definition group identifier
+     * @param    string  $selectors   Selector(s) to be removed, comma delimited.
+     * @returns  int
+     * @access   public
+     */
+    function removeGroupSelector($group, $selectors)
+    {
+        $selectors =  explode(',', $selectors);
+        foreach ($selectors as $selector) {
+            $selector = trim($selector);
+            foreach ($this->_groups[$group]['selectors'] as $key => $value) {
+                if ($value == $selector) {
+                    unset($this->_groups[$group]['selectors'][$key]);
+                }
+            }
+            unset($this->_alibis[$selector][$group]);
+        }
+    } // end func removeGroupSelector
+
     /**
      * Sets or adds a CSS definition
      *
@@ -179,17 +321,16 @@ class HTML_CSS extends HTML_Common {
     /**
      * Sets or adds a CSS definition
      *
-     * @param    string  $element   Element (or class) to be defined
-     * @param    string  $others    Other elements that share the definitions, separated by commas
+     * @param    string  $old    Selector that is already defined
+     * @param    string  $new    New selector(s) that should share the same definitions, separated by commas
      * @access   public
      */
-    function setSameStyle ($others, $element)
+    function setSameStyle ($new, $old)
     {
-        $others =  explode(',', $others);
+        $others =  explode(',', $new);
         foreach ($others as $other) {
             $other = trim($other);
-            $this->_css[$element]['other-elements'][] = $other;
-            $this->_alibis[$other][] = $element;
+            $this->_css[$other] = $this->_css[$old];
         }
     } // end func setSameStyle
     
@@ -251,24 +392,32 @@ class HTML_CSS extends HTML_Common {
                 
                 // Parse each group of element in csscode
                 list($keystr,$codestr) = explode("{",$part);
-                $keys = explode(",",trim($keystr));
-                $count = count($keys);
-                for ($i=0; $i<$count; $i++) {
-                    $key = trim($keys[$i]);
+                
+                // Check if there are any groups.
+                if (strpos($keystr, ',')) {
+                    $group = $this->createGroup($keystr);
+                    
+                    // Parse each property of an element
+                    $codes = explode(";",trim($codestr));
+                    foreach ($codes as $code) {
+                        if (strlen($code) > 0) {
+                            list($property,$value) = explode(":",trim($code));
+                            $this->setGroupStyle($group, $property, $value);
+                        }
+                    }
+                } else {
+                    
+                    // let's get on with regular definitions
+                    $key = trim($keystr);
                     if (strlen($key) > 0) {
-                        if ($i != ($count - 1) ) {
-                            $this->setSameStyle($key, trim($keys[($count - 1)]));
-                        } else {
-
-                            // Parse each property of an element
-                            $codes = explode(";",trim($codestr));
-                            foreach ($codes as $code) {
-                                if (strlen($code) > 0) {
-                                    list($property,$value) = explode(":",trim($code));
-                                    $this->setStyle($key, $property, $value);
-                                }
+                        // Parse each property of an element
+                        $codes = explode(";",trim($codestr));
+                        foreach ($codes as $code) {
+                            if (strlen($code) > 0) {
+                                list($property,$value) = explode(":",trim($code));
+                                $this->setStyle($key, $property, $value);
                             }
-                        }                        
+                        }
                     }
                 }
             }
@@ -325,11 +474,10 @@ class HTML_CSS extends HTML_Common {
         
         // Iterate through the array of properties for the supplied element
         // This allows for grouped elements definitions to work
-        if ($this->_alibis[$element]) {
-            $alibis = $this->_alibis[$element];
-            foreach ($alibis as $int => $newElement) {
-                foreach ($this->_css[$newElement] as $key => $value) {
-                    if ($key != 'other-elements') {
+        if (isset($this->_alibis[$element])) {
+            foreach ($alibis[$element] as $groups) {
+                foreach ($groups as $group => $status) {
+                    foreach ($this->_groups[$group]['properties'] as $key => $value) {
                         $newCssArray[$key] = $value;
                     }
                 }
@@ -391,6 +539,9 @@ class HTML_CSS extends HTML_Common {
         $tabs = $this->_getTabs();
         $tab = $this->_getTab();
         
+        // initialize $alibis
+        $alibis = array();
+        
         $strCss = '';
         
         // Allow a CSS comment
@@ -398,24 +549,36 @@ class HTML_CSS extends HTML_Common {
             $strCss = $tabs . '/* ' . $this->getComment() . ' */' . $lnEnd;
         }
         
+        // If there are groups, iterate through the array and generate the CSS
+        if ($this->_groupCount > 0 && count($this->_groups) > 0) {
+            foreach ($this->_groups as $group) {
+
+                // Start group definition
+                foreach ($group['selectors'] as $selector){
+                    $selector = trim($selector);
+                    $alibis[] = $selector;
+                }
+                $alibis = implode(', ',$alibis);
+                $strCss .= $tabs . $alibis . ' {' . $lnEnd;
+                unset($alibis);
+                
+                // Add CSS definitions
+                foreach ($group['properties'] as $key => $value) {
+                    $strCss .= $tabs . $tab . $key . ': ' . $value . ';' . $lnEnd;
+                }
+                $strCss .= $tabs . '}' . $lnEnd;
+            }
+        }
+        
         // Iterate through the array and process each element
         foreach ($this->_css as $element => $property) {
             $strCss .= $lnEnd;
-            $alibis = '';
-            if (isset($property['other-elements']) && is_array($property['other-elements'])){
-                foreach ($property['other-elements'] as $int => $other) {
-                    $alibis[] = $other;
-                }
-                $alibis = implode(', ', $alibis) . ', ';
-            }
 
             //start CSS element definition
-            $strCss .= $tabs . $alibis . $element . ' {' . $lnEnd;
+            $strCss .= $tabs . $element . ' {' . $lnEnd;
             
             foreach ($property as $key => $value) {
-                if ($key != 'other-elements') {
-                    $strCss .= $tabs . $tab . $key . ': ' . $value . ';' . $lnEnd;
-                }
+                $strCss .= $tabs . $tab . $key . ': ' . $value . ';' . $lnEnd;
             }
             
             // end CSS element definition
