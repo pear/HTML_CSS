@@ -206,12 +206,12 @@ class HTML_CSS extends HTML_Common {
      * modified selectors (depends on XHTML compliance setting;
      * defaults to ensure lowercase element names)
      *
-     * @param    string  $string      Selector string
+     * @param    string  $selectors   Selector string
      * @param    int     $outputMode  0 = string; 1 = array; 3 = deep array
      * @access   public
      * @return   mixed
      */
-    function selectorParse($string, $outputMode = 0)
+    function parseSelectors($string, $outputMode = 0)
     {
         $selectors =  explode(',', $string);
         foreach ($selectors as $selector) {
@@ -222,7 +222,7 @@ class HTML_CSS extends HTML_Common {
             $class   = '';
             $element = '';
             // check if it's an ID
-            if (strpos('#', $selector)){
+            if (strpos('#', $selector)) {
                 $id      = '#' . strstr($selector, '#');
             } else { // if it's not an ID, expect an element or a class
                 if (strpos('.', $selector)){
@@ -233,7 +233,7 @@ class HTML_CSS extends HTML_Common {
                     $element = strtolower($element);
                 }
             }
-            if ($outputMode = 2) {
+            if ($outputMode == 2) {
                 $array[]['element'] = $element;
                 $array[]['class']   = $class;
                 $array[]['id']      = $id;
@@ -246,13 +246,13 @@ class HTML_CSS extends HTML_Common {
             }
         }
 
-        if ($output = 0){
-            $o = implode(',', $array);
-            return $o;
+        if ($outputMode == 0) {
+            $output = implode(',', $array);
+            return $output;
         } else {
             return $array;
         }
-    } // end func _selectorParse
+    } // end func parseSelectors
 
     /**
      * Creates a new CSS definition group. Returns an integer identifying the group.
@@ -274,9 +274,8 @@ class HTML_CSS extends HTML_Common {
             }
             $group = $identifier;
         }
-        $selectors =  explode(',', $selectors);
+        $selectors = $this->parseSelectors($selectors, 1);
         foreach ($selectors as $selector) {
-            $selector = trim($selector);
             $this->_groups[$group]['selectors'][] = $selector;
             $this->_alibis[$selector][$group] = true;
         }
@@ -355,9 +354,8 @@ class HTML_CSS extends HTML_Common {
         if (PEAR::isError($grp)) {
             return $grp;
         }
-        $selectors =  explode(',', $selectors);
+        $selectors = $this->parseSelectors($selectors, 1);
         foreach ($selectors as $selector) {
-            $selector = trim($selector);
             $this->_groups[$group]['selectors'][] = $selector;
             $this->_alibis[$selector][$group] = true;
         }
@@ -377,9 +375,8 @@ class HTML_CSS extends HTML_Common {
         if (PEAR::isError($grp)) {
             return $grp;
         }
-        $selectors =  explode(',', $selectors);
+        $selectors =  $this->parseSelectors($selectors, 1);
         foreach ($selectors as $selector) {
-            $selector = trim($selector);
             foreach ($this->_groups[$group]['selectors'] as $key => $value) {
                 if ($value == $selector) {
                     unset($this->_groups[$group]['selectors'][$key]);
@@ -532,7 +529,7 @@ class HTML_CSS extends HTML_Common {
                 
                 // Parse each group of element in csscode
                 list($keystr,$codestr) = explode("{",$part);
-                
+                $keystr = $this->parseSelectors($keystr, 0);
                 // Check if there are any groups.
                 if (strpos($keystr, ',')) {
                     $group = $this->createGroup($keystr);
