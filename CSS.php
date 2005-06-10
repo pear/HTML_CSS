@@ -690,7 +690,8 @@ class HTML_CSS extends HTML_Common
             $property_value = $this->getGroupStyle($group, $property);
 
         }
-        if (isset($this->_css[$element])) {
+        if (isset($this->_css[$element]) && !isset($property_value)) {
+            $property_value = array();
             foreach ($this->_css[$element] as $rank => $prop) {
                  foreach ($prop as $key => $value) {
                      if ($key == $property) {
@@ -700,8 +701,9 @@ class HTML_CSS extends HTML_Common
             }
             if (count($property_value) == 1) {
                 $property_value = $property_value[0];
+            } elseif (count($property_value) == 0) {
+                unset($property_value);
             }
-
         }
 
         if (!isset($property_value)) {
