@@ -1,7 +1,7 @@
 <?php
 /**
  * API setGroupStyle Unit tests for HTML_CSS class.
- * 
+ *
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
@@ -41,7 +41,7 @@ class HTML_CSS_TestCase_setGroupStyle extends PHPUnit_TestCase
         unset($this->stylesheet);
     }
 
-    function _methodExists($name) 
+    function _methodExists($name)
     {
         if (substr(PHP_VERSION,0,1) < '5') {
             $n = strtolower($name);
@@ -68,18 +68,12 @@ class HTML_CSS_TestCase_setGroupStyle extends PHPUnit_TestCase
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-	}
+    }
     }
 
     /**
-     * Tests a setGroupStyle method 
-     */  
-    function test_setGroupStyle_fail_group_no_integer()
-    {
-        $gs = $this->stylesheet->setGroupStyle('1', 'color', '#ffffff');
-        $this->_getResult($gs);
-    }
-
+     * Tests a setGroupStyle method
+     */
     function test_setGroupStyle_fail_property_no_string()
     {
         $group1 = $this->css_grpcnt;
