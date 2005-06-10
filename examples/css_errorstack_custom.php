@@ -1,10 +1,25 @@
 <?php
 /**
  * Customize error renderer with PEAR_ErrorStack.
- * 
- * @version    $Id$
- * @author     Laurent Laville <pear@laurent-laville.org>
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   HTML
  * @package    HTML_CSS
+ * @subpackage Examples
+ * @author     Klaus Guenther <klaus@capitalfocus.org>
+ * @author     Laurent Laville <pear@laurent-laville.org>
+ * @copyright  1997-2005 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/HTML_CSS
+ * @since      File available since Release 1.0.0RC1
  */
 
 require_once 'HTML/CSS.php';
@@ -44,7 +59,7 @@ class HTML_CSS_ErrorStack
     function log($err)
     {
         global $prefs;
-        
+
         $lineFormat = '<b>%1$s:</b> %2$s<br/>[%3$s]<hr/>'."<br/>\n";
         $contextFormat = 'in <b>%1$s</b> on line <b>%2$s</b>';
 
@@ -56,26 +71,26 @@ class HTML_CSS_ErrorStack
         }
 
         $context = $err['context'];
-            
+
         if ($context) {
             $file  = $context['file'];
             $line  = $context['line'];
-                
+
             $contextExec = sprintf($contextFormat, $file, $line);
         } else {
             $contextExec = '';
         }
-    
-        printf($lineFormat, 
-               ucfirst(get_class($this)) . ' ' . $err['level'], 
-               $err['message'], 
-               $contextExec); 
+
+        printf($lineFormat,
+               ucfirst(get_class($this)) . ' ' . $err['level'],
+               $err['message'],
+               $contextExec);
     }
 
     function errorHandler($err)
     {
         global $halt_onException;
-        
+
         if ($halt_onException) {
             if ($err['level'] == 'exception') {
                 return PEAR_ERRORSTACK_DIE;
@@ -124,6 +139,6 @@ $css2->getStyle('h1', 'class');
 $css2->setXhtmlCompliance('true');
 
 
-print 'still alive !';  
+print 'still alive !';
 
 ?>
