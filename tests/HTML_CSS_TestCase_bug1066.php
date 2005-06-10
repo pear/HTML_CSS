@@ -1,7 +1,7 @@
 <?php
 /**
  * BUG #1066 regression test for HTML_CSS class.
- * 
+ *
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
@@ -44,7 +44,7 @@ html {
         unset($this->stylesheet);
     }
 
-    function _methodExists($name) 
+    function _methodExists($name)
     {
         if (substr(PHP_VERSION,0,1) < '5') {
             $n = strtolower($name);
@@ -71,20 +71,20 @@ html {
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-	}
+    }
     }
 
     /**
      * BUG#1066 Values are not trimmed
      *
-     */  
+     */
     function test_bug1066()
     {
         if (!$this->_methodExists('toArray')) {
             return;
         }
         $e = $css = $this->stylesheet->toArray();
-        if ($css['html']['display'] != 'block') {
+        if ($css['html'][0]['display'] != 'block') {
             $e = PEAR::raiseError('parseString incorrectly reads attribute values with spaces after colon',
                                   1066);
         }
