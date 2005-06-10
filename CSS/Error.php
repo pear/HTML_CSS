@@ -1,39 +1,50 @@
 <?php
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997 - 2005 The PHP Group                              |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Author:  Laurent Laville <pear@laurent-laville.org>                  |
-// +----------------------------------------------------------------------+
-//
-// $Id$
+/**
+ * This class creates a css error object, extending the PEAR_Error class
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   HTML
+ * @package    HTML_CSS
+ * @author     Laurent Laville <pear@laurent-laville.org>
+ * @copyright  1997-2005 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/HTML_CSS
+ */
 
 require_once 'PEAR.php';
 
 /**
- * This class creates a css error object, extending the PEAR_Error class
- * 
- * @author     Laurent Laville <pear@laurent-laville.org>
+ * This class creates a css error object, extending the PEAR_Error class.
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   HTML
  * @package    HTML_CSS
- * @version    @package_version@
+ * @author     Laurent Laville <pear@laurent-laville.org>
+ * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @access     public
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/HTML_CSS
  */
 
 class HTML_CSS_Error extends PEAR_Error
 {
-
     /**
-     * Constructor
+     * Constructor (ZE1)
      *
      * @since      1.0.0
      * @access     public
@@ -42,6 +53,20 @@ class HTML_CSS_Error extends PEAR_Error
                             $code = null,
                             $mode = null, $options = null,
                             $userinfo = null)
+    {
+        $this->__construct($message, $code, $mode, $options, $userinfo);
+    }
+
+    /**
+     * Constructor (ZE2)
+     *
+     * @since      1.0.0
+     * @access     public
+     */
+    function __construct($message = null,
+                         $code = null,
+                         $mode = null, $options = null,
+                         $userinfo = null)
     {
         if ($mode === null) {
             $mode = PEAR_ERROR_RETURN;
@@ -92,7 +117,7 @@ class HTML_CSS_Error extends PEAR_Error
             }
         }
     }
-    
+
     /**
      * Get error level from an error object
      *
@@ -131,7 +156,7 @@ class HTML_CSS_Error extends PEAR_Error
     /**
      * Returns the context of execution formatted.
      *
-     * @param      string    $format        the context of execution format 
+     * @param      string    $format        the context of execution format
      *
      * @return     string
      * @since      1.0.0
@@ -147,11 +172,11 @@ class HTML_CSS_Error extends PEAR_Error
             $context = $this->getBacktrace();
             $context = @array_pop($context);
         }
-   
+
         if ($context) {
             $file  = $context['file'];
             $line  = $context['line'];
-            
+
             if (isset($context['class'])) {
                 $func  = $context['class'];
                 $func .= $context['type'];
@@ -167,9 +192,9 @@ class HTML_CSS_Error extends PEAR_Error
     }
 
     /**
-     * Print an error message 
+     * Print an error message
      *
-     * @param      array     $userinfo      has of parameters 
+     * @param      array     $userinfo      has of parameters
      *
      * @return     void
      * @since      1.0.0
@@ -185,8 +210,8 @@ class HTML_CSS_Error extends PEAR_Error
         $displayConf = $userinfo['display'];
         $display = array_merge($displayDefault, $displayConf);
 
-        $contextExec = $this->_sprintContextExec($display['contextFormat']);
-        
+        $contextExec = $this->sprintContextExec($display['contextFormat']);
+
         return sprintf($display['lineFormat'] . $display['eol'], ucfirst($userinfo['level']), $this->getMessage(), $contextExec);
     }
 
@@ -216,7 +241,7 @@ class HTML_CSS_Error extends PEAR_Error
         $destination = '';
         $extra_headers = '';
         $send = true;
-                
+
         switch ($message_type) {
             case 0:  // LOG_TYPE_SYSTEM:
                 break;
@@ -236,8 +261,8 @@ class HTML_CSS_Error extends PEAR_Error
             $time = $time[1] + $time[0];
             $timestamp = isset($userinfo['time']) ? $userinfo['time'] : $time;
 
-            $contextExec = $this->_sprintContextExec($log['contextFormat']);
-            $message = sprintf($log['lineFormat'] . $log['eol'], 
+            $contextExec = $this->sprintContextExec($log['contextFormat']);
+            $message = sprintf($log['lineFormat'] . $log['eol'],
                            strftime($log['timeFormat'], $timestamp),
                            $log['ident'],
                            $userinfo['level'],
@@ -252,7 +277,7 @@ class HTML_CSS_Error extends PEAR_Error
      * Default internal error handler
      * Dies if the error is an exception (and would have died anyway)
      *
-     * @param      int       $code          a numeric error code. 
+     * @param      int       $code          a numeric error code.
      *                                      Valid are HTML_CSS_ERROR_* constants
      * @param      string    $level         error level ('exception', 'error', 'warning', ...)
      *
@@ -272,9 +297,9 @@ class HTML_CSS_Error extends PEAR_Error
     /**
      * User callback to generate error messages for any instance
      *
-     * @param      int       $code          a numeric error code. 
+     * @param      int       $code          a numeric error code.
      *                                      Valid are HTML_CSS_ERROR_* constants
-     * @param      mixed     $userinfo      if you need to pass along parameters 
+     * @param      mixed     $userinfo      if you need to pass along parameters
      *                                      for dynamic messages
      *
      * @return     string
@@ -284,7 +309,7 @@ class HTML_CSS_Error extends PEAR_Error
     function _msgCallback($code, $userinfo)
     {
         $errorMessages = HTML_CSS_Error::_getErrorMessage();
-        
+
         if (isset($errorMessages[$code])) {
             $mainmsg = $errorMessages[$code];
         } else {
@@ -327,15 +352,15 @@ class HTML_CSS_Error extends PEAR_Error
                 'invalid input, parameter #%paramnum% '
               . '"%var%" was expecting '
               . '"%expected%", instead got "%was%"',
-            HTML_CSS_ERROR_INVALID_GROUP => 
+            HTML_CSS_ERROR_INVALID_GROUP =>
                 'group "%identifier%" already exist ',
-            HTML_CSS_ERROR_NO_GROUP => 
+            HTML_CSS_ERROR_NO_GROUP =>
                 'group "%identifier%" does not exist ',
-            HTML_CSS_ERROR_NO_ELEMENT => 
+            HTML_CSS_ERROR_NO_ELEMENT =>
                 'element "%identifier%" does not exist ',
-            HTML_CSS_ERROR_NO_ELEMENT_PROPERTY => 
+            HTML_CSS_ERROR_NO_ELEMENT_PROPERTY =>
                 'element "%identifier%" does not have property "%property%" ',
-            HTML_CSS_ERROR_NO_FILE => 
+            HTML_CSS_ERROR_NO_FILE =>
                 'filename "%identifier%" does not exist ',
             HTML_CSS_ERROR_WRITE_FILE =>
                 'failed to write to "%filename%"'
