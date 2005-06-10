@@ -100,7 +100,7 @@ class HTML_CSS_TestCase_bug998 extends PHPUnit_TestCase
         if (!$this->_methodExists('toArray')) {
             return;
         }
-        $css = $this->stylesheet->toArray();
+        $e = $css = $this->stylesheet->toArray();
         if ($css['.min:before'][0]['content'] != '":"') {
             $e = PEAR::raiseError('parseString incorrectly reads attribute values with colons in',
                                   998);
