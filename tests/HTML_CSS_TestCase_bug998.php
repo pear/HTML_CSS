@@ -1,7 +1,7 @@
 <?php
 /**
  * BUG #998 regression test for HTML_CSS class.
- * 
+ *
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
@@ -46,7 +46,7 @@ class HTML_CSS_TestCase_bug998 extends PHPUnit_TestCase
         unset($this->stylesheet);
     }
 
-    function _methodExists($name) 
+    function _methodExists($name)
     {
         if (substr(PHP_VERSION,0,1) < '5') {
             $n = strtolower($name);
@@ -73,7 +73,7 @@ class HTML_CSS_TestCase_bug998 extends PHPUnit_TestCase
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-	}
+    }
     }
 
     /**
@@ -94,14 +94,14 @@ class HTML_CSS_TestCase_bug998 extends PHPUnit_TestCase
      * [.year:before] => Array ( [content] =>  "-" )
      * [.min:before] => Array ( [content] =>  ":" )
      * [.sec:before] => Array ( [content] =>  ":" )
-     */  
+     */
     function test_bug998()
     {
         if (!$this->_methodExists('toArray')) {
             return;
         }
-        $e = $css = $this->stylesheet->toArray();
-        if ($css['.min:before']['content'] != '":"') {
+        $css = $this->stylesheet->toArray();
+        if ($css['.min:before'][0]['content'] != '":"') {
             $e = PEAR::raiseError('parseString incorrectly reads attribute values with colons in',
                                   998);
         }
