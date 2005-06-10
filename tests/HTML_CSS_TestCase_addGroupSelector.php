@@ -1,10 +1,11 @@
 <?php
 /**
  * API addGroupSelector Unit tests for HTML_CSS class.
- * 
+ *
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
+ * @deprecated
  */
 
 require_once 'PEAR.php';
@@ -41,7 +42,7 @@ class HTML_CSS_TestCase_addGroupSelector extends PHPUnit_TestCase
         unset($this->stylesheet);
     }
 
-    function _methodExists($name) 
+    function _methodExists($name)
     {
         if (substr(PHP_VERSION,0,1) < '5') {
             $n = strtolower($name);
@@ -68,12 +69,12 @@ class HTML_CSS_TestCase_addGroupSelector extends PHPUnit_TestCase
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-	}
+    }
     }
 
     /**
-     * Tests a addGroupSelector method 
-     */  
+     * Tests a addGroupSelector method
+     */
     function test_addGroupSelector_fail_group_no_integer()
     {
         $group = '1';
