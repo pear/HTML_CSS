@@ -85,7 +85,6 @@ $options = array(
     'notes'             => $notes,
     'ignore'            => array('package.xml', 'package.php', 'Thumbs.db',
                                  'Advanced.php', 'CSS_Advanced.php',
-                                 '*GroupSelector.php', '*parseSelectors.php',
                                  ),
     'cleardependencies' => true
 );
