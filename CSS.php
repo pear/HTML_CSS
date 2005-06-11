@@ -287,10 +287,10 @@ class HTML_CSS extends HTML_Common
      *
      * @return     mixed|PEAR_Error
      * @since      0.3.2
-     * @access     private
+     * @access     protected
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      */
-    function _parseSelectors($selectors, $outputMode = 0)
+    function parseSelectors($selectors, $outputMode = 0)
     {
         if (!is_string($selectors)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
@@ -318,11 +318,11 @@ class HTML_CSS extends HTML_Common
         $i = 0;
         foreach ($selectors_array as $selector) {
             // trim to remove possible whitespace
-            $selector = trim($this->_collapseInternalSpaces($selector));
+            $selector = trim($this->collapseInternalSpaces($selector));
             if (strpos($selector, ' ')) {
                 $sel_a = array();
                 foreach(explode(' ', $selector) as $sub_selector) {
-                    $sel_a[] = $this->_parseSelectors($sub_selector, $outputMode);
+                    $sel_a[] = $this->parseSelectors($sub_selector, $outputMode);
                 }
                 if ($outputMode === 0) {
                         $array[$i] = implode(' ', $sel_a);
@@ -386,11 +386,13 @@ class HTML_CSS extends HTML_Common
     /**
      * Strips excess spaces in string.
      *
+     * @param      string    $subject       string to format
+     *
      * @return     string
      * @since      0.3.2
-     * @access     private
+     * @access     protected
      */
-    function _collapseInternalSpaces($subject)
+    function collapseInternalSpaces($subject)
     {
         $string = preg_replace('/\s+/', ' ', $subject);
         return $string;
@@ -452,12 +454,13 @@ class HTML_CSS extends HTML_Common
         }
 
         $groupIdent = '@-'.$group;
-        $this->_groups[$groupIdent] = $selectors;
 
-        $selectors = $this->_parseSelectors($selectors, 1);
+        $selectors = $this->parseSelectors($selectors, 1);
         foreach ($selectors as $selector) {
-            $this->_alibis[$selector] = $groupIdent;
+            $this->_alibis[$selector][] = $groupIdent;
         }
+
+        $this->_groups[$groupIdent] = $selectors;
 
         return $group;
     }
@@ -465,7 +468,7 @@ class HTML_CSS extends HTML_Common
     /**
      * Sets or adds a CSS definition for a CSS definition group
      *
-     * @param      int       $group         CSS definition group identifier
+     * @param      mixed     $group         CSS definition group identifier
      *
      * @return     void|PEAR_Error
      * @since      0.3.0
@@ -482,29 +485,33 @@ class HTML_CSS extends HTML_Common
                       'expected' => 'integer | string',
                       'paramnum' => 1));
         }
-        if (is_int($group)) {
-            if ($group < 0 || $group > $this->_groupCount) {
-                return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
-                    array('identifier' => $group));
-            }
+        $groupIdent = '@-'.$group;
+        if ($group < 0 || $group > $this->_groupCount ||
+            !isset($this->_groups[$groupIdent])) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group));
         }
 
-        $groupIdent = '@-'.$group;
-        if (isset($this->_groups[$groupIdent])) {
-            foreach ($this->_alibis as $selector => $grp) {
-                if ($grp == $groupIdent) {
-                    unset($this->_alibis[$selector]);
+        $alibis = $this->_alibis;
+        foreach ($alibis as $selector => $data) {
+            foreach ($data as $key => $value) {
+                if ($value == $groupIdent) {
+                    unset($this->_alibis[$selector][$key]);
+                    break;
                 }
             }
-            unset($this->_groups[$groupIdent]);
-            unset($this->_css[$groupIdent]);
+            if (count($this->_alibis[$selector]) == 0) {
+                unset($this->_alibis[$selector]);
+            }
         }
+        unset($this->_groups[$groupIdent]);
+        unset($this->_css[$groupIdent]);
     }
 
     /**
      * Sets or adds a CSS definition for a CSS definition group
      *
-     * @param      int       $group         CSS definition group identifier
+     * @param      mixed     $group         CSS definition group identifier
      * @param      string    $property      Property defined
      * @param      string    $value         Value assigned
      *
@@ -536,27 +543,29 @@ class HTML_CSS extends HTML_Common
                       'was' => gettype($value),
                       'expected' => 'string',
                       'paramnum' => 3));
+
         }
-        if (is_int($group)) {
-            if ($group < 0 || $group > $this->_groupCount) {
-                return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
-                    array('identifier' => $group));
-            }
+        $groupIdent = '@-'.$group;
+        if ($group < 0 || $group > $this->_groupCount ||
+            !isset($this->_groups[$groupIdent])) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group));
         }
 
-        $this->_css['@-'.$group][][$property]= $value;
+        $this->_css[$groupIdent][][$property]= $value;
     }
 
     /**
      * Returns a CSS definition for a CSS definition group
      *
-     * @param      int       $group         CSS definition group identifier
+     * @param      mixed     $group         CSS definition group identifier
      * @param      string    $property      Property defined
      *
      * @return     mixed|PEAR_Error
      * @since      0.3.0
      * @access     public
-     * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_GROUP
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_GROUP,
+     *             HTML_CSS_ERROR_NO_ELEMENT
      * @see        setGroupStyle()
      */
     function getGroupStyle($group, $property)
@@ -575,20 +584,16 @@ class HTML_CSS extends HTML_Common
                       'expected' => 'string',
                       'paramnum' => 2));
         }
-        if (is_int($group)) {
-            if ($group < 0 || $group > $this->_groupCount) {
-                return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
-                    array('identifier' => $group));
-            }
-        }
-        if (!isset($this->_css['@-'.$group])) {
-            return $this->raiseError(HTML_CSS_ERROR_NO_ELEMENT, 'error',
+        $groupIdent = '@-'.$group;
+        if ($group < 0 || $group > $this->_groupCount ||
+            !isset($this->_groups[$groupIdent])) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
                 array('identifier' => $group));
         }
 
         $styles = array();
 
-        foreach ($this->_css['@-'.$group] as $rank => $prop) {
+        foreach ($this->_css[$groupIdent] as $rank => $prop) {
              foreach ($prop as $key => $value) {
                  if ($key == $property) {
                      $styles[] = $value;
@@ -600,6 +605,85 @@ class HTML_CSS extends HTML_Common
             $styles = array_shift($styles);
         }
         return $styles;
+    }
+
+    /**
+     * Adds a selector to a CSS definition group.
+     *
+     * @param    mixed   $group       CSS definition group identifier
+     * @param    string  $selectors   Selector(s) to be defined, comma delimited.
+     *
+     * @return   void|PEAR_Error
+     * @since    0.3.0
+     * @access   public
+     * @throws   HTML_CSS_ERROR_NO_GROUP, HTML_CSS_ERROR_INVALID_INPUT
+     */
+    function addGroupSelector($group, $selectors)
+    {
+        $groupIdent = '@-'.$group;
+        if ($group < 0 || $group > $this->_groupCount ||
+            !isset($this->_groups[$groupIdent])) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group));
+
+        } elseif (!is_string($selectors)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$selectors',
+                      'was' => gettype($selectors),
+                      'expected' => 'string',
+                      'paramnum' => 2));
+        }
+
+        $newSelectors = $this->parseSelectors($selectors, 1);
+        foreach ($newSelectors as $selector) {
+            $this->_alibis[$selector][] = $groupIdent;
+        }
+
+        $oldSelectors = $this->_groups[$groupIdent];
+        $this->_groups[$groupIdent] = array_merge($oldSelectors, $newSelectors);
+    }
+
+    /**
+     * Removes a selector from a group.
+     *
+     * @param    mixed   $group       CSS definition group identifier
+     * @param    string  $selectors   Selector(s) to be removed, comma delimited.
+     *
+     * @return   void|PEAR_Error
+     * @since    0.3.0
+     * @access   public
+     * @throws   HTML_CSS_ERROR_NO_GROUP, HTML_CSS_ERROR_INVALID_INPUT
+     */
+    function removeGroupSelector($group, $selectors)
+    {
+        $groupIdent = '@-'.$group;
+        if ($group < 0 || $group > $this->_groupCount ||
+            !isset($this->_groups[$groupIdent])) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group));
+
+        } elseif (!is_string($selectors)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$selectors',
+                      'was' => gettype($selectors),
+                      'expected' => 'string',
+                      'paramnum' => 2));
+        }
+
+        $oldSelectors = $this->_groups[$groupIdent];
+        $selectors =  $this->parseSelectors($selectors, 1);
+        foreach ($selectors as $selector) {
+            foreach ($oldSelectors as $key => $value) {
+                if ($value == $selector) {
+                    unset($this->_groups[$groupIdent][$key]);
+                }
+            }
+            foreach ($this->_alibis[$selector] as $key => $value) {
+                if ($value == $groupIdent) {
+                    unset($this->_alibis[$selector][$key]);
+                }
+            }
+        }
     }
 
     /**
@@ -647,7 +731,7 @@ class HTML_CSS extends HTML_Common
                       'paramnum' => 1));
         }
 
-        $element = $this->_parseSelectors($element);
+        $element = $this->parseSelectors($element);
         $this->_css[$element][][$property] = $value;
     }
 
@@ -686,7 +770,9 @@ class HTML_CSS extends HTML_Common
         }
 
         if (isset($this->_alibis[$element])) {
-            $group = substr($this->_alibis[$element], 2);
+            $lastImplementation = array_keys($this->_alibis[$element]);
+            $lastImplementation = array_pop($lastImplementation);
+            $group = substr($this->_alibis[$element][$lastImplementation], 2);
             $property_value = $this->getGroupStyle($group, $property);
 
         }
@@ -742,7 +828,7 @@ class HTML_CSS extends HTML_Common
                       'paramnum' => 2));
         }
 
-        $old = $this->_parseSelectors($old);
+        $old = $this->parseSelectors($old);
         if (!isset($this->_css[$old])) {
             return $this->raiseError(HTML_CSS_ERROR_NO_ELEMENT, 'error',
                 array('identifier' => $old));
@@ -751,7 +837,7 @@ class HTML_CSS extends HTML_Common
         $selector = implode(', ', array($old, $new));
         $grp = $this->createGroup($selector, 'samestyleas_'.$old);
 
-        $others = $this->_parseSelectors($new, 1);
+        $others = $this->parseSelectors($new, 1);
         foreach ($others as $other) {
             $other = trim($other);
             foreach($this->_css[$old] as $rank => $property) {
@@ -848,6 +934,9 @@ class HTML_CSS extends HTML_Common
         // Remove comments
         $str = preg_replace("/\/\*(.*)?\*\//Usi", '', $str);
 
+        // Protect parser vs IE hack
+        $str = str_replace('"\"}\""', '#34#125#34', $str);
+
         // Parse each element of csscode
         $parts = explode("}",$str);
         foreach($parts as $part) {
@@ -856,7 +945,7 @@ class HTML_CSS extends HTML_Common
 
                 // Parse each group of element in csscode
                 list($keystr,$codestr) = explode("{",$part);
-                $key_a = $this->_parseSelectors($keystr, 1);
+                $key_a = $this->parseSelectors($keystr, 1);
                 $keystr = implode(', ', $key_a);
                 // Check if there are any groups.
                 if (strpos($keystr, ',')) {
@@ -869,6 +958,10 @@ class HTML_CSS extends HTML_Common
                             // find the property and the value
                             $property = trim(substr($code, 0 , strpos($code, ':', 0)));
                             $value    = trim(substr($code, strpos($code, ':', 0) + 1));
+                            // IE hack only
+                            if (strcasecmp($property, 'voice-family') == 0) {
+                                $value = str_replace('#34#125#34', '"\"}\""', $value);
+                            }
                             $this->setGroupStyle($group, $property, $value);
                         }
                     }
@@ -883,6 +976,10 @@ class HTML_CSS extends HTML_Common
                             if (strlen(trim($code)) > 0) {
                                 $property = trim(substr($code, 0 , strpos($code, ':')));
                                 $value    = substr($code, strpos($code, ':') + 1);
+                                // IE hack only
+                                if (strcasecmp($property, 'voice-family') == 0) {
+                                    $value = str_replace('#34#125#34', '"\"}\""', $value);
+                                }
                                 $this->setStyle($key, $property, trim($value));
                             }
                         }
@@ -963,8 +1060,10 @@ class HTML_CSS extends HTML_Common
 
         // This allows for grouped elements definitions to work
         if (isset($this->_alibis[$element])) {
-            $group = $this->_alibis[$element];
-            foreach ($this->_css[$group] as $rank => $property) {
+            $alibis = $this->_alibis[$element];
+            $lastImplementation = array_pop($alibis);
+
+            foreach ($this->_css[$lastImplementation] as $rank => $property) {
                 foreach ($property as $key => $value) {
                     $newCssArray[$key] = $value;
                 }
@@ -1050,7 +1149,7 @@ class HTML_CSS extends HTML_Common
 
             if (strpos($element, '@-') !== false) {
                 // its a group
-                $element = $this->_groups[$element];
+                $element = implode (', ', $this->_groups[$element]);
             }
             //start CSS element definition
             $definition = $element . ' {' . $lnEnd;
@@ -1066,7 +1165,7 @@ class HTML_CSS extends HTML_Common
 
             // if this is to be on a single line, collapse
             if ($this->_singleLine) {
-                $definition = $this->_collapseInternalSpaces($definition);
+                $definition = $this->collapseInternalSpaces($definition);
             }
 
             // add to strCss
