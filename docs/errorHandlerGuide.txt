@@ -1,0 +1,263 @@
+**********************
+ The HTML_CSS Package
+**********************
+
+-------------------------------------
+ User Documentation - Error Handling
+-------------------------------------
+
+:Author:        Laurent Laville
+:Contact:       pear@laurent-laville.org
+:Date:          $Date$
+:Revision:      $Revision$
+
+
+Using error Handler
+======================
+
+The HTML_CSS package is implemented with a flexibility error handler plug-in system.
+You may use any error handler that you want. Using PEAR_Error object (default),
+but also the PEAR_ErrorStack package, or any else you might want to plug.
+
+Without any configuration, each HTML_CSS API error (basic or exception) will raise
+a PEAR_Error instance that will be return to call script (user script).
+
+As usual you can check if API as well ended or not with :
+....
+::
+    require_once 'HTML/CSS.php';
+
+    $css = new HTML_CSS();
+
+    $result = $css->setStyle('div', 'color', 5);
+    if (PEAR::isError($result)) {
+        // do something when an error is raised
+    }
+....
+
+Output will look like:
+
+Exception: invalid input, parameter #3 "$value" was expecting "string", instead got "integer"
+in html_css->setstyle (file [...path_to...]\eh1.php on line 6)
+
+You can notice :
+- the error level:
+  Exception
+- the message body with context informations:
+  invalid input, parameter #3 "$value" was expecting "string", instead got "integer"
+- the context of call:
+  in html_css->setstyle (file [...path_to...]\eh1.php on line 6)
+
+Perharps this standard behaviour is not good for you. Don't worry, you can change
+everything :
+- display or ignore the error
+- display or hide part of message (error level, body, context)
+
+
+Configuring a Handler
+---------------------
+A error handler's configuration is determined by the arguments used in its
+construction.  Here's an overview of these parameters.
+....
+::
+    require_once 'HTML/CSS.php';
+
+    $errorConf = array('error_handler' => 'myErrorHandler',
+                       'push_callback' => 'myError',
+                       // ... more options
+                      );
+    $css = new HTML_CSS(null, $errorConf);
+....
+
+
++--------------------+-----------+----------------------------------------------+
+| Option             | Type      | Description                                  |
++====================+===========+==============================================+
+| `error_handler`    | callback  | A valid callback (function) to manage errors |
+|                    |           | raised by the HTML_CSS::raiseError() method. |
+|                    |           | Default is: HTML_CSS::_errorHandler          |
++--------------------+-----------+----------------------------------------------+
+| `push_callback`    | callback  | A valid callback (function) that decides to  |
+|                    |           | following action.                            |
+|                    |           | Default return: PEAR_ERROR_DIE if exception  |
+|                    |           | NULL otherwise                               |
++--------------------+-----------+----------------------------------------------+
+| `message_callback` | callback  | A valid callback (function) to control       |
+|                    |           | message generation.                          |
+|                    |           | Default is: HTML_CSS_Error::_msgCallback.    |
++--------------------+-----------+----------------------------------------------+
+| `context_callback` | callback  | A valid callback (function) to control       |
+|                    |           | error context generation.                    |
+|                    |           | Default is: HTML_CSS_Error::getBacktrace.    |
++--------------------+-----------+----------------------------------------------+
+
+Controlling error generation
+----------------------------
+There are many scenarios in which fine-grained control over error raising is
+absolutely necessary.
+
+If you want to ignore all errors raised  (no display, no logs) and avoid to include
+PEAR core class, then :
+....
+::
+    function myErrorHandler()
+    {
+        return null;
+    }
+
+    require_once 'HTML/CSS.php';
+
+    $errorConf = array('error_handler' => 'myErrorHandler');
+    $css = new HTML_CSS(null, $errorConf);
+
+....
+
+Option : `push_callback`
+
+The default error handling callback means that first exception will die the script
+(returns PEAR_ERROR_DIE constant) and continue for all others error levels
+(returns NULL).
+
+
+Error Context Display
+---------------------
+In some cases, you may want to customize error generation. For instance,
+for each error (basic/exception), it is useful to include file, line number,
+and class/function context information in order to trace it.
+Default option which will be sufficient for most cases but you want perharps customize
+the output format (render) of context information.
+
+You can change default render options with something like :
+....
+::
+    $displayConfig = array(
+        'lineFormat' => '<b>%1$s</b>: %2$s<br />%3$s<hr />',
+        'contextFormat' =>   '<b>File:</b> %1$s <br />'
+                           . '<b>Line:</b> %2$s <br />'
+                           . '<b>Function:</b> %3$s '
+    );
+    $logConfig = array(
+        'lineFormat' => '%1$s %2$s [%3$s] %4$s',
+        'timeFormat' => '%b'
+    );
+
+    $prefs = array(
+        'handler' => array('display' => $displayConfig,
+                           'log'     => $logConfig
+    ));
+
+    $css2 = new HTML_CSS(null, $prefs);
+
+....
+Default configuration options (display driver)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TIPS: If you don't wish context information to be in the error message, then remove
+      parameter %3$ in the ``lineFormat`` option even if ``contextFormat`` is sets.
+
++-------------------+-----------+---------------+---------------------------+
+| Parameter         | Type      | Default       | Description               |
++===================+===========+===============+===========================+
+| ``eol``           | String    | ``<br />\n``  | The end-on-line character |
+|                   |           |               | sequence.                 |
++-------------------+-----------+---------------+---------------------------+
+| ``lineFormat``    | String    | ``<b>%1$s</b> | Log line format           |
+|                   |           | : %2$s %3$s`` | specification.            |
+|                   |           |               | 1$ = error level          |
+|                   |           |               | 2$ = error message (body) |
+|                   |           |               | 3$ = error context        |
++-------------------+-----------+---------------+---------------------------+
+| ``contextFormat`` | String    | ``in          | Context format            |
+|                   |           | <b>%3$s</b>   | (class, file, line)       |
+|                   |           | (file <b>%1$s | specification.            |
+|                   |           | </b> on line  | 1$ = script file name     |
+|                   |           | <b>%2$s</b>`` | 2$ = line in script file  |
+|                   |           |               | 3$ = class/method names   |
++-------------------+-----------+---------------+---------------------------+
+
+Default configuration options (log driver)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TIPS: If you don't wish context information to be in the error message, then remove
+      parameter %5$ in the ``lineFormat`` option even if ``contextFormat`` is sets.
+
++-------------------+-----------+---------------+---------------------------+
+| Parameter         | Type      | Default       | Description               |
++===================+===========+===============+===========================+
+| ``eol``           | String    | ``\n``        | The end-on-line character |
+|                   |           |               | sequence.                 |
++-------------------+-----------+---------------+---------------------------+
+| ``lineFormat``    | String    | ``%1$s %2$s   | Log line format           |
+|                   |           | [%3$s] %4$s   | specification.            |
+|                   |           |  %5$s``       | $1 = time error           |
+|                   |           |               | $2 = ident (client ip)    |
+|                   |           |               | $3 = error level          |
+|                   |           |               | $4 = error message (body) |
+|                   |           |               | $5 = error context        |
++-------------------+-----------+---------------+---------------------------+
+| ``contextFormat`` | String    | ``in %3$s     | Context format            |
+|                   |           | (file %1$s    | (class, file, line)       |
+|                   |           | on line %2$s``| specification.            |
+|                   |           |               | 1$ = script file name     |
+|                   |           |               | 2$ = line in script file  |
+|                   |           |               | 3$ = class/method names   |
++-------------------+-----------+---------------+---------------------------+
+| ``timeFormat``    | String    | ``%b %d       | Time stamp format         |
+|                   |           | %H:%M:%S``    | (for strftime_).          |
++-------------------+-----------+---------------+---------------------------+
+| ``ident``         | String    | REMOTE_ADDR   | Client IP                 |
++-------------------+-----------+---------------+---------------------------+
+| ``message_type``  | String    | 3             | Destination type          |
+|                   |           |               | (for error_log).          |
++-------------------+-----------+---------------+---------------------------+
+| ``destination``   | String    | ``html_css_   | Destination name          |
+|                   |           | error.log``   | (for error_log).          |
++-------------------+-----------+---------------+---------------------------+
+| ``extra_headers`` | String    | NULL          | Extra headers depending   |
+|                   |           |               | of destination type.      |
++-------------------+-----------+---------------+---------------------------+
+
+
+Custom Error Message Generation
+-------------------------------
+There are two methods of HTML_CSS_Error designed for use with generating
+error messages efficiently. To use them, you must set the options below in
+the HTML_CSS class constructor (argument #2):
+
+Option : `message_callback`
+
+The default message handling callback get an array mapping error codes
+to error message templates (HTML_CSS_Error::_getErrorMessage) like so:
+....
+::
+    $messages = array(
+        HTML_CSS_ERROR_UNKNOWN =>
+            'unknown error',
+        HTML_CSS_ERROR_INVALID_INPUT =>
+            'invalid input, parameter #%paramnum% '
+          . '"%var%" was expecting '
+          . '"%expected%", instead got "%was%"'
+    );
+....
+
+Basically, if a variable name is enclosed in percent signs (%), it will be replaced
+with the value passed in the associative array.
+
+In such condition, you can change easily the message templates as you want.
+For instance, you could write french messages:
+....
+::
+    $messages = array(
+        HTML_CSS_ERROR_UNKNOWN =>
+            'Erreur inconnue',
+        HTML_CSS_ERROR_INVALID_INPUT =>
+            'entrée invalide, le paramètre #%paramnum% '
+          . '"%var%" contient un "%was%"; '
+          . 'il devrait contenir un "%expected%"'
+    );
+....
+
+Option : `context_callback`
+
+The default context handling callback get an array of execution functions and
+allows to retrieve where the error was generated (HTML_CSS_Error::getBackTrace),
+see also PEAR core class.
+
