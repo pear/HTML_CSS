@@ -5,7 +5,6 @@
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
- * @deprecated
  */
 
 require_once 'PEAR.php';
@@ -64,7 +63,7 @@ class HTML_CSS_TestCase_parseSelectors extends PHPUnit_TestCase
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-    }
+        }
     }
 
     /**

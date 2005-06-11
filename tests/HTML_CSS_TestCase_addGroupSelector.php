@@ -5,7 +5,6 @@
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
- * @deprecated
  */
 
 require_once 'PEAR.php';
@@ -75,13 +74,6 @@ class HTML_CSS_TestCase_addGroupSelector extends PHPUnit_TestCase
     /**
      * Tests a addGroupSelector method
      */
-    function test_addGroupSelector_fail_group_no_integer()
-    {
-        $group = '1';
-        $val = $this->stylesheet->addGroupSelector($group, 'body');
-        $this->_getResult($val);
-    }
-
     function test_addGroupSelector_fail_selectors_no_string()
     {
         $group = $this->css_grpcnt;

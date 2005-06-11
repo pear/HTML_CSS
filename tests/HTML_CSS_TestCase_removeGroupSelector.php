@@ -5,7 +5,6 @@
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
- * @deprecated
  */
 
 require_once 'PEAR.php';
@@ -69,19 +68,12 @@ class HTML_CSS_TestCase_removeGroupSelector extends PHPUnit_TestCase
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-    }
+        }
     }
 
     /**
      * Tests a removeGroupSelector method
      */
-    function test_removeGroupSelector_fail_group_no_integer()
-    {
-        $group = '1';
-        $val = $this->stylesheet->removeGroupSelector($group, 'body');
-        $this->_getResult($val);
-    }
-
     function test_removeGroupSelector_fail_selectors_no_string()
     {
         $group = $this->css_grpcnt;
