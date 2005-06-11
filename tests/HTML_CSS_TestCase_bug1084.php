@@ -74,12 +74,12 @@ class HTML_CSS_TestCase_bug1084 extends PHPUnit_TestCase
      */
     function test_bug1084()
     {
-        if (!$this->_methodExists('_parseSelectors')) {
+        if (!$this->_methodExists('parseSelectors')) {
             return;
         }
 
         $sa = '#heading .shortname';
-        $a = $this->stylesheet->_parseSelectors($sa);
+        $a = $this->stylesheet->parseSelectors($sa);
         if ($a != $sa) {
             $a = PEAR::raiseError('parseSelectors incorrectly assumes selector structure "'
                                   . $sa . '"',
@@ -88,7 +88,7 @@ class HTML_CSS_TestCase_bug1084 extends PHPUnit_TestCase
         $this->_getResult($a);
 
         $sb = '#heading .icon';
-        $b = $this->stylesheet->_parseSelectors($sb);
+        $b = $this->stylesheet->parseSelectors($sb);
         if ($b != $sb) {
             $b = PEAR::raiseError('parseSelectors incorrectly assumes selector structure "'
                                   . $sb . '"',
@@ -97,7 +97,7 @@ class HTML_CSS_TestCase_bug1084 extends PHPUnit_TestCase
         $this->_getResult($b);
 
         $sc = '#heading .icon img';
-        $c = $this->stylesheet->_parseSelectors($sc);
+        $c = $this->stylesheet->parseSelectors($sc);
         if ($c != $sc) {
             $c = PEAR::raiseError('parseSelectors incorrectly assumes selector structure "'
                                   . $sc . '"',
@@ -106,7 +106,7 @@ class HTML_CSS_TestCase_bug1084 extends PHPUnit_TestCase
         $this->_getResult($c);
 
         $sd = 'a#heading.icon:active';
-        $d = $this->stylesheet->_parseSelectors($sd);
+        $d = $this->stylesheet->parseSelectors($sd);
         if ($d != $sd) {
             $d = PEAR::raiseError('parseSelectors does not correctly parse selector structure "'
                                   . $sd . '"',
@@ -115,7 +115,7 @@ class HTML_CSS_TestCase_bug1084 extends PHPUnit_TestCase
         $this->_getResult($d);
 
         $se = '#heading';
-        $e = $this->stylesheet->_parseSelectors($se);
+        $e = $this->stylesheet->parseSelectors($se);
         if ($e != $se) {
             $e = PEAR::raiseError('parseSelectors does not correctly parse selector structure "'
                                   . $se . '"',
