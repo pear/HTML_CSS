@@ -128,6 +128,7 @@ handleError($e);
 if (!isset($_GET['make'])) {
     echo '<a href="' . $_SERVER['PHP_SELF'] . '?make=1">Make this XML file</a>';
 } else {
+    $options = $pkg->getOptions();
     $pkgfile = $options['packagedirectory'] . DIRECTORY_SEPARATOR . $options['packagefile'];
 
     $pkgbin = new PEAR_Packager();
