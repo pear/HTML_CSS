@@ -15,7 +15,7 @@
 Using error Handler
 ======================
 
-The HTML_CSS package is implemented with a flexibility error handler plug-in system.
+The HTML_CSS package is implemented with a flexible error handler plug-in system.
 You may use any error handler that you want. Using PEAR_Error object (default),
 but also the PEAR_ErrorStack package, or any else you might want to plug.
 
@@ -114,9 +114,9 @@ PEAR core class, then :
 
 Option : `push_callback`
 
-The default error handling callback means that first exception will die the script
-(returns PEAR_ERROR_DIE constant) and continue for all others error levels
-(returns NULL).
+The default error handling callback means that first exception will kill the script
+(returns PEAR_ERROR_DIE constant) and all other error levels will allow the script to
+continue normally (returns NULL).
 
 
 Error Context Display
@@ -151,7 +151,7 @@ You can change default render options with something like :
 ....
 Default configuration options (display driver)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-TIPS: If you don't wish context information to be in the error message, then remove
+TIPS: If you don't want context information to be in the error message, then remove
       parameter %3$ in the ``lineFormat`` option even if ``contextFormat`` is sets.
 
 +-------------------+-----------+---------------+---------------------------+
