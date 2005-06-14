@@ -17,13 +17,13 @@ Using error Handler
 
 The HTML_CSS package is implemented with a flexible error handler plug-in 
 system. You may use any error handler that you want. Using PEAR_Error object 
-(default), but also the PEAR_ErrorStack package, or any else you might want 
-to plug.
+(default), but also the PEAR_ErrorStack package, or any other error handler 
+you might want to plug in.
 
 Without any configuration, each HTML_CSS API error (basic or exception) will 
 raise a PEAR_Error instance that will be return to call script (user script).
 
-As usual you can check if API as well ended or not with :
+As usual you can use the PEAR error API as well:
 ....
 ::
     require_once 'HTML/CSS.php';
@@ -42,7 +42,7 @@ Exception: invalid input, parameter #3 "$value" was expecting "string",
 instead got "integer" in html_css->setstyle (file 
 [...path_to...]\eh1.php on line 6)
 
-You can notice :
+You can notice the following:
 - the error level:
   Exception
 - the message body with context informations:
@@ -51,7 +51,7 @@ You can notice :
 - the context of call:
   in html_css->setstyle (file [...path_to...]\eh1.php on line 6)
 
-Perharps this standard behaviour is not good for you. Don't worry, you can 
+Perhaps this standard behaviour is not what you want. Don't worry, you can 
 change everything :
 - display or ignore the error
 - display or hide part of message (error level, body, context)
@@ -128,9 +128,9 @@ Error Context Display
 ---------------------
 In some cases, you may want to customize error generation. For instance,
 for each error (basic/exception), it is useful to include file, line number,
-and class/function context information in order to trace it.
-Default option which will be sufficient for most cases but you want perharps 
-customize the output format (render) of context information.
+and class/function context information in order to trace it. The default 
+option will be sufficient for most cases but you want perhaps customize the 
+output format (render) of context information.
 
 You can change default render options with something like :
 ....
@@ -157,7 +157,7 @@ You can change default render options with something like :
 Default configuration options (display driver)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 TIPS: If you don't want context information to be in the error message, then 
-      remove parameter %3$ in the ``lineFormat`` option even if 
+      remove the parameter %3$ in the ``lineFormat`` option even if 
       ``contextFormat`` is sets.
 
 +-------------------+-----------+---------------+---------------------------+
@@ -183,8 +183,8 @@ TIPS: If you don't want context information to be in the error message, then
 Default configuration options (log driver)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 TIPS: If you don't wish context information to be in the error message, then 
-      remove parameter %5$ in the ``lineFormat`` option even if 
-      ``contextFormat`` is sets.
+      remove the parameter %5$ in the ``lineFormat`` option even if 
+      ``contextFormat`` is set.
 
 +-------------------+-----------+---------------+---------------------------+
 | Parameter         | Type      | Default       | Description               |
@@ -229,7 +229,7 @@ There are two methods of HTML_CSS_Error designed for use with generating
 error messages efficiently. To use them, you must set the options below in
 the HTML_CSS class constructor (argument #2):
 
-Option : `message_callback`
+Option: `message_callback`
 
 The default message handling callback get an array mapping error codes
 to error message templates (HTML_CSS_Error::_getErrorMessage) like so:
@@ -264,7 +264,7 @@ For instance, you could write french messages:
 
 Option : `context_callback`
 
-The default context handling callback get an array of execution functions and
-allows to retrieve where the error was generated 
+The default context handling callback gets an array of execution functions 
+and discovers where the error was generated 
 (HTML_CSS_Error::getBackTrace), see also PEAR core class.
 
