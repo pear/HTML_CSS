@@ -25,6 +25,16 @@
 
 require_once 'HTML/Common.php';
 
+/**
+ * Defines whether to allow duplicate selectors or not
+ *
+ * @var        bool
+ * @since      1.0.0
+ */
+if (!defined('HTML_CSS_ALLOW_DUPLICATES')) {
+    define('HTML_CSS_ALLOW_DUPLICATES', false);
+}
+
 /**#@+
  * Basic error codes
  *
@@ -106,6 +116,15 @@ class HTML_CSS extends HTML_Common
     var $_charset = 'iso-8859-1';
 
     /**
+     * Contains last assigned index for duplicate styles
+     *
+     * @var        array
+     * @since      0.3.0
+     * @access     private
+     */
+    var $_duplicateCounter = 0;
+
+    /**
      * Contains grouped styles
      *
      * @var        array
@@ -113,6 +132,15 @@ class HTML_CSS extends HTML_Common
      * @access     private
      */
     var $_groups = array();
+
+    /**
+     * Determines whether groups are output prior to elements
+     *
+     * @var        array
+     * @since      0.3.0
+     * @access     private
+     */
+    var $_groupsFirst = true;
 
     /**
      * Number of CSS definition groups
@@ -211,7 +239,8 @@ class HTML_CSS extends HTML_Common
      *                                       tab (sets indent string),
      *                                       filename (name of file to be parsed),
      *                                       cache (determines whether the nocache headers are sent),
-     *                                       oneline (whether to output each definition on one line)
+     *                                       oneline (whether to output each definition on one line),
+     *                                       groupsfirst (determines whether to output groups before elements)
      * @param      array     $prefs         (optional) has to configure error handler
      *
      * @since      0.2.0
@@ -238,6 +267,11 @@ class HTML_CSS extends HTML_Common
         }
         if (isset($attributes['oneline'])) {
             $this->setSingleLineOutput(true);
+        }
+        if (isset($attributes['groupsfirst'])) {
+            if(is_bool($attributes['groupsfirst'])) {
+                $this->setOutputGroupsFirst($attributes['groupsfirst']);
+            }
         }
     }
 
@@ -274,6 +308,28 @@ class HTML_CSS extends HTML_Common
                       'paramnum' => 1));
         }
         $this->_singleLine = $value;
+    }
+
+    /**
+     * Determines whether groups are output before elements or not
+     *
+     * @param      bool      $value
+     *
+     * @return     void|PEAR_Error
+     * @since      0.3.3
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT
+     */
+    function setOutputGroupsFirst($value)
+    {
+        if (!is_bool($value)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$value',
+                      'was' => gettype($value),
+                      'expected' => 'boolean',
+                      'paramnum' => 1));
+        }
+        $this->_groupsFirst = $value;
     }
 
     /**
@@ -514,14 +570,16 @@ class HTML_CSS extends HTML_Common
      * @param      mixed     $group         CSS definition group identifier
      * @param      string    $property      Property defined
      * @param      string    $value         Value assigned
+     * @param      string    $duplicates    Value assigned
      *
-     * @return     void|PEAR_Error
+     * @return     void|int|PEAR_Error     Returns an integer if duplicates
+     *                                     are allowed.
      * @since      0.3.0
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_GROUP
      * @see        getGroupStyle()
      */
-    function setGroupStyle($group, $property, $value)
+    function setGroupStyle($group, $property, $value, $duplicates = HTML_CSS_ALLOW_DUPLICATES)
     {
         if (!is_int($group) && !is_string($group)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
@@ -544,7 +602,14 @@ class HTML_CSS extends HTML_Common
                       'expected' => 'string',
                       'paramnum' => 3));
 
+        } elseif (!is_bool($duplicates)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$duplicates',
+                      'was' => gettype($duplicates),
+                      'expected' => 'bool',
+                      'paramnum' => 4));
         }
+
         $groupIdent = '@-'.$group;
         if ($group < 0 || $group > $this->_groupCount ||
             !isset($this->_groups[$groupIdent])) {
@@ -552,7 +617,13 @@ class HTML_CSS extends HTML_Common
                 array('identifier' => $group));
         }
 
-        $this->_css[$groupIdent][][$property]= $value;
+        if($duplicates === true) {
+            $this->_duplicateCounter++;
+            $this->_css[$groupIdent][$this->_duplicateCounter][$property]= $value;
+            return $this->_duplicateCounter;
+        } else {
+            $this->_css[$groupIdent][$property]= $value;
+        }
     }
 
     /**
@@ -594,11 +665,15 @@ class HTML_CSS extends HTML_Common
         $styles = array();
 
         foreach ($this->_css[$groupIdent] as $rank => $prop) {
-             foreach ($prop as $key => $value) {
-                 if ($key == $property) {
-                     $styles[] = $value;
-                 }
-             }
+            // if the style is not duplicate
+            if (!is_numeric($rank)) {
+                $prop = array($rank => $prop);
+            }
+            foreach ($prop as $key => $value) {
+                if ($key == $property) {
+                    $styles[] = $value;
+                }
+            }
         }
 
         if (count($styles) < 2) {
@@ -692,6 +767,7 @@ class HTML_CSS extends HTML_Common
      * @param      string    $element       Element (or class) to be defined
      * @param      string    $property      Property defined
      * @param      string    $value         Value assigned
+     * @param      bool      $duplicates    Allow or disallow duplicates.
      *
      * @return     void|PEAR_Error
      * @since      0.2.0
@@ -699,7 +775,7 @@ class HTML_CSS extends HTML_Common
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      * @see        getStyle()
      */
-    function setStyle ($element, $property, $value)
+    function setStyle ($element, $property, $value, $duplicates = HTML_CSS_ALLOW_DUPLICATES)
     {
         if (!is_string($element)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
@@ -729,10 +805,23 @@ class HTML_CSS extends HTML_Common
                       'was' => $element,
                       'expected' => 'string without comma',
                       'paramnum' => 1));
+
+        } elseif (!is_bool($duplicates)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$duplicates',
+                      'was' => gettype($duplicates),
+                      'expected' => 'bool',
+                      'paramnum' => 4));
         }
 
         $element = $this->parseSelectors($element);
-        $this->_css[$element][][$property] = $value;
+        if($duplicates === true) {
+            $this->_duplicateCounter++;
+            $this->_css[$element][$this->_duplicateCounter][$property]= $value;
+            return $this->_duplicateCounter;
+        } else {
+            $this->_css[$element][$property]= $value;
+        }
     }
 
     /**
@@ -779,6 +868,9 @@ class HTML_CSS extends HTML_Common
         if (isset($this->_css[$element]) && !isset($property_value)) {
             $property_value = array();
             foreach ($this->_css[$element] as $rank => $prop) {
+                if(!is_numeric($rank)) {
+                    $prop = array($rank => $prop);
+                }
                  foreach ($prop as $key => $value) {
                      if ($key == $property) {
                          $property_value[] = $value;
@@ -840,7 +932,10 @@ class HTML_CSS extends HTML_Common
         $others = $this->parseSelectors($new, 1);
         foreach ($others as $other) {
             $other = trim($other);
-            foreach($this->_css[$old] as $rank => $property) {
+            foreach ($this->_css[$old] as $rank => $property) {
+                if (!is_numeric($rank)) {
+                    $property = array($rank => $property);
+                }
                 foreach ($property as $key => $value) {
                     $this->setGroupStyle($grp, $key, $value);
                 }
@@ -914,6 +1009,7 @@ class HTML_CSS extends HTML_Common
      * Parse a textstring that contains css information
      *
      * @param      string    $str           text string to parse
+     * @param      bool      $duplicates    Allows or disallows duplicate style definitions
      *
      * @return     void|PEAR_Error
      * @since      0.3.0
@@ -921,7 +1017,7 @@ class HTML_CSS extends HTML_Common
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      * @see        createGroup(), setGroupStyle(), setStyle()
      */
-    function parseString($str)
+    function parseString($str, $duplicates = HTML_CSS_ALLOW_DUPLICATES)
     {
         if (!is_string($str)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
@@ -962,7 +1058,7 @@ class HTML_CSS extends HTML_Common
                             if (strcasecmp($property, 'voice-family') == 0) {
                                 $value = str_replace('#34#125#34', '"\"}\""', $value);
                             }
-                            $this->setGroupStyle($group, $property, $value);
+                            $this->setGroupStyle($group, $property, $value, $duplicates);
                         }
                     }
                 } else {
@@ -980,7 +1076,7 @@ class HTML_CSS extends HTML_Common
                                 if (strcasecmp($property, 'voice-family') == 0) {
                                     $value = str_replace('#34#125#34', '"\"}\""', $value);
                                 }
-                                $this->setStyle($key, $property, trim($value));
+                                $this->setStyle($key, $property, trim($value), $duplicates);
                             }
                         }
                     }
@@ -1061,11 +1157,14 @@ class HTML_CSS extends HTML_Common
         // This allows for grouped elements definitions to work
         if (isset($this->_alibis[$element])) {
             $alibis = $this->_alibis[$element];
-            $lastImplementation = array_pop($alibis);
 
-            foreach ($this->_css[$lastImplementation] as $rank => $property) {
-                foreach ($property as $key => $value) {
-                    $newCssArray[$key] = $value;
+            // All the groups must be run through to be able to 
+            // properly assign the value to the inline.
+            foreach ($alibis as $alibi) {
+                foreach ($this->_css[$alibi] as $rank => $property) {
+                    foreach ($property as $key => $value) {
+                        $newCssArray[$key] = $value;
+                    }
                 }
             }
         }
@@ -1073,6 +1172,9 @@ class HTML_CSS extends HTML_Common
         // This allows for single elements definitions to work
         if (isset($this->_css[$element])) {
             foreach ($this->_css[$element] as $rank => $property) {
+                if (!is_numeric($rank)) {
+                    $property = array($rank => $property);
+                }
                 foreach ($property as $key => $value) {
                     if ($key != 'other-elements') {
                         $newCssArray[$key] = $value;
@@ -1144,17 +1246,32 @@ class HTML_CSS extends HTML_Common
             $strCss = $tabs . '/* ' . $this->getComment() . ' */' . $lnEnd;
         }
 
-        // Iterate through the array and process each element
-        foreach ($this->_css as $element => $rank) {
+        // If groups are to be output first, initialize a special variable
+        if ($this->_groupsFirst) {
+            $strCssElements = '';
+        }
 
-            if (strpos($element, '@-') !== false) {
+        // Iterate through the array and process each element
+        foreach ($this->_css as $identifier => $rank) {
+
+            // Groups are handled separately
+            if (strpos($identifier, '@-') !== false) {
                 // its a group
-                $element = implode (', ', $this->_groups[$element]);
+                $element = implode (', ', $this->_groups[$identifier]);
+            } else {
+                $element = $identifier;
             }
-            //start CSS element definition
+
+            // Start CSS element definition
             $definition = $element . ' {' . $lnEnd;
 
+            // Iterate through the array of properties
             foreach ($rank as $pos => $property) {
+                // check to see if it is a duplicate
+                if (!is_numeric($pos)) {
+                    $property = array($pos => $property);
+                    unset($pos);
+                }
                 foreach ($property as $key => $value) {
                     $definition .= $tabs . $tab . $key . ': ' . $value . ';' . $lnEnd;
                 }
@@ -1168,8 +1285,19 @@ class HTML_CSS extends HTML_Common
                 $definition = $this->collapseInternalSpaces($definition);
             }
 
-            // add to strCss
-            $strCss .= $lnEnd . $tabs . $definition . $lnEnd;
+            // if groups are to be output first, elements must be placed in a
+            // different string which will be appended in the end
+            if ($this->_groupsFirst === true && strpos($identifier, '@-') === false) {
+                // add to elements
+                $strCssElements .= $lnEnd . $tabs . $definition . $lnEnd;
+            } else {
+                // add to strCss
+                $strCss .= $lnEnd . $tabs . $definition . $lnEnd;
+            }
+        }
+
+        if ($this->_groupsFirst) {
+            $strCss .= $strCssElements;
         }
 
         if ($this->_singleLine) {
@@ -1190,7 +1318,7 @@ class HTML_CSS extends HTML_Common
      */
     function display()
     {
-        if(! $this->_cache) {
+        if($this->_cache !== true) {
             header("Expires: Tue, 1 Jan 1980 12:00:00 GMT");
             header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
             header("Cache-Control: no-cache");
