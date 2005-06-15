@@ -97,11 +97,11 @@ class HTML_CSS_TestCase_bug998 extends PHPUnit_TestCase
      */
     function test_bug998()
     {
-        if (!$this->_methodExists('toArray')) {
+        if (!$this->_methodExists('getStyle')) {
             return;
         }
-        $e = $css = $this->stylesheet->toArray();
-        if ($css['.min:before'][0]['content'] != '":"') {
+        $e = $css = $this->stylesheet->getStyle('.sec:before', 'content');
+        if ($css != '":"') {
             $e = PEAR::raiseError('parseString incorrectly reads attribute values with colons in',
                                   998);
         }

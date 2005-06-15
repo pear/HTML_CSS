@@ -80,11 +80,12 @@ html {
      */
     function test_bug1066()
     {
-        if (!$this->_methodExists('toArray')) {
+        if (!$this->_methodExists('getStyle')) {
             return;
         }
-        $e = $css = $this->stylesheet->toArray();
-        if ($css['html'][0]['display'] != 'block') {
+
+        $e = $css = $this->stylesheet->getStyle('html', 'display');
+        if ($css != 'block') {
             $e = PEAR::raiseError('parseString incorrectly reads attribute values with spaces after colon',
                                   1066);
         }
