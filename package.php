@@ -78,7 +78,7 @@ $options = array(
     'state'             => $state,
     'filelistgenerator' => 'cvs',
     'changelogoldtonew' => false,
-    'simpleoutput'      => true,
+//    'simpleoutput'      => true,
     'notes'             => $notes,
     'ignore'            => array('package.xml', 'package.php', 'Thumbs.db',
                                  'Advanced.php', 'CSS_Advanced.php',
@@ -115,9 +115,9 @@ handleError($e);
 
 // Writes the new version of package.xml
 if (isset($_GET['make'])) {
-    $e = $pkg->writePackageFile();
+    $e = @$pkg->writePackageFile();
 } else {
-    $e = $pkg->debugPackageFile();
+    $e = @$pkg->debugPackageFile();
 }
 handleError($e);
 
