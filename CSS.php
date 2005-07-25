@@ -137,7 +137,7 @@ class HTML_CSS extends HTML_Common
      * Determines whether groups are output prior to elements
      *
      * @var        array
-     * @since      0.3.0
+     * @since      1.0.0
      * @access     private
      */
     var $_groupsFirst = true;
@@ -171,6 +171,16 @@ class HTML_CSS extends HTML_Common
      * @see        setXhtmlCompliance()
      */
     var $_xhtmlCompliant = true;
+
+    /**
+     * Allows to have duplicate rules in selector
+     * Useful for IE hack.
+     *
+     * @var        bool
+     * @since      1.0.0
+     * @access     private
+     */
+    var $_allowsDuplicates = false;
 
     /**
      * Error message callback.
@@ -272,6 +282,10 @@ class HTML_CSS extends HTML_Common
             if(is_bool($attributes['groupsfirst'])) {
                 $this->setOutputGroupsFirst($attributes['groupsfirst']);
             }
+        }
+        if ((isset($attributes['allowDuplicates'])  )
+             && is_bool($attributes['allowDuplicates']))  {
+            $this->_allowDuplicates = $attributes['allowDuplicates'];
         }
     }
 
@@ -570,7 +584,7 @@ class HTML_CSS extends HTML_Common
      * @param      mixed     $group         CSS definition group identifier
      * @param      string    $property      Property defined
      * @param      string    $value         Value assigned
-     * @param      string    $duplicates    Value assigned
+     * @param      bool      $duplicates    Allow or disallow duplicates.
      *
      * @return     void|int|PEAR_Error     Returns an integer if duplicates
      *                                     are allowed.
@@ -579,7 +593,7 @@ class HTML_CSS extends HTML_Common
      * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_GROUP
      * @see        getGroupStyle()
      */
-    function setGroupStyle($group, $property, $value, $duplicates = HTML_CSS_ALLOW_DUPLICATES)
+    function setGroupStyle($group, $property, $value, $duplicates = null)
     {
         if (!is_int($group) && !is_string($group)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
@@ -602,12 +616,16 @@ class HTML_CSS extends HTML_Common
                       'expected' => 'string',
                       'paramnum' => 3));
 
-        } elseif (!is_bool($duplicates)) {
+        } elseif (isset($duplicates) && !is_bool($duplicates)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$duplicates',
                       'was' => gettype($duplicates),
                       'expected' => 'bool',
                       'paramnum' => 4));
+        }
+
+        if (!isset($duplicates)) {
+            $duplicates = $this->_allowsDuplicates;
         }
 
         $groupIdent = '@-'.$group;
@@ -617,7 +635,7 @@ class HTML_CSS extends HTML_Common
                 array('identifier' => $group));
         }
 
-        if($duplicates === true) {
+        if ($duplicates === true) {
             $this->_duplicateCounter++;
             $this->_css[$groupIdent][$this->_duplicateCounter][$property]= $value;
             return $this->_duplicateCounter;
@@ -775,7 +793,7 @@ class HTML_CSS extends HTML_Common
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      * @see        getStyle()
      */
-    function setStyle ($element, $property, $value, $duplicates = HTML_CSS_ALLOW_DUPLICATES)
+    function setStyle ($element, $property, $value, $duplicates = null)
     {
         if (!is_string($element)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
@@ -806,7 +824,7 @@ class HTML_CSS extends HTML_Common
                       'expected' => 'string without comma',
                       'paramnum' => 1));
 
-        } elseif (!is_bool($duplicates)) {
+        } elseif (isset($duplicates) && !is_bool($duplicates)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$duplicates',
                       'was' => gettype($duplicates),
@@ -814,8 +832,13 @@ class HTML_CSS extends HTML_Common
                       'paramnum' => 4));
         }
 
+        if (!isset($duplicates)) {
+            $duplicates = $this->_allowsDuplicates;
+        }
+
         $element = $this->parseSelectors($element);
-        if($duplicates === true) {
+
+        if ($duplicates === true) {
             $this->_duplicateCounter++;
             $this->_css[$element][$this->_duplicateCounter][$property]= $value;
             return $this->_duplicateCounter;
@@ -1017,7 +1040,7 @@ class HTML_CSS extends HTML_Common
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      * @see        createGroup(), setGroupStyle(), setStyle()
      */
-    function parseString($str, $duplicates = HTML_CSS_ALLOW_DUPLICATES)
+    function parseString($str, $duplicates = null)
     {
         if (!is_string($str)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
@@ -1025,6 +1048,17 @@ class HTML_CSS extends HTML_Common
                       'was' => gettype($str),
                       'expected' => 'string',
                       'paramnum' => 1));
+
+        } elseif (isset($duplicates) && !is_bool($duplicates)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$duplicates',
+                      'was' => gettype($duplicates),
+                      'expected' => 'bool',
+                      'paramnum' => 2));
+        }
+
+        if (!isset($duplicates)) {
+            $duplicates = $this->_allowsDuplicates;
         }
 
         // Remove comments
@@ -1089,6 +1123,7 @@ class HTML_CSS extends HTML_Common
      * Parse a file that contains CSS information
      *
      * @param      string    $filename      file to parse
+     * @param      bool      $duplicates    Allow or disallow duplicates.
      *
      * @return     void|PEAR_Error
      * @since      0.3.0
@@ -1096,7 +1131,7 @@ class HTML_CSS extends HTML_Common
      * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_FILE
      * @see        parseString()
      */
-    function parseFile($filename)
+    function parseFile($filename, $duplicates = null)
     {
         if (!is_string($filename)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
@@ -1108,13 +1143,24 @@ class HTML_CSS extends HTML_Common
         } elseif (!file_exists($filename)) {
             return $this->raiseError(HTML_CSS_ERROR_NO_FILE, 'error',
                     array('identifier' => $filename));
+
+        } elseif (isset($duplicates) && !is_bool($duplicates)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$duplicates',
+                      'was' => gettype($duplicates),
+                      'expected' => 'bool',
+                      'paramnum' => 2));
+        }
+
+        if (!isset($duplicates)) {
+            $duplicates = $this->_allowsDuplicates;
         }
 
         if (function_exists('file_get_contents')){
-            $this->parseString(file_get_contents($filename));
+            $this->parseString(file_get_contents($filename), $duplicates);
         } else {
             $file = fopen("$filename", "rb");
-            $this->parseString(fread($file, filesize($filename)));
+            $this->parseString(fread($file, filesize($filename)), $duplicates);
             fclose($file);
         }
     }
@@ -1158,7 +1204,7 @@ class HTML_CSS extends HTML_Common
         if (isset($this->_alibis[$element])) {
             $alibis = $this->_alibis[$element];
 
-            // All the groups must be run through to be able to 
+            // All the groups must be run through to be able to
             // properly assign the value to the inline.
             foreach ($alibis as $alibi) {
                 foreach ($this->_css[$alibi] as $rank => $property) {
