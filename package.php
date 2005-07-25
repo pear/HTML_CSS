@@ -19,9 +19,8 @@ function handleError($e) {
 
 // Full description of the package
 $description = <<<DESCR
-HTML_CSS provides a simple interface for generating
-a stylesheet declaration. It is completely standards compliant, and
-has some great features:
+HTML_CSS provides a simple interface for generating a stylesheet declaration. 
+It is completely standards compliant, and has some great features:
 * Simple OO interface to CSS definitions
 * Can parse existing CSS (string or file)
 * Output to
@@ -46,8 +45,7 @@ $state   = 'beta';
 // Notes about this new release
 $notes = <<<NOTE
 New features:
-- PEAR_ErrorStack was replaced by a simple way to plug in any error handling system
-you might want (default used PEAR_Error object)
+- PEAR_ErrorStack was replaced by a simple way to plug in any error handling system you might want (default used PEAR_Error object)
 
 Bug fixes
 - Allows to fix a HTML_Progress problem (bug #2784)
@@ -61,6 +59,7 @@ Changes
 - parseSelectors() status goes from public to protected
 - collapseInternalSpaces() status goes from public to protected
 - setSameStyle() is now optimized and single old reference is removed from CSS declarations
+- toArray output has been changed slightly to allow for duplicate properties (if duplicate selectors are present, toArray will provide an additional level below the selectors).
 
 Quality Assurance
 - Updates headers comment block on all files
@@ -104,7 +103,7 @@ foreach ($phpfiles as $file) {
 // Maintainers List
 $e = $pkg->addMaintainer( 'thesaur', 'lead', 'Klaus Guenther', 'klaus@capitalfocus.org' );
 handleError($e);
-$e = $pkg->addMaintainer( 'farell', 'lead', 'Laurent Laville', 'pear@laurent-laville.org' );
+$e = $pkg->addMaintainer( 'farell',  'lead', 'Laurent Laville', 'pear@laurent-laville.org' );
 handleError($e);
 
 // Dependencies List

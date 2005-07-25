@@ -273,9 +273,9 @@ class HTML_CSS extends HTML_Common
                 $this->setOutputGroupsFirst($attributes['groupsfirst']);
             }
         }
-        if ((isset($attributes['allowDuplicates'])  )
-             && is_bool($attributes['allowDuplicates']))  {
-            $this->_allowDuplicates = $attributes['allowDuplicates'];
+        if ((isset($attributes['allowduplicates'])  )
+             && is_bool($attributes['allowduplicates']))  {
+            $this->_allowDuplicates = $attributes['allowduplicates'];
         }
     }
 
@@ -1164,7 +1164,14 @@ class HTML_CSS extends HTML_Common
      */
     function toArray()
     {
-        return $this->_css;
+        $css = array();
+        foreach ($this->_css as $key => $value) {
+            if(strpos($key, '@-') === 0) {
+                $key = implode(', ', $this->_groups[$key]);
+            }
+            $css[$key] = $value;
+        }
+        return $css;
     }
 
     /**
