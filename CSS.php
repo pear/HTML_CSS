@@ -25,16 +25,6 @@
 
 require_once 'HTML/Common.php';
 
-/**
- * Defines whether to allow duplicate selectors or not
- *
- * @var        bool
- * @since      1.0.0
- */
-if (!defined('HTML_CSS_ALLOW_DUPLICATES')) {
-    define('HTML_CSS_ALLOW_DUPLICATES', false);
-}
-
 /**#@+
  * Basic error codes
  *
@@ -180,7 +170,7 @@ class HTML_CSS extends HTML_Common
      * @since      1.0.0
      * @access     private
      */
-    var $_allowsDuplicates = false;
+    var $_allowDuplicates = false;
 
     /**
      * Error message callback.
@@ -625,7 +615,7 @@ class HTML_CSS extends HTML_Common
         }
 
         if (!isset($duplicates)) {
-            $duplicates = $this->_allowsDuplicates;
+            $duplicates = $this->_allowDuplicates;
         }
 
         $groupIdent = '@-'.$group;
@@ -833,7 +823,7 @@ class HTML_CSS extends HTML_Common
         }
 
         if (!isset($duplicates)) {
-            $duplicates = $this->_allowsDuplicates;
+            $duplicates = $this->_allowDuplicates;
         }
 
         $element = $this->parseSelectors($element);
@@ -1058,7 +1048,7 @@ class HTML_CSS extends HTML_Common
         }
 
         if (!isset($duplicates)) {
-            $duplicates = $this->_allowsDuplicates;
+            $duplicates = $this->_allowDuplicates;
         }
 
         // Remove comments
@@ -1153,7 +1143,7 @@ class HTML_CSS extends HTML_Common
         }
 
         if (!isset($duplicates)) {
-            $duplicates = $this->_allowsDuplicates;
+            $duplicates = $this->_allowDuplicates;
         }
 
         if (function_exists('file_get_contents')){
