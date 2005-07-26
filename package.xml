@@ -34,11 +34,12 @@ In addition, it shares the following with HTML_Common based classes:
   </maintainers>
  <release>
   <version>1.0.0RC1</version>
-  <date>2005-07-25</date>
+  <date>2005-07-26</date>
   <license>PHP License 3.0</license>
   <state>beta</state>
   <notes>New features:
 - PEAR_ErrorStack was replaced by a simple way to plug in any error handling system you might want (default used PEAR_Error object)
+- Duplicate properties can now be allowed.
 
 Bug fixes
 - Allows to fix a HTML_Progress problem (bug #2784)
@@ -52,6 +53,7 @@ Changes
 - parseSelectors() status goes from public to protected
 - collapseInternalSpaces() status goes from public to protected
 - setSameStyle() is now optimized and single old reference is removed from CSS declarations
+- toArray reimplemented (API changed if duplicates allowed)
 
 Quality Assurance
 - Updates headers comment block on all files
@@ -118,34 +120,6 @@ Quality Assurance
   </filelist>
  </release>
  <changelog>
-   <release>
-    <version>1.0.0RC1</version>
-    <date>2005-07-25</date>
-    <license>PHP License 3.0</license>
-    <state>beta</state>
-    <notes>New features:
-- PEAR_ErrorStack was replaced by a simple way to plug in any error handling 
-system you might want (default used PEAR_Error object)
-
-Bug fixes
-- Allows to fix a HTML_Progress problem (bug #2784)
-- Inappropriate style rule reordering (bug #3920)
-
-Changes
-- Removes PEAR_ErrorStack and Log packages dependencies
-- All unitTests are now fully PEAR_Error compatible
-- apiVersion() returns now a string rather than a float; compatible with 
-  php.version_compare()
-- createGroup() always returns a value now
-- parseSelectors() status goes from public to protected
-- collapseInternalSpaces() status goes from public to protected
-- setSameStyle() is now optimized and single old reference is removed from 
-  CSS declarations
-
-Quality Assurance
-- Updates headers comment block on all files
-    </notes>
-   </release>
    <release>
     <version>0.4.0</version>
     <date>2004-11-21</date>
