@@ -10,16 +10,11 @@
 require_once 'PEAR/Packager.php';
 require_once 'PEAR/PackageFileManager.php';
 
-function handleError($e) {
-
-    if (PEAR::isError($e)) {
-        die($e->getMessage());
-    }
-}
+PEAR::setErrorHandling(PEAR_ERROR_DIE);
 
 // Full description of the package
 $description = <<<DESCR
-HTML_CSS provides a simple interface for generating a stylesheet declaration. 
+HTML_CSS provides a simple interface for generating a stylesheet declaration.
 It is completely standards compliant, and has some great features:
 * Simple OO interface to CSS definitions
 * Can parse existing CSS (string or file)
@@ -39,30 +34,16 @@ DESCR;
 $summary = 'HTML_CSS is a class for generating CSS declarations.';
 
 // New version and state of the package
-$version = '1.0.0RC1';
+$version = '1.0.0RC2';
 $state   = 'beta';
 
 // Notes about this new release
 $notes = <<<NOTE
 New features:
-- PEAR_ErrorStack was replaced by a simple way to plug in any error handling system you might want (default used PEAR_Error object)
+- parseData() : Ability to parse multiple data sources (filename, string) at once
+- isError() : Tell whether a value return by HTML_CSS is an error.
 
-Bug fixes
-- Allows to fix a HTML_Progress problem (bug #2784)
-- Inappropriate style rule reordering (bug #3920)
-
-Changes
-- Removes PEAR_ErrorStack and Log packages dependencies
-- All unitTests are now fully PEAR_Error compatible
-- apiVersion() returns now a string rather than a float; compatible with php.version_compare()
-- createGroup() always returns a value now
-- parseSelectors() status goes from public to protected
-- collapseInternalSpaces() status goes from public to protected
-- setSameStyle() is now optimized and single old reference is removed from CSS declarations
-- toArray output has been changed slightly to allow for duplicate properties (if duplicate selectors are present, toArray will provide an additional level below the selectors).
-
-Quality Assurance
-- Updates headers comment block on all files
+See new script:  examples/CSS_parseData.php
 NOTE;
 
 // Configuration of PEAR::PackageFileManager
@@ -77,7 +58,7 @@ $options = array(
     'state'             => $state,
     'filelistgenerator' => 'cvs',
     'changelogoldtonew' => false,
-//    'simpleoutput'      => true,
+    'simpleoutput'      => false,
     'notes'             => $notes,
     'ignore'            => array('package.xml', 'package.php', 'Thumbs.db',
                                  'Advanced.php', 'CSS_Advanced.php',
@@ -86,9 +67,7 @@ $options = array(
 );
 
 $pkg = new PEAR_PackageFileManager();
-
-$e = $pkg->setOptions( $options );
-handleError($e);
+$pkg->setOptions( $options );
 
 // Replaces version number only in necessary files
 $phpfiles = array(
@@ -96,40 +75,32 @@ $phpfiles = array(
     'CSS/Error.php'
 );
 foreach ($phpfiles as $file) {
-    $e = $pkg->addReplacement($file, 'package-info', '@package_version@', 'version');
-    handleError($e);
+    $pkg->addReplacement($file, 'package-info', '@package_version@', 'version');
 }
 
 // Maintainers List
-$e = $pkg->addMaintainer( 'thesaur', 'lead', 'Klaus Guenther', 'klaus@capitalfocus.org' );
-handleError($e);
-$e = $pkg->addMaintainer( 'farell',  'lead', 'Laurent Laville', 'pear@laurent-laville.org' );
-handleError($e);
+$pkg->addMaintainer( 'thesaur', 'lead', 'Klaus Guenther', 'klaus@capitalfocus.org' );
+$pkg->addMaintainer( 'farell',  'lead', 'Laurent Laville', 'pear@laurent-laville.org' );
 
 // Dependencies List
-$e = $pkg->addDependency('PEAR', false, 'has');
-handleError($e);
-$e = $pkg->addDependency('HTML_Common', '1.2', 'ge', 'pkg', false);
-handleError($e);
+$pkg->addDependency('PEAR', false, 'has');
+$pkg->addDependency('HTML_Common', '1.2', 'ge', 'pkg', false);
 
 // Writes the new version of package.xml
 if (isset($_GET['make'])) {
-    $e = @$pkg->writePackageFile();
+    @$pkg->writePackageFile();
 } else {
-    $e = @$pkg->debugPackageFile();
+    @$pkg->debugPackageFile();
 }
-handleError($e);
 
 // Build the new binary package
 if (!isset($_GET['make'])) {
-    echo '<a href="' . $_SERVER['PHP_SELF'] . '?make=1">Make this XML file</a>';
+    echo '<a href="' . $_SERVER['PHP_SELF'] . '?make">Make this XML file</a>';
 } else {
     $options = $pkg->getOptions();
     $pkgfile = $options['packagedirectory'] . DIRECTORY_SEPARATOR . $options['packagefile'];
 
     $pkgbin = new PEAR_Packager();
-
-    $e = $pkgbin->package($pkgfile);
-    handleError($e);
+    $pkgbin->package($pkgfile);
 }
 ?>
