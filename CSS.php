@@ -229,6 +229,16 @@ class HTML_CSS extends HTML_Common
      */
     var $_errorhandler_options = array();
 
+    /**
+     * Last error that might occured
+     *
+     * @var        false|mixed
+     * @since      1.0.0RC2
+     * @access     private
+     * @see        isError(), raiseError()
+     */
+    var $_lastError = false;
+
 
     /**
      * Class constructor
@@ -1156,6 +1166,51 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
+     * Parse data sources, file(s) or string(s), that contains CSS information
+     *
+     * @param      array     $styles        data sources to parse
+     * @param      bool      $duplicates    Allow or disallow duplicates.
+     *
+     * @return     void|PEAR_Error
+     * @since      1.0.0RC2
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT
+     * @see        parseString(), parseFile()
+     */
+    function parseData($styles, $duplicates = null)
+    {
+        if (!is_array($styles)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$styles',
+                      'was' => gettype($styles),
+                      'expected' => 'array',
+                      'paramnum' => 1));
+
+        } elseif (isset($duplicates) && !is_bool($duplicates)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$duplicates',
+                      'was' => gettype($duplicates),
+                      'expected' => 'bool',
+                      'paramnum' => 2));
+        }
+
+        if (!isset($duplicates)) {
+            $duplicates = $this->_allowDuplicates;
+        }
+
+        foreach($styles as $style) {
+            if (strcasecmp(substr($style, -4,4), '.css') == 0) {
+                $res = $this->parseFile($style, $duplicates);
+            } else {
+                $res = $this->parseString($style, $duplicates);
+            }
+            if ($this->isError($res)) {
+                return $res;
+            }
+        }
+    }
+
+    /**
      * Returns the array of CSS properties
      *
      * @return     array
@@ -1468,7 +1523,20 @@ class HTML_CSS extends HTML_Common
     function raiseError()
     {
         $args = func_get_args();
-        return call_user_func_array($this->_callback_errorhandler, $args);
+        $this->_lastError = call_user_func_array($this->_callback_errorhandler, $args);
+        return $this->_lastError;
+    }
+
+    /**
+     * Determine whether there is an error
+     *
+     * @return     boolean               TRUE if error raised, FALSE otherwise
+     * @since      1.0.0RC2
+     * @access     public
+     */
+    function isError()
+    {
+         return (!is_bool($this->_lastError));
     }
 }
 ?>
