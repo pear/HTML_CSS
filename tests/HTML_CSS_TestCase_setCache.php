@@ -1,14 +1,18 @@
 <?php
 /**
  * API setCache Unit tests for HTML_CSS class.
- * 
+ *
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
+ * @ignore
  */
 
 require_once 'PEAR.php';
 
+/**
+ * @ignore
+ */
 class HTML_CSS_TestCase_setCache extends PHPUnit_TestCase
 {
     /**
@@ -36,7 +40,7 @@ class HTML_CSS_TestCase_setCache extends PHPUnit_TestCase
         unset($this->stylesheet);
     }
 
-    function _methodExists($name) 
+    function _methodExists($name)
     {
         if (substr(PHP_VERSION,0,1) < '5') {
             $n = strtolower($name);
@@ -63,12 +67,12 @@ class HTML_CSS_TestCase_setCache extends PHPUnit_TestCase
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-	}
+        }
     }
 
     /**
-     * Tests a setCache method 
-     */  
+     * Tests a setCache method
+     */
     function test_setCache_fail_no_boolean()
     {
         $c = $this->stylesheet->setCache('true');

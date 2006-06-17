@@ -1,15 +1,19 @@
 <?php
 /**
  * BUG #1072 regression test for HTML_CSS class.
- * 
+ *
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
  * @link       http://pear.php.net/bugs/bug.php?id=1072
+ * @ignore
  */
 
 require_once 'PEAR.php';
 
+/**
+ * @ignore
+ */
 class HTML_CSS_TestCase_bug1072 extends PHPUnit_TestCase
 {
     /**
@@ -45,7 +49,7 @@ td p { font-family: Comic; }
         unset($this->stylesheet);
     }
 
-    function _methodExists($name) 
+    function _methodExists($name)
     {
         if (substr(PHP_VERSION,0,1) < '5') {
             $n = strtolower($name);
@@ -72,13 +76,13 @@ td p { font-family: Comic; }
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-	}
+        }
     }
 
     /**
      * BUG#1072 HTML_CSS Not cascading properties
      *
-     */  
+     */
     function test_bug1072()
     {
         if (!$this->_methodExists('getStyle')) {

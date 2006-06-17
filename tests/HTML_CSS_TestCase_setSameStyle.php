@@ -1,14 +1,18 @@
 <?php
 /**
  * API setSameStyle Unit tests for HTML_CSS class.
- * 
+ *
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
+ * @ignore
  */
 
 require_once 'PEAR.php';
 
+/**
+ * @ignore
+ */
 class HTML_CSS_TestCase_setSameStyle extends PHPUnit_TestCase
 {
     /**
@@ -41,7 +45,7 @@ class HTML_CSS_TestCase_setSameStyle extends PHPUnit_TestCase
         unset($this->stylesheet);
     }
 
-    function _methodExists($name) 
+    function _methodExists($name)
     {
         if (substr(PHP_VERSION,0,1) < '5') {
             $n = strtolower($name);
@@ -68,13 +72,13 @@ class HTML_CSS_TestCase_setSameStyle extends PHPUnit_TestCase
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-	}
+        }
     }
 
     /**
-     * Tests a setSameStyle method 
+     * Tests a setSameStyle method
      *
-     */  
+     */
     function test_setSameStyle_fail_new_selector_no_string()
     {
         $new = 2;

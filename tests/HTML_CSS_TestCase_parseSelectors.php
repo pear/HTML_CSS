@@ -5,10 +5,14 @@
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
+ * @ignore
  */
 
 require_once 'PEAR.php';
 
+/**
+ * @ignore
+ */
 class HTML_CSS_TestCase_parseSelectors extends PHPUnit_TestCase
 {
     /**

@@ -1,14 +1,18 @@
 <?php
 /**
  * API createGroup Unit tests for HTML_CSS class.
- * 
+ *
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
+ * @ignore
  */
 
 require_once 'PEAR.php';
 
+/**
+ * @ignore
+ */
 class HTML_CSS_TestCase_createGroup extends PHPUnit_TestCase
 {
     /**
@@ -41,7 +45,7 @@ class HTML_CSS_TestCase_createGroup extends PHPUnit_TestCase
         unset($this->stylesheet);
     }
 
-    function _methodExists($name) 
+    function _methodExists($name)
     {
         if (substr(PHP_VERSION,0,1) < '5') {
             $n = strtolower($name);
@@ -68,14 +72,14 @@ class HTML_CSS_TestCase_createGroup extends PHPUnit_TestCase
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-	}
+        }
     }
 
     /**
-     * Tests a createGroup method 
+     * Tests a createGroup method
      *
      * - fail1: wrong group id
-     */  
+     */
     function test_createGroup_fail_selectors_no_string()
     {
         $g = $this->stylesheet->createGroup(true);

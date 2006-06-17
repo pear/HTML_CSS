@@ -6,10 +6,14 @@
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
  * @link       http://pear.php.net/bugs/bug.php?id=1084
+ * @ignore
  */
 
 require_once 'PEAR.php';
 
+/**
+ * @ignore
+ */
 class HTML_CSS_TestCase_bug1084 extends PHPUnit_TestCase
 {
     /**
@@ -64,7 +68,7 @@ class HTML_CSS_TestCase_bug1084 extends PHPUnit_TestCase
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-    }
+        }
     }
 
 

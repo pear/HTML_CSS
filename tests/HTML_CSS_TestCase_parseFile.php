@@ -1,14 +1,18 @@
 <?php
 /**
  * API parseFile Unit tests for HTML_CSS class.
- * 
+ *
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
+ * @ignore
  */
 
 require_once 'PEAR.php';
 
+/**
+ * @ignore
+ */
 class HTML_CSS_TestCase_parseFile extends PHPUnit_TestCase
 {
     /**
@@ -36,7 +40,7 @@ class HTML_CSS_TestCase_parseFile extends PHPUnit_TestCase
         unset($this->stylesheet);
     }
 
-    function _methodExists($name) 
+    function _methodExists($name)
     {
         if (substr(PHP_VERSION,0,1) < '5') {
             $n = strtolower($name);
@@ -63,12 +67,12 @@ class HTML_CSS_TestCase_parseFile extends PHPUnit_TestCase
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-	}
+        }
     }
 
     /**
-     * Tests a parseFile method 
-     */  
+     * Tests a parseFile method
+     */
     function test_parseFile_fail_filename_no_string()
     {
         $c = $this->stylesheet->parseFile(100);

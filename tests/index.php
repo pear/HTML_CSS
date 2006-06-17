@@ -5,6 +5,7 @@
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
+ * @ignore
  */
 
 require_once 'TestUnit.php';
@@ -72,12 +73,12 @@ $title = 'PhpUnit test run, HTML_CSS class';
     $suite = new PHPUnit_TestSuite();
 
     foreach ($testcases as $testcase) {
-            include_once $testcase . '.php';
-            $suite->addTestSuite($testcase);
+        include_once $testcase . '.php';
+        $suite->addTestSuite($testcase);
     }
 
     $listener = new HTML_TestListener();
-        $result = TestUnit::run($suite, $listener);
+    $result = TestUnit::run($suite, $listener);
     $result->removeListener($listener);
     $result->report();
     ?>

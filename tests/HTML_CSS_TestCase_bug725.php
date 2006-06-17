@@ -1,15 +1,19 @@
 <?php
 /**
  * BUG #725 regression test for HTML_CSS class.
- * 
+ *
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
  * @link       http://pear.php.net/bugs/bug.php?id=725
+ * @ignore
  */
 
 require_once 'PEAR.php';
 
+/**
+ * @ignore
+ */
 class HTML_CSS_TestCase_bug725 extends PHPUnit_TestCase
 {
     /**
@@ -32,10 +36,10 @@ class HTML_CSS_TestCase_bug725 extends PHPUnit_TestCase
         $this->stylesheet = new HTML_CSS($attrs, $prefs);
 
         $strcss = "  body   td  { /* 3 spaces between body and td */
-	margin: 20px;
-	padding: 20px;
-	border: 0;
-	color: #444;
+    margin: 20px;
+    padding: 20px;
+    border: 0;
+    color: #444;
 }";
         $this->stylesheet->parseString($strcss);
     }
@@ -45,7 +49,7 @@ class HTML_CSS_TestCase_bug725 extends PHPUnit_TestCase
         unset($this->stylesheet);
     }
 
-    function _methodExists($name) 
+    function _methodExists($name)
     {
         if (substr(PHP_VERSION,0,1) < '5') {
             $n = strtolower($name);
@@ -72,14 +76,14 @@ class HTML_CSS_TestCase_bug725 extends PHPUnit_TestCase
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-	}
+        }
     }
 
     /**
-     * BUG#725 differs hierarchy elements with difference in spaces between 
+     * BUG#725 differs hierarchy elements with difference in spaces between
      *
      *       - setStyle should change the "body td" not add an other one
-     */  
+     */
     function test_bug725()
     {
         if (!$this->_methodExists('setStyle')) {
@@ -94,8 +98,8 @@ class HTML_CSS_TestCase_bug725 extends PHPUnit_TestCase
         $c = $this->stylesheet->toFile('testfile_to_remove.css');
         $css = $this->stylesheet->toArray();
         if (count($css) > 1) {
-            $e = PEAR::raiseError('setStyle should change the "' . $style 
-                                  . '" not add an other one', 
+            $e = PEAR::raiseError('setStyle should change the "' . $style
+                                  . '" not add an other one',
                                   725);
         }
         $this->_getResult($e);

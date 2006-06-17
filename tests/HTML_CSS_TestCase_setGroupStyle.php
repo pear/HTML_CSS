@@ -5,10 +5,14 @@
  * @version    $Id$
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @package    HTML_CSS
+ * @ignore
  */
 
 require_once 'PEAR.php';
 
+/**
+ * @ignore
+ */
 class HTML_CSS_TestCase_setGroupStyle extends PHPUnit_TestCase
 {
     /**
@@ -68,7 +72,7 @@ class HTML_CSS_TestCase_setGroupStyle extends PHPUnit_TestCase
             $this->assertTrue(false, $msg);
         } else {
             $this->assertTrue(true);
-    }
+        }
     }
 
     /**
