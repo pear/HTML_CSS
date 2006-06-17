@@ -15,7 +15,7 @@
  * @subpackage Examples
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  2005-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
