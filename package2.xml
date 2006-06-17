@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>HTML_CSS</name>
+ <channel>pear.php.net</channel>
+ <summary>HTML_CSS is a class for generating CSS declarations.</summary>
+ <description>HTML_CSS provides a simple interface for generating a stylesheet declaration.
+It is completely standards compliant, and has some great features:
+* Simple OO interface to CSS definitions
+* Can parse existing CSS (string or file)
+* Output to
+    - Inline stylesheet declarations
+    - Document internal stylesheet declarations
+    - Standalone stylesheet declarations
+    - Array of definitions
+    - File
+
+In addition, it shares the following with HTML_Common based classes:
+* Indent style support
+* Line ending style
+
+ </description>
+ <lead>
+  <name>Klaus Guenther</name>
+  <user>thesaur</user>
+  <email>klaus@capitalfocus.org</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Laurent Laville</name>
+  <user>farell</user>
+  <email>pear@laurent-laville.org</email>
+  <active>yes</active>
+ </lead>
+ <date>2006-06-17</date>
+ <version>
+  <release>1.0.0</release>
+  <api>1.0.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
+ <notes>After 2 releases candidate and no bug reported since 6 months, it&apos;s time to build the final stable version 1.0.0
+
+* Improvements
+- add @ignore phpdoc tag in all unit tests to hide them in API doc generation.
+- introduces package xml 2.0
+
+* Quality Assurance
+- header comment blocks were updated (copyright dates, ...)
+ </notes>
+ <contents>
+  <dir baseinstalldir="HTML" name="/">
+   <dir name="CSS">
+    <file name="Error.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+   </dir> <!-- /CSS -->
+   <dir name="docs">
+    <file name="errorHandlerGuide.txt" role="doc" />
+   </dir> <!-- /docs -->
+   <dir name="examples">
+    <file name="css_errorstack_custom.php" role="doc" />
+    <file name="css_errorstack_logger.php" role="doc" />
+    <file name="css_error_custom.php" role="doc" />
+    <file name="css_error_ignore.php" role="doc" />
+    <file name="css_error_logger.php" role="doc" />
+    <file name="CSS_InHeader.php" role="doc" />
+    <file name="CSS_Inline.php" role="doc" />
+    <file name="CSS_Logger.php" role="doc" />
+    <file name="CSS_parseData.php" role="doc" />
+    <file name="CSS_Stylesheet.php" role="doc" />
+   </dir> <!-- /examples -->
+   <dir name="tests">
+    <file name="HTML_CSS_TestCase_addGroupSelector.php" role="test" />
+    <file name="HTML_CSS_TestCase_bug725.php" role="test" />
+    <file name="HTML_CSS_TestCase_bug998.php" role="test" />
+    <file name="HTML_CSS_TestCase_bug1066.php" role="test" />
+    <file name="HTML_CSS_TestCase_bug1072.php" role="test" />
+    <file name="HTML_CSS_TestCase_bug1084.php" role="test" />
+    <file name="HTML_CSS_TestCase_createGroup.php" role="test" />
+    <file name="HTML_CSS_TestCase_getGroupStyle.php" role="test" />
+    <file name="HTML_CSS_TestCase_getStyle.php" role="test" />
+    <file name="HTML_CSS_TestCase_parseFile.php" role="test" />
+    <file name="HTML_CSS_TestCase_parseSelectors.php" role="test" />
+    <file name="HTML_CSS_TestCase_parseString.php" role="test" />
+    <file name="HTML_CSS_TestCase_removeGroupSelector.php" role="test" />
+    <file name="HTML_CSS_TestCase_setCache.php" role="test" />
+    <file name="HTML_CSS_TestCase_setCharset.php" role="test" />
+    <file name="HTML_CSS_TestCase_setGroupStyle.php" role="test" />
+    <file name="HTML_CSS_TestCase_setSameStyle.php" role="test" />
+    <file name="HTML_CSS_TestCase_setSingleLineOutput.php" role="test" />
+    <file name="HTML_CSS_TestCase_setStyle.php" role="test" />
+    <file name="HTML_CSS_TestCase_setXhtmlCompliance.php" role="test" />
+    <file name="HTML_CSS_TestCase_toFile.php" role="test" />
+    <file name="HTML_CSS_TestCase_toInline.php" role="test" />
+    <file name="HTML_CSS_TestCase_unsetGroup.php" role="test" />
+    <file name="HTML_TestListener.php" role="test" />
+    <file name="index.php" role="test" />
+    <file name="stylesheet.css" role="test" />
+    <file name="TestUnit.php" role="test" />
+   </dir> <!-- /tests -->
+   <file name="CSS.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.0.6</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.3</min>
+   </pearinstaller>
+   <package>
+    <name>HTML_Common</name>
+    <channel>pear.php.net</channel>
+    <min>1.2</min>
+   </package>
+  </required>
+  <optional>
+   <package>
+    <name>PEAR</name>
+    <channel>pear.php.net</channel>
+   </package>
+  </optional>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-06-17</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
+   <notes>After 2 releases candidate and no bug reported since 6 months, it&apos;s time to build the final stable version 1.0.0
+
+* Improvements
+- add @ignore phpdoc tag in all unit tests to hide them in API doc generation.
+- introduces package xml 2.0
+
+* Quality Assurance
+- header comment blocks were updated (copyright dates, ...)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0RC2</release>
+    <api>1.0.0RC2</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2005-12-15</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
+   <notes>New features:
+- parseData() : Ability to parse multiple data sources (filename, string) at once
+- isError() : Tell whether a value return by HTML_CSS is an error.
+
+See new script:  examples/CSS_parseData.php</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0RC1</release>
+    <api>1.0.0RC1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2005-07-26</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
+   <notes>New features:
+- PEAR_ErrorStack was replaced by a simple way to plug in any error handling system you might want (default used PEAR_Error object)
+- Duplicate properties can now be allowed.
+
+Bug fixes
+- Allows to fix a HTML_Progress problem (bug #2784)
+- Inappropriate style rule reordering (bug #3920)
+
+Changes
+- Removes PEAR_ErrorStack and Log packages dependencies
+- All unitTests are now fully PEAR_Error compatible
+- apiVersion() returns now a string rather than a float; compatible with php.version_compare()
+- createGroup() always returns a value now
+- parseSelectors() status goes from public to protected
+- collapseInternalSpaces() status goes from public to protected
+- setSameStyle() is now optimized and single old reference is removed from CSS declarations
+- toArray reimplemented (API changed if duplicates allowed)
+
+Quality Assurance
+- Updates headers comment block on all files</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.0</release>
+    <api>0.4.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2004-11-21</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
+   <notes>New features:
+* Removes PEAR_ErrorStack and Log packages dependencies
+* Uses the basic error handler PEAR_Error (see examples/CSS_Logger.php)
+
+Bug fixes
+* Allows to fix a HTML_Progress problem (see bug #2784)
+
+Changes
+* Adds testcase for setXhtmlCompliance API
+* All unitTests are now fully PEAR_Error compatible
+
+Quality Assurance
+* This release follows the rules defined at
+* http://pear.php.net/group/docs/20040226-vn.php</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.4</release>
+    <api>0.3.4</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2004-05-21</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
+   <notes>New features:
+* Added testcases for all bugs (Laurent)
+
+Bugfixes:
+* Added dependency on PEAR 1.3.1 or greater (necessary for error handling)
+* Compatibility fix for PHP5 in parseSelectors
+* Now parseSelectors correctly divides selectors with IDs (output mode 2)</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.3</release>
+    <api>0.3.3</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2004-05-20</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
+   <notes>New features:
+* New error implementation (PEAR_Error_Stack) (Laurent)
+* Added more testcases (Laurent)
+* Output definitions on single line
+
+Bugfixes:
+* #1072 (incomplete internal inheritance support in parseString and getStyle)
+* #1084 (parseSelectors unable to handle inheritance)</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.2</release>
+    <api>0.3.2</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2004-03-24</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
+   <notes>New features:
+* setXhtmlCompliance(bool)
+    Determines whether elements are automatically lowercased
+    for XHTML compliance. May also be passed to class constructor
+    as array element &apos;xhtml&apos;.
+* Selectors are now properly parsed to ensure compliance
+
+Bugfixes:
+* #725  (Elements differentiated because of whitespace)
+* #998  (parseString failure to parse property value when it contained a colon)
+* #1066 (Trim property values in parseString)</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.1</release>
+    <api>0.3.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2003-11-03</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
+   <notes>Warning:
+Major BC break!
+
+License change:
+Now PHP License 3.0
+
+New features:
+* Parse CSS from string (Laurent)
+* Read and parse CSS from file (Laurent)
+* Retrieve the settings of individual properties (Laurent)
+* Fully redesigned group handling
+* Output to file
+* Error handling introduced (Laurent)
+* Added unit tests (Laurent)
+
+Bugfixes:
+* Fixed setSameStyle functionality</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.0</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2003-11-03</date>
+   <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
+   <notes>Warning:
+Major BC break!
+
+License change:
+Now PHP License 3.0
+
+New features:
+* Parse CSS from string (Laurent)
+* Read and parse CSS from file (Laurent)
+* Retrieve the settings of individual properties (Laurent)
+* Fully redesigned group handling
+* Output to file
+* Error handling introduced (Laurent)
+* Added unit tests (Laurent)
+
+Bugfixes:
+* Examples updated</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.0</release>
+    <api>0.2.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2003-07-31</date>
+   <license uri="http://www.php.net/license/2_02.txt">PHP License 2.02</license>
+   <notes>It is completely standards compliant, and has some great features:
+* Inline stylesheet declarations
+* Document internal stylesheet declarations
+* Standalone stylesheet declarations
+
+In addition, it shares the following with HTML_Common based classes:
+* Indent style support
+* Line ending style</notes>
+  </release>
+ </changelog>
+</package>
