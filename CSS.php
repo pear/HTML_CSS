@@ -234,12 +234,13 @@ class HTML_CSS extends HTML_Common
      *
      * @param      array     $attributes    (optional) Pass options to the constructor.
      *                                       Valid options are :
-     *                                       xhtml (sets xhtml compliance),
-     *                                       tab (sets indent string),
-     *                                       filename (name of file to be parsed),
-     *                                       cache (determines whether the nocache headers are sent),
-     *                                       oneline (whether to output each definition on one line),
-     *                                       groupsfirst (determines whether to output groups before elements)
+     *                                       - xhtml (sets xhtml compliance),
+     *                                       - tab (sets indent string),
+     *                                       - filename (name of file to be parsed),
+     *                                       - cache (determines whether the nocache headers are sent),
+     *                                       - oneline (whether to output each definition on one line),
+     *                                       - groupsfirst (determines whether to output groups before elements)
+     *                                       - allowduplicates (allow to have duplicate rules in selector)
      * @param      array     $prefs         (optional) has to configure error handler
      *
      * @since      0.2.0
@@ -288,7 +289,7 @@ class HTML_CSS extends HTML_Common
      */
     function apiVersion()
     {
-        return '@package_version@';
+        return '@api_version@';
     }
 
     /**
