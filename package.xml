@@ -104,6 +104,7 @@ In addition, it shares the following with HTML_Common based classes:
     </dir> <!-- /tests -->
     <file role="php" name="CSS.php">
      <replace from="@package_version@" to="version" type="package-info"/>
+     <replace from="@api_version@" to="version" type="package-info" />
     </file>
    </dir> <!-- / -->
   </filelist>
