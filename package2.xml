@@ -106,6 +106,7 @@ In addition, it shares the following with HTML_Common based classes:
    </dir> <!-- /tests -->
    <file name="CSS.php" role="php">
     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    <tasks:replace from="@api_version@" to="api-version" type="package-info" />
    </file>
   </dir> <!-- / -->
  </contents>
