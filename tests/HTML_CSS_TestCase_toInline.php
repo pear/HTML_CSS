@@ -36,6 +36,9 @@ class HTML_CSS_TestCase_toInline extends PHPUnit_TestCase
 
         $this->stylesheet->setStyle('body', 'background-color', '#0c0c0c');
         $this->stylesheet->setStyle('body', 'color', '#ffffff');
+        $this->stylesheet->setStyle('p', 'color', 'black');
+        $this->stylesheet->setSameStyle('div#black', 'p');
+        $this->stylesheet->setStyle('p', 'margin-left', '3em');
     }
 
     function tearDown()
@@ -85,6 +88,12 @@ class HTML_CSS_TestCase_toInline extends PHPUnit_TestCase
     function test_toInline()
     {
         $c = $this->stylesheet->toInline('body');
+        $this->_getResult($c);
+    }
+
+    function test_toInline_groupElement()
+    {
+        $c = $this->stylesheet->toInline('p');
         $this->_getResult($c);
     }
 }
