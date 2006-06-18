@@ -253,7 +253,8 @@ class HTML_CSS extends HTML_Common
         if ($attributes) {
             $attributes = $this->_parseAttributes($attributes);
         }
-        if (isset($attributes['xhtml'])) {
+        if ((isset($attributes['xhtml']))
+            && (is_bool($attributes['xhtml']))) {
             $this->setXhtmlCompliance($attributes['xhtml']);
         }
         if (isset($attributes['tab'])) {
@@ -262,19 +263,20 @@ class HTML_CSS extends HTML_Common
         if (isset($attributes['filename'])) {
             $this->parseFile($attributes['filename']);
         }
-        if (isset($attributes['cache'])) {
+        if ((isset($attributes['cache']))
+            && (is_bool($attributes['cache']))) {
             $this->setCache($attributes['cache']);
         }
-        if (isset($attributes['oneline'])) {
-            $this->setSingleLineOutput(true);
+        if ((isset($attributes['oneline']))
+            && (is_bool($attributes['online']))) {
+            $this->setSingleLineOutput($attributes['online']);
         }
-        if (isset($attributes['groupsfirst'])) {
-            if(is_bool($attributes['groupsfirst'])) {
-                $this->setOutputGroupsFirst($attributes['groupsfirst']);
-            }
+        if ((isset($attributes['groupsfirst']))
+            && (is_bool($attributes['groupsfirst']))) {
+            $this->setOutputGroupsFirst($attributes['groupsfirst']);
         }
-        if ((isset($attributes['allowduplicates'])  )
-             && is_bool($attributes['allowduplicates']))  {
+        if ((isset($attributes['allowduplicates']))
+            && (is_bool($attributes['allowduplicates'])))  {
             $this->_allowDuplicates = $attributes['allowduplicates'];
         }
     }
@@ -343,7 +345,7 @@ class HTML_CSS extends HTML_Common
      * defaults to ensure lowercase element names)
      *
      * @param      string    $selectors     Selector string
-     * @param      int       $outputMode    0 = string; 1 = array; 2 = deep array
+     * @param      int       $outputMode    (optional) 0 = string; 1 = array; 2 = deep array
      *
      * @return     mixed|PEAR_Error
      * @since      0.3.2
@@ -484,7 +486,8 @@ class HTML_CSS extends HTML_Common
      * Creates a new CSS definition group. Returns an integer identifying the group.
      *
      * @param      string    $selectors     Selector(s) to be defined, comma delimited.
-     * @param      mixed     $identifier    Group identifier. If not passed, will return an automatically assigned integer.
+     * @param      mixed     $identifier    (optional) Group identifier. If not passed,
+     *                                      will return an automatically assigned integer.
      *
      * @return     mixed|PEAR_Error
      * @since      0.3.0
@@ -574,7 +577,7 @@ class HTML_CSS extends HTML_Common
      * @param      mixed     $group         CSS definition group identifier
      * @param      string    $property      Property defined
      * @param      string    $value         Value assigned
-     * @param      bool      $duplicates    Allow or disallow duplicates.
+     * @param      bool      $duplicates    (optional) Allow or disallow duplicates.
      *
      * @return     void|int|PEAR_Error     Returns an integer if duplicates
      *                                     are allowed.
@@ -775,7 +778,7 @@ class HTML_CSS extends HTML_Common
      * @param      string    $element       Element (or class) to be defined
      * @param      string    $property      Property defined
      * @param      string    $value         Value assigned
-     * @param      bool      $duplicates    Allow or disallow duplicates.
+     * @param      bool      $duplicates    (optional) Allow or disallow duplicates.
      *
      * @return     void|PEAR_Error
      * @since      0.2.0
@@ -783,7 +786,7 @@ class HTML_CSS extends HTML_Common
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      * @see        getStyle()
      */
-    function setStyle ($element, $property, $value, $duplicates = null)
+    function setStyle($element, $property, $value, $duplicates = null)
     {
         if (!is_string($element)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
@@ -916,7 +919,7 @@ class HTML_CSS extends HTML_Common
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_ELEMENT
      */
-    function setSameStyle ($new, $old)
+    function setSameStyle($new, $old)
     {
         if (!is_string($new)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
@@ -984,7 +987,7 @@ class HTML_CSS extends HTML_Common
      * Defines the charset for the file. defaults to ISO-8859-1 because of CSS1
      * compatability issue for older browsers.
      *
-     * @param      string    $type          Charset encoding; defaults to ISO-8859-1.
+     * @param      string    $type          (optional) Charset encoding; defaults to ISO-8859-1.
      *
      * @return     void|PEAR_Error
      * @since      0.2.0
@@ -1022,7 +1025,7 @@ class HTML_CSS extends HTML_Common
      * Parse a textstring that contains css information
      *
      * @param      string    $str           text string to parse
-     * @param      bool      $duplicates    Allows or disallows duplicate style definitions
+     * @param      bool      $duplicates    (optional) Allows or disallows duplicate style definitions
      *
      * @return     void|PEAR_Error
      * @since      0.3.0
@@ -1113,7 +1116,7 @@ class HTML_CSS extends HTML_Common
      * Parse a file that contains CSS information
      *
      * @param      string    $filename      file to parse
-     * @param      bool      $duplicates    Allow or disallow duplicates.
+     * @param      bool      $duplicates    (optional) Allow or disallow duplicates.
      *
      * @return     void|PEAR_Error
      * @since      0.3.0
@@ -1159,7 +1162,7 @@ class HTML_CSS extends HTML_Common
      * Parse data sources, file(s) or string(s), that contains CSS information
      *
      * @param      array     $styles        data sources to parse
-     * @param      bool      $duplicates    Allow or disallow duplicates.
+     * @param      bool      $duplicates    (optional) Allow or disallow duplicates.
      *
      * @return     void|PEAR_Error
      * @since      1.0.0RC2
@@ -1211,7 +1214,7 @@ class HTML_CSS extends HTML_Common
     {
         $css = array();
         foreach ($this->_css as $key => $value) {
-            if(strpos($key, '@-') === 0) {
+            if (strpos($key, '@-') === 0) {
                 $key = implode(', ', $this->_groups[$key]);
             }
             $css[$key] = $value;
@@ -1249,10 +1252,8 @@ class HTML_CSS extends HTML_Common
             // All the groups must be run through to be able to
             // properly assign the value to the inline.
             foreach ($alibis as $alibi) {
-                foreach ($this->_css[$alibi] as $rank => $property) {
-                    foreach ($property as $key => $value) {
-                        $newCssArray[$key] = $value;
-                    }
+                foreach ($this->_css[$alibi] as $key => $value) {
+                    $newCssArray[$key] = $value;
                 }
             }
         }
@@ -1423,7 +1424,7 @@ class HTML_CSS extends HTML_Common
     /**
      * Initialize Error engine preferences
      *
-     * @param      array     $prefs         hash of params to customize error generation
+     * @param      array     $prefs         (optional) hash of params to customize error generation
      * @return     void
      * @since      0.3.3
      * @access     private
