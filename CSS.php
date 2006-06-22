@@ -486,7 +486,7 @@ class HTML_CSS extends HTML_Common
      * Creates a new CSS definition group. Returns an integer identifying the group.
      *
      * @param      string    $selectors     Selector(s) to be defined, comma delimited.
-     * @param      mixed     $identifier    (optional) Group identifier. If not passed,
+     * @param      mixed     $group        (optional) Group identifier. If not passed,
      *                                      will return an automatically assigned integer.
      *
      * @return     mixed|PEAR_Error
@@ -495,7 +495,7 @@ class HTML_CSS extends HTML_Common
      * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_INVALID_GROUP
      * @see        unsetGroup()
      */
-    function createGroup($selectors, $identifier = null)
+    function createGroup($selectors, $group = null)
     {
         if (!is_string($selectors)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
@@ -505,15 +505,14 @@ class HTML_CSS extends HTML_Common
                       'paramnum' => 1));
         }
 
-        if (!isset($identifier)) {
+        if (!isset($group)) {
             $this->_groupCount++;
             $group = $this->_groupCount;
         } else {
-            if (isset($this->_groups['@-'.$identifier])){
+            if (isset($this->_groups['@-'.$group])){
                 return $this->raiseError(HTML_CSS_ERROR_INVALID_GROUP, 'error',
-                    array('identifier' => $identifier));
+                    array('identifier' => $group));
             }
-            $group = $identifier;
         }
 
         $groupIdent = '@-'.$group;
