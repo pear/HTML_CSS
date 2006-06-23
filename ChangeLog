@@ -1,4 +1,13 @@
 
+2006-06-24 Laurent Laville
+
+  * VERSION: Version 1.0.0 (stable) released.
+
+2006-06-22 Laurent Laville
+
+  - unified API arguments for all group functions:
+    2nd arg of createGroup() was renamed from $identifier to $group
+
 2006-06-17 Laurent Laville
 
   - copyright dates updates in all headers comment blocks
