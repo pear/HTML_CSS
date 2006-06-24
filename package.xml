@@ -20,21 +20,21 @@ In addition, it shares the following with HTML_Common based classes:
  </description>
  <maintainers>
   <maintainer>
-   <user>thesaur</user>
-   <name>Klaus Guenther</name>
-   <email>klaus@capitalfocus.org</email>
-   <role>lead</role>
-  </maintainer>
-  <maintainer>
    <user>farell</user>
    <name>Laurent Laville</name>
    <email>pear@laurent-laville.org</email>
    <role>lead</role>
   </maintainer>
+  <maintainer>
+   <user>thesaur</user>
+   <name>Klaus Guenther</name>
+   <email>klaus@capitalfocus.org</email>
+   <role>lead</role>
+  </maintainer>
   </maintainers>
  <release>
   <version>1.0.0</version>
-  <date>2006-06-17</date>
+  <date>2006-06-24</date>
   <license>PHP License 3.0</license>
   <state>stable</state>
   <notes>After 2 releases candidate and no bug reported since 6 months, it&apos;s time to build the final stable version 1.0.0
@@ -45,6 +45,7 @@ In addition, it shares the following with HTML_Common based classes:
 
 * Quality Assurance
 - header comment blocks were updated (copyright dates, ...)
+- include a user-guide in html format (others format to download on http://pear.laurent-laville.org/HTML_CSS/docs)
   </notes>
   <deps>
    <dep type="php" rel="ge" version="4.0.6" optional="no"/>
@@ -59,19 +60,110 @@ In addition, it shares the following with HTML_Common based classes:
      </file>
     </dir> <!-- /CSS -->
     <dir name="docs">
-     <file role="doc" name="errorHandlerGuide.txt"/>
+     <dir name="TDG">
+      <dir name="img">
+       <dir name="admons">
+        <file role="doc" name="caution.png"/>
+        <file role="doc" name="important.png"/>
+        <file role="doc" name="note.png"/>
+        <file role="doc" name="tip.png"/>
+        <file role="doc" name="warning.png"/>
+       </dir> <!-- /docs/TDG/img/admons -->
+       <dir name="callouts">
+        <file role="doc" name="1.gif"/>
+        <file role="doc" name="2.gif"/>
+        <file role="doc" name="3.gif"/>
+        <file role="doc" name="4.gif"/>
+        <file role="doc" name="5.gif"/>
+        <file role="doc" name="6.gif"/>
+        <file role="doc" name="7.gif"/>
+        <file role="doc" name="8.gif"/>
+        <file role="doc" name="9.gif"/>
+        <file role="doc" name="10.gif"/>
+        <file role="doc" name="11.gif"/>
+        <file role="doc" name="12.gif"/>
+        <file role="doc" name="13.gif"/>
+        <file role="doc" name="14.gif"/>
+        <file role="doc" name="15.gif"/>
+       </dir> <!-- /docs/TDG/img/callouts -->
+       <file role="doc" name="created-with-docbook.png"/>
+       <file role="doc" name="example.png"/>
+       <file role="doc" name="external-link.gif"/>
+       <file role="doc" name="pearsmall.gif"/>
+       <file role="doc" name="rule.gif"/>
+      </dir> <!-- /docs/TDG/img -->
+      <file role="doc" name="book.css"/>
+      <file role="doc" name="ch01.html"/>
+      <file role="doc" name="ch01s02.html"/>
+      <file role="doc" name="ch01s03.html"/>
+      <file role="doc" name="ch02.html"/>
+      <file role="doc" name="ch03.html"/>
+      <file role="doc" name="ch03s02.html"/>
+      <file role="doc" name="ch04.html"/>
+      <file role="doc" name="ch04s02.html"/>
+      <file role="doc" name="ch04s03.html"/>
+      <file role="doc" name="ch05.html"/>
+      <file role="doc" name="ch05s02.html"/>
+      <file role="doc" name="ch05s03.html"/>
+      <file role="doc" name="ch05s04.html"/>
+      <file role="doc" name="ch05s05.html"/>
+      <file role="doc" name="ch06.html"/>
+      <file role="doc" name="ch06s02.html"/>
+      <file role="doc" name="ch06s03.html"/>
+      <file role="doc" name="ch06s04.html"/>
+      <file role="doc" name="ch06s05.html"/>
+      <file role="doc" name="ch06s06.html"/>
+      <file role="doc" name="ch07.html"/>
+      <file role="doc" name="ch07s02.html"/>
+      <file role="doc" name="ch07s03.html"/>
+      <file role="doc" name="ch07s04.html"/>
+      <file role="doc" name="ch08.html"/>
+      <file role="doc" name="ch08s02.html"/>
+      <file role="doc" name="ch08s03.html"/>
+      <file role="doc" name="ch08s04.html"/>
+      <file role="doc" name="ch08s05.html"/>
+      <file role="doc" name="index.html"/>
+      <file role="doc" name="pr01.html"/>
+      <file role="doc" name="pr01s02.html"/>
+      <file role="doc" name="pt01.html"/>
+      <file role="doc" name="pt02.html"/>
+      <file role="doc" name="pt03.html"/>
+      <file role="doc" name="re01.html"/>
+      <file role="doc" name="re02.html"/>
+      <file role="doc" name="re03.html"/>
+      <file role="doc" name="re04.html"/>
+      <file role="doc" name="re05.html"/>
+      <file role="doc" name="re06.html"/>
+      <file role="doc" name="re07.html"/>
+      <file role="doc" name="re08.html"/>
+      <file role="doc" name="re09.html"/>
+      <file role="doc" name="re10.html"/>
+      <file role="doc" name="re11.html"/>
+      <file role="doc" name="re12.html"/>
+      <file role="doc" name="re13.html"/>
+      <file role="doc" name="re14.html"/>
+      <file role="doc" name="re15.html"/>
+      <file role="doc" name="re16.html"/>
+      <file role="doc" name="re17.html"/>
+      <file role="doc" name="re18.html"/>
+      <file role="doc" name="re19.html"/>
+      <file role="doc" name="re20.html"/>
+      <file role="doc" name="re21.html"/>
+      <file role="doc" name="re22.html"/>
+      <file role="doc" name="re23.html"/>
+     </dir> <!-- /docs/TDG -->
     </dir> <!-- /docs -->
     <dir name="examples">
-     <file role="doc" name="css_errorstack_custom.php"/>
-     <file role="doc" name="css_errorstack_logger.php"/>
-     <file role="doc" name="css_error_custom.php"/>
-     <file role="doc" name="css_error_ignore.php"/>
-     <file role="doc" name="css_error_logger.php"/>
-     <file role="doc" name="CSS_InHeader.php"/>
-     <file role="doc" name="CSS_Inline.php"/>
-     <file role="doc" name="CSS_Logger.php"/>
-     <file role="doc" name="CSS_parseData.php"/>
-     <file role="doc" name="CSS_Stylesheet.php"/>
+     <file role="php" name="css_errorstack_custom.php"/>
+     <file role="php" name="css_errorstack_logger.php"/>
+     <file role="php" name="css_error_custom.php"/>
+     <file role="php" name="css_error_ignore.php"/>
+     <file role="php" name="css_error_logger.php"/>
+     <file role="php" name="CSS_InHeader.php"/>
+     <file role="php" name="CSS_Inline.php"/>
+     <file role="php" name="CSS_Logger.php"/>
+     <file role="php" name="CSS_parseData.php"/>
+     <file role="php" name="CSS_Stylesheet.php"/>
     </dir> <!-- /examples -->
     <dir name="tests">
      <file role="test" name="HTML_CSS_TestCase_addGroupSelector.php"/>
@@ -102,17 +194,19 @@ In addition, it shares the following with HTML_Common based classes:
      <file role="test" name="stylesheet.css"/>
      <file role="test" name="TestUnit.php"/>
     </dir> <!-- /tests -->
+    <file role="doc" name="ChangeLog"/>
     <file role="php" name="CSS.php">
      <replace from="@package_version@" to="version" type="package-info"/>
-     <replace from="@api_version@" to="version" type="package-info" />
+     <replace from="@api_version@" to="version" type="package-info"/>
     </file>
+    <file role="doc" name="NEWS"/>
    </dir> <!-- / -->
   </filelist>
  </release>
  <changelog>
    <release>
     <version>1.0.0</version>
-    <date>2006-06-17</date>
+    <date>2006-06-24</date>
     <license>PHP License 3.0</license>
     <state>stable</state>
     <notes>After 2 releases candidate and no bug reported since 6 months, it&apos;s time to build the final stable version 1.0.0
@@ -123,6 +217,7 @@ In addition, it shares the following with HTML_Common based classes:
 
 * Quality Assurance
 - header comment blocks were updated (copyright dates, ...)
+- include a user-guide in html format (others format to download on http://pear.laurent-laville.org/HTML_CSS/docs)
     </notes>
    </release>
    <release>

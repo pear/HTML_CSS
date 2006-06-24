@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
-http://pear.php.net/dtd/tasks-1.0.xsd
-http://pear.php.net/dtd/package-2.0
-http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>HTML_CSS</name>
  <channel>pear.php.net</channel>
  <summary>HTML_CSS is a class for generating CSS declarations.</summary>
@@ -19,22 +16,21 @@ It is completely standards compliant, and has some great features:
 
 In addition, it shares the following with HTML_Common based classes:
 * Indent style support
-* Line ending style
-
- </description>
- <lead>
-  <name>Klaus Guenther</name>
-  <user>thesaur</user>
-  <email>klaus@capitalfocus.org</email>
-  <active>yes</active>
- </lead>
+* Line ending style</description>
  <lead>
   <name>Laurent Laville</name>
   <user>farell</user>
   <email>pear@laurent-laville.org</email>
   <active>yes</active>
  </lead>
- <date>2006-06-17</date>
+ <lead>
+  <name>Klaus Guenther</name>
+  <user>thesaur</user>
+  <email>klaus@capitalfocus.org</email>
+  <active>no</active>
+ </lead>
+ <date>2006-06-24</date>
+ <time>11:38:51</time>
  <version>
   <release>1.0.0</release>
   <api>1.0.0</api>
@@ -52,7 +48,7 @@ In addition, it shares the following with HTML_Common based classes:
 
 * Quality Assurance
 - header comment blocks were updated (copyright dates, ...)
- </notes>
+- include a user-guide in html format (others format to download on http://pear.laurent-laville.org/HTML_CSS/docs)</notes>
  <contents>
   <dir baseinstalldir="HTML" name="/">
    <dir name="CSS">
@@ -61,7 +57,98 @@ In addition, it shares the following with HTML_Common based classes:
     </file>
    </dir> <!-- /CSS -->
    <dir name="docs">
-    <file name="errorHandlerGuide.txt" role="doc" />
+    <dir name="TDG">
+     <dir name="img">
+      <dir name="admons">
+       <file name="caution.png" role="doc" />
+       <file name="important.png" role="doc" />
+       <file name="note.png" role="doc" />
+       <file name="tip.png" role="doc" />
+       <file name="warning.png" role="doc" />
+      </dir> <!-- /docs/TDG/img/admons -->
+      <dir name="callouts">
+       <file name="1.gif" role="doc" />
+       <file name="2.gif" role="doc" />
+       <file name="3.gif" role="doc" />
+       <file name="4.gif" role="doc" />
+       <file name="5.gif" role="doc" />
+       <file name="6.gif" role="doc" />
+       <file name="7.gif" role="doc" />
+       <file name="8.gif" role="doc" />
+       <file name="9.gif" role="doc" />
+       <file name="10.gif" role="doc" />
+       <file name="11.gif" role="doc" />
+       <file name="12.gif" role="doc" />
+       <file name="13.gif" role="doc" />
+       <file name="14.gif" role="doc" />
+       <file name="15.gif" role="doc" />
+      </dir> <!-- /docs/TDG/img/callouts -->
+      <file name="created-with-docbook.png" role="doc" />
+      <file name="example.png" role="doc" />
+      <file name="external-link.gif" role="doc" />
+      <file name="pearsmall.gif" role="doc" />
+      <file name="rule.gif" role="doc" />
+     </dir> <!-- /docs/TDG/img -->
+     <file name="book.css" role="doc" />
+     <file name="ch01.html" role="doc" />
+     <file name="ch01s02.html" role="doc" />
+     <file name="ch01s03.html" role="doc" />
+     <file name="ch02.html" role="doc" />
+     <file name="ch03.html" role="doc" />
+     <file name="ch03s02.html" role="doc" />
+     <file name="ch04.html" role="doc" />
+     <file name="ch04s02.html" role="doc" />
+     <file name="ch04s03.html" role="doc" />
+     <file name="ch05.html" role="doc" />
+     <file name="ch05s02.html" role="doc" />
+     <file name="ch05s03.html" role="doc" />
+     <file name="ch05s04.html" role="doc" />
+     <file name="ch05s05.html" role="doc" />
+     <file name="ch06.html" role="doc" />
+     <file name="ch06s02.html" role="doc" />
+     <file name="ch06s03.html" role="doc" />
+     <file name="ch06s04.html" role="doc" />
+     <file name="ch06s05.html" role="doc" />
+     <file name="ch06s06.html" role="doc" />
+     <file name="ch07.html" role="doc" />
+     <file name="ch07s02.html" role="doc" />
+     <file name="ch07s03.html" role="doc" />
+     <file name="ch07s04.html" role="doc" />
+     <file name="ch08.html" role="doc" />
+     <file name="ch08s02.html" role="doc" />
+     <file name="ch08s03.html" role="doc" />
+     <file name="ch08s04.html" role="doc" />
+     <file name="ch08s05.html" role="doc" />
+     <file name="index.html" role="doc" />
+     <file name="pr01.html" role="doc" />
+     <file name="pr01s02.html" role="doc" />
+     <file name="pt01.html" role="doc" />
+     <file name="pt02.html" role="doc" />
+     <file name="pt03.html" role="doc" />
+     <file name="re01.html" role="doc" />
+     <file name="re02.html" role="doc" />
+     <file name="re03.html" role="doc" />
+     <file name="re04.html" role="doc" />
+     <file name="re05.html" role="doc" />
+     <file name="re06.html" role="doc" />
+     <file name="re07.html" role="doc" />
+     <file name="re08.html" role="doc" />
+     <file name="re09.html" role="doc" />
+     <file name="re10.html" role="doc" />
+     <file name="re11.html" role="doc" />
+     <file name="re12.html" role="doc" />
+     <file name="re13.html" role="doc" />
+     <file name="re14.html" role="doc" />
+     <file name="re15.html" role="doc" />
+     <file name="re16.html" role="doc" />
+     <file name="re17.html" role="doc" />
+     <file name="re18.html" role="doc" />
+     <file name="re19.html" role="doc" />
+     <file name="re20.html" role="doc" />
+     <file name="re21.html" role="doc" />
+     <file name="re22.html" role="doc" />
+     <file name="re23.html" role="doc" />
+    </dir> <!-- /docs/TDG -->
    </dir> <!-- /docs -->
    <dir name="examples">
     <file name="css_errorstack_custom.php" role="doc" />
@@ -104,10 +191,12 @@ In addition, it shares the following with HTML_Common based classes:
     <file name="stylesheet.css" role="test" />
     <file name="TestUnit.php" role="test" />
    </dir> <!-- /tests -->
+   <file name="ChangeLog" role="doc" />
    <file name="CSS.php" role="php">
     <tasks:replace from="@package_version@" to="version" type="package-info" />
     <tasks:replace from="@api_version@" to="api-version" type="package-info" />
    </file>
+   <file name="NEWS" role="doc" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -142,7 +231,7 @@ In addition, it shares the following with HTML_Common based classes:
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2006-06-17</date>
+   <date>2006-06-24</date>
    <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
    <notes>After 2 releases candidate and no bug reported since 6 months, it&apos;s time to build the final stable version 1.0.0
 
@@ -152,7 +241,7 @@ In addition, it shares the following with HTML_Common based classes:
 
 * Quality Assurance
 - header comment blocks were updated (copyright dates, ...)
-   </notes>
+- include a user-guide in html format (others format to download on http://pear.laurent-laville.org/HTML_CSS/docs)</notes>
   </release>
   <release>
    <version>
