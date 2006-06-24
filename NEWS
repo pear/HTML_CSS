@@ -2,6 +2,8 @@
 Changes since version 1.0.0RC2 (2005-12-15)
 
   - introduces package xml 2.0
+  - include a user-guide in html format
+  - unified API arguments for all group functions
 
 Changes since version 1.0.0RC1 (2005-07-26)
 
