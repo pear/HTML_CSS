@@ -1,0 +1,291 @@
+<html>
+<head>
+   <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+   <title>Basic concepts</title>
+   <link href="book.css" rel="stylesheet" type="text/css">
+   <meta content="DocBook XSL Stylesheets V1.69.1" name="generator">
+   <link href="index.html" rel="start" title="HTML_CSS Manual">
+   <link href="ch03.html" rel="up" title="Chapter 3. Overview">
+   <link href="ch03.html" rel="prev" title="Chapter 3. Overview">
+   <link href="ch04.html" rel="next" title="Chapter 4. Grouping selectors">
+</head>
+<body alink="#0000FF" bgcolor="white" link="#0000FF" text="black" vlink="#840084">
+<table class="htmlcssHeader">
+   <tr>
+      <td><img align="left" alt="PEAR logo" src="img/pearsmall.gif">
+         <h1>HTML_CSS : The Definitive Guide</h1>
+
+         <p>
+         <div class="navheader">
+            <table summary="Navigation header" width="100%">
+               <tr>
+                  <th align="center" colspan="3">Basic concepts</th>
+               </tr>
+               <tr>
+                  <td align="left" width="20%"><a accesskey="p" href="ch03.html">Prev</a> </td>
+                  <th align="center" width="60%">Chapter 3. Overview</th><td align="right" width="20%"> <a accesskey="n" href="ch04.html">Next</a></td>
+               </tr>
+            </table>
+         </div></p>
+      </td>
+   </tr>
+</table>
+<div class="sect1" lang="en"><div class="titlepage"><div><div>
+            <h2 class="title" style="clear: both">
+            <a name="developers.intro.concepts"></a>Basic concepts</h2></div>
+      </div>
+   </div>
+   <div class="toc">
+      <dl><dt><span class="sect2"><a href="ch03s02.html#id4722837">What is a rule or "rule set" ?</a></span></dt><dt><span class="sect2"><a href="ch03s02.html#id4769736">Rule structure</a></span></dt><dt><span class="sect2"><a href="ch03s02.html#id4769769">Declaration block 
+         </a></span></dt><dt><span class="sect2"><a href="ch03s02.html#id4769815">Grouping declarations</a></span></dt><dt><span class="sect2"><a href="ch03s02.html#id4769878">Grouping selectors</a></span></dt><dt><span class="sect2"><a href="ch03s02.html#id4769977">CSS comments</a></span></dt>
+      </dl>
+   </div>
+   <div class="sect2" lang="en"><div class="titlepage"><div><div>
+               <h3 class="title"><a name="id4722837"></a>What is a rule or "rule set" ?</h3></div>
+         </div>
+      </div>
+
+      <p>A rule or "rule set" is a statement that tells browsers how to render particular elements on an HTML page. A rule set consists of a selector followed by a declaration block. </p>
+   </div>
+   <div class="sect2" lang="en"><div class="titlepage"><div><div>
+               <h3 class="title"><a name="id4769736"></a>Rule structure</h3></div>
+         </div>
+      </div>
+
+      <p></p>
+      <div class="figure"><a name="id4769744"></a>
+
+         <p class="title"><b>Figure 3.1. Rule structure </b></p><div class="screenshot"><div><img alt="Rule structure" src="img/rule.gif"></div>
+         </div>
+      </div>
+
+      <p></p>
+   </div>
+   <div class="sect2" lang="en"><div class="titlepage"><div><div>
+               <h3 class="title"><a name="id4769769"></a>Declaration block </h3>
+            </div>
+         </div>
+      </div>
+
+      <p>The <code class="methodname">HTML_CSS::setStyle()</code> method is the only one to handle a declaration block. </p>
+
+      <p>For example, to declare a such rule : </p>
+<pre class="programlisting">
+p { padding: 5px; }
+     </pre>
+
+      <p></p>Here is the php code to create the same sentence with HTML_CSS : 
+
+      <p></p>
+<pre class="programlisting">
+      
+&lt;?php
+require_once 'HTML/CSS.php';
+
+$css = new HTML_CSS();
+
+$css-&gt;setStyle('p', 'padding', '5px');
+
+$css-&gt;display();
+?&gt;
+      
+     </pre>
+
+      <p></p>
+   </div>
+   <div class="sect2" lang="en"><div class="titlepage"><div><div>
+               <h3 class="title"><a name="id4769815"></a>Grouping declarations</h3></div>
+         </div>
+      </div>
+
+      <p>You can use more than one declaration within a declaration block. Each declaration must be separated with a semicolon ";". </p>
+
+      <p>For example, to declare a such rule : </p>
+<pre class="programlisting">
+p { padding: 5px; margin: 1px; }
+     </pre>
+
+      <p>Or, with whitespace added to aid readability : </p>
+<pre class="programlisting">
+p {
+  padding: 5px;
+  margin: 1px;
+}
+     </pre>
+
+      <p></p>Here is the php code to create the same sentence with HTML_CSS : 
+
+      <p></p>
+<pre class="programlisting">
+      
+&lt;?php
+require_once 'HTML/CSS.php';
+
+$css = new HTML_CSS();
+
+$css-&gt;setStyle('p', 'padding', '5px');
+$css-&gt;setStyle('p', 'margin', '1px');
+
+$css-&gt;display();
+?&gt;
+      
+     </pre>
+
+      <p></p>Notice that we use twice <code class="methodname">HTML_CSS::setStyle()</code> method call to declare each declaration block for the same selector. 
+   </div>
+   <div class="sect2" lang="en"><div class="titlepage"><div><div>
+               <h3 class="title"><a name="id4769878"></a>Grouping selectors</h3></div>
+         </div>
+      </div>
+
+      <p>When several selectors share the same declarations, they may be grouped together to save writing the same rule more than once. Each selector must be separated by a comma. For example : </p>
+
+      <p></p>
+<pre class="programlisting">
+h1, h2, h3, h4 { padding: 1em; }
+.highlight p, .highlight ul { margin-left: .5em; }
+#main p, #main ul { padding-top: 1em; }
+     </pre>
+
+      <p></p>To produce such result, we will need help of 3 new methods : 
+      <code class="methodname">HTML_CSS::setSameStyle()</code>, 
+      <code class="methodname">HTML_CSS::createGroup()</code> and 
+      <code class="methodname">HTML_CSS::setGroupStyle()</code>. 
+
+      <p></p>
+<pre class="programlisting">
+      
+&lt;?php
+require_once 'HTML/CSS.php';
+
+$css = new HTML_CSS();
+
+// two selector groups only
+$css-&gt;setStyle('.highlight p', 'margin-left', '.5em');
+$css-&gt;setSameStyle('.highlight ul', '.highlight p');
+
+// or even this way
+$g2 = $css-&gt;createGroup('#main p, #main ul');
+$css-&gt;setGroupStyle($g2, 'padding-top', '2em');
+
+// more than two selector groups
+$g1 = $css-&gt;createGroup('h1, h2, h3, h4');
+$css-&gt;setGroupStyle($g1, 'padding', '1em');
+
+$css-&gt;display();
+?&gt;
+      
+     </pre>
+
+      <p></p>
+
+      <p>We should take care than grouping two selectors may be write either with 
+      <code class="methodname">HTML_CSS::setSameStyle()</code> or with couple 
+      <code class="methodname">HTML_CSS::createGroup()</code> and 
+      <code class="methodname">HTML_CSS::setGroupStyle()</code>. When we have to group three or more selectors, there is only one possibility: couple 
+      <code class="methodname">HTML_CSS::createGroup()</code> and 
+      <code class="methodname">HTML_CSS::setGroupStyle()</code>. </p>
+   </div>
+   <div class="sect2" lang="en"><div class="titlepage"><div><div>
+               <h3 class="title"><a name="id4769977"></a>CSS comments</h3></div>
+         </div>
+      </div>
+
+      <p>You can insert comments in CSS to explain your code. Like HTML comments, CSS comments will be ignored by the browser. A CSS comment begins with "/*", and ends with "*/". Comments can appear before or within rule sets as well as across multiple lines. </p>
+
+      <p>HTML_CSS 1.0.0 has not yet ability to handle comment such as : </p>
+
+      <p></p>
+<pre class="programlisting">
+/* Comment here */
+p
+{
+margin: 1em; /* Comment here */
+padding: 2em;
+/* color: white; */
+background-color: blue;
+}
+
+/*
+multi-line
+comment here
+*/
+     </pre>
+
+      <p></p>
+
+      <p></p>
+      <div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+         <table border="0" summary="Warning">
+            <tr>
+               <td align="center" rowspan="2" valign="top" width="48px"><img alt="[Warning]" src="img/admons/warning.png"></td>
+               <th align="left">Warning</th>
+            </tr>
+            <tr>
+               <td align="left" valign="top"> The common mistake that people make when writing comments is to expect getting all comments describe with such code below : it's an error. 
+               </td>
+            </tr>
+         </table>
+      </div>
+
+      <p></p>
+
+      <p></p>
+<pre class="programlisting">
+      
+$css-&gt;setComment('comment here');
+
+$css-&gt;setStyle('p', 'margin', '1em');
+$css-&gt;setStyle('p', 'padding', '2em');
+$css-&gt;setComment('color: white;');
+$css-&gt;setStyle('p', 'background-color', 'blue');
+
+$css-&gt;setComment('
+multi-line
+comment here
+');
+      
+     </pre>
+
+      <p></p>
+
+      <p>You will only get such result: </p>
+<pre class="programlisting">
+/*
+multi-line
+comment here
+ */
+
+p {
+  margin: 1em;
+  padding: 2em;
+  background-color: blue;
+}
+     </pre>
+
+      <p></p>Only one comment is allowed due to usage of parent class method 
+      <code class="methodname">HTML_Common::setComment()</code>. 
+   </div>
+</div>
+<table class="htmlcssFooter">
+   <tr>
+      <td align="left">HTML_CSS : The Definitive Guide</td>
+      <td align="right">v 1.0.0 : June 24, 2006</td>
+   </tr>
+</table>
+<div class="navfooter"><hr>
+   <table summary="Navigation footer" width="100%">
+      <tr>
+         <td align="left" width="40%"><a accesskey="p" href="ch03.html">Prev</a> </td>
+         <td align="center" width="20%"><a accesskey="u" href="ch03.html">Up</a></td>
+         <td align="right" width="40%"> <a accesskey="n" href="ch04.html">Next</a></td>
+      </tr>
+      <tr>
+         <td align="left" valign="top" width="40%">Chapter 3. Overview </td>
+         <td align="center" width="20%"><a accesskey="h" href="index.html">Home</a></td>
+         <td align="right" valign="top" width="40%"> Chapter 4. Grouping selectors</td>
+      </tr>
+   </table>
+</div>
+</body>
+</html> 
