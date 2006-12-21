@@ -1,291 +1,777 @@
-<html>
-<head>
-   <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
-   <title>Basic concepts</title>
-   <link href="book.css" rel="stylesheet" type="text/css">
-   <meta content="DocBook XSL Stylesheets V1.69.1" name="generator">
-   <link href="index.html" rel="start" title="HTML_CSS Manual">
-   <link href="ch03.html" rel="up" title="Chapter 3. Overview">
-   <link href="ch03.html" rel="prev" title="Chapter 3. Overview">
-   <link href="ch04.html" rel="next" title="Chapter 4. Grouping selectors">
-</head>
-<body alink="#0000FF" bgcolor="white" link="#0000FF" text="black" vlink="#840084">
-<table class="htmlcssHeader">
-   <tr>
-      <td><img align="left" alt="PEAR logo" src="img/pearsmall.gif">
-         <h1>HTML_CSS : The Definitive Guide</h1>
-
-         <p>
-         <div class="navheader">
-            <table summary="Navigation header" width="100%">
-               <tr>
-                  <th align="center" colspan="3">Basic concepts</th>
-               </tr>
-               <tr>
-                  <td align="left" width="20%"><a accesskey="p" href="ch03.html">Prev</a> </td>
-                  <th align="center" width="60%">Chapter 3. Overview</th><td align="right" width="20%"> <a accesskey="n" href="ch04.html">Next</a></td>
-               </tr>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>
+      Basic concepts
+    </title>
+    <link rel="stylesheet" href="book.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
+    <link rel="start" href="index.html" title="HTML_CSS Manual" />
+    <link rel="up" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Overview" />
+    <link rel="prev" href="ch03.html" title="Chapter&nbsp;3.&nbsp;Overview" />
+    <link rel="next" href="ch04.html" title=
+    "Chapter&nbsp;4.&nbsp;Grouping selectors" />
+<style type="text/css">
+/*<![CDATA[*/
+ body {
+  background-color: white;
+  color: black;
+ }
+ :link { color: #0000FF }
+ :visited { color: #840084 }
+ :active { color: #0000FF }
+ div.c4 {margin-left: 0.5in; margin-right: 0.5in;}
+ div.c3 {font-family: monospace;}
+ p.c2 {font-weight: bold}
+ h2.c1 {clear: both}
+/*]]>*/
+</style>
+  </head>
+  <body>
+    <table class="htmlcssHeader">
+      <tr>
+        <td>
+          <img src="img/pearsmall.gif" align="left" alt="PEAR logo" />
+          <h1>
+            HTML_CSS : The Definitive Guide
+          </h1>
+          <div class="navheader">
+            <table width="100%" summary="Navigation header">
+              <tr>
+                <th colspan="3" align="center">
+                  Basic concepts
+                </th>
+              </tr>
+              <tr>
+                <td width="20%" align="left">
+                  <a accesskey="p" href="ch03.html">Prev</a>&nbsp;
+                </td>
+                <th width="60%" align="center">
+                  Chapter&nbsp;3.&nbsp;Overview
+                </th>
+                <td width="20%" align="right">
+                  &nbsp;<a accesskey="n" href="ch04.html">Next</a>
+                </td>
+              </tr>
             </table>
-         </div></p>
-      </td>
-   </tr>
-</table>
-<div class="sect1" lang="en"><div class="titlepage"><div><div>
-            <h2 class="title" style="clear: both">
-            <a name="developers.intro.concepts"></a>Basic concepts</h2></div>
+          </div><br />
+          <br />
+        </td>
+      </tr>
+    </table>
+    <div class="sect1" lang="en" xml:lang="en">
+      <div class="titlepage">
+        <h2 class="title c1">
+          <a name="developers.intro.concepts" id=
+          "developers.intro.concepts"></a>Basic concepts
+        </h2>
       </div>
-   </div>
-   <div class="toc">
-      <dl><dt><span class="sect2"><a href="ch03s02.html#id4722837">What is a rule or "rule set" ?</a></span></dt><dt><span class="sect2"><a href="ch03s02.html#id4769736">Rule structure</a></span></dt><dt><span class="sect2"><a href="ch03s02.html#id4769769">Declaration block 
-         </a></span></dt><dt><span class="sect2"><a href="ch03s02.html#id4769815">Grouping declarations</a></span></dt><dt><span class="sect2"><a href="ch03s02.html#id4769878">Grouping selectors</a></span></dt><dt><span class="sect2"><a href="ch03s02.html#id4769977">CSS comments</a></span></dt>
-      </dl>
-   </div>
-   <div class="sect2" lang="en"><div class="titlepage"><div><div>
-               <h3 class="title"><a name="id4722837"></a>What is a rule or "rule set" ?</h3></div>
-         </div>
+      <div class="toc">
+        <dl>
+          <dt>
+            <span class="sect2"><a href="ch03s02.html#id4728884">What is a rule
+            or "rule set" ?</a></span>
+          </dt>
+          <dt>
+            <span class="sect2"><a href="ch03s02.html#id4728680">Rule
+            structure</a></span>
+          </dt>
+          <dt>
+            <span class="sect2"><a href="ch03s02.html#id4776200">Declaration
+            block</a></span>
+          </dt>
+          <dt>
+            <span class="sect2"><a href="ch03s02.html#id4776248">Grouping
+            declarations</a></span>
+          </dt>
+          <dt>
+            <span class="sect2"><a href="ch03s02.html#id4776314">Grouping
+            selectors</a></span>
+          </dt>
+          <dt>
+            <span class="sect2"><a href="ch03s02.html#id4776416">CSS
+            comments</a></span>
+          </dt>
+        </dl>
       </div>
-
-      <p>A rule or "rule set" is a statement that tells browsers how to render particular elements on an HTML page. A rule set consists of a selector followed by a declaration block. </p>
-   </div>
-   <div class="sect2" lang="en"><div class="titlepage"><div><div>
-               <h3 class="title"><a name="id4769736"></a>Rule structure</h3></div>
-         </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <h3 class="title">
+            <a name="id4728884" id="id4728884"></a>What is a rule or "rule set"
+            ?
+          </h3>
+        </div>
+        <p>
+          A rule or "rule set" is a statement that tells browsers how to render
+          particular elements on an HTML page. A rule set consists of a
+          selector followed by a declaration block.
+        </p>
       </div>
-
-      <p></p>
-      <div class="figure"><a name="id4769744"></a>
-
-         <p class="title"><b>Figure 3.1. Rule structure </b></p><div class="screenshot"><div><img alt="Rule structure" src="img/rule.gif"></div>
-         </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <h3 class="title">
+            <a name="id4728680" id="id4728680"></a>Rule structure
+          </h3>
+        </div>
+        <div class="figure">
+          <a name="id4728688" id="id4728688"></a>
+          <p class="title c2">
+            Figure&nbsp;3.1.&nbsp;Rule structure
+          </p>
+          <div class="screenshot">
+            <img src="img/rule.gif" alt="Rule structure" />
+          </div>
+        </div>
       </div>
-
-      <p></p>
-   </div>
-   <div class="sect2" lang="en"><div class="titlepage"><div><div>
-               <h3 class="title"><a name="id4769769"></a>Declaration block </h3>
-            </div>
-         </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <h3 class="title">
+            <a name="id4776200" id="id4776200"></a>Declaration block
+          </h3>
+        </div>
+        <p>
+          The <code class="methodname">HTML_CSS::setStyle()</code> method is
+          the only one to handle a declaration block.
+        </p>
+        <p>
+          For example, to declare a such rule :
+        </p>
+        <div class="css c3">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                p <span class="br0">{</span> <span class="kw1">padding</span>:
+                5px; <span class="br0">}</span>
+              </div>
+            </li>
+          </ol>
+        </div>Here is the php code to create the same sentence with HTML_CSS :
+        <div class="php c3">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw2">&lt;?php</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">require_once</span> <span class=
+                "st0">'HTML/CSS.php'</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span> = <span class="kw2">new</span>
+                HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setStyle</span><span class="br0">(</span><span class=
+                "st0">'p'</span>, <span class="st0">'padding'</span>,
+                <span class="st0">'5px'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">display</span><span class="br0">(</span><span class=
+                "br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw2">?&gt;</span>
+              </div>
+            </li>
+          </ol>
+        </div>
       </div>
-
-      <p>The <code class="methodname">HTML_CSS::setStyle()</code> method is the only one to handle a declaration block. </p>
-
-      <p>For example, to declare a such rule : </p>
-<pre class="programlisting">
-p { padding: 5px; }
-     </pre>
-
-      <p></p>Here is the php code to create the same sentence with HTML_CSS : 
-
-      <p></p>
-<pre class="programlisting">
-      
-&lt;?php
-require_once 'HTML/CSS.php';
-
-$css = new HTML_CSS();
-
-$css-&gt;setStyle('p', 'padding', '5px');
-
-$css-&gt;display();
-?&gt;
-      
-     </pre>
-
-      <p></p>
-   </div>
-   <div class="sect2" lang="en"><div class="titlepage"><div><div>
-               <h3 class="title"><a name="id4769815"></a>Grouping declarations</h3></div>
-         </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <h3 class="title">
+            <a name="id4776248" id="id4776248"></a>Grouping declarations
+          </h3>
+        </div>
+        <p>
+          You can use more than one declaration within a declaration block.
+          Each declaration must be separated with a semicolon ";".
+        </p>
+        <p>
+          For example, to declare a such rule :
+        </p>
+        <div class="css c3">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                p <span class="br0">{</span> <span class="kw1">padding</span>:
+                5px; <span class="kw1">margin</span>: 1px; <span class=
+                "br0">}</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <p>
+          Or, with whitespace added to aid readability :
+        </p>
+        <div class="css c3">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                p <span class="br0">{</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; <span class="kw1">padding</span>: 5px;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; <span class="kw1">margin</span>: 1px;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="br0">}</span>
+              </div>
+            </li>
+          </ol>
+        </div>Here is the php code to create the same sentence with HTML_CSS :
+        <div class="php c3">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw2">&lt;?php</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">require_once</span> <span class=
+                "st0">'HTML/CSS.php'</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span> = <span class="kw2">new</span>
+                HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setStyle</span><span class="br0">(</span><span class=
+                "st0">'p'</span>, <span class="st0">'padding'</span>,
+                <span class="st0">'5px'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setStyle</span><span class="br0">(</span><span class=
+                "st0">'p'</span>, <span class="st0">'margin'</span>,
+                <span class="st0">'1px'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">display</span><span class="br0">(</span><span class=
+                "br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw2">?&gt;</span>
+              </div>
+            </li>
+          </ol>
+        </div>Notice that we use twice <code class=
+        "methodname">HTML_CSS::setStyle()</code> method call to declare each
+        declaration block for the same selector.
       </div>
-
-      <p>You can use more than one declaration within a declaration block. Each declaration must be separated with a semicolon ";". </p>
-
-      <p>For example, to declare a such rule : </p>
-<pre class="programlisting">
-p { padding: 5px; margin: 1px; }
-     </pre>
-
-      <p>Or, with whitespace added to aid readability : </p>
-<pre class="programlisting">
-p {
-  padding: 5px;
-  margin: 1px;
-}
-     </pre>
-
-      <p></p>Here is the php code to create the same sentence with HTML_CSS : 
-
-      <p></p>
-<pre class="programlisting">
-      
-&lt;?php
-require_once 'HTML/CSS.php';
-
-$css = new HTML_CSS();
-
-$css-&gt;setStyle('p', 'padding', '5px');
-$css-&gt;setStyle('p', 'margin', '1px');
-
-$css-&gt;display();
-?&gt;
-      
-     </pre>
-
-      <p></p>Notice that we use twice <code class="methodname">HTML_CSS::setStyle()</code> method call to declare each declaration block for the same selector. 
-   </div>
-   <div class="sect2" lang="en"><div class="titlepage"><div><div>
-               <h3 class="title"><a name="id4769878"></a>Grouping selectors</h3></div>
-         </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <h3 class="title">
+            <a name="id4776314" id="id4776314"></a>Grouping selectors
+          </h3>
+        </div>
+        <p>
+          When several selectors share the same declarations, they may be
+          grouped together to save writing the same rule more than once. Each
+          selector must be separated by a comma. For example :
+        </p>
+        <div class="css c3">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                h1, h2, h3, h4 <span class="br0">{</span> <span class=
+                "kw1">padding</span>: 1em; <span class="br0">}</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re1">.highlight</span> p, <span class=
+                "re1">.highlight</span> ul <span class="br0">{</span>
+                <span class="kw1">margin-left</span>: .5em; <span class=
+                "br0">}</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                #main p, #main ul <span class="br0">{</span> <span class=
+                "kw1">padding-top</span>: 1em; <span class="br0">}</span>
+              </div>
+            </li>
+          </ol>
+        </div>To produce such result, we will need help of 3 new methods :
+        <code class="methodname">HTML_CSS::setSameStyle()</code>, <code class=
+        "methodname">HTML_CSS::createGroup()</code> and <code class=
+        "methodname">HTML_CSS::setGroupStyle()</code>.
+        <div class="php c3">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw2">&lt;?php</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">require_once</span> <span class=
+                "st0">'HTML/CSS.php'</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span> = <span class="kw2">new</span>
+                HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="co1">// two selector groups only</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setStyle</span><span class="br0">(</span><span class=
+                "st0">'.highlight p'</span>, <span class=
+                "st0">'margin-left'</span>, <span class=
+                "st0">'.5em'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setSameStyle</span><span class="br0">(</span><span class=
+                "st0">'.highlight ul'</span>, <span class="st0">'.highlight
+                p'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="co1">// or even this way</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$g2</span> = <span class=
+                "re0">$css</span>-&gt;<span class=
+                "me1">createGroup</span><span class="br0">(</span><span class=
+                "st0">'#main p, #main ul'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setGroupStyle</span><span class=
+                "br0">(</span><span class="re0">$g2</span>, <span class=
+                "st0">'padding-top'</span>, <span class=
+                "st0">'2em'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="co1">// more than two selector groups</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$g1</span> = <span class=
+                "re0">$css</span>-&gt;<span class=
+                "me1">createGroup</span><span class="br0">(</span><span class=
+                "st0">'h1, h2, h3, h4'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setGroupStyle</span><span class=
+                "br0">(</span><span class="re0">$g1</span>, <span class=
+                "st0">'padding'</span>, <span class=
+                "st0">'1em'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">display</span><span class="br0">(</span><span class=
+                "br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw2">?&gt;</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <p>
+          We should take care than grouping two selectors may be write either
+          with <code class="methodname">HTML_CSS::setSameStyle()</code> or with
+          couple <code class="methodname">HTML_CSS::createGroup()</code> and
+          <code class="methodname">HTML_CSS::setGroupStyle()</code>. When we
+          have to group three or more selectors, there is only one possibility:
+          couple <code class="methodname">HTML_CSS::createGroup()</code> and
+          <code class="methodname">HTML_CSS::setGroupStyle()</code>.
+        </p>
       </div>
-
-      <p>When several selectors share the same declarations, they may be grouped together to save writing the same rule more than once. Each selector must be separated by a comma. For example : </p>
-
-      <p></p>
-<pre class="programlisting">
-h1, h2, h3, h4 { padding: 1em; }
-.highlight p, .highlight ul { margin-left: .5em; }
-#main p, #main ul { padding-top: 1em; }
-     </pre>
-
-      <p></p>To produce such result, we will need help of 3 new methods : 
-      <code class="methodname">HTML_CSS::setSameStyle()</code>, 
-      <code class="methodname">HTML_CSS::createGroup()</code> and 
-      <code class="methodname">HTML_CSS::setGroupStyle()</code>. 
-
-      <p></p>
-<pre class="programlisting">
-      
-&lt;?php
-require_once 'HTML/CSS.php';
-
-$css = new HTML_CSS();
-
-// two selector groups only
-$css-&gt;setStyle('.highlight p', 'margin-left', '.5em');
-$css-&gt;setSameStyle('.highlight ul', '.highlight p');
-
-// or even this way
-$g2 = $css-&gt;createGroup('#main p, #main ul');
-$css-&gt;setGroupStyle($g2, 'padding-top', '2em');
-
-// more than two selector groups
-$g1 = $css-&gt;createGroup('h1, h2, h3, h4');
-$css-&gt;setGroupStyle($g1, 'padding', '1em');
-
-$css-&gt;display();
-?&gt;
-      
-     </pre>
-
-      <p></p>
-
-      <p>We should take care than grouping two selectors may be write either with 
-      <code class="methodname">HTML_CSS::setSameStyle()</code> or with couple 
-      <code class="methodname">HTML_CSS::createGroup()</code> and 
-      <code class="methodname">HTML_CSS::setGroupStyle()</code>. When we have to group three or more selectors, there is only one possibility: couple 
-      <code class="methodname">HTML_CSS::createGroup()</code> and 
-      <code class="methodname">HTML_CSS::setGroupStyle()</code>. </p>
-   </div>
-   <div class="sect2" lang="en"><div class="titlepage"><div><div>
-               <h3 class="title"><a name="id4769977"></a>CSS comments</h3></div>
-         </div>
-      </div>
-
-      <p>You can insert comments in CSS to explain your code. Like HTML comments, CSS comments will be ignored by the browser. A CSS comment begins with "/*", and ends with "*/". Comments can appear before or within rule sets as well as across multiple lines. </p>
-
-      <p>HTML_CSS 1.0.0 has not yet ability to handle comment such as : </p>
-
-      <p></p>
-<pre class="programlisting">
-/* Comment here */
-p
-{
-margin: 1em; /* Comment here */
-padding: 2em;
-/* color: white; */
-background-color: blue;
-}
-
-/*
-multi-line
-comment here
-*/
-     </pre>
-
-      <p></p>
-
-      <p></p>
-      <div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
-         <table border="0" summary="Warning">
+      <div class="sect2" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <h3 class="title">
+            <a name="id4776416" id="id4776416"></a>CSS comments
+          </h3>
+        </div>
+        <p>
+          You can insert comments in CSS to explain your code. Like HTML
+          comments, CSS comments will be ignored by the browser. A CSS comment
+          begins with "/*", and ends with "*/". Comments can appear before or
+          within rule sets as well as across multiple lines.
+        </p>
+        <p>
+          HTML_CSS 1.0.0 has not yet ability to handle comment such as :
+        </p>
+        <div class="css c3">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                <span class="coMULTI">/* Comment here */</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                p
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="br0">{</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">margin</span>: 1em; <span class="coMULTI">/*
+                Comment here */</span>
+              </div>
+            </li>
+            <li class="li2">
+              <div class="de2">
+                <span class="kw1">padding</span>: 2em;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="coMULTI">/* color: white; */</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">background-color</span>: <span class=
+                "kw1">blue</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="br0">}</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li2">
+              <div class="de2">
+                <span class="coMULTI">/*</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="coMULTI">multi-line</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="coMULTI">comment here</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="coMULTI">*/</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <div class="warning c4">
+          <table border="0" summary="Warning">
             <tr>
-               <td align="center" rowspan="2" valign="top" width="48px"><img alt="[Warning]" src="img/admons/warning.png"></td>
-               <th align="left">Warning</th>
+              <td rowspan="2" align="center" valign="top" width="48px">
+                <img alt="[Warning]" src="img/admons/warning.png" />
+              </td>
+              <th align="left">
+                Warning
+              </th>
             </tr>
             <tr>
-               <td align="left" valign="top"> The common mistake that people make when writing comments is to expect getting all comments describe with such code below : it's an error. 
-               </td>
+              <td align="left" valign="top">
+                The common mistake that people make when writing comments is to
+                expect getting all comments describe with such code below :
+                it's an error.
+              </td>
             </tr>
-         </table>
+          </table>
+        </div>
+        <div class="php c3">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setComment</span><span class="br0">(</span><span class=
+                "st0">'comment here'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setStyle</span><span class="br0">(</span><span class=
+                "st0">'p'</span>, <span class="st0">'margin'</span>,
+                <span class="st0">'1em'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setStyle</span><span class="br0">(</span><span class=
+                "st0">'p'</span>, <span class="st0">'padding'</span>,
+                <span class="st0">'2em'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setComment</span><span class="br0">(</span><span class=
+                "st0">'color: white;'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setStyle</span><span class="br0">(</span><span class=
+                "st0">'p'</span>, <span class="st0">'background-color'</span>,
+                <span class="st0">'blue'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setComment</span><span class="br0">(</span><span class=
+                "st0">'</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="st0">multi-line</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="st0">comment here</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="st0">'</span><span class="br0">)</span>;
+              </div>
+            </li>
+          </ol>
+        </div>
+        <p>
+          You will only get such result:
+        </p>
+        <div class="css c3">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                <span class="coMULTI">/*</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="coMULTI">multi-line</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="coMULTI">comment here</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="coMULTI">*/</span>
+              </div>
+            </li>
+            <li class="li2">
+              <div class="de2">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                p <span class="br0">{</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; <span class="kw1">margin</span>: 1em;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; <span class="kw1">padding</span>: 2em;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; <span class="kw1">background-color</span>: <span class=
+                "kw1">blue</span>;
+              </div>
+            </li>
+            <li class="li2">
+              <div class="de2">
+                <span class="br0">}</span>
+              </div>
+            </li>
+          </ol>
+        </div>Only one comment is allowed due to usage of parent class method
+        <code class="methodname">HTML_Common::setComment()</code>.
       </div>
-
-      <p></p>
-
-      <p></p>
-<pre class="programlisting">
-      
-$css-&gt;setComment('comment here');
-
-$css-&gt;setStyle('p', 'margin', '1em');
-$css-&gt;setStyle('p', 'padding', '2em');
-$css-&gt;setComment('color: white;');
-$css-&gt;setStyle('p', 'background-color', 'blue');
-
-$css-&gt;setComment('
-multi-line
-comment here
-');
-      
-     </pre>
-
-      <p></p>
-
-      <p>You will only get such result: </p>
-<pre class="programlisting">
-/*
-multi-line
-comment here
- */
-
-p {
-  margin: 1em;
-  padding: 2em;
-  background-color: blue;
-}
-     </pre>
-
-      <p></p>Only one comment is allowed due to usage of parent class method 
-      <code class="methodname">HTML_Common::setComment()</code>. 
-   </div>
-</div>
-<table class="htmlcssFooter">
-   <tr>
-      <td align="left">HTML_CSS : The Definitive Guide</td>
-      <td align="right">v 1.0.0 : June 24, 2006</td>
-   </tr>
-</table>
-<div class="navfooter"><hr>
-   <table summary="Navigation footer" width="100%">
+    </div>
+    <table class="htmlcssFooter">
       <tr>
-         <td align="left" width="40%"><a accesskey="p" href="ch03.html">Prev</a> </td>
-         <td align="center" width="20%"><a accesskey="u" href="ch03.html">Up</a></td>
-         <td align="right" width="40%"> <a accesskey="n" href="ch04.html">Next</a></td>
+        <td align="left">
+          HTML_CSS : The Definitive Guide
+        </td>
+        <td align="right">
+          v 1.0.1 : December 21, 2006
+        </td>
       </tr>
-      <tr>
-         <td align="left" valign="top" width="40%">Chapter 3. Overview </td>
-         <td align="center" width="20%"><a accesskey="h" href="index.html">Home</a></td>
-         <td align="right" valign="top" width="40%"> Chapter 4. Grouping selectors</td>
-      </tr>
-   </table>
-</div>
-</body>
-</html> 
+    </table>
+    <div class="navfooter">
+      <hr />
+      <table width="100%" summary="Navigation footer">
+        <tr>
+          <td width="40%" align="left">
+            <a accesskey="p" href="ch03.html">Prev</a>&nbsp;
+          </td>
+          <td width="20%" align="center">
+            <a accesskey="u" href="ch03.html">Up</a>
+          </td>
+          <td width="40%" align="right">
+            &nbsp;<a accesskey="n" href="ch04.html">Next</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="40%" align="left" valign="top">
+            Chapter&nbsp;3.&nbsp;Overview&nbsp;
+          </td>
+          <td width="20%" align="center">
+            <a accesskey="h" href="index.html">Home</a>
+          </td>
+          <td width="40%" align="right" valign="top">
+            &nbsp;Chapter&nbsp;4.&nbsp;Grouping selectors
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

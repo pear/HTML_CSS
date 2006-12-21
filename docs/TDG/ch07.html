@@ -1,94 +1,195 @@
-<html>
-<head>
-   <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
-   <title>Chapter 7. API - Application Programming Interface</title>
-   <link href="book.css" rel="stylesheet" type="text/css">
-   <meta content="DocBook XSL Stylesheets V1.69.1" name="generator">
-   <link href="index.html" rel="start" title="HTML_CSS Manual">
-   <link href="pt03.html" rel="up" title="Part III. Reference Guide">
-   <link href="pt03.html" rel="prev" title="Part III. Reference Guide">
-   <link href="re01.html" rel="next" title="HTML_CSS::setXhtmlCompliance">
-</head>
-<body alink="#0000FF" bgcolor="white" link="#0000FF" text="black" vlink="#840084">
-<table class="htmlcssHeader">
-   <tr>
-      <td><img align="left" alt="PEAR logo" src="img/pearsmall.gif">
-         <h1>HTML_CSS : The Definitive Guide</h1>
-
-         <p>
-         <div class="navheader">
-            <table summary="Navigation header" width="100%">
-               <tr>
-                  <th align="center" colspan="3">Chapter 7. API - Application Programming Interface</th>
-               </tr>
-               <tr>
-                  <td align="left" width="20%"><a accesskey="p" href="pt03.html">Prev</a> </td>
-                  <th align="center" width="60%">Part III. Reference Guide</th><td align="right" width="20%"> <a accesskey="n" href="re01.html">Next</a></td>
-               </tr>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>
+      Chapter&nbsp;7.&nbsp;API - Application Programming Interface
+    </title>
+    <link rel="stylesheet" href="book.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
+    <link rel="start" href="index.html" title="HTML_CSS Manual" />
+    <link rel="up" href="pt03.html" title=
+    "Part&nbsp;III.&nbsp;Reference Guide" />
+    <link rel="prev" href="pt03.html" title=
+    "Part&nbsp;III.&nbsp;Reference Guide" />
+    <link rel="next" href="re01.html" title="HTML_CSS::setXhtmlCompliance" />
+<style type="text/css">
+/*<![CDATA[*/
+ body {
+  background-color: white;
+  color: black;
+ }
+ :link { color: #0000FF }
+ :visited { color: #840084 }
+ :active { color: #0000FF }
+ h2.c2 {clear: both}
+ p.c1 {font-weight: bold}
+/*]]>*/
+</style>
+  </head>
+  <body>
+    <table class="htmlcssHeader">
+      <tr>
+        <td>
+          <img src="img/pearsmall.gif" align="left" alt="PEAR logo" />
+          <h1>
+            HTML_CSS : The Definitive Guide
+          </h1>
+          <div class="navheader">
+            <table width="100%" summary="Navigation header">
+              <tr>
+                <th colspan="3" align="center">
+                  Chapter&nbsp;7.&nbsp;API - Application Programming Interface
+                </th>
+              </tr>
+              <tr>
+                <td width="20%" align="left">
+                  <a accesskey="p" href="pt03.html">Prev</a>&nbsp;
+                </td>
+                <th width="60%" align="center">
+                  Part&nbsp;III.&nbsp;Reference Guide
+                </th>
+                <td width="20%" align="right">
+                  &nbsp;<a accesskey="n" href="re01.html">Next</a>
+                </td>
+              </tr>
             </table>
-         </div></p>
-      </td>
-   </tr>
-</table>
-<div class="chapter" lang="en"><div class="titlepage"><div><div>
-            <h2 class="title"><a name="reference.api"></a>Chapter 7. API - Application Programming Interface</h2></div>
-      </div>
-   </div>
-   <div class="toc">
-
-      <p><b>Table of Contents</b></p>
-      <dl><dt><span class="sect1"><a href="ch07.html#reference.api.basic">Handle selector and property values</a></span></dt><dt><span class="sect1"><a href="ch07s02.html">Grouping selectors</a></span></dt><dt><span class="sect1"><a href="ch07s03.html">Parsing data sources</a></span></dt><dt><span class="sect1"><a href="ch07s04.html">Output 
-         </a></span></dt>
-      </dl>
-   </div>
-
-   <p>With the class constructor, you have ability to set many options : </p>
-   <div class="itemizedlist">
-      <ul type="disc">
-         <li><span class="bold"><strong>xhtml</strong></span> option defines whether element selectors should be automatically lowercased. </li>
-         <li><span class="bold"><strong>tab</strong></span> option defines the string used to indent CSS text. See also: 
-         <code class="methodname">HTML_Common::setTab()</code>. </li>
-         <li><span class="bold"><strong>filename</strong></span> option allow to parse an external css file. </li>
-         <li><span class="bold"><strong>cache</strong></span> option controls caching of the page. </li>
-         <li><span class="bold"><strong>online</strong></span> option defines whether to output all properties on one line. </li>
-         <li><span class="bold"><strong>groupsfirst</strong></span> option determines whether to output groups before elements. </li>
-         <li><span class="bold"><strong>allowduplicates</strong></span> option allow to have duplicate rules in selector. </li>
-      </ul>
-   </div>
-
-   <p></p>
-   <div class="sect1" lang="en"><div class="titlepage"><div><div>
-               <h2 class="title" style="clear: both">
-               <a name="reference.api.basic"></a>Handle selector and property values</h2></div>
-         </div>
+          </div><br />
+          <br />
+        </td>
+      </tr>
+    </table>
+    <div class="chapter" lang="en" xml:lang="en">
+      <div class="titlepage">
+        <h2 class="title">
+          <a name="reference.api" id=
+          "reference.api"></a>Chapter&nbsp;7.&nbsp;API - Application
+          Programming Interface
+        </h2>
       </div>
       <div class="toc">
-         <dl><dt><span class="refentrytitle"><a href="re07.html"><code class="function">HTML_CSS::getStyle</code></a></span><span class="refpurpose"> - Retrieves the value of a CSS property</span></dt><dt><span class="refentrytitle"><a href="re08.html"><code class="function">HTML_CSS::setStyle</code></a></span><span class="refpurpose"> - Sets or adds a CSS definition</span></dt>
-         </dl>
+        <p class="c1">
+          Table of Contents
+        </p>
+        <dl>
+          <dt>
+            <span class="sect1"><a href="ch07.html#reference.api.basic">Handle
+            selector and property values</a></span>
+          </dt>
+          <dt>
+            <span class="sect1"><a href="ch07s02.html">Grouping
+            selectors</a></span>
+          </dt>
+          <dt>
+            <span class="sect1"><a href="ch07s03.html">Parsing data
+            sources</a></span>
+          </dt>
+          <dt>
+            <span class="sect1"><a href="ch07s04.html">Output</a></span>
+          </dt>
+        </dl>
       </div>
-
-      <p>Read and write single selector or even descendant selector is made easy with : </p>
-   </div>
-</div>
-<table class="htmlcssFooter">
-   <tr>
-      <td align="left">HTML_CSS : The Definitive Guide</td>
-      <td align="right">v 1.0.0 : June 24, 2006</td>
-   </tr>
-</table>
-<div class="navfooter"><hr>
-   <table summary="Navigation footer" width="100%">
+      <p>
+        With the class constructor, you have ability to set many options :
+      </p>
+      <div class="itemizedlist">
+        <ul type="disc">
+          <li>
+            <span class="bold"><strong>xhtml</strong></span> option defines
+            whether element selectors should be automatically lowercased.
+          </li>
+          <li>
+            <span class="bold"><strong>tab</strong></span> option defines the
+            string used to indent CSS text. See also: <code class=
+            "methodname">HTML_Common::setTab()</code>.
+          </li>
+          <li>
+            <span class="bold"><strong>filename</strong></span> option allow to
+            parse an external css file.
+          </li>
+          <li>
+            <span class="bold"><strong>cache</strong></span> option controls
+            caching of the page.
+          </li>
+          <li>
+            <span class="bold"><strong>online</strong></span> option defines
+            whether to output all properties on one line.
+          </li>
+          <li>
+            <span class="bold"><strong>groupsfirst</strong></span> option
+            determines whether to output groups before elements.
+          </li>
+          <li>
+            <span class="bold"><strong>allowduplicates</strong></span> option
+            allow to have duplicate rules in selector.
+          </li>
+        </ul>
+      </div>
+      <div class="sect1" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <h2 class="title c2">
+            <a name="reference.api.basic" id="reference.api.basic"></a>Handle
+            selector and property values
+          </h2>
+        </div>
+        <div class="toc">
+          <dl>
+            <dt>
+              <span class="refentrytitle"><a href="re07.html"><code class=
+              "function">HTML_CSS::getStyle</code></a></span> <span class=
+              "refpurpose">- Retrieves the value of a CSS property</span>
+            </dt>
+            <dt>
+              <span class="refentrytitle"><a href="re08.html"><code class=
+              "function">HTML_CSS::setStyle</code></a></span> <span class=
+              "refpurpose">- Sets or adds a CSS definition</span>
+            </dt>
+          </dl>
+        </div>
+        <p>
+          Read and write single selector or even descendant selector is made
+          easy with :
+        </p>
+      </div>
+    </div>
+    <table class="htmlcssFooter">
       <tr>
-         <td align="left" width="40%"><a accesskey="p" href="pt03.html">Prev</a> </td>
-         <td align="center" width="20%"><a accesskey="u" href="pt03.html">Up</a></td>
-         <td align="right" width="40%"> <a accesskey="n" href="re01.html">Next</a></td>
+        <td align="left">
+          HTML_CSS : The Definitive Guide
+        </td>
+        <td align="right">
+          v 1.0.1 : December 21, 2006
+        </td>
       </tr>
-      <tr>
-         <td align="left" valign="top" width="40%">Part III. Reference Guide </td>
-         <td align="center" width="20%"><a accesskey="h" href="index.html">Home</a></td>
-         <td align="right" valign="top" width="40%"> <code class="function">HTML_CSS::setXhtmlCompliance</code></td>
-      </tr>
-   </table>
-</div>
-</body>
-</html> 
+    </table>
+    <div class="navfooter">
+      <hr />
+      <table width="100%" summary="Navigation footer">
+        <tr>
+          <td width="40%" align="left">
+            <a accesskey="p" href="pt03.html">Prev</a>&nbsp;
+          </td>
+          <td width="20%" align="center">
+            <a accesskey="u" href="pt03.html">Up</a>
+          </td>
+          <td width="40%" align="right">
+            &nbsp;<a accesskey="n" href="re01.html">Next</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="40%" align="left" valign="top">
+            Part&nbsp;III.&nbsp;Reference Guide&nbsp;
+          </td>
+          <td width="20%" align="center">
+            <a accesskey="h" href="index.html">Home</a>
+          </td>
+          <td width="40%" align="right" valign="top">
+            &nbsp;<code class="function">HTML_CSS::setXhtmlCompliance</code>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
