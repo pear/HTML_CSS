@@ -14,7 +14,7 @@
  * @package    HTML_CSS
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @copyright  2003-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
  */
@@ -28,7 +28,7 @@ require_once 'PEAR.php';
  * @package    HTML_CSS
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @copyright  2003-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
  * @version    Release: @package_version@
  * @link       http://pear.php.net/package/HTML_CSS
  */
