@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.4.11" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>HTML_CSS</name>
  <channel>pear.php.net</channel>
  <summary>HTML_CSS is a class for generating CSS declarations.</summary>
@@ -29,26 +29,21 @@ In addition, it shares the following with HTML_Common based classes:
   <email>klaus@capitalfocus.org</email>
   <active>no</active>
  </lead>
- <date>2006-06-24</date>
- <time>11:38:51</time>
+ <date>2006-12-21</date>
+ <time>17:25:33</time>
  <version>
-  <release>1.0.0</release>
+  <release>1.0.1</release>
   <api>1.0.0</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
- <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
- <notes>After 2 releases candidate and no bug reported since 6 months, it&apos;s time to build the final stable version 1.0.0
-
-* Improvements
-- add @ignore phpdoc tag in all unit tests to hide them in API doc generation.
-- introduces package xml 2.0
-
-* Quality Assurance
-- header comment blocks were updated (copyright dates, ...)
-- include a user-guide in html format (others format to download on http://pear.laurent-laville.org/HTML_CSS/docs)</notes>
+ <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
+ <notes>- fix a bug with HTML_CSS::isError() method
+- drop support of package xml 1.0; Now we must have at least PEAR 1.4.3
+- License change from PHP 3.0 to PHP 3.01
+ </notes>
  <contents>
   <dir baseinstalldir="HTML" name="/">
    <dir name="CSS">
@@ -222,6 +217,22 @@ In addition, it shares the following with HTML_Common based classes:
  </dependencies>
  <phprelease />
  <changelog>
+  <release>
+   <version>
+    <release>1.0.1</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-12-21</date>
+   <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
+   <notes>- fix a bug with HTML_CSS::isError() method
+- drop support of package xml 1.0; Now we must have at least PEAR 1.4.3
+- License change from PHP 3.0 to PHP 3.01
+   </notes>
+  </release>
   <release>
    <version>
     <release>1.0.0</release>
