@@ -1,4 +1,9 @@
 
+2006-12-21 Laurent Laville
+
+  * VERSION: Version 1.0.1 (stable) released.
+  - bug fix with wrong initialisation of $_lastError indicator in isError() method.
+
 2006-06-24 Laurent Laville
 
   * VERSION: Version 1.0.0 (stable) released.

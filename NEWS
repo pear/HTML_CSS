@@ -1,4 +1,10 @@
 
+Changes since version 1.0.0 (2006-06-24)
+
+  - fix a bug with HTML_CSS::isError() method
+  - drop support of package xml 1.0; Now we must have at least PEAR 1.4.3
+  - License change from PHP 3.0 to PHP 3.01
+
 Changes since version 1.0.0RC2 (2005-12-15)
 
   - introduces package xml 2.0
