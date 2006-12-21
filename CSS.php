@@ -241,7 +241,7 @@ class HTML_CSS extends HTML_Common
      *                                       - oneline (whether to output each definition on one line),
      *                                       - groupsfirst (determines whether to output groups before elements)
      *                                       - allowduplicates (allow to have duplicate rules in selector)
-     * @param      array     $prefs         (optional) has to configure error handler
+     * @param      array     $errorPrefs    (optional) has to configure error handler
      *
      * @since      0.2.0
      * @access     public
