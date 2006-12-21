@@ -1526,7 +1526,9 @@ class HTML_CSS extends HTML_Common
      */
     function isError()
     {
-         return (!is_bool($this->_lastError));
+         $res = (!is_bool($this->_lastError));
+         $this->_lastError = false;
+         return $res;
     }
 }
 ?>
