@@ -1281,6 +1281,8 @@ class HTML_CSS extends HTML_Common
     /**
      * Generates CSS and stores it in a file.
      *
+     * @param      string    $filename      Name of file that content the stylesheet
+     *
      * @return     void|PEAR_Error
      * @since      0.3.0
      * @access     public
