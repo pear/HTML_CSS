@@ -1,106 +1,58 @@
 <?php
 /**
- * Make package.xml and GNU TAR archive files for HTML_CSS class
+ * HTML_CSS Package Script Generator
  *
- * @version    $Id$
- * @author     Laurent Laville <pear@laurent-laville.org>
+ * Generate a new fresh version of package xml 2.0 built with PEAR_PackageFileManager 1.6.0+
+ *
+ * LICENSE: This source file is subject to version 3.01 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_01.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   HTML
  * @package    HTML_CSS
+ * @author     Laurent Laville <pear@laurent-laville.org>
+ * @copyright  2006 The PHP Group
+ * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/HTML_CSS
+ * @since      File available since Release 1.0.1
+ * @ignore
  */
 
-require_once 'PEAR/Packager.php';
-require_once 'PEAR/PackageFileManager.php';
+require_once 'PEAR/PackageFileManager2.php';
 
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
 
-// Full description of the package
-$description = <<<DESCR
-HTML_CSS provides a simple interface for generating a stylesheet declaration.
-It is completely standards compliant, and has some great features:
-* Simple OO interface to CSS definitions
-* Can parse existing CSS (string or file)
-* Output to
-    - Inline stylesheet declarations
-    - Document internal stylesheet declarations
-    - Standalone stylesheet declarations
-    - Array of definitions
-    - File
+$packagefile = 'c:/php/pear/HTML_CSS/package2.xml';
 
-In addition, it shares the following with HTML_Common based classes:
-* Indent style support
-* Line ending style
-DESCR;
-
-// Summary of description of the package
-$summary = 'HTML_CSS is a class for generating CSS declarations.';
-
-// New version and state of the package
-$version = '1.0.0RC2';
-$state   = 'beta';
-
-// Notes about this new release
-$notes = <<<NOTE
-New features:
-- parseData() : Ability to parse multiple data sources (filename, string) at once
-- isError() : Tell whether a value return by HTML_CSS is an error.
-
-See new script:  examples/CSS_parseData.php
-NOTE;
-
-// Configuration of PEAR::PackageFileManager
-$options = array(
-    'package'           => 'HTML_CSS',
-    'summary'           => $summary,
-    'description'       => $description,
-    'license'           => 'PHP License 3.0',
-    'baseinstalldir'    => 'HTML',
-    'version'           => $version,
-    'packagedirectory'  => '.',
-    'state'             => $state,
-    'filelistgenerator' => 'cvs',
+$options = array('filelistgenerator' => 'cvs',
+    'packagefile' => 'package2.xml',
+    'baseinstalldir' => 'HTML',
+    'simpleoutput' => true,
+    'clearcontents' => false,
     'changelogoldtonew' => false,
-    'simpleoutput'      => false,
-    'notes'             => $notes,
-    'ignore'            => array('package.xml', 'package.php', 'Thumbs.db',
-                                 'Advanced.php', 'CSS_Advanced.php',
-                                 ),
-    'cleardependencies' => true
-);
+    'ignore' => array('CSS_Advanced.php', 'Advanced.php', 'package.php')
+    );
 
-$pkg = new PEAR_PackageFileManager();
-$pkg->setOptions( $options );
+$p2 = &PEAR_PackageFileManager2::importOptions($packagefile, $options);
+$p2->setPackageType('php');
+$p2->addRelease();
+$p2->generateContents();
+$p2->setReleaseVersion('1.0.1');
+$p2->setAPIVersion('1.0.0');
+$p2->setReleaseStability('stable');
+$p2->setAPIStability('stable');
+$p2->setNotes('- fix a bug with HTML_CSS::isError() method
+- drop support of package xml 1.0; Now we must have at least PEAR 1.4.3
+- License change from PHP 3.0 to PHP 3.01
+');
+$p2->setLicense('PHP License 3.01', 'http://www.php.net/license/3_01.txt');
 
-// Replaces version number only in necessary files
-$phpfiles = array(
-    'CSS.php',
-    'CSS/Error.php'
-);
-foreach ($phpfiles as $file) {
-    $pkg->addReplacement($file, 'package-info', '@package_version@', 'version');
-}
-
-// Maintainers List
-$pkg->addMaintainer( 'thesaur', 'lead', 'Klaus Guenther', 'klaus@capitalfocus.org' );
-$pkg->addMaintainer( 'farell',  'lead', 'Laurent Laville', 'pear@laurent-laville.org' );
-
-// Dependencies List
-$pkg->addDependency('PEAR', false, 'has');
-$pkg->addDependency('HTML_Common', '1.2', 'ge', 'pkg', false);
-
-// Writes the new version of package.xml
-if (isset($_GET['make'])) {
-    @$pkg->writePackageFile();
+if (isset($_GET['make']) || (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 'make')) {
+    $p2->writePackageFile();
 } else {
-    @$pkg->debugPackageFile();
-}
-
-// Build the new binary package
-if (!isset($_GET['make'])) {
-    echo '<a href="' . $_SERVER['PHP_SELF'] . '?make">Make this XML file</a>';
-} else {
-    $options = $pkg->getOptions();
-    $pkgfile = $options['packagedirectory'] . DIRECTORY_SEPARATOR . $options['packagefile'];
-
-    $pkgbin = new PEAR_Packager();
-    $pkgbin->package($pkgfile);
+    $p2->debugPackageFile();
 }
 ?>
