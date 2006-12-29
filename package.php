@@ -13,7 +13,7 @@
  * @category   HTML
  * @package    HTML_CSS
  * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2006 The PHP Group
+ * @copyright  2006-2007 The PHP Group
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
@@ -40,15 +40,20 @@ $p2 = &PEAR_PackageFileManager2::importOptions($packagefile, $options);
 $p2->setPackageType('php');
 $p2->addRelease();
 $p2->generateContents();
-$p2->setReleaseVersion('1.0.1');
-$p2->setAPIVersion('1.0.0');
+$p2->setReleaseVersion('1.1.0');
+$p2->setAPIVersion('1.1.0');
 $p2->setReleaseStability('stable');
 $p2->setAPIStability('stable');
-$p2->setNotes('- fix a bug with HTML_CSS::isError() method
-- drop support of package xml 1.0; Now we must have at least PEAR 1.4.3
-- License change from PHP 3.0 to PHP 3.01
+$p2->setNotes('* news
+- add new feature : ability to search if an element/property is defined or not
+- upgraded copyright notice to new year 2007
+
+* QA
+- add new example CSS_grepStyles.php for function grepStyle()
+- include a new revision of User Guide (TDG).
+  see http://pear.laurent-laville.org/HTML_CSS for more format to download.
 ');
-$p2->setLicense('PHP License 3.01', 'http://www.php.net/license/3_01.txt');
+//$p2->setLicense('PHP License 3.01', 'http://www.php.net/license/3_01.txt');
 
 if (isset($_GET['make']) || (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 'make')) {
     $p2->writePackageFile();
