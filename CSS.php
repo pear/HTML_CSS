@@ -14,7 +14,7 @@
  * @package    HTML_CSS
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2003-2006 The PHP Group
+ * @copyright  2003-2007 The PHP Group
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
@@ -48,7 +48,7 @@ define ('HTML_CSS_ERROR_WRITE_FILE',            -106);
  * @package    HTML_CSS
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2003-2006 The PHP Group
+ * @copyright  2003-2007 The PHP Group
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
  * @version    Release: @package_version@
  * @link       http://pear.php.net/package/HTML_CSS
@@ -878,7 +878,6 @@ class HTML_CSS extends HTML_Common
             $lastImplementation = array_pop($lastImplementation);
             $group = substr($this->_alibis[$element][$lastImplementation], 2);
             $property_value = $this->getGroupStyle($group, $property);
-
         }
         if (isset($this->_css[$element]) && !isset($property_value)) {
             $property_value = array();
@@ -905,6 +904,77 @@ class HTML_CSS extends HTML_Common
                       'property'   => $property));
         }
         return $property_value;
+    }
+
+    /**
+     * Return array entries that match the pattern (Perl compatible)
+     * Retrieves definitions of CSS element(s) and/or property(ies)
+     *
+     * @param      string    $elmPattern    Element or class pattern to retrieve
+     * @param      string    $proPattern   (optional) Property pattern to retrieve
+     *
+     * @return     array|PEAR_Error
+     * @since      1.1.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT
+     * @link       http://www.php.net/en/ref.pcre.php
+     *             Regular Expression Functions (Perl-Compatible)
+     */
+    function grepStyle($elmPattern, $proPattern = null)
+    {
+        if (!is_string($elmPattern)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$elmPattern',
+                      'was' => gettype($elmPattern),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+
+        } elseif (isset($proPattern) && !is_string($proPattern)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$proPattern',
+                      'was' => gettype($proPattern),
+                      'expected' => 'string',
+                      'paramnum' => 2));
+        }
+
+        $styles = array();
+
+        // first, search inside alibis
+        $alibis = array_keys($this->_alibis);
+        $alibis = preg_grep($elmPattern, $alibis);
+        foreach ($alibis as $a) {
+            foreach ($this->_alibis[$a] as $g) {
+                if (isset($proPattern)) {
+                    $properties = array_keys($this->_css[$g]);
+                    $properties = preg_grep($proPattern, $properties);
+                    if (count($properties) == 0) {
+                        // this group does not have a such property pattern
+                        continue;
+                    }
+                }
+                $styles[$a] = $this->_css[$g];
+            }
+        }
+
+        // second, search inside elements
+        $elements = array_keys($this->_css);
+        $elements = preg_grep($elmPattern, $elements);
+        foreach ($elements as $e) {
+            if (substr($e, 0, 1) == '@' ) {
+                // excludes groups (already found with alibis)
+                continue;
+            }
+            if (isset($proPattern)) {
+                $properties = array_keys($this->_css[$e]);
+                $properties = preg_grep($proPattern, $properties);
+                if (count($properties) == 0) {
+                    // this element does not have a such property pattern
+                    continue;
+                }
+            }
+            $styles[$e] = $this->_css[$e];
+        }
+        return $styles;
     }
 
     /**
