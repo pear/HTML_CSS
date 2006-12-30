@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>
+      Parsing data sources usage
+    </title>
+    <link rel="stylesheet" href="book.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
+    <link rel="start" href="index.html" title="HTML_CSS Manual" />
+    <link rel="up" href="ch10.html" title="Chapter&nbsp;10.&nbsp;Examples" />
+    <link rel="prev" href="ch10.html" title="Chapter&nbsp;10.&nbsp;Examples" />
+<style type="text/css">
+/*<![CDATA[*/
+ body {
+  background-color: white;
+  color: black;
+ }
+ :link { color: #0000FF }
+ :visited { color: #840084 }
+ :active { color: #0000FF }
+ p.c3 {font-weight: bold}
+ div.c2 {font-family: monospace;}
+ h2.c1 {clear: both}
+/*]]>*/
+</style>
+  </head>
+  <body>
+    <table class="htmlcssHeader">
+      <tr>
+        <td>
+          <img src="img/pearsmall.gif" align="left" alt="PEAR logo" />
+          <h1>
+            HTML_CSS : The Definitive Guide
+          </h1>
+          <div class="navheader">
+            <table width="100%" summary="Navigation header">
+              <tr>
+                <th colspan="3" align="center">
+                  Parsing data sources usage
+                </th>
+              </tr>
+              <tr>
+                <td width="20%" align="left">
+                  <a accesskey="p" href="ch10.html">Prev</a>&nbsp;
+                </td>
+                <th width="60%" align="center">
+                  Chapter&nbsp;10.&nbsp;Examples
+                </th>
+                <td width="20%" align="right">
+                  &nbsp;
+                </td>
+              </tr>
+            </table>
+          </div><br />
+          <br />
+        </td>
+      </tr>
+    </table>
+    <div class="sect1" lang="en" xml:lang="en">
+      <div class="titlepage">
+        <h2 class="title c1">
+          <a name="examples.parse" id="examples.parse"></a>Parsing data sources
+          usage
+        </h2>
+      </div>
+      <div class="toc">
+        <dl>
+          <dt>
+            <span class="sect2"><a href="ch10s02.html#examples.parse.1">Parse a
+            string that contains CSS information</a></span>
+          </dt>
+          <dt>
+            <span class="sect2"><a href="ch10s02.html#examples.parse.2">Parse
+            multiple data sources at once</a></span>
+          </dt>
+        </dl>
+      </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <h3 class="title">
+            <a name="examples.parse.1" id="examples.parse.1"></a>Parse a string
+            that contains CSS information
+          </h3>
+        </div>
+        <p>
+          In this example, here are our goal :
+        </p>
+        <div class="itemizedlist">
+          <ul type="disc">
+            <li>load CSS definitions from a simple PHP string
+            </li>
+          </ul>
+        </div>
+        <div class="css c2">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                *<span class="br0">{</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">margin</span>: 0px; <span class=
+                "kw1">padding</span>: 0px;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="br0">}</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                body<span class="br0">{</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">font-family</span>: Lucida Grande, Tahoma,
+                Verdana, Arial, <span class="kw2">sans-serif</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">text-align</span>:<span class=
+                "kw2">center</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">background-color</span>:#fff;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="br0">}</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <div class="example">
+          <a name="id4798718" id="id4798718"></a>
+          <p class="title c3">
+            Example&nbsp;10.3.&nbsp;Simple string parsing
+          </p>
+          <div class="php c2">
+            <ol>
+              <li class="li1">
+                <div class="de1">
+                  <span class="kw2">&lt;?php</span>
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="kw1">require_once</span> <span class=
+                  "st0">'HTML/CSS.php'</span>;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  &nbsp;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="re0">$styles</span> = <span class="st0">'</span>
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="st0">*{</span>
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="st0">margin: 0px; padding: 0px;</span>
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="st0">}</span>
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  &nbsp;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="st0">body{</span>
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="st0">font-family: Lucida Grande, Tahoma,
+                  Verdana, Arial, sans-serif;</span>
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="st0">text-align:center;</span>
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="st0">background-color:#fff;</span>
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="st0">}</span>
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="st0">'</span>;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  &nbsp;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="re0">$css</span> = <span class="kw2">new</span>
+                  HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="re0">$css</span>-&gt;<span class=
+                  "me1">parseString</span><span class=
+                  "br0">(</span><span class="re0">$styles</span><span class=
+                  "br0">)</span>;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="kw2">?&gt;</span>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <h3 class="title">
+            <a name="examples.parse.2" id="examples.parse.2"></a>Parse multiple
+            data sources at once
+          </h3>
+        </div>
+        <p>
+          In this example, here are our goals :
+        </p>
+        <div class="itemizedlist">
+          <ul type="disc">
+            <li>load CSS definitions from a simple PHP string
+            </li>
+            <li>load CSS definitions from multiple CSS files
+            </li>
+          </ul>
+        </div>
+        <p>
+          Here is content of <code class="filename">print.css</code> file :
+        </p>
+        <div class="css c2">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                *<span class="br0">{</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">margin</span>: 4px; <span class=
+                "kw1">padding</span>: 0px;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="br0">}</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                body<span class="br0">{</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">font-family</span>: Tahoma, Verdana,
+                Helvetica, Arial, <span class="kw2">sans-serif</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">text-align</span>:<span class=
+                "kw2">center</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">background-color</span>:#fff;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="br0">}</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <p>
+          Here is content of <code class="filename">default.css</code> file :
+        </p>
+        <div class="css c2">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                *<span class="br0">{</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">margin</span>: 0px; <span class=
+                "kw1">padding</span>: 0px;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="br0">}</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                body<span class="br0">{</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">font-family</span>: Lucida Grande, Tahoma,
+                Verdana, Arial, <span class="kw2">sans-serif</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">text-align</span>:<span class=
+                "kw2">center</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">background-color</span>:#fff;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="br0">}</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <div class="example">
+          <a name="id4799072" id="id4799072"></a>
+          <p class="title c3">
+            Example&nbsp;10.4.&nbsp;Multiple data sources parsing
+          </p>
+          <div class="php c2">
+            <ol>
+              <li class="li1">
+                <div class="de1">
+                  <span class="kw2">&lt;?php</span>
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="kw1">require_once</span> <span class=
+                  "st0">'HTML/CSS.php'</span>;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  &nbsp;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="re0">$styles</span> = <span class=
+                  "kw3">array</span><span class="br0">(</span>
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  &nbsp; &nbsp; <span class="st0">"body { font-size: 1em;
+                  }"</span>,
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  &nbsp; &nbsp; <span class="st0">"print.css"</span>,
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  &nbsp; &nbsp; <span class="st0">"default.css"</span>
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="br0">)</span>;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  &nbsp;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="re0">$css</span> = <span class="kw2">new</span>
+                  HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="re0">$css</span>-&gt;<span class=
+                  "me1">parseData</span><span class="br0">(</span><span class=
+                  "re0">$styles</span><span class="br0">)</span>;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="re0">$css</span>-&gt;<span class=
+                  "me1">display</span><span class="br0">(</span><span class=
+                  "br0">)</span>;
+                </div>
+              </li>
+              <li class="li1">
+                <div class="de1">
+                  <span class="kw2">?&gt;</span>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <p>
+          And here are the result we should expected :
+        </p>
+        <div class="css c2">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                body <span class="br0">{</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; <span class="kw1">font-size</span>: 1em;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; <span class="kw1">font-family</span>: Lucida Grande,
+                Tahoma, Verdana, Arial, <span class="kw2">sans-serif</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; <span class="kw1">text-align</span>: <span class=
+                "kw2">center</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; <span class="kw1">background-color</span>: #fff;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="br0">}</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                * <span class="br0">{</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; <span class="kw1">margin</span>: 0px;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; <span class="kw1">padding</span>: 0px;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="br0">}</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <table class="htmlcssFooter">
+      <tr>
+        <td align="left">
+          HTML_CSS : The Definitive Guide
+        </td>
+        <td align="right">
+          v 1.1.0 : January 1, 2007
+        </td>
+      </tr>
+    </table>
+    <div class="navfooter">
+      <hr />
+      <table width="100%" summary="Navigation footer">
+        <tr>
+          <td width="40%" align="left">
+            <a accesskey="p" href="ch10.html">Prev</a>&nbsp;
+          </td>
+          <td width="20%" align="center">
+            <a accesskey="u" href="ch10.html">Up</a>
+          </td>
+          <td width="40%" align="right">
+            &nbsp;
+          </td>
+        </tr>
+        <tr>
+          <td width="40%" align="left" valign="top">
+            Chapter&nbsp;10.&nbsp;Examples&nbsp;
+          </td>
+          <td width="20%" align="center">
+            <a accesskey="h" href="index.html">Home</a>
+          </td>
+          <td width="40%" align="right" valign="top">
+            &nbsp;
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

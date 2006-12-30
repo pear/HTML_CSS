@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>
+      Error Context Display
+    </title>
+    <link rel="stylesheet" href="book.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
+    <link rel="start" href="index.html" title="HTML_CSS Manual" />
+    <link rel="up" href="ch09.html" title=
+    "Chapter&nbsp;9.&nbsp;Error Handler" />
+    <link rel="prev" href="ch09s03.html" title=
+    "Controlling error generation " />
+    <link rel="next" href="ch09s05.html" title=
+    "Custom Error Message Generation " />
+<style type="text/css">
+/*<![CDATA[*/
+ body {
+  background-color: white;
+  color: black;
+ }
+ :link { color: #0000FF }
+ :visited { color: #840084 }
+ :active { color: #0000FF }
+ p.c4 {font-weight: bold}
+ div.c3 {margin-left: 0.5in; margin-right: 0.5in;}
+ div.c2 {font-family: monospace;}
+ h2.c1 {clear: both}
+/*]]>*/
+</style>
+  </head>
+  <body>
+    <table class="htmlcssHeader">
+      <tr>
+        <td>
+          <img src="img/pearsmall.gif" align="left" alt="PEAR logo" />
+          <h1>
+            HTML_CSS : The Definitive Guide
+          </h1>
+          <div class="navheader">
+            <table width="100%" summary="Navigation header">
+              <tr>
+                <th colspan="3" align="center">
+                  Error Context Display
+                </th>
+              </tr>
+              <tr>
+                <td width="20%" align="left">
+                  <a accesskey="p" href="ch09s03.html">Prev</a>&nbsp;
+                </td>
+                <th width="60%" align="center">
+                  Chapter&nbsp;9.&nbsp;Error Handler
+                </th>
+                <td width="20%" align="right">
+                  &nbsp;<a accesskey="n" href="ch09s05.html">Next</a>
+                </td>
+              </tr>
+            </table>
+          </div><br />
+          <br />
+        </td>
+      </tr>
+    </table>
+    <div class="sect1" lang="en" xml:lang="en">
+      <div class="titlepage">
+        <h2 class="title c1">
+          <a name="id4795725" id="id4795725"></a>Error Context Display
+        </h2>
+      </div>
+      <p>
+        In some cases, you may want to customize error generation. For
+        instance, for each error (basic/exception), it is useful to include
+        file, line number, and class/function context information in order to
+        trace it. The default option will be sufficient for most cases but you
+        want perhaps customize the output format (render) of context
+        information.
+      </p>
+      <p>
+        With this example we will change display and log renders.
+      </p>
+      <div class="php c2">
+        <ol>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">&lt;?php</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw1">require_once</span> <span class=
+              "st0">'HTML/CSS.php'</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$displayConfig</span> = <span class=
+              "kw3">array</span><span class="br0">(</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; <span class="st0">'lineFormat'</span> =&gt;
+              <span class="st0">'&lt;b&gt;%1$s&lt;/b&gt;: %2$s&lt;br
+              /&gt;%3$s'</span>,
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; <span class="st0">'contextFormat'</span>
+              =&gt;&nbsp; &nbsp;<span class="st0">'&lt;b&gt;File:&lt;/b&gt;
+              %1$s &lt;br /&gt;'</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;. <span class="st0">'&lt;b&gt;Line:&lt;/b&gt;
+              %2$s &lt;br /&gt;'</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;. <span class=
+              "st0">'&lt;b&gt;Function:&lt;/b&gt; %3$s '</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$logConfig</span> = <span class=
+              "kw3">array</span><span class="br0">(</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; <span class="st0">'lineFormat'</span> =&gt;
+              <span class="st0">'%1$s %2$s [%3$s] %4$s'</span>,
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; <span class="st0">'timeFormat'</span> =&gt;
+              <span class="st0">'%b'</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$prefs</span> = <span class=
+              "kw3">array</span><span class="br0">(</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; <span class="st0">'handler'</span> =&gt;
+              <span class="kw3">array</span><span class=
+              "br0">(</span><span class="st0">'display'</span> =&gt;
+              <span class="re0">$displayConfig</span>,
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;<span class="st0">'log'</span>&nbsp; &nbsp;
+              &nbsp;=&gt; <span class="re0">$logConfig</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="br0">)</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span> = <span class="kw2">new</span>
+              HTML_CSS<span class="br0">(</span><span class="kw2">null</span>,
+              <span class="re0">$prefs</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="co1">// ...</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$result</span> = <span class=
+              "re0">$css</span>-&gt;<span class=
+              "me1">setStyle</span><span class="br0">(</span><span class=
+              "st0">'div'</span>, <span class="st0">'color'</span>,
+              <span class="nu0">5</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">?&gt;</span>
+            </div>
+          </li>
+        </ol>
+      </div>
+      <p>
+        Display render will give something like:
+      </p>
+      <div class="informalexample screenco">
+        <pre class="screen">
+Exception<a name="error.2.level" id="error.2.level"></a><img src=
+"img/callouts/1.gif" alt="1" border=
+"0" />: invalid input, parameter #3 "$value" was expecting "string", instead got "integer"<a name="error.2.message"
+id="error.2.message"></a><img src="img/callouts/2.gif" alt="2" border="0" />
+File: [path_to]\[filename] <a name="error.2.context" id=
+"error.2.context"></a><img src="img/callouts/3.gif" alt="3" border="0" />
+Line: 22 <a name="error.2.context" id="error.2.context"></a><img src=
+"img/callouts/3.gif" alt="3" border="0" />
+Function: html_css-&gt;setstyle <a name="error.2.context" id=
+"error.2.context"></a><img src="img/callouts/3.gif" alt="3" border="0" />
+     
+</pre>
+        <div class="calloutlist">
+          <table border="0" summary="Callout list">
+            <tr>
+              <td width="5%" valign="top" align="left">
+                <a href="#error.2.level"><img src="img/callouts/1.gif" alt="1"
+                border="0" /></a>
+              </td>
+              <td valign="top" align="left">
+                <p>
+                  error level
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td width="5%" valign="top" align="left">
+                <a href="#error.2.message"><img src="img/callouts/2.gif" alt=
+                "2" border="0" /></a>
+              </td>
+              <td valign="top" align="left">
+                <p>
+                  message body with context informations
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td width="5%" valign="top" align="left">
+                <a href="#error.2.context"><img src="img/callouts/3.gif" alt=
+                "3" border="0" /></a>
+              </td>
+              <td valign="top" align="left">
+                <p>
+                  call context (file, line, function)
+                </p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <p>
+        Log render will give something like:
+      </p>
+      <div class="informalexample screenco">
+        <pre class="screen">
+Jun 127.0.0.1<a name="error.3.context" id="error.3.context"></a><img src=
+"img/callouts/1.gif" alt="1" border="0" /> [exception<a name="error.3.level"
+id="error.3.level"></a><img src="img/callouts/2.gif" alt="2" border=
+"0" />] invalid input, parameter #3 "$value" was expecting "string", instead got "integer"<a name="error.3.message"
+id="error.3.message"></a><img src="img/callouts/3.gif" alt="3" border="0" />
+     
+</pre>
+        <div class="calloutlist">
+          <table border="0" summary="Callout list">
+            <tr>
+              <td width="5%" valign="top" align="left">
+                <a href="#error.3.context"><img src="img/callouts/1.gif" alt=
+                "1" border="0" /></a>
+              </td>
+              <td valign="top" align="left">
+                <p>
+                  client ip address and execution date
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td width="5%" valign="top" align="left">
+                <a href="#error.3.level"><img src="img/callouts/2.gif" alt="2"
+                border="0" /></a>
+              </td>
+              <td valign="top" align="left">
+                <p>
+                  error level
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td width="5%" valign="top" align="left">
+                <a href="#error.3.message"><img src="img/callouts/3.gif" alt=
+                "3" border="0" /></a>
+              </td>
+              <td valign="top" align="left">
+                <p>
+                  message body with context informations
+                </p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="note c3">
+        <table border="0" summary="Note">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="48">
+              <img alt="[Note]" src="img/admons/note.png" />
+            </td>
+            <th align="left">
+              Note
+            </th>
+          </tr>
+          <tr>
+            <td align="left" valign="top">
+              To have both display and log output, check the <code class=
+              "filename">php.ini</code><span class=
+              "emphasis"><em>display_errors</em></span> and <span class=
+              "emphasis"><em>log_errors</em></span> values : must be set to
+              <code class="constant">TRUE</code>.
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        Let review, step by step, how to get such results.
+      </p>
+      <p>
+        Remember that with default classes, there are two drivers :
+        <span class="emphasis"><em>display</em></span> and <span class=
+        "emphasis"><em>log</em></span> that have both their own configuration
+        parameters. You can override these parameters values with the
+        <span class="bold"><strong>handler</strong></span> entry in the hash of
+        second argument of the HTML_CSS class constructor.
+      </p>
+      <p>
+        We did it here with the <em class="parameter"><code>$prefs</code></em>
+        variable; its a two keys associative array. First key <span class=
+        "emphasis"><em>display</em></span> defines the display driver values,
+        and the second key <span class="emphasis"><em>log</em></span> defines
+        the log driver values.
+      </p>
+      <p>
+        Review the <span class="emphasis"><em>display</em></span> driver custom
+        values. Only two keys: <span class="simplelist">lineFormat,
+        contextFormat</span> are redefined, thats means remains key
+        <span class="simplelist">eol</span> keep its default value. See table
+        below.
+      </p>
+      <div class="table">
+        <a name="id4796205" id="id4796205"></a>
+        <p class="title c4">
+          Table&nbsp;9.2.&nbsp;Display driver configuration parameters
+        </p>
+        <table summary="Display driver configuration parameters" border="1">
+          <colgroup>
+            <col />
+            <col />
+            <col />
+            <col />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                Parameter
+              </th>
+              <th>
+                Type
+              </th>
+              <th>
+                Default
+              </th>
+              <th>
+                Description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                eol
+              </td>
+              <td>
+                string
+              </td>
+              <td>
+                &lt;br /&gt;\n
+              </td>
+              <td>
+                The end-on-line character sequence
+              </td>
+            </tr>
+            <tr>
+              <td>
+                lineFormat
+              </td>
+              <td>
+                string
+              </td>
+              <td>
+                &lt;b&gt;%1$s&lt;/b&gt;: %2$s %3$s
+              </td>
+              <td>
+                Log line format specification:
+                <div class="itemizedlist">
+                  <ul type="disc">
+                    <li>1$ = error level
+                    </li>
+                    <li>2$ = error message (body)
+                    </li>
+                    <li>3$ = error context
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                contextFormat
+              </td>
+              <td>
+                string
+              </td>
+              <td>
+                in &lt;b&gt;%3$s&lt;/b&gt; (file &lt;b&gt;%1$s&lt;/b&gt; on
+                line &lt;b&gt;%2$s&lt;/b&gt;)
+              </td>
+              <td>
+                Context format (class, file, line) specification:
+                <div class="itemizedlist">
+                  <ul type="disc">
+                    <li>1$ = script file name
+                    </li>
+                    <li>2$ = line in script file
+                    </li>
+                    <li>3$ = class/method names
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip c3">
+        <table border="0" summary="Tip">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="48">
+              <img alt="[Tip]" src="img/admons/tip.png" />
+            </td>
+            <th align="left">
+              Tip
+            </th>
+          </tr>
+          <tr>
+            <td align="left" valign="top">
+              If you don't wish to see context information in the error
+              message, then remove the parameter %3$ in the <span class=
+              "emphasis"><em>lineFormat</em></span> option even if <span class=
+              "emphasis"><em>contextFormat</em></span> is set.
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        Review now the <span class="emphasis"><em>log</em></span> driver custom
+        values. Only two keys <span class="simplelist">lineFormat,
+        timeFormat</span> are redefined, thats means six remains keys
+        <span class="simplelist">eol, contextFormat, ident, message_type,
+        destination, extra_headers</span> keep their default values. See table
+        below.
+      </p>
+      <div class="table">
+        <a name="id4796396" id="id4796396"></a>
+        <p class="title c4">
+          Table&nbsp;9.3.&nbsp;Log driver configuration parameters
+        </p>
+        <table summary="Log driver configuration parameters" border="1">
+          <colgroup>
+            <col />
+            <col />
+            <col />
+            <col />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                Parameter
+              </th>
+              <th>
+                Type
+              </th>
+              <th>
+                Default
+              </th>
+              <th>
+                Description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                eol
+              </td>
+              <td>
+                string
+              </td>
+              <td>
+                \n
+              </td>
+              <td>
+                The end-on-line character sequence
+              </td>
+            </tr>
+            <tr>
+              <td>
+                lineFormat
+              </td>
+              <td>
+                string
+              </td>
+              <td>
+                %1$s %2$s [%3$s] %4$s %5$s
+              </td>
+              <td>
+                Log line format specification:
+                <div class="itemizedlist">
+                  <ul type="disc">
+                    <li>$1 = time error
+                    </li>
+                    <li>2$ = ident (client ip)
+                    </li>
+                    <li>3$ = error level
+                    </li>
+                    <li>4$ = error message (body)
+                    </li>
+                    <li>5$ = error context
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                contextFormat
+              </td>
+              <td>
+                string
+              </td>
+              <td>
+                in %3$s (file %1$s on line %2$s)
+              </td>
+              <td>
+                Context format (class, file, line) specification:
+                <div class="itemizedlist">
+                  <ul type="disc">
+                    <li>1$ = script file name
+                    </li>
+                    <li>2$ = line in script file
+                    </li>
+                    <li>3$ = class/method names
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                timeFormat
+              </td>
+              <td>
+                string
+              </td>
+              <td>
+                %b %d %H:%M:%S
+              </td>
+              <td>
+                Time stamp format used by <a class="external" href=
+                "http://www.php.net/manual-lookup.php?pattern=strftime" title=
+                "http://www.php.net/manual-lookup.php?pattern=strftime">strftime</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                ident
+              </td>
+              <td>
+                string
+              </td>
+              <td>
+                REMOTE_ADDR
+              </td>
+              <td>
+                Client IP
+              </td>
+            </tr>
+            <tr>
+              <td>
+                message_type
+              </td>
+              <td>
+                string
+              </td>
+              <td>
+                3
+              </td>
+              <td>
+                Destination type used by <a class="external" href=
+                "http://www.php.net/manual-lookup.php?pattern=error_log" title=
+                "http://www.php.net/manual-lookup.php?pattern=error_log">error_log</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                destination
+              </td>
+              <td>
+                string
+              </td>
+              <td>
+                html_css_error.log
+              </td>
+              <td>
+                Destination name used by <a class="external" href=
+                "http://www.php.net/manual-lookup.php?pattern=error_log" title=
+                "http://www.php.net/manual-lookup.php?pattern=error_log">error_log</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                extra_headers
+              </td>
+              <td>
+                string
+              </td>
+              <td>
+                <code class="constant">NULL</code>
+              </td>
+              <td>
+                Extra headers depending of destination type
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip c3">
+        <table border="0" summary="Tip">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="48">
+              <img alt="[Tip]" src="img/admons/tip.png" />
+            </td>
+            <th align="left">
+              Tip
+            </th>
+          </tr>
+          <tr>
+            <td align="left" valign="top">
+              If you don't wish to see context information in the error
+              message, then remove the parameter %5$ in the <span class=
+              "emphasis"><em>lineFormat</em></span> option even if <span class=
+              "emphasis"><em>contextFormat</em></span> is set.
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <table class="htmlcssFooter">
+      <tr>
+        <td align="left">
+          HTML_CSS : The Definitive Guide
+        </td>
+        <td align="right">
+          v 1.1.0 : January 1, 2007
+        </td>
+      </tr>
+    </table>
+    <div class="navfooter">
+      <hr />
+      <table width="100%" summary="Navigation footer">
+        <tr>
+          <td width="40%" align="left">
+            <a accesskey="p" href="ch09s03.html">Prev</a>&nbsp;
+          </td>
+          <td width="20%" align="center">
+            <a accesskey="u" href="ch09.html">Up</a>
+          </td>
+          <td width="40%" align="right">
+            &nbsp;<a accesskey="n" href="ch09s05.html">Next</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="40%" align="left" valign="top">
+            Controlling error generation &nbsp;
+          </td>
+          <td width="20%" align="center">
+            <a accesskey="h" href="index.html">Home</a>
+          </td>
+          <td width="40%" align="right" valign="top">
+            &nbsp;Custom Error Message Generation
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

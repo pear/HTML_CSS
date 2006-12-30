@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>
+      Configuring a Handler
+    </title>
+    <link rel="stylesheet" href="book.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
+    <link rel="start" href="index.html" title="HTML_CSS Manual" />
+    <link rel="up" href="ch09.html" title=
+    "Chapter&nbsp;9.&nbsp;Error Handler" />
+    <link rel="prev" href="ch09.html" title=
+    "Chapter&nbsp;9.&nbsp;Error Handler" />
+    <link rel="next" href="ch09s03.html" title=
+    "Controlling error generation " />
+<style type="text/css">
+/*<![CDATA[*/
+ body {
+  background-color: white;
+  color: black;
+ }
+ :link { color: #0000FF }
+ :visited { color: #840084 }
+ :active { color: #0000FF }
+ p.c3 {font-weight: bold}
+ div.c2 {font-family: monospace;}
+ h2.c1 {clear: both}
+/*]]>*/
+</style>
+  </head>
+  <body>
+    <table class="htmlcssHeader">
+      <tr>
+        <td>
+          <img src="img/pearsmall.gif" align="left" alt="PEAR logo" />
+          <h1>
+            HTML_CSS : The Definitive Guide
+          </h1>
+          <div class="navheader">
+            <table width="100%" summary="Navigation header">
+              <tr>
+                <th colspan="3" align="center">
+                  Configuring a Handler
+                </th>
+              </tr>
+              <tr>
+                <td width="20%" align="left">
+                  <a accesskey="p" href="ch09.html">Prev</a>&nbsp;
+                </td>
+                <th width="60%" align="center">
+                  Chapter&nbsp;9.&nbsp;Error Handler
+                </th>
+                <td width="20%" align="right">
+                  &nbsp;<a accesskey="n" href="ch09s03.html">Next</a>
+                </td>
+              </tr>
+            </table>
+          </div><br />
+          <br />
+        </td>
+      </tr>
+    </table>
+    <div class="sect1" lang="en" xml:lang="en">
+      <div class="titlepage">
+        <h2 class="title c1">
+          <a name="id4795441" id="id4795441"></a>Configuring a Handler
+        </h2>
+      </div>
+      <p>
+        A error handler's configuration is determined by the arguments used in
+        its construction. Here's an overview of these parameters.
+      </p>
+      <div class="php c2">
+        <ol>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">&lt;?php</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw1">require_once</span> <span class=
+              "st0">'HTML/CSS.php'</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$errorConf</span> = <span class=
+              "kw3">array</span><span class="br0">(</span><span class=
+              "st0">'error_handler'</span> =&gt; <span class=
+              "st0">'myErrorHandler'</span>,
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp;<span class="st0">'push_callback'</span> =&gt; <span class=
+              "st0">'myError'</span>,
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp;<span class="co1">// ... more options</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              <span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span> = <span class="kw2">new</span>
+              HTML_CSS<span class="br0">(</span><span class="kw2">null</span>,
+              <span class="re0">$errorConf</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">?&gt;</span>
+            </div>
+          </li>
+        </ol>
+      </div>
+      <div class="table">
+        <a name="id4795464" id="id4795464"></a>
+        <p class="title c3">
+          Table&nbsp;9.1.&nbsp;Error Handler configuration parameters
+        </p>
+        <table summary="Error Handler configuration parameters" border="1">
+          <colgroup>
+            <col />
+            <col />
+            <col />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                Option
+              </th>
+              <th>
+                Type
+              </th>
+              <th>
+                Description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                error_handler
+              </td>
+              <td>
+                callback
+              </td>
+              <td>
+                A valid callback (function) to manage errors raised by the
+                <code class="methodname">HTML_CSS::raiseError()</code> method.
+                Default is: <code class=
+                "methodname">HTML_CSS::_errorHandler</code>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                push_callback
+              </td>
+              <td>
+                callback
+              </td>
+              <td>
+                A valid callback (function) that decides to following action.
+                Default return: <code class="constant">PEAR_ERROR_DIE</code> if
+                exception, <code class="constant">NULL</code> otherwise.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                message_callback
+              </td>
+              <td>
+                callback
+              </td>
+              <td>
+                A valid callback (function) to control message generation.
+                Default is: <code class=
+                "methodname">HTML_CSS_Error::_msgCallback</code>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                context_callback
+              </td>
+              <td>
+                callback
+              </td>
+              <td>
+                A valid callback (function) to control error context
+                generation. Default is: <code class=
+                "methodname">HTML_CSS_Error::getBacktrace</code>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                handler
+              </td>
+              <td>
+                mixed
+              </td>
+              <td>
+                any handler-specific settings
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <table class="htmlcssFooter">
+      <tr>
+        <td align="left">
+          HTML_CSS : The Definitive Guide
+        </td>
+        <td align="right">
+          v 1.1.0 : January 1, 2007
+        </td>
+      </tr>
+    </table>
+    <div class="navfooter">
+      <hr />
+      <table width="100%" summary="Navigation footer">
+        <tr>
+          <td width="40%" align="left">
+            <a accesskey="p" href="ch09.html">Prev</a>&nbsp;
+          </td>
+          <td width="20%" align="center">
+            <a accesskey="u" href="ch09.html">Up</a>
+          </td>
+          <td width="40%" align="right">
+            &nbsp;<a accesskey="n" href="ch09s03.html">Next</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="40%" align="left" valign="top">
+            Chapter&nbsp;9.&nbsp;Error Handler&nbsp;
+          </td>
+          <td width="20%" align="center">
+            <a accesskey="h" href="index.html">Home</a>
+          </td>
+          <td width="40%" align="right" valign="top">
+            &nbsp;Controlling error generation
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
