@@ -907,8 +907,7 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Return array entries that match the pattern (Perl compatible)
-     * Retrieves definitions of CSS element(s) and/or property(ies)
+     * Return array entries of styles that match patterns (Perl compatible)
      *
      * @param      string    $elmPattern    Element or class pattern to retrieve
      * @param      string    $proPattern   (optional) Property pattern to retrieve
