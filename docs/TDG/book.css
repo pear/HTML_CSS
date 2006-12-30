@@ -45,6 +45,7 @@ div.example {
 .php .de1, .php .de2 {font-family: 'Courier New', Courier, monospace; font-weight: normal;}
 .php .imp {font-weight: bold; color: red;}
 .php .li1 {background: #eeeeee;}
+.php .ln-xtra {background: #e0e0e0;}
 .php .kw1 {color: #b1b100;}
 .php .kw2 {color: #000000; font-weight: bold;}
 .php .kw3 {color: #000066;}
@@ -97,6 +98,10 @@ div.example {
 .css .re1 {color: #6666ff;}
 .css .re2 {color: #3333ff;}
 
+span.term {
+  color: navy;
+}
+
 code.methodname {
   background-color: #cfc;
 }
@@ -110,6 +115,7 @@ pre.php {
   padding: 0.9em;
 }
 pre.programlisting {
+  background-color: #EEE;
   padding: 0.9em;
 }
 div.table table {
@@ -122,6 +128,7 @@ div.table table td {
 div.note, div.tip, div.warning, div.caution, div.important {
   background-color: lightyellow;
   border: 2px solid silver;
+  margin: 5px 0;
 }
 div.note td, div.tip td, div.warning td, div.caution td, div.important td {
   font-size: 0.9em;
@@ -214,6 +221,15 @@ tr.question td {
 }
 
 tr.answer {
+  font-size: 12px;
+}
+
+/* callout list */
+div.calloutlist td p, div.calloutlist div.orderedlist, div.calloutlist span.term {
+  font-size: 12px;
+}
+
+div.variablelist div.itemizedlist {
   font-size: 12px;
 }
 

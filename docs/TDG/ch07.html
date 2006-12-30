@@ -5,16 +5,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Chapter&nbsp;7.&nbsp;API - Application Programming Interface
+      Chapter&nbsp;7.&nbsp;Searching for selectors and properties
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="pt03.html" title=
-    "Part&nbsp;III.&nbsp;Reference Guide" />
-    <link rel="prev" href="pt03.html" title=
-    "Part&nbsp;III.&nbsp;Reference Guide" />
-    <link rel="next" href="re01.html" title="HTML_CSS::setXhtmlCompliance" />
+    <link rel="up" href="pt02.html" title=
+    "Part&nbsp;II.&nbsp;Getting Started" />
+    <link rel="prev" href="ch06s06.html" title="Display" />
+    <link rel="next" href="ch07s02.html" title=
+    "Searching for a group of selectors " />
 <style type="text/css">
 /*<![CDATA[*/
  body {
@@ -41,18 +41,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Chapter&nbsp;7.&nbsp;API - Application Programming Interface
+                  Chapter&nbsp;7.&nbsp;Searching for selectors and properties
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="pt03.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="ch06s06.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Part&nbsp;III.&nbsp;Reference Guide
+                  Part&nbsp;II.&nbsp;Getting Started
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="re01.html">Next</a>
+                  &nbsp;<a accesskey="n" href="ch07s02.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -64,9 +64,9 @@
     <div class="chapter" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title">
-          <a name="reference.api" id=
-          "reference.api"></a>Chapter&nbsp;7.&nbsp;API - Application
-          Programming Interface
+          <a name="developers.find" id=
+          "developers.find"></a>Chapter&nbsp;7.&nbsp;Searching for selectors
+          and properties
         </h2>
       </div>
       <div class="toc">
@@ -75,82 +75,32 @@
         </p>
         <dl>
           <dt>
-            <span class="sect1"><a href="ch07.html#reference.api.basic">Handle
-            selector and property values</a></span>
+            <span class="sect1"><a href="ch07.html#developers.find.purpose">In
+            brief</a></span>
           </dt>
           <dt>
-            <span class="sect1"><a href="ch07s02.html">Grouping
+            <span class="sect1"><a href="ch07s02.html">Searching for a group of
             selectors</a></span>
           </dt>
           <dt>
-            <span class="sect1"><a href="ch07s03.html">Parsing data
-            sources</a></span>
-          </dt>
-          <dt>
-            <span class="sect1"><a href="ch07s04.html">Output</a></span>
+            <span class="sect1"><a href="ch07s03.html">Searching for selectors
+            that set a property</a></span>
           </dt>
         </dl>
-      </div>
-      <p>
-        With the class constructor, you have ability to set many options :
-      </p>
-      <div class="itemizedlist">
-        <ul type="disc">
-          <li>
-            <span class="bold"><strong>xhtml</strong></span> option defines
-            whether element selectors should be automatically lowercased.
-          </li>
-          <li>
-            <span class="bold"><strong>tab</strong></span> option defines the
-            string used to indent CSS text. See also: <code class=
-            "methodname">HTML_Common::setTab()</code>.
-          </li>
-          <li>
-            <span class="bold"><strong>filename</strong></span> option allow to
-            parse an external css file.
-          </li>
-          <li>
-            <span class="bold"><strong>cache</strong></span> option controls
-            caching of the page.
-          </li>
-          <li>
-            <span class="bold"><strong>online</strong></span> option defines
-            whether to output all properties on one line.
-          </li>
-          <li>
-            <span class="bold"><strong>groupsfirst</strong></span> option
-            determines whether to output groups before elements.
-          </li>
-          <li>
-            <span class="bold"><strong>allowduplicates</strong></span> option
-            allow to have duplicate rules in selector.
-          </li>
-        </ul>
       </div>
       <div class="sect1" lang="en" xml:lang="en">
         <div class="titlepage">
           <h2 class="title c2">
-            <a name="reference.api.basic" id="reference.api.basic"></a>Handle
-            selector and property values
+            <a name="developers.find.purpose" id=
+            "developers.find.purpose"></a>In brief
           </h2>
         </div>
-        <div class="toc">
-          <dl>
-            <dt>
-              <span class="refentrytitle"><a href="re07.html"><code class=
-              "function">HTML_CSS::getStyle</code></a></span> <span class=
-              "refpurpose">- Retrieves the value of a CSS property</span>
-            </dt>
-            <dt>
-              <span class="refentrytitle"><a href="re08.html"><code class=
-              "function">HTML_CSS::setStyle</code></a></span> <span class=
-              "refpurpose">- Sets or adds a CSS definition</span>
-            </dt>
-          </dl>
-        </div>
         <p>
-          Read and write single selector or even descendant selector is made
-          easy with :
+          One of features of HTML_CSS that was still missing to version less or
+          equal than 1.0.1 is ability to detect if a selector (or group of
+          selectors), and/or a property (or group of properties) was already
+          defined. This is now possible with method : <code class=
+          "methodname">HTML_CSS::grepStyle()</code>
         </p>
       </div>
     </div>
@@ -160,7 +110,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.0.1 : December 21, 2006
+          v 1.1.0 : January 1, 2007
         </td>
       </tr>
     </table>
@@ -169,24 +119,24 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="pt03.html">Prev</a>&nbsp;
+            <a accesskey="p" href="ch06s06.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="pt03.html">Up</a>
+            <a accesskey="u" href="pt02.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="re01.html">Next</a>
+            &nbsp;<a accesskey="n" href="ch07s02.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Part&nbsp;III.&nbsp;Reference Guide&nbsp;
+            Display&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;<code class="function">HTML_CSS::setXhtmlCompliance</code>
+            &nbsp;Searching for a group of selectors
           </td>
         </tr>
       </table>
