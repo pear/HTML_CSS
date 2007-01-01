@@ -30,9 +30,9 @@ In addition, it shares the following with HTML_Common based classes:
   <active>no</active>
  </lead>
  <date>2007-01-01</date>
- <time>13:55:40</time>
+ <time>16:24:49</time>
  <version>
-  <release>1.1.0</release>
+  <release>1.1.1</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -40,14 +40,9 @@ In addition, it shares the following with HTML_Common based classes:
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
- <notes>* news
-- add new feature : ability to search if an element/property is defined or not
-- upgraded copyright notice to new year 2007
-
-* QA
-- add new example CSS_grepStyles.php for function grepStyle()
-- include a new revision of User Guide (TDG).
-  see http://pear.laurent-laville.org/HTML_CSS for more format to download.
+ <notes>* bugs
+- it was impossible to use isError() in cascade with version 1.1.0
+- fixed version number on license declared and used in CSS.php file
  </notes>
  <contents>
   <dir baseinstalldir="HTML" name="/">
@@ -233,6 +228,22 @@ In addition, it shares the following with HTML_Common based classes:
  <changelog>
   <release>
    <version>
+    <release>1.1.1</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-01-01</date>
+   <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
+   <notes>* bugs
+- it was impossible to use isError() in cascade with version 1.1.0
+- fixed version number on license declared and used in CSS.php file
+   </notes>
+  </release>
+  <release>
+   <version>
     <release>1.1.0</release>
     <api>1.1.0</api>
    </version>
@@ -249,8 +260,7 @@ In addition, it shares the following with HTML_Common based classes:
 * QA
 - add new example CSS_grepStyles.php for function grepStyle()
 - include a new revision of User Guide (TDG).
-  see http://pear.laurent-laville.org/HTML_CSS for more format to download.
-   </notes>
+  see http://pear.laurent-laville.org/HTML_CSS for more format to download.</notes>
   </release>
   <release>
    <version>
