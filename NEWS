@@ -1,4 +1,8 @@
 
+Changes since version 1.1.0 (2007-01-01)
+
+  - bug fix related to usage of isError() in cascade.
+
 Changes since version 1.0.1 (2006-12-21)
 
   - add new feature : ability to search if an element/property is defined or not
