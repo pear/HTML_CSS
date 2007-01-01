@@ -1265,7 +1265,7 @@ class HTML_CSS extends HTML_Common
             } else {
                 $res = $this->parseString($style, $duplicates);
             }
-            if ($this->isError()) {
+            if (!is_bool($this->_lastError)) {
                 return $res;
             }
         }
