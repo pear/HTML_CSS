@@ -951,7 +951,11 @@ class HTML_CSS extends HTML_Common
                         continue;
                     }
                 }
-                $styles[$a] = $this->_css[$g];
+                if (isset($styles[$a])) {
+                    $styles[$a] = array_merge($styles[$a], $this->_css[$g]);
+                } else {
+                    $styles[$a] = $this->_css[$g];
+                }
             }
         }
 
@@ -971,7 +975,11 @@ class HTML_CSS extends HTML_Common
                     continue;
                 }
             }
-            $styles[$e] = $this->_css[$e];
+            if (isset($styles[$e])) {
+                $styles[$e] = array_merge($styles[$e], $this->_css[$e]);
+            } else {
+                $styles[$e] = $this->_css[$e];
+            }
         }
         return $styles;
     }
