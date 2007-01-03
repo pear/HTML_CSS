@@ -40,18 +40,15 @@ $p2 = &PEAR_PackageFileManager2::importOptions($packagefile, $options);
 $p2->setPackageType('php');
 $p2->addRelease();
 $p2->generateContents();
-$p2->setReleaseVersion('1.1.0');
+$p2->setReleaseVersion('1.1.2');
 $p2->setAPIVersion('1.1.0');
 $p2->setReleaseStability('stable');
 $p2->setAPIStability('stable');
-$p2->setNotes('* news
-- add new feature : ability to search if an element/property is defined or not
-- upgraded copyright notice to new year 2007
+$p2->setNotes('* bugs
+- fixed error into grepStyle() method : conflict between goup (alibis) and simple element
 
 * QA
-- add new example CSS_grepStyles.php for function grepStyle()
-- include a new revision of User Guide (TDG).
-  see http://pear.laurent-laville.org/HTML_CSS for more format to download.
+User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (bug fixes)
 ');
 //$p2->setLicense('PHP License 3.01', 'http://www.php.net/license/3_01.txt');
 
