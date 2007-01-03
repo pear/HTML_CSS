@@ -29,10 +29,10 @@ In addition, it shares the following with HTML_Common based classes:
   <email>klaus@capitalfocus.org</email>
   <active>no</active>
  </lead>
- <date>2007-01-01</date>
- <time>16:24:49</time>
+ <date>2007-01-03</date>
+ <time>17:29:54</time>
  <version>
-  <release>1.1.1</release>
+  <release>1.1.2</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -41,8 +41,10 @@ In addition, it shares the following with HTML_Common based classes:
  </stability>
  <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
  <notes>* bugs
-- it was impossible to use isError() in cascade with version 1.1.0
-- fixed version number on license declared and used in CSS.php file
+- fixed error into grepStyle() method : conflict between goup (alibis) and simple element
+
+* QA
+User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (bug fixes)
  </notes>
  <contents>
   <dir baseinstalldir="HTML" name="/">
@@ -228,6 +230,24 @@ In addition, it shares the following with HTML_Common based classes:
  <changelog>
   <release>
    <version>
+    <release>1.1.2</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-01-03</date>
+   <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
+   <notes>* bugs
+- fixed error into grepStyle() method : conflict between goup (alibis) and simple element
+
+* QA
+User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (bug fixes)
+   </notes>
+  </release>
+  <release>
+   <version>
     <release>1.1.1</release>
     <api>1.1.0</api>
    </version>
@@ -239,8 +259,7 @@ In addition, it shares the following with HTML_Common based classes:
    <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
    <notes>* bugs
 - it was impossible to use isError() in cascade with version 1.1.0
-- fixed version number on license declared and used in CSS.php file
-   </notes>
+- fixed version number on license declared and used in CSS.php file</notes>
   </release>
   <release>
    <version>
