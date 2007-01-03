@@ -1,4 +1,9 @@
 
+Changes since version 1.1.1 (2007-01-01)
+
+  - bug fix related to grepStyle() function when using group of selector
+    and simple element with same name
+
 Changes since version 1.1.0 (2007-01-01)
 
   - bug fix related to usage of isError() in cascade.

@@ -1,4 +1,9 @@
 
+2007-01-03 Laurent Laville
+
+  * VERSION: Version 1.1.2 (stable) released.
+  - fixed error into grepStyle() method : conflict between goup (alibis) and simple element
+
 2007-01-01 Laurent Laville
 
   * VERSION: Version 1.1.1 (stable) released.
