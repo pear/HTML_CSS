@@ -40,15 +40,15 @@ $p2 = &PEAR_PackageFileManager2::importOptions($packagefile, $options);
 $p2->setPackageType('php');
 $p2->addRelease();
 $p2->generateContents();
-$p2->setReleaseVersion('1.1.2');
+$p2->setReleaseVersion('1.1.3');
 $p2->setAPIVersion('1.1.0');
 $p2->setReleaseStability('stable');
 $p2->setAPIStability('stable');
 $p2->setNotes('* bugs
-- fixed error into grepStyle() method : conflict between goup (alibis) and simple element
+- fixed typo error in "online" attribute used with class constructor (Bug #10103)
 
 * QA
-User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (bug fixes)
+User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
 ');
 //$p2->setLicense('PHP License 3.01', 'http://www.php.net/license/3_01.txt');
 

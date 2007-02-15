@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.0RC2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.5.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>HTML_CSS</name>
  <channel>pear.php.net</channel>
  <summary>HTML_CSS is a class for generating CSS declarations.</summary>
@@ -29,10 +29,10 @@ In addition, it shares the following with HTML_Common based classes:
   <email>klaus@capitalfocus.org</email>
   <active>no</active>
  </lead>
- <date>2007-01-03</date>
- <time>17:29:54</time>
+ <date>2007-02-18</date>
+ <time>10:34:39</time>
  <version>
-  <release>1.1.2</release>
+  <release>1.1.3</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -41,10 +41,10 @@ In addition, it shares the following with HTML_Common based classes:
  </stability>
  <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
  <notes>* bugs
-- fixed error into grepStyle() method : conflict between goup (alibis) and simple element
+- fixed typo error in &quot;online&quot; attribute used with class constructor (Bug #10103)
 
 * QA
-User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (bug fixes)
+User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
  </notes>
  <contents>
   <dir baseinstalldir="HTML" name="/">
@@ -175,6 +175,7 @@ User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (b
     <file name="HTML_CSS_TestCase_bug1066.php" role="test" />
     <file name="HTML_CSS_TestCase_bug1072.php" role="test" />
     <file name="HTML_CSS_TestCase_bug1084.php" role="test" />
+    <file name="HTML_CSS_TestCase_bug10103.php" role="test" />
     <file name="HTML_CSS_TestCase_createGroup.php" role="test" />
     <file name="HTML_CSS_TestCase_getGroupStyle.php" role="test" />
     <file name="HTML_CSS_TestCase_getStyle.php" role="test" />
@@ -230,6 +231,24 @@ User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (b
  <changelog>
   <release>
    <version>
+    <release>1.1.3</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-18</date>
+   <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
+   <notes>* bugs
+- fixed typo error in &quot;online&quot; attribute used with class constructor (Bug #10103)
+
+* QA
+User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
+   </notes>
+  </release>
+  <release>
+   <version>
     <release>1.1.2</release>
     <api>1.1.0</api>
    </version>
@@ -243,8 +262,7 @@ User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (b
 - fixed error into grepStyle() method : conflict between goup (alibis) and simple element
 
 * QA
-User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (bug fixes)
-   </notes>
+User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (bug fixes)</notes>
   </release>
   <release>
    <version>
