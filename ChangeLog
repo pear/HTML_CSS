@@ -1,4 +1,9 @@
 
+2007-02-18 Laurent Laville
+
+  * VERSION: Version 1.1.3 (stable) released.
+  - fixed bug #10103 : oneline attribute typo error in class constructor
+
 2007-01-03 Laurent Laville
 
   * VERSION: Version 1.1.2 (stable) released.
