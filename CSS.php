@@ -118,6 +118,7 @@ class HTML_CSS extends HTML_Common
      * @var        array
      * @since      1.0.0
      * @access     private
+     * @see        setOutputGroupsFirst()
      */
     var $_groupsFirst = true;
 
@@ -257,7 +258,8 @@ class HTML_CSS extends HTML_Common
             && (is_bool($attributes['xhtml']))) {
             $this->setXhtmlCompliance($attributes['xhtml']);
         }
-        if (isset($attributes['tab'])) {
+        if (isset($attributes['tab'])
+            && (is_string($attributes['tab']))) {
             $this->setTab($attributes['tab']);
         }
         if (isset($attributes['filename'])) {
@@ -268,8 +270,8 @@ class HTML_CSS extends HTML_Common
             $this->setCache($attributes['cache']);
         }
         if ((isset($attributes['oneline']))
-            && (is_bool($attributes['online']))) {
-            $this->setSingleLineOutput($attributes['online']);
+            && (is_bool($attributes['oneline']))) {
+            $this->setSingleLineOutput($attributes['oneline']);
         }
         if ((isset($attributes['groupsfirst']))
             && (is_bool($attributes['groupsfirst']))) {
