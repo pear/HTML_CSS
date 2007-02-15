@@ -67,7 +67,8 @@ $title = 'PhpUnit test run, HTML_CSS class';
             'HTML_CSS_TestCase_bug998',
             'HTML_CSS_TestCase_bug1066',
             'HTML_CSS_TestCase_bug1072',
-            'HTML_CSS_TestCase_bug1084'
+            'HTML_CSS_TestCase_bug1084',
+            'HTML_CSS_TestCase_bug10103'
     );
 
     $suite = new PHPUnit_TestSuite();
