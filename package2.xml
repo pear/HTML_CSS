@@ -30,7 +30,7 @@ In addition, it shares the following with HTML_Common based classes:
   <active>no</active>
  </lead>
  <date>2007-02-18</date>
- <time>10:34:39</time>
+ <time>09:58:03</time>
  <version>
   <release>1.1.3</release>
   <api>1.1.0</api>
@@ -41,7 +41,7 @@ In addition, it shares the following with HTML_Common based classes:
  </stability>
  <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
  <notes>* bugs
-- fixed typo error in &quot;online&quot; attribute used with class constructor (Bug #10103)
+- fixed typo error in &quot;oneline&quot; attribute used with class constructor (Bug #10103)
 
 * QA
 User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
@@ -115,6 +115,7 @@ User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
      <file name="ch08s03.html" role="doc" />
      <file name="ch08s04.html" role="doc" />
      <file name="ch08s05.html" role="doc" />
+     <file name="ch08s06.html" role="doc" />
      <file name="ch09.html" role="doc" />
      <file name="ch09s02.html" role="doc" />
      <file name="ch09s03.html" role="doc" />
@@ -122,6 +123,7 @@ User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
      <file name="ch09s05.html" role="doc" />
      <file name="ch10.html" role="doc" />
      <file name="ch10s02.html" role="doc" />
+     <file name="ch10s03.html" role="doc" />
      <file name="index.html" role="doc" />
      <file name="pr01.html" role="doc" />
      <file name="pr01s02.html" role="doc" />
@@ -241,7 +243,7 @@ User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
    <date>2007-02-18</date>
    <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
    <notes>* bugs
-- fixed typo error in &quot;online&quot; attribute used with class constructor (Bug #10103)
+- fixed typo error in &quot;oneline&quot; attribute used with class constructor (Bug #10103)
 
 * QA
 User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x

@@ -45,7 +45,7 @@ $p2->setAPIVersion('1.1.0');
 $p2->setReleaseStability('stable');
 $p2->setAPIStability('stable');
 $p2->setNotes('* bugs
-- fixed typo error in "online" attribute used with class constructor (Bug #10103)
+- fixed typo error in "oneline" attribute used with class constructor (Bug #10103)
 
 * QA
 User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
