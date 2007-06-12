@@ -4,17 +4,11 @@
  *
  * Generate a new fresh version of package xml 2.0 built with PEAR_PackageFileManager 1.6.0+
  *
- * LICENSE: This source file is subject to version 3.01 of the PHP license
- * that is available through the world-wide-web at the following URI:
- * http://www.php.net/license/3_01.txt.  If you did not receive a copy of
- * the PHP License and are unable to obtain it through the web, please
- * send a note to license@php.net so we can mail you a copy immediately.
- *
  * @category   HTML
  * @package    HTML_CSS
  * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2006-2007 The PHP Group
- * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
+ * @copyright  2006-2007 Laurent Laville
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
  * @since      File available since Release 1.0.1
@@ -40,17 +34,18 @@ $p2 = &PEAR_PackageFileManager2::importOptions($packagefile, $options);
 $p2->setPackageType('php');
 $p2->addRelease();
 $p2->generateContents();
-$p2->setReleaseVersion('1.1.3');
-$p2->setAPIVersion('1.1.0');
+$p2->setReleaseVersion('1.2.0');
+$p2->setAPIVersion('1.2.0');
 $p2->setReleaseStability('stable');
 $p2->setAPIStability('stable');
-$p2->setNotes('* bugs
-- fixed typo error in "oneline" attribute used with class constructor (Bug #10103)
+$p2->setNotes('* changes
+- No code changes since previous release, but license changed
+from PHP 3.01 to new BSD (give more freedom)
 
 * QA
-User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
+User Guide 1.2.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
 ');
-//$p2->setLicense('PHP License 3.01', 'http://www.php.net/license/3_01.txt');
+$p2->setLicense('BSD', 'http://www.opensource.org/licenses/bsd-license.php');
 
 if (isset($_GET['make']) || (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 'make')) {
     $p2->writePackageFile();

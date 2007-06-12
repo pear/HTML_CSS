@@ -1,23 +1,44 @@
 <?php
 /**
- * Base class for CSS definitions
+ * Copyright (c) 2003-2007, Klaus Guenther <klaus@capitalfocus.org>
+ *                          Laurent Laville <pear@laurent-laville.org>
  *
- * PHP versions 4 and 5
+ * All rights reserved.
  *
- * LICENSE: This source file is subject to version 3.01 of the PHP license
- * that is available through the world-wide-web at the following URI:
- * http://www.php.net/license/3_01.txt.  If you did not receive a copy of
- * the PHP License and are unable to obtain it through the web, please
- * send a note to license@php.net so we can mail you a copy immediately.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the authors nor the names of its contributors
+ *       may be used to endorse or promote products derived from this software
+ *       without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   HTML
  * @package    HTML_CSS
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2003-2007 The PHP Group
- * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
+ * @copyright  2003-2007 Klaus Guenther, Laurent Laville
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
+ * @since      File available since Release 0.2.0
  */
 
 require_once 'HTML/Common.php';
@@ -48,10 +69,11 @@ define ('HTML_CSS_ERROR_WRITE_FILE',            -106);
  * @package    HTML_CSS
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2003-2007 The PHP Group
- * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
+ * @copyright  2003-2007 Klaus Guenther, Laurent Laville
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://pear.php.net/package/HTML_CSS
+ * @since      Class available since Release 0.2.0
  */
 
 class HTML_CSS extends HTML_Common
