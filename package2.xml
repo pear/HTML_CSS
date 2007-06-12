@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.6.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>HTML_CSS</name>
  <channel>pear.php.net</channel>
  <summary>HTML_CSS is a class for generating CSS declarations.</summary>
@@ -29,22 +29,23 @@ In addition, it shares the following with HTML_Common based classes:
   <email>klaus@capitalfocus.org</email>
   <active>no</active>
  </lead>
- <date>2007-02-18</date>
- <time>09:58:03</time>
+ <date>2007-06-12</date>
+ <time>17:39:03</time>
  <version>
-  <release>1.1.3</release>
-  <api>1.1.0</api>
+  <release>1.2.0</release>
+  <api>1.2.0</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
- <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
- <notes>* bugs
-- fixed typo error in &quot;oneline&quot; attribute used with class constructor (Bug #10103)
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+ <notes>* changes
+- No code changes since previous release, but license changed
+from PHP 3.01 to new BSD (give more freedom)
 
 * QA
-User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
+User Guide 1.2.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
  </notes>
  <contents>
   <dir baseinstalldir="HTML" name="/">
@@ -233,6 +234,25 @@ User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
  <changelog>
   <release>
    <version>
+    <release>1.2.0</release>
+    <api>1.2.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-06-12</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>* changes
+- No code changes since previous release, but license changed
+from PHP 3.01 to new BSD (give more freedom)
+
+* QA
+User Guide 1.2.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
+   </notes>
+  </release>
+  <release>
+   <version>
     <release>1.1.3</release>
     <api>1.1.0</api>
    </version>
@@ -246,8 +266,7 @@ User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
 - fixed typo error in &quot;oneline&quot; attribute used with class constructor (Bug #10103)
 
 * QA
-User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
-   </notes>
+User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x</notes>
   </release>
   <release>
    <version>
