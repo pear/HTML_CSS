@@ -64,23 +64,6 @@ User Guide 1.2.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
        <file name="tip.png" role="doc" />
        <file name="warning.png" role="doc" />
       </dir> <!-- /docs/TDG/img/admons -->
-      <dir name="callouts">
-       <file name="1.gif" role="doc" />
-       <file name="2.gif" role="doc" />
-       <file name="3.gif" role="doc" />
-       <file name="4.gif" role="doc" />
-       <file name="5.gif" role="doc" />
-       <file name="6.gif" role="doc" />
-       <file name="7.gif" role="doc" />
-       <file name="8.gif" role="doc" />
-       <file name="9.gif" role="doc" />
-       <file name="10.gif" role="doc" />
-       <file name="11.gif" role="doc" />
-       <file name="12.gif" role="doc" />
-       <file name="13.gif" role="doc" />
-       <file name="14.gif" role="doc" />
-       <file name="15.gif" role="doc" />
-      </dir> <!-- /docs/TDG/img/callouts -->
       <file name="created-with-docbook.png" role="doc" />
       <file name="example.png" role="doc" />
       <file name="external-link.gif" role="doc" />
