@@ -117,6 +117,16 @@ class HTML_CSS extends HTML_Common
     var $_charset = 'iso-8859-1';
 
     /**
+     * Contains the Content-Disposition filename.
+     *
+     * @var        mixed  (false|string)
+     * @since      1.3.0
+     * @access     private
+     * @see        setContentDisposition()
+     */
+    var $_contentDisposition = false;
+
+    /**
      * Contains last assigned index for duplicate styles
      *
      * @var        array
@@ -1084,6 +1094,62 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
+     * Defines the Content-Disposition filename for the browser output.
+     * Defaults to basename($_SERVER['PHP_SELF']).'.css'
+     *
+     * @param      bool      $enable   (optional)
+     * @param      string    $filename (optional)
+     *
+     * @return     void|PEAR_Error
+     * @since      1.3.0
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT
+     * @see        getContentDisposition()
+     * @link       http://pear.php.net/bugs/bug.php?id=12195
+     *             Patch by Carsten Wiedmann
+     */
+    function setContentDisposition($enable = true, $filename = '')
+    {
+        if (!is_bool($enable)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$enable',
+                      'was' => gettype($enable),
+                      'expected' => 'bool',
+                      'paramnum' => 1));
+        } elseif (!is_string($filename)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$filename',
+                      'was' => gettype($filename),
+                      'expected' => 'string',
+                      'paramnum' => 2));
+        }
+
+        if ($enable == false) {
+            $filename = false;
+        } elseif ($filename == '') {
+            $filename = basename($_SERVER['PHP_SELF']) . '.css';
+        }
+
+        $this->_contentDisposition = $filename;
+    }
+
+    /**
+     * Returns the Content-Disposition header ability (inline filename)
+     *
+     * @return     mixed     boolean FALSE if no content disposition, otherwise
+     *                       string for inline filename
+     * @since      1.3.0
+     * @access     public
+     * @see        setContentDisposition()
+     * @link       http://pear.php.net/bugs/bug.php?id=12195
+     *             Patch by Carsten Wiedmann
+     */
+    function getContentDisposition()
+    {
+        return $this->_contentDisposition;
+    }
+
+    /**
      * Defines the charset for the file. defaults to ISO-8859-1 because of CSS1
      * compatability issue for older browsers.
      *
@@ -1518,6 +1584,11 @@ class HTML_CSS extends HTML_Common
 
         // set character encoding
         header("Content-Type: text/css; charset=" . $this->_charset);
+
+        // set Content-Disposition
+        if ($this->_contentDisposition !== false) {
+            header('Content-Disposition: inline; filename="' . $this->_contentDisposition . '"');
+        }
 
         $strCss = $this->toString();
         print $strCss;
