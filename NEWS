@@ -1,3 +1,8 @@
+Changes since version 1.2.0 (2007-06-12)
+
+  - prevent invalide CSS data source in to parse
+  - add Content-Disposition to the headers in display(); request#12195
+
 Changes since version 1.1.3 (2007-02-18)
 
   - license change from PHP 3.01 to new BSD (give more freedom)
