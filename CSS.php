@@ -1337,13 +1337,7 @@ class HTML_CSS extends HTML_Common
             $duplicates = $this->_allowDuplicates;
         }
 
-        if (function_exists('file_get_contents')){
-            $ret = $this->parseString(file_get_contents($filename), $duplicates);
-        } else {
-            $file = fopen("$filename", "rb");
-            $ret = $this->parseString(fread($file, filesize($filename)), $duplicates);
-            fclose($file);
-        }
+        $ret = $this->parseString(file_get_contents($filename), $duplicates);
         return $ret;
     }
 

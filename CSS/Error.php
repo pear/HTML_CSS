@@ -88,9 +88,7 @@ class HTML_CSS_Error extends PEAR_Error
         $this->code      = $code;
         $this->mode      = $mode;
         $this->userinfo  = $userinfo;
-        if (function_exists('debug_backtrace')) {
-            $this->backtrace = debug_backtrace();
-        }
+        $this->backtrace = debug_backtrace();
 
         if ($mode & PEAR_ERROR_CALLBACK) {
             $this->level = E_USER_NOTICE;
