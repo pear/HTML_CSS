@@ -1232,6 +1232,28 @@ class HTML_CSS extends HTML_Common
             $part = trim($part);
             if (strlen($part) > 0) {
 
+                // prevent invalide css data structure
+                $pos = strpos($part, '{');
+                if (strpos($part, '{', $pos+1) !== false) {
+
+                    $context = debug_backtrace();
+                    $context = @array_pop($context);
+                    $function = strtolower($context['function']);
+                    if ($function === 'parsestring') {
+                        $var = 'str';
+                    } elseif ($function === 'parsefile') {
+                        $var = 'filename';
+                    } else {
+                        $var = 'styles';
+                    }
+
+                    return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                        array('var' => '$'.$var,
+                              'was' => 'invalid data source',
+                              'expected' => 'valid CSS structure',
+                              'paramnum' => 1));
+                }
+
                 // Parse each group of element in csscode
                 list($keystr,$codestr) = explode("{",$part);
                 $key_a = $this->parseSelectors($keystr, 1);
@@ -1316,12 +1338,13 @@ class HTML_CSS extends HTML_Common
         }
 
         if (function_exists('file_get_contents')){
-            $this->parseString(file_get_contents($filename), $duplicates);
+            $ret = $this->parseString(file_get_contents($filename), $duplicates);
         } else {
             $file = fopen("$filename", "rb");
-            $this->parseString(fread($file, filesize($filename)), $duplicates);
+            $ret = $this->parseString(fread($file, filesize($filename)), $duplicates);
             fclose($file);
         }
+        return $ret;
     }
 
     /**
