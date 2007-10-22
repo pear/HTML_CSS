@@ -5,15 +5,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      HTML_CSS::setCache
+      HTML_CSS::setContentDisposition
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch08.html#reference.api.init" title=
-    "Initialize parser/writer options" />
-    <link rel="prev" href="re03.html" title="HTML_CSS::parseFile" />
-    <link rel="next" href="re05.html" title="HTML_CSS::setSingleLineOutput" />
+    <link rel="up" href="ch08s05.html" title="Output " />
+    <link rel="prev" href="re24.html" title=
+    "HTML_CSS::getContentDisposition" />
+    <link rel="next" href="ch08s06.html" title=
+    "Searching for selectors and/or properties" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -39,18 +40,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  <code class="function">HTML_CSS::setCache</code>
+                  <code class="function">HTML_CSS::setContentDisposition</code>
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="re03.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="re24.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Initialize parser/writer options
+                  Output
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="re05.html">Next</a>
+                  &nbsp;<a accesskey="n" href="ch08s06.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -59,16 +60,16 @@
       </tr>
     </table>
     <div class="refentry" lang="en" xml:lang="en">
-      <a name="package.html.html-css.html-css.setcache" id=
-      "package.html.html-css.html-css.setcache"></a>
+      <a name="package.html.html-css.html-css.setcontentdisposition" id=
+      "package.html.html-css.html-css.setcontentdisposition"></a>
       <div class="titlepage"></div>
       <div class="refnamediv">
         <h2>
           Name
         </h2>
         <p>
-          <code class="function">HTML_CSS::setCache</code> &mdash; Defines if
-          the document should be cached by the browser. Defaults to false.
+          <code class="function">HTML_CSS::setContentDisposition</code> &mdash;
+          Defines the Content-Disposition filename for the browser output.
         </p>
       </div>
       <div class="refsynopsisdiv">
@@ -85,10 +86,21 @@
             <tr>
               <td>
                 <code class="funcdef">void|PEAR_Error <b class=
-                "fsfunc">HTML_CSS::setCache</b>(</code>
+                "fsfunc">HTML_CSS::setContentDisposition</b>(</code>
               </td>
               <td>
-                <var class="pdparam">$cache = TRUE</var><code>)</code>;
+                <var class="pdparam">$enable = TRUE</var>,
+              </td>
+              <td>
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td>
+                &nbsp;
+              </td>
+              <td>
+                <var class="pdparam">$filename = ''</var><code>)</code>;
               </td>
               <td>
                 &nbsp;
@@ -99,28 +111,37 @@
           "0" cellpadding="0">
             <tr>
               <td>
-                bool &nbsp;
+                boolean &nbsp;
               </td>
               <td>
-                <var class="pdparam">$cache = TRUE</var>;
+                <var class="pdparam">$enable = TRUE</var>;
+              </td>
+            </tr>
+            <tr>
+              <td>
+                string &nbsp;
+              </td>
+              <td>
+                <var class="pdparam">$filename = ''</var>;
               </td>
             </tr>
           </table>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcache.desc" id=
-        "package.html.html-css.html-css.setcache.desc"></a>
+        <a name="package.html.html-css.html-css.setcontentdisposition.desc" id=
+        "package.html.html-css.html-css.setcontentdisposition.desc"></a>
         <h2>
           Description
         </h2>
         <p>
-          This package is not documented yet.
+          Defines the Content-Disposition filename for the browser output.
+          Defaults to basename($_SERVER['PHP_SELF']).'.css'
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcache.param" id=
-        "package.html.html-css.html-css.setcache.param"></a>
+        <a name="package.html.html-css.html-css.setcontentdisposition.param"
+        id="package.html.html-css.html-css.setcontentdisposition.param"></a>
         <h2>
           Parameter
         </h2>
@@ -128,7 +149,20 @@
           <dl>
             <dt>
               <span class="term"><span class="type">boolean</span> <em class=
-              "parameter"><code>$cache</code></em></span>
+              "parameter"><code>$enable</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                (optional)
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <div class="variablelist">
+          <dl>
+            <dt>
+              <span class="term"><span class="type">string</span> <em class=
+              "parameter"><code>$filename</code></em></span>
             </dt>
             <dd>
               <p>
@@ -139,8 +173,8 @@
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcache.throws" id=
-        "package.html.html-css.html-css.setcache.throws"></a>
+        <a name="package.html.html-css.html-css.setcontentdisposition.throws"
+        id="package.html.html-css.html-css.setcontentdisposition.throws"></a>
         <h2>
           Throws
         </h2>
@@ -150,18 +184,36 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcache.since" id=
-        "package.html.html-css.html-css.setcache.since"></a>
+        <a name="package.html.html-css.html-css.setcontentdisposition.since"
+        id="package.html.html-css.html-css.setcontentdisposition.since"></a>
         <h2>
           Since
         </h2>
         <p>
-          Release 0.2.0 (2003-07-31)
+          Release 1.3.0 (2007-10-22)
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcache.note" id=
-        "package.html.html-css.html-css.setcache.note"></a>
+        <a name="package.html.html-css.html-css.setcontentdisposition.see" id=
+        "package.html.html-css.html-css.setcontentdisposition.see"></a>
+        <h2>
+          See
+        </h2>
+        <p>
+          <span class="emphasis"><em>see</em></span> <a href="re24.html" title=
+          "HTML_CSS::getContentDisposition"><code class=
+          "function">HTML_CSS::getContentDisposition</code></a>
+        </p>
+        <p>
+          <span class="emphasis"><em>see</em></span> <a class="external" href=
+          "http://pear.php.net/bugs/bug.php?id=12195" title=
+          "http://pear.php.net/bugs/bug.php?id=12195">http://pear.php.net/bugs/bug.php?id=12195
+          Patch by Carsten Wiedmann</a>
+        </p>
+      </div>
+      <div class="refsect1" lang="en" xml:lang="en">
+        <a name="package.html.html-css.html-css.setcontentdisposition.note" id=
+        "package.html.html-css.html-css.setcontentdisposition.note"></a>
         <h2>
           Note
         </h2>
@@ -185,24 +237,24 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="re03.html">Prev</a>&nbsp;
+            <a accesskey="p" href="re24.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch08.html#reference.api.init">Up</a>
+            <a accesskey="u" href="ch08s05.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="re05.html">Next</a>
+            &nbsp;<a accesskey="n" href="ch08s06.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            <code class="function">HTML_CSS::parseFile</code>&nbsp;
+            <code class="function">HTML_CSS::getContentDisposition</code>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;<code class="function">HTML_CSS::setSingleLineOutput</code>
+            &nbsp;Searching for selectors and/or properties
           </td>
         </tr>
       </table>
