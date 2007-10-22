@@ -34,16 +34,18 @@ $p2 = &PEAR_PackageFileManager2::importOptions($packagefile, $options);
 $p2->setPackageType('php');
 $p2->addRelease();
 $p2->generateContents();
-$p2->setReleaseVersion('1.2.0');
-$p2->setAPIVersion('1.2.0');
+$p2->setReleaseVersion('1.3.0');
+$p2->setAPIVersion('1.3.0');
 $p2->setReleaseStability('stable');
 $p2->setAPIStability('stable');
 $p2->setNotes('* changes
-- No code changes since previous release, but license changed
-from PHP 3.01 to new BSD (give more freedom)
+- prevent invalide CSS data source in to parse
+
+* news
+- add Content-Disposition to the headers in display(); implement request #12195
 
 * QA
-User Guide 1.2.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
+User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x, 1.3.x
 ');
 $p2->setLicense('BSD', 'http://www.opensource.org/licenses/bsd-license.php');
 
