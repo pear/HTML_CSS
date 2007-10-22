@@ -317,6 +317,7 @@ class HTML_CSS extends HTML_Common
 
     /**
      * Returns the current API version
+     *
      * Since 1.0.0 a string is returned rather than a float (for previous versions).
      *
      * @return     string                   compatible with php.version_compare()
@@ -374,6 +375,7 @@ class HTML_CSS extends HTML_Common
 
     /**
      * Parses a string containing selector(s).
+     *
      * It processes it and returns an array or string containing
      * modified selectors (depends on XHTML compliance setting;
      * defaults to ensure lowercase element names)
@@ -517,7 +519,9 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Creates a new CSS definition group. Returns an integer identifying the group.
+     * Creates a new CSS definition group.
+     *
+     * Returns an integer identifying the group.
      *
      * @param      string    $selectors     Selector(s) to be defined, comma delimited.
      * @param      mixed     $group        (optional) Group identifier. If not passed,

@@ -286,6 +286,7 @@ class HTML_CSS_Error extends PEAR_Error
 
     /**
      * Default internal error handler
+     *
      * Dies if the error is an exception (and would have died anyway)
      *
      * @param      int       $code          a numeric error code.
