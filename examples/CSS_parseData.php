@@ -46,6 +46,7 @@ text-align:center;
 background-color:#fff;
 }
 */
+
 $styles = array(
     "body { font-size: 1em; }",
     "print.css",

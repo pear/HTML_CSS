@@ -33,6 +33,7 @@ function displayResults($styles)
     }
 }
 
+
 $styleSheet = '
 #PB1.cellPB1I, #PB1.cellPB1A {
   width: 15px;

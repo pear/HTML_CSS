@@ -132,5 +132,4 @@ $msg .= "Previous errors has been recorded in database '$db_name', table '$db_ta
 echo "$msg <br/><br/>";
 
 print 'still alive !';
-
 ?>

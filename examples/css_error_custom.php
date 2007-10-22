@@ -37,7 +37,7 @@ function myErrorHandler($code, $level)
 }
 
 /**
- * be sure that we will print and log error details.
+ * Be sure that we will print and log error details.
  * @see HTML_CSS_Error::log()
  */
 ini_set('display_errors',1);
@@ -78,5 +78,4 @@ $css2->getStyle('h1', 'class');
 $css2->setXhtmlCompliance('true');
 
 print 'still alive !';
-
 ?>

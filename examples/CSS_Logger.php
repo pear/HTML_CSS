@@ -104,6 +104,7 @@ class myErrorHandler
     }
 }
 
+
 $myErrorHandler = new myErrorHandler();
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$myErrorHandler, 'errorCallback'));
 
@@ -145,5 +146,4 @@ $css->setXhtmlCompliance('true');  // generate an API exception
 
 print '<hr />';
 print "still alive";
-
 ?>

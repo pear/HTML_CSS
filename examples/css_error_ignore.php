@@ -39,5 +39,4 @@ $css1->getStyle('h1', 'class');
 $css1->setXhtmlCompliance('true');
 
 print 'still alive !';
-
 ?>

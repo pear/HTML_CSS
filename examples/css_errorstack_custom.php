@@ -132,5 +132,4 @@ $css2->setXhtmlCompliance('true');
 
 
 print 'still alive !';
-
 ?>

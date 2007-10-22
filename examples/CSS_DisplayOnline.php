@@ -20,6 +20,7 @@ if (version_compare($css->apiVersion(), '1.3.0') >= 0) {
     // ability to download result as 'exOnline.css' file
     $css->setContentDisposition(true, 'exOnline.css');
 }
+
 // define styles
 $css->setStyle('body', 'background-color', '#0c0c0c');
 $css->setStyle('body', 'color', '#ffffff');

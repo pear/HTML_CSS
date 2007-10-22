@@ -152,5 +152,4 @@ $css2->getStyle('h1', 'class');
 $css2->setXhtmlCompliance('true');
 
 print 'still alive !';
-
 ?>

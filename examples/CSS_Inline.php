@@ -40,5 +40,4 @@ echo '<body style="' . $css->toInline('body') . '">';
 // ideas for inline use:
 //    * use in conjunction with HTML_Table to assign styles for cells
 //    * integrates easily into existing classes
-
 ?>
