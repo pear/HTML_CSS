@@ -30,15 +30,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   HTML
- * @package    HTML_CSS
- * @author     Klaus Guenther <klaus@capitalfocus.org>
- * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2003-2007 Klaus Guenther, Laurent Laville
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/HTML_CSS
- * @since      File available since Release 0.2.0
+ * PHP versions 4 and 5
+ *
+ * @category  HTML
+ * @package   HTML_CSS
+ * @author    Klaus Guenther <klaus@capitalfocus.org>
+ * @author    Laurent Laville <pear@laurent-laville.org>
+ * @copyright 2003-2007 Klaus Guenther, Laurent Laville
+ * @license   http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/HTML_CSS
+ * @since     File available since Release 0.2.0
  */
 
 require_once 'HTML/Common.php';
@@ -49,14 +51,14 @@ require_once 'HTML/Common.php';
  * @var        integer
  * @since      0.3.3
  */
-define ('HTML_CSS_ERROR_UNKNOWN',                 -1);
-define ('HTML_CSS_ERROR_INVALID_INPUT',         -100);
-define ('HTML_CSS_ERROR_INVALID_GROUP',         -101);
-define ('HTML_CSS_ERROR_NO_GROUP',              -102);
-define ('HTML_CSS_ERROR_NO_ELEMENT',            -103);
-define ('HTML_CSS_ERROR_NO_ELEMENT_PROPERTY',   -104);
-define ('HTML_CSS_ERROR_NO_FILE',               -105);
-define ('HTML_CSS_ERROR_WRITE_FILE',            -106);
+define('HTML_CSS_ERROR_UNKNOWN', -1);
+define('HTML_CSS_ERROR_INVALID_INPUT', -100);
+define('HTML_CSS_ERROR_INVALID_GROUP', -101);
+define('HTML_CSS_ERROR_NO_GROUP', -102);
+define('HTML_CSS_ERROR_NO_ELEMENT', -103);
+define('HTML_CSS_ERROR_NO_ELEMENT_PROPERTY', -104);
+define('HTML_CSS_ERROR_NO_FILE', -105);
+define('HTML_CSS_ERROR_WRITE_FILE', -106);
 /**#@-*/
 
 /**
@@ -65,15 +67,15 @@ define ('HTML_CSS_ERROR_WRITE_FILE',            -106);
  * This class handles the details for creating properly
  * constructed CSS declarations.
  *
- * @category   HTML
- * @package    HTML_CSS
- * @author     Klaus Guenther <klaus@capitalfocus.org>
- * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2003-2007 Klaus Guenther, Laurent Laville
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    Release: @package_version@
- * @link       http://pear.php.net/package/HTML_CSS
- * @since      Class available since Release 0.2.0
+ * @category  HTML
+ * @package   HTML_CSS
+ * @author    Klaus Guenther <klaus@capitalfocus.org>
+ * @author    Laurent Laville <pear@laurent-laville.org>
+ * @copyright 2003-2007 Klaus Guenther, Laurent Laville
+ * @license   http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version   Release: @package_version@
+ * @link      http://pear.php.net/package/HTML_CSS
+ * @since     Class available since Release 0.2.0
  */
 
 class HTML_CSS extends HTML_Common
@@ -88,7 +90,8 @@ class HTML_CSS extends HTML_Common
     var $_css = array();
 
     /**
-     * Contains "alibis" (other elements that share a definition) of an element defined in CSS
+     * Contains "alibis" (other elements that share a definition) of an element
+     * defined in CSS
      *
      * @var        array
      * @since      0.2.0
@@ -265,16 +268,20 @@ class HTML_CSS extends HTML_Common
     /**
      * Class constructor
      *
-     * @param      array     $attributes    (optional) Pass options to the constructor.
-     *                                       Valid options are :
-     *                                       - xhtml (sets xhtml compliance),
-     *                                       - tab (sets indent string),
-     *                                       - filename (name of file to be parsed),
-     *                                       - cache (determines whether the nocache headers are sent),
-     *                                       - oneline (whether to output each definition on one line),
-     *                                       - groupsfirst (determines whether to output groups before elements)
-     *                                       - allowduplicates (allow to have duplicate rules in selector)
-     * @param      array     $errorPrefs    (optional) has to configure error handler
+     * @param array $attributes (optional) Pass options to the constructor.
+     *                          Valid options are :
+     *                           - xhtml (sets xhtml compliance),
+     *                           - tab (sets indent string),
+     *                           - filename (name of file to be parsed),
+     *                           - cache (determines whether the nocache headers
+     *                             are sent),
+     *                           - oneline (whether to output each definition
+     *                             on one line),
+     *                           - groupsfirst (determines whether to output groups
+     *                             before elements)
+     *                           - allowduplicates (allow to have duplicate rules
+     *                             in selector)
+     * @param array $errorPrefs (optional) has to configure error handler
      *
      * @since      0.2.0
      * @access     public
@@ -310,7 +317,7 @@ class HTML_CSS extends HTML_Common
             $this->setOutputGroupsFirst($attributes['groupsfirst']);
         }
         if ((isset($attributes['allowduplicates']))
-            && (is_bool($attributes['allowduplicates'])))  {
+            && (is_bool($attributes['allowduplicates']))) {
             $this->_allowDuplicates = $attributes['allowduplicates'];
         }
     }
@@ -332,7 +339,7 @@ class HTML_CSS extends HTML_Common
     /**
      * Determines whether definitions are output single line or multiline
      *
-     * @param      bool      $value
+     * @param bool $value flag to true if single line, false for multiline
      *
      * @return     void|PEAR_Error
      * @since      0.3.3
@@ -354,7 +361,8 @@ class HTML_CSS extends HTML_Common
     /**
      * Determines whether groups are output before elements or not
      *
-     * @param      bool      $value
+     * @param bool $value flag to true if groups are output before elements,
+     *                    false otherwise
      *
      * @return     void|PEAR_Error
      * @since      0.3.3
@@ -380,8 +388,8 @@ class HTML_CSS extends HTML_Common
      * modified selectors (depends on XHTML compliance setting;
      * defaults to ensure lowercase element names)
      *
-     * @param      string    $selectors     Selector string
-     * @param      int       $outputMode    (optional) 0 = string; 1 = array; 2 = deep array
+     * @param string $selectors  Selector string
+     * @param int    $outputMode (optional) 0 = string; 1 = array; 2 = deep array
      *
      * @return     mixed|PEAR_Error
      * @since      0.3.2
@@ -413,13 +421,13 @@ class HTML_CSS extends HTML_Common
         }
 
         $selectors_array =  explode(',', $selectors);
-        $i = 0;
+        $i               = 0;
         foreach ($selectors_array as $selector) {
             // trim to remove possible whitespace
             $selector = trim($this->collapseInternalSpaces($selector));
             if (strpos($selector, ' ')) {
                 $sel_a = array();
-                foreach(explode(' ', $selector) as $sub_selector) {
+                foreach (explode(' ', $selector) as $sub_selector) {
                     $sel_a[] = $this->parseSelectors($sub_selector, $outputMode);
                 }
                 if ($outputMode === 0) {
@@ -445,22 +453,22 @@ class HTML_CSS extends HTML_Common
 
                 if (strpos($selector, ':') !== false) {
                     $pseudo   = strstr($selector, ':');
-                    $selector = substr($selector, 0 , strpos($selector, ':'));
+                    $selector = substr($selector, 0, strpos($selector, ':'));
                 }
-                if (strpos($selector, '.') !== false){
+                if (strpos($selector, '.') !== false) {
                     $class    = strstr($selector, '.');
-                    $selector = substr($selector, 0 , strpos($selector, '.'));
+                    $selector = substr($selector, 0, strpos($selector, '.'));
                 }
                 if (strpos($selector, '#') !== false) {
                     $id       = strstr($selector, '#');
-                    $selector = substr($selector, 0 , strpos($selector, '#'));
+                    $selector = substr($selector, 0, strpos($selector, '#'));
                 }
                 if ($selector != '') {
-                    $element  = $selector;
+                    $element = $selector;
                 }
-                if ($this->_xhtmlCompliant){
-                    $element  = strtolower($element);
-                    $pseudo   = strtolower($pseudo);
+                if ($this->_xhtmlCompliant) {
+                    $element = strtolower($element);
+                    $pseudo  = strtolower($pseudo);
                 }
                 if ($outputMode == 2) {
                     $array[$i]['element'] = $element;
@@ -484,7 +492,7 @@ class HTML_CSS extends HTML_Common
     /**
      * Strips excess spaces in string.
      *
-     * @param      string    $subject       string to format
+     * @param string $subject string to format
      *
      * @return     string
      * @since      0.3.2
@@ -499,7 +507,8 @@ class HTML_CSS extends HTML_Common
     /**
      * Sets XHTML compliance
      *
-     * @param      bool      $value         Boolean value
+     * @param bool $value flag to true if XHTML compliance needed,
+     *                    false otherwise
      *
      * @return     void|PEAR_Error
      * @since      0.3.2
@@ -523,9 +532,9 @@ class HTML_CSS extends HTML_Common
      *
      * Returns an integer identifying the group.
      *
-     * @param      string    $selectors     Selector(s) to be defined, comma delimited.
-     * @param      mixed     $group        (optional) Group identifier. If not passed,
-     *                                      will return an automatically assigned integer.
+     * @param string $selectors Selector(s) to be defined, comma delimited.
+     * @param mixed  $group     (optional) Group identifier. If not passed,
+     *                          will return an automatically assigned integer.
      *
      * @return     mixed|PEAR_Error
      * @since      0.3.0
@@ -547,7 +556,7 @@ class HTML_CSS extends HTML_Common
             $this->_groupCount++;
             $group = $this->_groupCount;
         } else {
-            if (isset($this->_groups['@-'.$group])){
+            if (isset($this->_groups['@-'.$group])) {
                 return $this->raiseError(HTML_CSS_ERROR_INVALID_GROUP, 'error',
                     array('identifier' => $group));
             }
@@ -568,7 +577,7 @@ class HTML_CSS extends HTML_Common
     /**
      * Sets or adds a CSS definition for a CSS definition group
      *
-     * @param      mixed     $group         CSS definition group identifier
+     * @param mixed $group CSS definition group identifier
      *
      * @return     void|PEAR_Error
      * @since      0.3.0
@@ -611,10 +620,10 @@ class HTML_CSS extends HTML_Common
     /**
      * Sets or adds a CSS definition for a CSS definition group
      *
-     * @param      mixed     $group         CSS definition group identifier
-     * @param      string    $property      Property defined
-     * @param      string    $value         Value assigned
-     * @param      bool      $duplicates    (optional) Allow or disallow duplicates.
+     * @param mixed  $group      CSS definition group identifier
+     * @param string $property   Property defined
+     * @param string $value      Value assigned
+     * @param bool   $duplicates (optional) Allow or disallow duplicates.
      *
      * @return     void|int|PEAR_Error     Returns an integer if duplicates
      *                                     are allowed.
@@ -667,18 +676,18 @@ class HTML_CSS extends HTML_Common
 
         if ($duplicates === true) {
             $this->_duplicateCounter++;
-            $this->_css[$groupIdent][$this->_duplicateCounter][$property]= $value;
+            $this->_css[$groupIdent][$this->_duplicateCounter][$property] = $value;
             return $this->_duplicateCounter;
         } else {
-            $this->_css[$groupIdent][$property]= $value;
+            $this->_css[$groupIdent][$property] = $value;
         }
     }
 
     /**
      * Returns a CSS definition for a CSS definition group
      *
-     * @param      mixed     $group         CSS definition group identifier
-     * @param      string    $property      Property defined
+     * @param mixed  $group    CSS definition group identifier
+     * @param string $property Property defined
      *
      * @return     mixed|PEAR_Error
      * @since      0.3.0
@@ -733,8 +742,8 @@ class HTML_CSS extends HTML_Common
     /**
      * Adds a selector to a CSS definition group.
      *
-     * @param    mixed   $group       CSS definition group identifier
-     * @param    string  $selectors   Selector(s) to be defined, comma delimited.
+     * @param mixed  $group     CSS definition group identifier
+     * @param string $selectors Selector(s) to be defined, comma delimited.
      *
      * @return   void|PEAR_Error
      * @since    0.3.0
@@ -761,16 +770,16 @@ class HTML_CSS extends HTML_Common
         foreach ($newSelectors as $selector) {
             $this->_alibis[$selector][] = $groupIdent;
         }
-
         $oldSelectors = $this->_groups[$groupIdent];
+
         $this->_groups[$groupIdent] = array_merge($oldSelectors, $newSelectors);
     }
 
     /**
      * Removes a selector from a group.
      *
-     * @param    mixed   $group       CSS definition group identifier
-     * @param    string  $selectors   Selector(s) to be removed, comma delimited.
+     * @param mixed  $group     CSS definition group identifier
+     * @param string $selectors Selector(s) to be removed, comma delimited.
      *
      * @return   void|PEAR_Error
      * @since    0.3.0
@@ -794,7 +803,7 @@ class HTML_CSS extends HTML_Common
         }
 
         $oldSelectors = $this->_groups[$groupIdent];
-        $selectors =  $this->parseSelectors($selectors, 1);
+        $selectors    = $this->parseSelectors($selectors, 1);
         foreach ($selectors as $selector) {
             foreach ($oldSelectors as $key => $value) {
                 if ($value == $selector) {
@@ -812,10 +821,10 @@ class HTML_CSS extends HTML_Common
     /**
      * Sets or adds a CSS definition
      *
-     * @param      string    $element       Element (or class) to be defined
-     * @param      string    $property      Property defined
-     * @param      string    $value         Value assigned
-     * @param      bool      $duplicates    (optional) Allow or disallow duplicates.
+     * @param string $element    Element (or class) to be defined
+     * @param string $property   Property defined
+     * @param string $value      Value assigned
+     * @param bool   $duplicates (optional) Allow or disallow duplicates.
      *
      * @return     void|PEAR_Error
      * @since      0.2.0
@@ -870,18 +879,18 @@ class HTML_CSS extends HTML_Common
 
         if ($duplicates === true) {
             $this->_duplicateCounter++;
-            $this->_css[$element][$this->_duplicateCounter][$property]= $value;
+            $this->_css[$element][$this->_duplicateCounter][$property] = $value;
             return $this->_duplicateCounter;
         } else {
-            $this->_css[$element][$property]= $value;
+            $this->_css[$element][$property] = $value;
         }
     }
 
     /**
      * Retrieves the value of a CSS property
      *
-     * @param      string    $element       Element (or class) to be defined
-     * @param      string    $property      Property defined
+     * @param string $element  Element (or class) to be defined
+     * @param string $property Property defined
      *
      * @return     mixed|PEAR_Error
      * @since      0.3.0
@@ -914,20 +923,22 @@ class HTML_CSS extends HTML_Common
         if (isset($this->_alibis[$element])) {
             $lastImplementation = array_keys($this->_alibis[$element]);
             $lastImplementation = array_pop($lastImplementation);
+
             $group = substr($this->_alibis[$element][$lastImplementation], 2);
+
             $property_value = $this->getGroupStyle($group, $property);
         }
         if (isset($this->_css[$element]) && !isset($property_value)) {
             $property_value = array();
             foreach ($this->_css[$element] as $rank => $prop) {
-                if(!is_numeric($rank)) {
+                if (!is_numeric($rank)) {
                     $prop = array($rank => $prop);
                 }
-                 foreach ($prop as $key => $value) {
-                     if ($key == $property) {
-                         $property_value[] = $value;
-                     }
-                 }
+                foreach ($prop as $key => $value) {
+                    if ($key == $property) {
+                        $property_value[] = $value;
+                    }
+                }
             }
             if (count($property_value) == 1) {
                 $property_value = $property_value[0];
@@ -947,8 +958,8 @@ class HTML_CSS extends HTML_Common
     /**
      * Return array entries of styles that match patterns (Perl compatible)
      *
-     * @param      string    $elmPattern    Element or class pattern to retrieve
-     * @param      string    $proPattern   (optional) Property pattern to retrieve
+     * @param string $elmPattern Element or class pattern to retrieve
+     * @param string $proPattern (optional) Property pattern to retrieve
      *
      * @return     array|PEAR_Error
      * @since      1.1.0
@@ -1023,11 +1034,13 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Sets or changes the properties of new selectors to the values of an existing selector
+     * Sets or changes the properties of new selectors
+     * to the values of an existing selector
      *
-     * @param      string    $old           Selector that is already defined
-     * @param      string    $new           New selector(s) that should share the same
-     *                                      definitions, separated by commas
+     * @param string $new New selector(s) that should share the same
+     *                    definitions, separated by commas
+     * @param string $old Selector that is already defined
+     *
      * @return     void|PEAR_Error
      * @since      0.2.0
      * @access     public
@@ -1057,7 +1070,7 @@ class HTML_CSS extends HTML_Common
         }
 
         $selector = implode(', ', array($old, $new));
-        $grp = $this->createGroup($selector, 'samestyleas_'.$old);
+        $grp      = $this->createGroup($selector, 'samestyleas_'.$old);
 
         $others = $this->parseSelectors($new, 1);
         foreach ($others as $other) {
@@ -1077,7 +1090,7 @@ class HTML_CSS extends HTML_Common
     /**
      * Defines if the document should be cached by the browser. Defaults to false.
      *
-     * @param      bool      $cache         (optional)
+     * @param bool $cache (optional) flag to true to cache result, false otherwise
      *
      * @return     void|PEAR_Error
      * @since      0.2.0
@@ -1101,8 +1114,8 @@ class HTML_CSS extends HTML_Common
      * Defines the Content-Disposition filename for the browser output.
      * Defaults to basename($_SERVER['PHP_SELF']).'.css'
      *
-     * @param      bool      $enable   (optional)
-     * @param      string    $filename (optional)
+     * @param bool   $enable   (optional)
+     * @param string $filename (optional)
      *
      * @return     void|PEAR_Error
      * @since      1.3.0
@@ -1157,7 +1170,7 @@ class HTML_CSS extends HTML_Common
      * Defines the charset for the file. defaults to ISO-8859-1 because of CSS1
      * compatability issue for older browsers.
      *
-     * @param      string    $type          (optional) Charset encoding; defaults to ISO-8859-1.
+     * @param string $type (optional) Charset encoding; defaults to ISO-8859-1.
      *
      * @return     void|PEAR_Error
      * @since      0.2.0
@@ -1194,8 +1207,9 @@ class HTML_CSS extends HTML_Common
     /**
      * Parse a textstring that contains css information
      *
-     * @param      string    $str           text string to parse
-     * @param      bool      $duplicates    (optional) Allows or disallows duplicate style definitions
+     * @param string $str        text string to parse
+     * @param bool   $duplicates (optional) Allows or disallows
+     *                           duplicate style definitions
      *
      * @return     void|PEAR_Error
      * @since      0.3.0
@@ -1231,8 +1245,8 @@ class HTML_CSS extends HTML_Common
         $str = str_replace('"\"}\""', '#34#125#34', $str);
 
         // Parse each element of csscode
-        $parts = explode("}",$str);
-        foreach($parts as $part) {
+        $parts = explode("}", $str);
+        foreach ($parts as $part) {
             $part = trim($part);
             if (strlen($part) > 0) {
 
@@ -1240,8 +1254,8 @@ class HTML_CSS extends HTML_Common
                 $pos = strpos($part, '{');
                 if (strpos($part, '{', $pos+1) !== false) {
 
-                    $context = debug_backtrace();
-                    $context = @array_pop($context);
+                    $context  = debug_backtrace();
+                    $context  = @array_pop($context);
                     $function = strtolower($context['function']);
                     if ($function === 'parsestring') {
                         $var = 'str';
@@ -1259,25 +1273,30 @@ class HTML_CSS extends HTML_Common
                 }
 
                 // Parse each group of element in csscode
-                list($keystr,$codestr) = explode("{",$part);
-                $key_a = $this->parseSelectors($keystr, 1);
+                list($keystr, $codestr) = explode("{", $part);
+
+                $key_a  = $this->parseSelectors($keystr, 1);
                 $keystr = implode(', ', $key_a);
                 // Check if there are any groups.
                 if (strpos($keystr, ',')) {
                     $group = $this->createGroup($keystr);
 
                     // Parse each property of an element
-                    $codes = explode(";",trim($codestr));
+                    $codes = explode(";", trim($codestr));
                     foreach ($codes as $code) {
                         if (strlen(trim($code)) > 0) {
                             // find the property and the value
-                            $property = trim(substr($code, 0 , strpos($code, ':', 0)));
-                            $value    = trim(substr($code, strpos($code, ':', 0) + 1));
+                            $property
+                                = trim(substr($code, 0, strpos($code, ':', 0)));
+                            $value
+                                = trim(substr($code, strpos($code, ':', 0) + 1));
                             // IE hack only
                             if (strcasecmp($property, 'voice-family') == 0) {
-                                $value = str_replace('#34#125#34', '"\"}\""', $value);
+                                $value
+                                    = str_replace('#34#125#34', '"\"}\""', $value);
                             }
-                            $this->setGroupStyle($group, $property, $value, $duplicates);
+                            $this->setGroupStyle($group, $property, $value,
+                                $duplicates);
                         }
                     }
                 } else {
@@ -1286,16 +1305,20 @@ class HTML_CSS extends HTML_Common
                     $key = trim($keystr);
                     if (strlen($key) > 0) {
                         // Parse each property of an element
-                        $codes = explode(";",trim($codestr));
+                        $codes = explode(";", trim($codestr));
                         foreach ($codes as $code) {
                             if (strlen(trim($code)) > 0) {
-                                $property = trim(substr($code, 0 , strpos($code, ':')));
-                                $value    = substr($code, strpos($code, ':') + 1);
+                                $property
+                                    = trim(substr($code, 0, strpos($code, ':')));
+                                $value
+                                    = substr($code, strpos($code, ':') + 1);
                                 // IE hack only
                                 if (strcasecmp($property, 'voice-family') == 0) {
-                                    $value = str_replace('#34#125#34', '"\"}\""', $value);
+                                    $value = str_replace('#34#125#34', '"\"}\""',
+                                                 $value);
                                 }
-                                $this->setStyle($key, $property, trim($value), $duplicates);
+                                $this->setStyle($key, $property, trim($value),
+                                    $duplicates);
                             }
                         }
                     }
@@ -1307,8 +1330,8 @@ class HTML_CSS extends HTML_Common
     /**
      * Parse a file that contains CSS information
      *
-     * @param      string    $filename      file to parse
-     * @param      bool      $duplicates    (optional) Allow or disallow duplicates.
+     * @param string $filename   file to parse
+     * @param bool   $duplicates (optional) Allow or disallow duplicates.
      *
      * @return     void|PEAR_Error
      * @since      0.3.0
@@ -1348,8 +1371,8 @@ class HTML_CSS extends HTML_Common
     /**
      * Parse data sources, file(s) or string(s), that contains CSS information
      *
-     * @param      array     $styles        data sources to parse
-     * @param      bool      $duplicates    (optional) Allow or disallow duplicates.
+     * @param array $styles     data sources to parse
+     * @param bool  $duplicates (optional) Allow or disallow duplicates.
      *
      * @return     void|PEAR_Error
      * @since      1.0.0RC2
@@ -1378,8 +1401,8 @@ class HTML_CSS extends HTML_Common
             $duplicates = $this->_allowDuplicates;
         }
 
-        foreach($styles as $style) {
-            if (strcasecmp(substr($style, -4,4), '.css') == 0) {
+        foreach ($styles as $style) {
+            if (strcasecmp(substr($style, -4, 4), '.css') == 0) {
                 $res = $this->parseFile($style, $duplicates);
             } else {
                 $res = $this->parseString($style, $duplicates);
@@ -1410,9 +1433,11 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Generates and returns the CSS properties of an element or class as a string for inline use.
+     * Generates and returns the CSS properties of an element or class
+     * as a string for inline use.
      *
-     * @param      string    $element       Element or class for which inline CSS should be generated
+     * @param string $element Element or class
+     *                        for which inline CSS should be generated
      *
      * @return     string|PEAR_Error
      * @since      0.2.0
@@ -1429,7 +1454,7 @@ class HTML_CSS extends HTML_Common
                       'paramnum' => 1));
         }
 
-        $strCss = '';
+        $strCss      = '';
         $newCssArray = array();
 
         // This allows for grouped elements definitions to work
@@ -1469,7 +1494,7 @@ class HTML_CSS extends HTML_Common
     /**
      * Generates CSS and stores it in a file.
      *
-     * @param      string    $filename      Name of file that content the stylesheet
+     * @param string $filename Name of file that content the stylesheet
      *
      * @return     void|PEAR_Error
      * @since      0.3.0
@@ -1487,14 +1512,14 @@ class HTML_CSS extends HTML_Common
                       'paramnum' => 1));
         }
 
-        if (function_exists('file_put_contents')){
+        if (function_exists('file_put_contents')) {
             file_put_contents($filename, $this->toString());
         } else {
-            $file = fopen($filename,'wb');
+            $file = fopen($filename, 'wb');
             fwrite($file, $this->toString());
             fclose($file);
         }
-        if (!file_exists($filename)){
+        if (!file_exists($filename)) {
             return $this->raiseError(HTML_CSS_ERROR_WRITE_FILE, 'error',
                     array('filename' => $filename));
         }
@@ -1535,7 +1560,7 @@ class HTML_CSS extends HTML_Common
             // Groups are handled separately
             if (strpos($identifier, '@-') !== false) {
                 // its a group
-                $element = implode (', ', $this->_groups[$identifier]);
+                $element = implode(', ', $this->_groups[$identifier]);
             } else {
                 $element = $identifier;
             }
@@ -1551,7 +1576,8 @@ class HTML_CSS extends HTML_Common
                     unset($pos);
                 }
                 foreach ($property as $key => $value) {
-                    $definition .= $tabs . $tab . $key . ': ' . $value . ';' . $lnEnd;
+                    $definition .= $tabs . $tab
+                                . $key . ': ' . $value . ';' . $lnEnd;
                 }
             }
 
@@ -1565,7 +1591,8 @@ class HTML_CSS extends HTML_Common
 
             // if groups are to be output first, elements must be placed in a
             // different string which will be appended in the end
-            if ($this->_groupsFirst === true && strpos($identifier, '@-') === false) {
+            if ($this->_groupsFirst === true
+                && strpos($identifier, '@-') === false) {
                 // add to elements
                 $strCssElements .= $lnEnd . $tabs . $definition . $lnEnd;
             } else {
@@ -1596,7 +1623,7 @@ class HTML_CSS extends HTML_Common
      */
     function display()
     {
-        if($this->_cache !== true) {
+        if ($this->_cache !== true) {
             header("Expires: Tue, 1 Jan 1980 12:00:00 GMT");
             header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
             header("Cache-Control: no-cache");
@@ -1608,7 +1635,8 @@ class HTML_CSS extends HTML_Common
 
         // set Content-Disposition
         if ($this->_contentDisposition !== false) {
-            header('Content-Disposition: inline; filename="' . $this->_contentDisposition . '"');
+            header('Content-Disposition: inline; filename="' .
+                $this->_contentDisposition . '"');
         }
 
         $strCss = $this->toString();
@@ -1618,7 +1646,8 @@ class HTML_CSS extends HTML_Common
     /**
      * Initialize Error engine preferences
      *
-     * @param      array     $prefs         (optional) hash of params to customize error generation
+     * @param array $prefs (optional) hash of params to customize error generation
+     *
      * @return     void
      * @since      0.3.3
      * @access     private
@@ -1626,28 +1655,32 @@ class HTML_CSS extends HTML_Common
     function _initErrorStack($prefs = array())
     {
         // error message mapping callback
-        if (isset($prefs['message_callback']) && is_callable($prefs['message_callback'])) {
+        if (isset($prefs['message_callback'])
+            && is_callable($prefs['message_callback'])) {
             $this->_callback_message = $prefs['message_callback'];
         } else {
             $this->_callback_message = array('HTML_CSS_Error', '_msgCallback');
         }
 
         // error context mapping callback
-        if (isset($prefs['context_callback']) && is_callable($prefs['context_callback'])) {
+        if (isset($prefs['context_callback'])
+            && is_callable($prefs['context_callback'])) {
             $this->_callback_context = $prefs['context_callback'];
         } else {
             $this->_callback_context = array('HTML_CSS_Error', 'getBacktrace');
         }
 
         // determine whether to allow an error to be pushed or logged
-        if (isset($prefs['push_callback']) && is_callable($prefs['push_callback'])) {
+        if (isset($prefs['push_callback'])
+            && is_callable($prefs['push_callback'])) {
             $this->_callback_push = $prefs['push_callback'];
         } else {
             $this->_callback_push = array('HTML_CSS_Error', '_handleError');
         }
 
         // default error handler will use PEAR_Error
-        if (isset($prefs['error_handler']) && is_callable($prefs['error_handler'])) {
+        if (isset($prefs['error_handler'])
+            && is_callable($prefs['error_handler'])) {
             $this->_callback_errorhandler = $prefs['error_handler'];
         } else {
             $this->_callback_errorhandler = array(&$this, '_errorHandler');
@@ -1666,9 +1699,9 @@ class HTML_CSS extends HTML_Common
      * The file is so included only when an error is triggered. So, in most
      * cases, the file isn't included and perfs are much better.
      *
-     * @param      integer   $code       Error code.
-     * @param      string    $level      The error level of the message.
-     * @param      array     $params     Associative array of error parameters
+     * @param integer $code   Error code.
+     * @param string  $level  The error level of the message.
+     * @param array   $params Associative array of error parameters
      *
      * @return     PEAR_Error
      * @since      1.0.0
@@ -1678,9 +1711,9 @@ class HTML_CSS extends HTML_Common
     {
         include_once 'HTML/CSS/Error.php';
 
-        $mode = call_user_func($this->_callback_push, $code, $level);
-
+        $mode    = call_user_func($this->_callback_push, $code, $level);
         $message = call_user_func($this->_callback_message, $code, $params);
+
         $userinfo['level'] = $level;
 
         if (isset($this->_errorhandler_options['display'])) {
@@ -1694,13 +1727,14 @@ class HTML_CSS extends HTML_Common
             $userinfo['log'] = array();
         }
 
-        return PEAR::raiseError($message, $code, $mode, null, $userinfo, 'HTML_CSS_Error');
+        return PEAR::raiseError($message, $code, $mode, null, $userinfo,
+                   'HTML_CSS_Error');
     }
 
     /**
      * A basic wrapper around the default PEAR_Error object
      *
-     * @return     object                PEAR_Error when default error handler is used
+     * @return     object    PEAR_Error when default error handler is used
      * @since      0.3.3
      * @access     public
      * @see        _errorHandler()
@@ -1708,7 +1742,8 @@ class HTML_CSS extends HTML_Common
     function raiseError()
     {
         $args = func_get_args();
-        $this->_lastError = call_user_func_array($this->_callback_errorhandler, $args);
+        $this->_lastError
+            = call_user_func_array($this->_callback_errorhandler, $args);
         return $this->_lastError;
     }
 
@@ -1721,7 +1756,7 @@ class HTML_CSS extends HTML_Common
      */
     function isError()
     {
-         $res = (!is_bool($this->_lastError));
+         $res              = (!is_bool($this->_lastError));
          $this->_lastError = false;
          return $res;
     }
