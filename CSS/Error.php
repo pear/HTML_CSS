@@ -29,14 +29,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   HTML
- * @package    HTML_CSS
- * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2005-2007 Laurent Laville
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/HTML_CSS
- * @since      File available since Release 1.0.0RC1
+ * PHP versions 4 and 5
+ *
+ * @category  HTML
+ * @package   HTML_CSS
+ * @author    Laurent Laville <pear@laurent-laville.org>
+ * @copyright 2005-2007 Laurent Laville
+ * @license   http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/HTML_CSS
+ * @since     File available since Release 1.0.0RC1
  */
 
 require_once 'PEAR.php';
@@ -44,20 +46,30 @@ require_once 'PEAR.php';
 /**
  * This class creates a css error object, extending the PEAR_Error class.
  *
- * @category   HTML
- * @package    HTML_CSS
- * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2005-2007 Laurent Laville
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    Release: @package_version@
- * @link       http://pear.php.net/package/HTML_CSS
- * @since      Class available since Release 1.0.0RC1
+ * @category  HTML
+ * @package   HTML_CSS
+ * @author    Laurent Laville <pear@laurent-laville.org>
+ * @copyright 2005-2007 Laurent Laville
+ * @license   http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version   Release: @package_version@
+ * @link      http://pear.php.net/package/HTML_CSS
+ * @since     Class available since Release 1.0.0RC1
  */
 
 class HTML_CSS_Error extends PEAR_Error
 {
     /**
      * Constructor (ZE1)
+     *
+     * @param string $message  (optional) message
+     * @param int    $code     (optional) error code
+     * @param int    $mode     (optional) error mode, one of: PEAR_ERROR_RETURN,
+     *                         PEAR_ERROR_PRINT, PEAR_ERROR_DIE, PEAR_ERROR_TRIGGER,
+     *                         PEAR_ERROR_CALLBACK or PEAR_ERROR_EXCEPTION
+     * @param mixed  $options  (optional) error level, _OR_ in the case of
+     *                         PEAR_ERROR_CALLBACK, the callback function
+     *                         or object/method tuple.
+     * @param string $userinfo (optional) additional user/debug info
      *
      * @since      1.0.0
      * @access     public
@@ -72,6 +84,16 @@ class HTML_CSS_Error extends PEAR_Error
 
     /**
      * Constructor (ZE2)
+     *
+     * @param string $message  (optional) message
+     * @param int    $code     (optional) error code
+     * @param int    $mode     (optional) error mode, one of: PEAR_ERROR_RETURN,
+     *                         PEAR_ERROR_PRINT, PEAR_ERROR_DIE, PEAR_ERROR_TRIGGER,
+     *                         PEAR_ERROR_CALLBACK or PEAR_ERROR_EXCEPTION
+     * @param mixed  $options  (optional) error level, _OR_ in the case of
+     *                         PEAR_ERROR_CALLBACK, the callback function
+     *                         or object/method tuple.
+     * @param string $userinfo (optional) additional user/debug info
      *
      * @since      1.0.0
      * @access     public
@@ -91,23 +113,23 @@ class HTML_CSS_Error extends PEAR_Error
         $this->backtrace = debug_backtrace();
 
         if ($mode & PEAR_ERROR_CALLBACK) {
-            $this->level = E_USER_NOTICE;
+            $this->level    = E_USER_NOTICE;
             $this->callback = $options;
         } else {
             if ($options === null) {
                 switch ($userinfo['level']) {
-                    case 'exception':
-                    case 'error':
-                        $options = E_USER_ERROR;
-                        break;
-                    case 'warning':
-                        $options = E_USER_WARNING;
-                        break;
-                    default:
-                        $options = E_USER_NOTICE;
+                case 'exception':
+                case 'error':
+                    $options = E_USER_ERROR;
+                    break;
+                case 'warning':
+                    $options = E_USER_WARNING;
+                    break;
+                default:
+                    $options = E_USER_NOTICE;
                 }
             }
-            $this->level = $options;
+            $this->level    = $options;
             $this->callback = null;
         }
         if ($this->mode & PEAR_ERROR_PRINT) {
@@ -138,7 +160,7 @@ class HTML_CSS_Error extends PEAR_Error
      */
     function getLevel()
     {
-       return $this->level;
+        return $this->level;
     }
 
     /**
@@ -153,7 +175,7 @@ class HTML_CSS_Error extends PEAR_Error
         $userinfo = $this->getUserInfo();
 
         $display_errors = ini_get('display_errors');
-        $log_errors = ini_get('log_errors');
+        $log_errors     = ini_get('log_errors');
 
         if ($display_errors) {
             echo $this->_display($userinfo);
@@ -167,7 +189,7 @@ class HTML_CSS_Error extends PEAR_Error
     /**
      * Returns the context of execution formatted.
      *
-     * @param      string    $format        the context of execution format
+     * @param string $format the context of execution format
      *
      * @return     string
      * @since      1.0.0
@@ -185,17 +207,17 @@ class HTML_CSS_Error extends PEAR_Error
         }
 
         if ($context) {
-            $file  = $context['file'];
-            $line  = $context['line'];
+            $file = $context['file'];
+            $line = $context['line'];
 
             if (isset($context['class'])) {
                 $func  = $context['class'];
                 $func .= $context['type'];
                 $func .= $context['function'];
             } elseif (isset($context['function'])) {
-                $func  = $context['function'];
+                $func = $context['function'];
             } else {
-                $func  = '';
+                $func = '';
             }
             return sprintf($format, $file, $line, $func);
         }
@@ -205,7 +227,7 @@ class HTML_CSS_Error extends PEAR_Error
     /**
      * Print an error message
      *
-     * @param      array     $userinfo      has of parameters
+     * @param array $userinfo hash of parameters
      *
      * @return     void
      * @since      1.0.0
@@ -216,18 +238,22 @@ class HTML_CSS_Error extends PEAR_Error
         $displayDefault = array(
             'eol' => "<br/>\n",
             'lineFormat' => '<b>%1$s</b>: %2$s %3$s',
-            'contextFormat' => 'in <b>%3$s</b> (file <b>%1$s</b> on line <b>%2$s</b>)'
+            'contextFormat' => 'in <b>%3$s</b> ' .
+                               '(file <b>%1$s</b> on line <b>%2$s</b>)'
         );
-        $displayConf = $userinfo['display'];
-        $display = array_merge($displayDefault, $displayConf);
 
+        $displayConf = $userinfo['display'];
+        $display     = array_merge($displayDefault, $displayConf);
         $contextExec = $this->sprintContextExec($display['contextFormat']);
 
-        return sprintf($display['lineFormat'] . $display['eol'], ucfirst($userinfo['level']), $this->getMessage(), $contextExec);
+        return sprintf($display['lineFormat'] . $display['eol'],
+                   ucfirst($userinfo['level']), $this->getMessage(), $contextExec);
     }
 
     /**
      * Send an error message somewhere
+     *
+     * @param array $userinfo hash of parameters
      *
      * @return     void
      * @since      1.0.0
@@ -245,34 +271,35 @@ class HTML_CSS_Error extends PEAR_Error
             'destination' => get_class($this) . '.log',
             'extra_headers' => ''
         );
-        $logConf = $userinfo['log'];
-        $log = array_merge($logDefault, $logConf);
 
-        $message_type = $log['message_type'];
-        $destination = '';
+        $logConf = $userinfo['log'];
+        $log     = array_merge($logDefault, $logConf);
+
+        $message_type  = $log['message_type'];
+        $destination   = '';
         $extra_headers = '';
-        $send = true;
+        $send          = true;
 
         switch ($message_type) {
-            case 0:  // LOG_TYPE_SYSTEM:
-                break;
-            case 1:  // LOG_TYPE_MAIL:
-                $destination = $log['destination'];
-                $extra_headers = $log['extra_headers'];
-                break;
-            case 3:  // LOG_TYPE_FILE:
-                $destination = $log['destination'];
-                break;
-            default:
-                $send = false;
+        case 0:  // LOG_TYPE_SYSTEM:
+            break;
+        case 1:  // LOG_TYPE_MAIL:
+            $destination   = $log['destination'];
+            $extra_headers = $log['extra_headers'];
+            break;
+        case 3:  // LOG_TYPE_FILE:
+            $destination = $log['destination'];
+            break;
+        default:
+            $send = false;
         }
 
         if ($send) {
-            $time = explode(' ', microtime());
-            $time = $time[1] + $time[0];
-            $timestamp = isset($userinfo['time']) ? $userinfo['time'] : $time;
-
+            $time        = explode(' ', microtime());
+            $time        = $time[1] + $time[0];
+            $timestamp   = isset($userinfo['time']) ? $userinfo['time'] : $time;
             $contextExec = $this->sprintContextExec($log['contextFormat']);
+
             $message = sprintf($log['lineFormat'] . $log['eol'],
                            strftime($log['timeFormat'], $timestamp),
                            $log['ident'],
@@ -280,7 +307,8 @@ class HTML_CSS_Error extends PEAR_Error
                            $this->getMessage(),
                            $contextExec);
 
-            error_log(strip_tags($message), $message_type, $destination, $extra_headers);
+            error_log(strip_tags($message), $message_type, $destination,
+                $extra_headers);
         }
     }
 
@@ -289,9 +317,9 @@ class HTML_CSS_Error extends PEAR_Error
      *
      * Dies if the error is an exception (and would have died anyway)
      *
-     * @param      int       $code          a numeric error code.
-     *                                      Valid are HTML_CSS_ERROR_* constants
-     * @param      string    $level         error level ('exception', 'error', 'warning', ...)
+     * @param int    $code  a numeric error code.
+     *                      Valid are HTML_CSS_ERROR_* constants
+     * @param string $level error level ('exception', 'error', 'warning', ...)
      *
      * @return     mixed
      * @since      0.3.3
@@ -309,10 +337,10 @@ class HTML_CSS_Error extends PEAR_Error
     /**
      * User callback to generate error messages for any instance
      *
-     * @param      int       $code          a numeric error code.
-     *                                      Valid are HTML_CSS_ERROR_* constants
-     * @param      mixed     $userinfo      if you need to pass along parameters
-     *                                      for dynamic messages
+     * @param int   $code     a numeric error code.
+     *                        Valid are HTML_CSS_ERROR_* constants
+     * @param mixed $userinfo if you need to pass along parameters
+     *                        for dynamic messages
      *
      * @return     string
      * @since      1.0.0
