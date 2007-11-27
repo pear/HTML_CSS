@@ -2,16 +2,19 @@
 /**
  * HTML_CSS Package Script Generator
  *
- * Generate a new fresh version of package xml 2.0 built with PEAR_PackageFileManager 1.6.0+
+ * Generate a new fresh version of package xml 2.0
+ * built with PEAR_PackageFileManager 1.6.0+
  *
- * @category   HTML
- * @package    HTML_CSS
- * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2006-2007 Laurent Laville
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/HTML_CSS
- * @since      File available since Release 1.0.1
+ * PHP versions 4 and 5
+ *
+ * @category  HTML
+ * @package   HTML_CSS
+ * @author    Laurent Laville <pear@laurent-laville.org>
+ * @copyright 2006-2007 Laurent Laville
+ * @license   http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/HTML_CSS
+ * @since     File available since Release 1.0.1
  * @ignore
  */
 
@@ -45,11 +48,13 @@ $p2->setNotes('* changes
 - add Content-Disposition to the headers in display(); implement request #12195
 
 * QA
-User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x, 1.3.x
+User Guide 1.3.0 included in this release cover all versions
+1.x.x, 1.1.x, 1.2.x, 1.3.x
 ');
 $p2->setLicense('BSD', 'http://www.opensource.org/licenses/bsd-license.php');
 
-if (isset($_GET['make']) || (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 'make')) {
+if (isset($_GET['make'])
+    || (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 'make')) {
     $p2->writePackageFile();
 } else {
     $p2->debugPackageFile();
