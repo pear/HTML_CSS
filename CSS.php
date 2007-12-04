@@ -81,6 +81,48 @@ define('HTML_CSS_ERROR_WRITE_FILE', -106);
 class HTML_CSS extends HTML_Common
 {
     /**
+     * Options configuration list
+     *
+     * - xhtml :
+     *    Defines whether element selectors should be automatically lowercased.
+     *    Determines how parseSelectors treats the data.
+     *    @see setXhtmlCompliance()
+     * - tab :
+     *    Sets indent string.
+     *    @see setTab(), HTML_Common::setTab()
+     * - filename :
+     *    Name of file to be parsed.
+     *    @see parseFile()
+     * - cache :
+     *    Determines whether the nocache headers are sent.
+     *    Controls caching of the page.
+     *    @see setCache()
+     * - oneline :
+     *    Defines whether to output all properties on one line.
+     *    @see setSingleLineOutput()
+     * - charset :
+     *    Contains the character encoding string.
+     *    @see setCharset()
+     * - contentDisposition :
+     *    Contains the Content-Disposition filename.
+     *    @see setContentDisposition()
+     * - lineEnd :
+     *    Sets the line end style to Windows, Mac, Unix or a custom string.
+     *    @see setLineEnd(), HTML_Common::setLineEnd()
+     * - groupsfirst :
+     *    Determines whether to output groups before elements.
+     *    @see setOutputGroupsFirst()
+     * - allowduplicates :
+     *    Allow to have duplicate rules in selector. Useful for IE hack.
+     *
+     * @var        array
+     * @since      1.4.0
+     * @access     private
+     * @see        __set(), __get()
+     */
+    var $options;
+
+    /**
      * Contains the CSS definitions.
      *
      * @var        array
@@ -98,36 +140,6 @@ class HTML_CSS extends HTML_Common
      * @access     private
      */
     var $_alibis = array();
-
-    /**
-     * Controls caching of the page
-     *
-     * @var        bool
-     * @since      0.2.0
-     * @access     private
-     * @see        setCache()
-     */
-    var $_cache = true;
-
-    /**
-     * Contains the character encoding string
-     *
-     * @var        string
-     * @since      0.2.0
-     * @access     private
-     * @see        setCharset()
-     */
-    var $_charset = 'iso-8859-1';
-
-    /**
-     * Contains the Content-Disposition filename.
-     *
-     * @var        mixed  (false|string)
-     * @since      1.3.0
-     * @access     private
-     * @see        setContentDisposition()
-     */
-    var $_contentDisposition = false;
 
     /**
      * Contains last assigned index for duplicate styles
@@ -148,16 +160,6 @@ class HTML_CSS extends HTML_Common
     var $_groups = array();
 
     /**
-     * Determines whether groups are output prior to elements
-     *
-     * @var        array
-     * @since      1.0.0
-     * @access     private
-     * @see        setOutputGroupsFirst()
-     */
-    var $_groupsFirst = true;
-
-    /**
      * Number of CSS definition groups
      *
      * @var        int
@@ -165,37 +167,6 @@ class HTML_CSS extends HTML_Common
      * @access     private
      */
     var $_groupCount = 0;
-
-    /**
-     * Defines whether to output all properties on one line
-     *
-     * @var        bool
-     * @since      0.3.3
-     * @access     private
-     * @see        setSingleLineOutput()
-     */
-    var $_singleLine = false;
-
-    /**
-     * Defines whether element selectors should be automatically lowercased.
-     * Determines how parseSelectors treats the data.
-     *
-     * @var        bool
-     * @since      0.3.2
-     * @access     private
-     * @see        setXhtmlCompliance()
-     */
-    var $_xhtmlCompliant = true;
-
-    /**
-     * Allows to have duplicate rules in selector
-     * Useful for IE hack.
-     *
-     * @var        bool
-     * @since      1.0.0
-     * @access     private
-     */
-    var $_allowDuplicates = false;
 
     /**
      * Error message callback.
@@ -233,6 +204,17 @@ class HTML_CSS extends HTML_Common
     var $_callback_push = false;
 
     /**
+     * Error callback.
+     * User function that decides what to do with error (display, log, ...)
+     *
+     * @var        false|string|array
+     * @since      1.4.0
+     * @access     private
+     * @see        _initErrorStack()
+     */
+    var $_callback_error = false;
+
+    /**
      * Error handler callback.
      * This will handle any errors raised by this package.
      *
@@ -266,7 +248,7 @@ class HTML_CSS extends HTML_Common
 
 
     /**
-     * Class constructor
+     * Class constructor (ZE1)
      *
      * @param array $attributes (optional) Pass options to the constructor.
      *                          Valid options are :
@@ -288,37 +270,53 @@ class HTML_CSS extends HTML_Common
      */
     function HTML_CSS($attributes = array(), $errorPrefs = array())
     {
+        $this->__construct($attributes, $errorPrefs);
+    }
+
+    /**
+     * Class constructor (ZE2)
+     *
+     * @param array $attributes (optional) Pass options to the constructor.
+     *                          Valid options are :
+     *                           - xhtml (sets xhtml compliance),
+     *                           - tab (sets indent string),
+     *                           - filename (name of file to be parsed),
+     *                           - cache (determines whether the nocache headers
+     *                             are sent),
+     *                           - oneline (whether to output each definition
+     *                             on one line),
+     *                           - groupsfirst (determines whether to output groups
+     *                             before elements)
+     *                           - allowduplicates (allow to have duplicate rules
+     *                             in selector)
+     * @param array $errorPrefs (optional) has to configure error handler
+     *
+     * @since      1.4.0
+     * @access     protected
+     */
+    function __construct($attributes = array(), $errorPrefs = array())
+    {
         $this->_initErrorStack($errorPrefs);
 
         if ($attributes) {
             $attributes = $this->_parseAttributes($attributes);
         }
-        if ((isset($attributes['xhtml']))
-            && (is_bool($attributes['xhtml']))) {
-            $this->setXhtmlCompliance($attributes['xhtml']);
-        }
-        if (isset($attributes['tab'])
-            && (is_string($attributes['tab']))) {
-            $this->setTab($attributes['tab']);
-        }
-        if (isset($attributes['filename'])) {
-            $this->parseFile($attributes['filename']);
-        }
-        if ((isset($attributes['cache']))
-            && (is_bool($attributes['cache']))) {
-            $this->setCache($attributes['cache']);
-        }
-        if ((isset($attributes['oneline']))
-            && (is_bool($attributes['oneline']))) {
-            $this->setSingleLineOutput($attributes['oneline']);
-        }
-        if ((isset($attributes['groupsfirst']))
-            && (is_bool($attributes['groupsfirst']))) {
-            $this->setOutputGroupsFirst($attributes['groupsfirst']);
-        }
-        if ((isset($attributes['allowduplicates']))
-            && (is_bool($attributes['allowduplicates']))) {
-            $this->_allowDuplicates = $attributes['allowduplicates'];
+
+        $tab = '  ';
+        $eol = strtolower(substr(PHP_OS, 0, 3)) == 'win' ? "\r\n" : "\n";
+
+        // default options
+        $this->options = array('xhtml' => true, 'tab' => $tab, 'cache' => true,
+            'oneline' => false, 'charset' => 'iso-8859-1',
+            'contentDisposition' => false, 'lineEnd' => $eol,
+            'groupsfirst' => true, 'allowduplicates' => false);
+        // and options that come directly from HTML_Common
+        $this->setTab($tab);
+        $this->setLineEnd($eol);
+
+        // apply user options
+        foreach ($attributes as $opt => $val) {
+            $this->__set($opt, $val);
         }
     }
 
@@ -334,6 +332,72 @@ class HTML_CSS extends HTML_Common
     function apiVersion()
     {
         return '@api_version@';
+    }
+
+    /**
+     * Sets options for the class.
+     *
+     * @param string $option Name of option to set
+     * @param string $val    Value of option to set
+     *
+     * @return void
+     * @since  1.4.0
+     * @access public
+     */
+    function __set($option, $val)
+    {
+        if (isset($this->options[$option])) {
+            $this->options[$option] = $val;
+        }
+    }
+
+    /**
+     * Gets options for the class.
+     *
+     * @param string $option Name of option to set
+     *
+     * @return mixed
+     * @since  1.4.0
+     * @access public
+     */
+    function __get($option)
+    {
+        if (isset($this->options[$option])) {
+            $r = $this->options[$option];
+        } else {
+            $r = null;
+        }
+        return $r;
+    }
+
+    /**
+     * Sets the string used to indent HTML
+     *
+     * @param string $string String used to indent ("\11", "\t", '  ', etc.).
+     *
+     * @since     1.4.0
+     * @access    public
+     * @return    void
+     */
+    function setTab($string)
+    {
+        $this->__set('tab', $string);
+        parent::setTab($string);
+    }
+
+    /**
+     * Sets the line end style to Windows, Mac, Unix or a custom string.
+     *
+     * @param string $style "win", "mac", "unix" or custom string.
+     *
+     * @since   1.4.0
+     * @access  public
+     * @return  void
+     */
+    function setLineEnd($style)
+    {
+        $this->__set('lineEnd', $style);
+        parent::setLineEnd($style);
     }
 
     /**
@@ -355,7 +419,7 @@ class HTML_CSS extends HTML_Common
                       'expected' => 'boolean',
                       'paramnum' => 1));
         }
-        $this->_singleLine = $value;
+        $this->options['oneline'] = $value;
     }
 
     /**
@@ -378,7 +442,7 @@ class HTML_CSS extends HTML_Common
                       'expected' => 'boolean',
                       'paramnum' => 1));
         }
-        $this->_groupsFirst = $value;
+        $this->options['groupsfirst'] = $value;
     }
 
     /**
@@ -466,7 +530,7 @@ class HTML_CSS extends HTML_Common
                 if ($selector != '') {
                     $element = $selector;
                 }
-                if ($this->_xhtmlCompliant) {
+                if ($this->options['xhtml']) {
                     $element = strtolower($element);
                     $pseudo  = strtolower($pseudo);
                 }
@@ -524,7 +588,7 @@ class HTML_CSS extends HTML_Common
                       'expected' => 'boolean',
                       'paramnum' => 1));
         }
-        $this->_xhtmlCompliant = $value;
+        $this->options['xhtml'] = $value;
     }
 
     /**
@@ -664,7 +728,7 @@ class HTML_CSS extends HTML_Common
         }
 
         if (!isset($duplicates)) {
-            $duplicates = $this->_allowDuplicates;
+            $duplicates = $this->__get('allowduplicates');
         }
 
         $groupIdent = '@-'.$group;
@@ -872,7 +936,7 @@ class HTML_CSS extends HTML_Common
         }
 
         if (!isset($duplicates)) {
-            $duplicates = $this->_allowDuplicates;
+             $duplicates = $this->__get('allowduplicates');
         }
 
         $element = $this->parseSelectors($element);
@@ -1106,8 +1170,20 @@ class HTML_CSS extends HTML_Common
                       'expected' => 'boolean',
                       'paramnum' => 1));
         }
+        $this->options['cache'] = $cache;
+    }
 
-        $this->_cache = $cache;
+    /**
+     * Returns the cache option value
+     *
+     * @return     boolean
+     * @since      1.4.0
+     * @access     public
+     * @see        setCache()
+     */
+    function getCache()
+    {
+        return $this->__get('cache');
     }
 
     /**
@@ -1147,7 +1223,7 @@ class HTML_CSS extends HTML_Common
             $filename = basename($_SERVER['PHP_SELF']) . '.css';
         }
 
-        $this->_contentDisposition = $filename;
+        $this->options['contentDisposition'] = $filename;
     }
 
     /**
@@ -1163,7 +1239,7 @@ class HTML_CSS extends HTML_Common
      */
     function getContentDisposition()
     {
-        return $this->_contentDisposition;
+        return $this->__get('contentDisposition');
     }
 
     /**
@@ -1187,8 +1263,7 @@ class HTML_CSS extends HTML_Common
                       'expected' => 'string',
                       'paramnum' => 1));
         }
-
-        $this->_charset = $type;
+        $this->options['charset'] = $type;
     }
 
     /**
@@ -1201,7 +1276,7 @@ class HTML_CSS extends HTML_Common
      */
     function getCharset()
     {
-        return $this->_charset;
+        return $this->__get('charset');
     }
 
     /**
@@ -1235,7 +1310,7 @@ class HTML_CSS extends HTML_Common
         }
 
         if (!isset($duplicates)) {
-            $duplicates = $this->_allowDuplicates;
+            $duplicates = $this->__get('allowduplicates');
         }
 
         // Remove comments
@@ -1361,7 +1436,7 @@ class HTML_CSS extends HTML_Common
         }
 
         if (!isset($duplicates)) {
-            $duplicates = $this->_allowDuplicates;
+            $duplicates = $this->__get('allowduplicates');
         }
 
         $ret = $this->parseString(file_get_contents($filename), $duplicates);
@@ -1398,7 +1473,7 @@ class HTML_CSS extends HTML_Common
         }
 
         if (!isset($duplicates)) {
-            $duplicates = $this->_allowDuplicates;
+            $duplicates = $this->__get('allowduplicates');
         }
 
         foreach ($styles as $style) {
@@ -1550,7 +1625,7 @@ class HTML_CSS extends HTML_Common
         }
 
         // If groups are to be output first, initialize a special variable
-        if ($this->_groupsFirst) {
+        if ($this->__get('groupsfirst')) {
             $strCssElements = '';
         }
 
@@ -1585,13 +1660,13 @@ class HTML_CSS extends HTML_Common
             $definition .= $tabs . '}';
 
             // if this is to be on a single line, collapse
-            if ($this->_singleLine) {
+            if ($this->options['oneline']) {
                 $definition = $this->collapseInternalSpaces($definition);
             }
 
             // if groups are to be output first, elements must be placed in a
             // different string which will be appended in the end
-            if ($this->_groupsFirst === true
+            if ($this->__get('groupsfirst') === true
                 && strpos($identifier, '@-') === false) {
                 // add to elements
                 $strCssElements .= $lnEnd . $tabs . $definition . $lnEnd;
@@ -1601,15 +1676,14 @@ class HTML_CSS extends HTML_Common
             }
         }
 
-        if ($this->_groupsFirst) {
+        if ($this->__get('groupsfirst')) {
             $strCss .= $strCssElements;
         }
 
-        if ($this->_singleLine) {
-            $strCss = str_replace($lnEnd.$lnEnd, $lnEnd, $strCss);
+        if ($this->options['oneline']) {
+            $strCss = preg_replace('/(\n|\r\n|\r)/', '', $strCss);
         }
 
-        $strCss = preg_replace('/^(\n|\r\n|\r)/', '', $strCss);
         return $strCss;
     }
 
@@ -1623,7 +1697,7 @@ class HTML_CSS extends HTML_Common
      */
     function display()
     {
-        if ($this->_cache !== true) {
+        if ($this->__get('cache') !== true) {
             header("Expires: Tue, 1 Jan 1980 12:00:00 GMT");
             header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
             header("Cache-Control: no-cache");
@@ -1631,12 +1705,12 @@ class HTML_CSS extends HTML_Common
         }
 
         // set character encoding
-        header("Content-Type: text/css; charset=" . $this->_charset);
+        header("Content-Type: text/css; charset=" . $this->__get('charset'));
 
         // set Content-Disposition
-        if ($this->_contentDisposition !== false) {
+        if ($this->__get('contentDisposition') !== false) {
             header('Content-Disposition: inline; filename="' .
-                $this->_contentDisposition . '"');
+                $this->__get('contentDisposition') . '"');
         }
 
         $strCss = $this->toString();
@@ -1678,6 +1752,14 @@ class HTML_CSS extends HTML_Common
             $this->_callback_push = array('HTML_CSS_Error', '_handleError');
         }
 
+        // determine whether to display or log an error by a free user function
+        if (isset($prefs['error_callback'])
+            && is_callable($prefs['error_callback'])) {
+            $this->_callback_error = $prefs['error_callback'];
+        } else {
+            $this->_callback_error = null;
+        }
+
         // default error handler will use PEAR_Error
         if (isset($prefs['error_handler'])
             && is_callable($prefs['error_handler'])) {
@@ -1713,6 +1795,7 @@ class HTML_CSS extends HTML_Common
 
         $mode    = call_user_func($this->_callback_push, $code, $level);
         $message = call_user_func($this->_callback_message, $code, $params);
+        $options = $this->_callback_error;
 
         $userinfo['level'] = $level;
 
@@ -1727,7 +1810,7 @@ class HTML_CSS extends HTML_Common
             $userinfo['log'] = array();
         }
 
-        return PEAR::raiseError($message, $code, $mode, null, $userinfo,
+        return PEAR::raiseError($message, $code, $mode, $options, $userinfo,
                    'HTML_CSS_Error');
     }
 
