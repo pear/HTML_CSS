@@ -23,6 +23,7 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 chdir(dirname(__FILE__));
 
 require_once 'HTML_CSS_TestSuite_Standard.php';
+require_once 'HTML_CSS_TestSuite_Bugs.php';
 
 /**
  * Class for running all test suites for HTML_CSS package.
@@ -59,6 +60,7 @@ class HTML_CSS_AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('HTML_CSS Test Suite');
         $suite->addTestSuite('HTML_CSS_TestSuite_Standard');
+        $suite->addTestSuite('HTML_CSS_TestSuite_Bugs');
         return $suite;
     }
 }
