@@ -592,7 +592,7 @@ p { margin-left: 3em; }
   height: 99px;
 }
 ';
-        // set local 'allowDuplicates' option
+        // set local 'allowduplicates' option
         $e   = $this->css->parseString($strcss, true);
         $msg = PEAR::isError($e) ? $e->getMessage() : null;
         $this->assertFalse(PEAR::isError($e), $msg);
