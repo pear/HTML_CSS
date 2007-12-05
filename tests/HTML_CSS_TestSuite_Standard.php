@@ -13,7 +13,7 @@
  * @since    File available since Release 1.4.0
  */
 if (!defined("PHPUnit_MAIN_METHOD")) {
-    define("PHPUnit_MAIN_METHOD", "HTML_CSSTest::main");
+    define("PHPUnit_MAIN_METHOD", "HTML_CSS_TestSuite_Standard::main");
 }
 
 require_once "PHPUnit/Framework/TestCase.php";
@@ -29,7 +29,7 @@ require_once 'PEAR.php';
  * @package  HTML_CSS
  * @author   Laurent Laville <pear@laurent-laville.org>
  * @license  http://www.opensource.org/licenses/bsd-license.php BSD
- * @version  Release: $id$
+ * @version  Release: @package_version@
  * @link     http://pear.php.net/package/HTML_CSS
  * @since    File available since Release 1.4.0
  */
@@ -56,7 +56,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Sets up the fixture, for example, open a network connection.
+     * Sets up the fixture.
      * This method is called before a test is executed.
      *
      * @return void
@@ -71,7 +71,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tears down the fixture, for example, close a network connection.
+     * Tears down the fixture.
      * This method is called after a test is executed.
      *
      * @return void
@@ -399,7 +399,8 @@ p, body {
     public function testParseFile()
     {
         // parsing a file contents
-        $e   = $this->css->parseFile('stylesheet.css');
+        $fn  = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'stylesheet.css';
+        $e   = $this->css->parseFile($fn);
         $msg = PEAR::isError($e) ? $e->getMessage() : null;
         $this->assertFalse(PEAR::isError($e), $msg);
 
@@ -482,7 +483,8 @@ p, div#black { color: black; }
 div{ color: green; }
 p { margin-left: 3em; }
 ';
-        $css_data = array('stylesheet.css', $strcss);
+        $fn       = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'stylesheet.css';
+        $css_data = array($fn, $strcss);
 
         $e   = $this->css->parseData($css_data);
         $msg = PEAR::isError($e) ? $e->getMessage() : null;
@@ -691,7 +693,7 @@ p { margin-left: 3em; }
     }
 }
 
-// Call HTML_CSSTest::main() if file is executed directly.
+// Call HTML_CSS_TestSuite_Standard::main() if file is executed directly.
 if (PHPUnit_MAIN_METHOD == "HTML_CSS_TestSuite_Standard::main") {
     HTML_CSS_TestSuite_Standard::main();
 }
