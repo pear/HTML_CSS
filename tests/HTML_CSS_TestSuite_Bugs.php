@@ -281,14 +281,14 @@ td p { font-family: Comic; }
         $this->assertSame($sa, $e,
             'parseSelectors incorrectly assumes selector structure "' . $sa . '"');
 
-        $sb = '#heading .icon';
+        $sb  = '#heading .icon';
         $e   = $this->css->parseSelectors($sb);
         $msg = PEAR::isError($e) ? $e->getMessage() : null;
         $this->assertFalse(PEAR::isError($e), $msg);
         $this->assertSame($sb, $e,
             'parseSelectors incorrectly assumes selector structure "' . $sb . '"');
 
-        $sc = '#heading .icon img';
+        $sc  = '#heading .icon img';
         $e   = $this->css->parseSelectors($sc);
         $msg = PEAR::isError($e) ? $e->getMessage() : null;
         $this->assertFalse(PEAR::isError($e), $msg);
