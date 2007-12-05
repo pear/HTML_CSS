@@ -31,7 +31,7 @@ require_once 'HTML_CSS_TestSuite_Standard.php';
  * @package  HTML_CSS
  * @author   Laurent Laville <pear@laurent-laville.org>
  * @license  http://www.opensource.org/licenses/bsd-license.php BSD
- * @version  Release: $id$
+ * @version  Release: @package_version@
  * @link     http://pear.php.net/package/HTML_CSS
  * @since    File available since Release 1.4.0
  */
