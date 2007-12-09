@@ -691,6 +691,111 @@ p { margin-left: 3em; }
 
         unlink($tmpFile);
     }
+
+    /**
+     * Tests searching for selectors and properties
+     *
+     * @return void
+     */
+    public function testGrepStyle()
+    {
+        $strcss = '
+#PB1 .cellI, #PB1 .cellA {
+  width: 10px;
+  height: 20px;
+  font-family: Courier, Verdana;
+  font-size: 8px;
+  float: left;
+}
+
+#PB1 .progressBorder {
+  width: 122px;
+  height: 24px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: navy;
+  background-color: #FFFFFF;
+}
+
+#PB1 .progressPercentLabel {
+  width: 60px;
+  text-align: center;
+  background-color: transparent;
+  font-size: 14px;
+  font-family: Verdana, Tahoma, Arial;
+  font-weight: normal;
+  color: #000000;
+}
+
+#PB1 .cellI {
+  background-color: #EEEECC;
+}
+
+#PB1 .cellA {
+  background-color: #3874B4;
+}
+
+body {
+    background-color: #E0E0E0;
+    color: navy;
+    font-family: Verdana, Arial;
+}
+';
+
+        $e   = $this->css->parseString($strcss);
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        $gs = array('#PB1 .cellI' =>
+                  array('width' => '10px',
+                     'height' => '20px',
+                     'font-family' => 'Courier, Verdana',
+                     'font-size' => '8px',
+                     'float' => 'left',
+                     'background-color' => '#EEEECC'),
+                  '#PB1 .cellA' =>
+                  array('width' => '10px',
+                     'height' => '20px',
+                     'font-family' => 'Courier, Verdana',
+                     'font-size' => '8px',
+                     'float' => 'left',
+                     'background-color' => '#3874B4'),
+                  '#PB1 .progressBorder' =>
+                  array('width' => '122px',
+                     'height' => '24px',
+                     'border-width' => '1px',
+                     'border-style' => 'solid',
+                     'border-color' => 'navy',
+                     'background-color' => '#FFFFFF'),
+                  '#PB1 .progressPercentLabel' =>
+                  array('width' => '60px',
+                     'text-align' => 'center',
+                     'background-color' => 'transparent',
+                     'font-size' => '14px',
+                     'font-family' => 'Verdana, Tahoma, Arial',
+                     'font-weight' => 'normal',
+                     'color' => '#000000'));
+        // find all selectors beginning with #PB1
+        $style1 = $this->css->grepStyle('/^#PB1/');
+        $this->assertSame($gs, $style1, 'search for pattern 1 does not match');
+
+        $gs = array('#PB1 .progressPercentLabel' =>
+                  array('width' => '60px',
+                      'text-align' => 'center',
+                      'background-color' => 'transparent',
+                      'font-size' => '14px',
+                      'font-family' => 'Verdana, Tahoma, Arial',
+                      'font-weight' => 'normal',
+                      'color' => '#000000'),
+                  'body' =>
+                  array('background-color' => '#E0E0E0',
+                      'color' => 'navy',
+                      'font-family' => 'Verdana, Arial'));
+        // find all selectors that set the color property
+        $style2 = $this->css->grepStyle('/./', '/^color$/');
+        $this->assertSame($gs, $style2, 'search for pattern 2 does not match');
+
+    }
 }
 
 // Call HTML_CSS_TestSuite_Standard::main() if file is executed directly.
