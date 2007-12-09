@@ -10,6 +10,7 @@ $Id$
   - Error handler allow now to use PEAR_ERROR_CALLBACK to customize action
     (log yes/no, print yes/no) when an error/exception is raised.
   - remove trailing EOL in toString() output (with oneline option set to true)
+  - tests suite migrated from PHPUnit 1.x to 3.x
 
 2007-10-22 Laurent Laville <pear@laurent-laville.org>
 
