@@ -304,6 +304,42 @@ td p { font-family: Comic; }
     }
 
     /**
+     * Regression test for bug #12039
+     *
+     * Even if it was considered as bogus, this test case prevent from invalid
+     * data source.
+     *
+     * @return void
+     * @link   http://pear.php.net/bugs/bug.php?id=12039
+     */
+    public function testBug12039()
+    {
+        $strcss = '
+.back2top {
+    clear: both;
+    height: 11px;
+    text-align: right;
+}
+
+a.top {
+    background: none no-repeat top left;
+    text-decoration: none;
+    width: {IMG_ICON_BACK_TOP_WIDTH}px;
+    height: {IMG_ICON_BACK_TOP_HEIGHT}px;
+    display: block;
+    float: right;
+    overflow: hidden;
+    letter-spacing: 1000px;
+    text-indent: 11px;
+}
+';
+        $e      = $this->css->parseString($strcss);
+        $msg    = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertTrue(PEAR::isError($e), $msg);
+        $this->assertContains('valid CSS structure', $msg);
+    }
+
+    /**
      * Regression test for bug #3920
      *
      * @return void
