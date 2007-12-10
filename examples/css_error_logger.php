@@ -3,6 +3,8 @@
  * Customize error renderer with default PEAR_Error object
  * and PEAR::Log (db handler, mysql driver).
  *
+ * PHP versions 4 and 5
+ *
  * @category   HTML
  * @package    HTML_CSS
  * @subpackage Examples
@@ -13,16 +15,25 @@
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
  * @since      File available since Release 1.0.0RC1
+ * @ignore
  */
 
 require_once 'HTML/CSS.php';
 require_once 'PEAR.php';
 require_once 'Log.php';
 
+/**
+ * Determine whether to display or log an error.
+ *
+ * @param object $css_error instance of HTML_CSS_Error
+ *
+ * @return  void
+ * @ignore
+ */
 function myErrorCallback($css_error)
 {
     $display_errors = ini_get('display_errors');
-    $log_errors = ini_get('log_errors');
+    $log_errors     = ini_get('log_errors');
 
     if ($display_errors) {
         printf('<b>HTML_CSS error :</b> %s<br/>', $css_error->getMessage());
@@ -31,13 +42,13 @@ function myErrorCallback($css_error)
     if ($log_errors) {
         $userinfo = $css_error->getUserInfo();
 
-        $lineFormat = '%1$s %2$s';
+        $lineFormat    = '%1$s %2$s';
         $contextFormat = '(Function="%3$s" File="%1$s" Line="%2$s")';
 
-        $options =& $userinfo['log']['sql'];
+        $options  =& $userinfo['log']['sql'];
         $db_table =& $options['name'];
-        $ident =& $options['ident'];
-        $conf =& $options['conf'];
+        $ident    =& $options['ident'];
+        $conf     =& $options['conf'];
 
         if (isset($conf['lineFormat'])) {
             $lineFormat = $conf['lineFormat'];
@@ -48,34 +59,42 @@ function myErrorCallback($css_error)
 
         $logger = &Log::singleton('sql', $db_table, $ident, $conf);
 
-        $msg = $css_error->getMessage();
-        $ctx = $css_error->sprintContextExec($contextFormat);
+        $msg     = $css_error->getMessage();
+        $ctx     = $css_error->sprintContextExec($contextFormat);
         $message = sprintf($lineFormat, $msg, $ctx);
 
         switch ($userinfo['level']) {
-         case 'exception':
-             $logger->alert($message);
-             break;
-         case 'error':
-             $logger->err($message);
-             break;
-         case 'warning':
-             $logger->warning($message);
-             break;
-         default:
-             $logger->notice($message);
+        case 'exception':
+            $logger->alert($message);
+            break;
+        case 'error':
+            $logger->err($message);
+            break;
+        case 'warning':
+            $logger->warning($message);
+            break;
+        default:
+            $logger->notice($message);
         }
     }
 }
 
+/**
+ * Replace default internal error handler.
+ *
+ * Always returns error, but do nothing
+ *
+ * @return  null
+ * @ignore
+ */
 function myErrorHandler()
 {
     // always returns error; do not halt script on exception
     return null;
 }
 
-ini_set('display_errors',1);
-ini_set('log_errors',1);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
 
 
 // Example A. ---------------------------------------------
@@ -99,7 +118,7 @@ $db_table = 'log_table'; // your database log table
  * );
  */
 
-$options = array(
+$options     = array(
     'dsn' => "$dbms://$db_user:$db_pass@/$db_name",
     'contextFormat' => '[File="%1$s" Line="%2$s"]'
 );
@@ -107,9 +126,9 @@ $sql_handler = array('name' => $db_table,
                      'ident' => 'HTML_CSS',
                      'conf' => $options
                      );
-$logConfig = array('sql' => $sql_handler);
+$logConfig   = array('sql' => $sql_handler);
 
-$prefs = array(
+$prefs   = array(
     'push_callback' => 'myErrorHandler',
     'handler' => array('log' => $logConfig)
 );
@@ -128,7 +147,8 @@ $css1->getStyle('h1', 'class');
 $css1->setXhtmlCompliance('true');
 
 $msg  = "<br/><hr/>";
-$msg .= "Previous errors has been recorded in database '$db_name', table '$db_table'";
+$msg .= "Previous errors has been recorded in database '$db_name'," .
+        " table '$db_table'";
 echo "$msg <br/><br/>";
 
 print 'still alive !';

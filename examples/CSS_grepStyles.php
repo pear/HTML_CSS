@@ -3,19 +3,30 @@
  * New feature of version 1.1.0 explained :
  * Ability to find if an element or property is already defined and where
  *
+ * PHP versions 4 and 5
+ *
  * @category   HTML
  * @package    HTML_CSS
  * @subpackage Examples
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @copyright  2006-2007 Laurent Laville
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
  * @since      File available since Release 1.1.0
+ * @ignore
  */
 
 require_once 'HTML/CSS.php';
 
+/**
+ * HTML render for css grep results.
+ *
+ * @param array $styles HTML_CSS array output render
+ *
+ * @return void
+ * @ignore
+ */
 function displayResults($styles)
 {
     if (count($styles) == 0) {
@@ -99,7 +110,7 @@ $styles = $css->grepStyle('/^#PB1/');
 echo '<h1>2. class selector pattern "#PB1"</h1>';
 displayResults($styles);
 
-// 3. is property "font-weight" already defined inside class selectors pattern "#PB1" ?
+// 3. is property "font-weight" already defined inside class selectors pattern #PB1?
 $styles = $css->grepStyle('/^#PB1/', '/^font-weight$/');
 echo '<h1>3. property "font-weight" inside class selector pattern "#PB1"</h1>';
 displayResults($styles);

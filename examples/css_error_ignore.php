@@ -2,20 +2,31 @@
 /**
  * Simply ignores html_css errors that occurs.
  *
+ * PHP versions 4 and 5
+ *
  * @category   HTML
  * @package    HTML_CSS
  * @subpackage Examples
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @copyright  2005-2007 Klaus Guenther, Laurent Laville
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
  * @since      File available since Release 1.0.0RC1
+ * @ignore
  */
 
 require_once 'HTML/CSS.php';
 
+/**
+ * Replace default internal error handler.
+ *
+ * Ignore all errors
+ *
+ * @return  null
+ * @ignore
+ */
 function myErrorHandler()
 {
     return null;

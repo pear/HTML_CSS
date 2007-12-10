@@ -2,21 +2,32 @@
 /**
  * Customize error renderer with default PEAR_Error object.
  *
+ * PHP versions 4 and 5
+ *
  * @category   HTML
  * @package    HTML_CSS
  * @subpackage Examples
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @copyright  2005-2007 Klaus Guenther, Laurent Laville
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
  * @since      File available since Release 1.0.0RC1
+ * @ignore
  */
 
 require_once 'HTML/CSS.php';
 require_once 'PEAR.php';
 
+/**
+ * Determine whether to display or log an error.
+ *
+ * @param object $pb_error instance of HTML_CSS_Error
+ *
+ * @return  void
+ * @ignore
+ */
 function myErrorCallback($pb_error)
 {
     $keys = array('error_message_prefix', 'mode', 'level', 'code', 'message');
@@ -27,6 +38,18 @@ function myErrorCallback($pb_error)
     echo '<hr/>';
 }
 
+/**
+ * Replace default internal error handler.
+ *
+ * Print rather than dies if the error is an exception.
+ *
+ * @param int    $code  a numeric error code.
+ *                      Valid are HTML_CSS_ERROR_* constants
+ * @param string $level error level ('exception', 'error', 'warning', ...)
+ *
+ * @return  integer
+ * @ignore
+ */
 function myErrorHandler($code, $level)
 {
     if ($level == 'exception') {
@@ -40,8 +63,8 @@ function myErrorHandler($code, $level)
  * Be sure that we will print and log error details.
  * @see HTML_CSS_Error::log()
  */
-ini_set('display_errors',1);
-ini_set('log_errors',1);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
 
 
 // Example A. ---------------------------------------------

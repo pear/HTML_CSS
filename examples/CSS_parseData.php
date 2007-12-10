@@ -3,19 +3,34 @@
  * Tell whether a value return by HTML_CSS is an error.
  * Solution to use HTML_CSS::isError() method.
  *
+ * PHP versions 4 and 5
+ *
  * @category   HTML
  * @package    HTML_CSS
  * @subpackage Examples
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @copyright  2005-2007 Laurent Laville
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
  * @since      File available since Release 1.0.0RC2
+ * @ignore
  */
 
 require_once 'HTML/CSS.php';
 
+/**
+ * Replace default internal error handler.
+ *
+ * Always print rather than dies if the error is an exception.
+ *
+ * @param int    $code  a numeric error code.
+ *                      Valid are HTML_CSS_ERROR_* constants
+ * @param string $level error level ('exception', 'error', 'warning', ...)
+ *
+ * @return  integer
+ * @ignore
+ */
 function myErrorHandler($code, $level)
 {
     return PEAR_ERROR_PRINT;  // always print all error messages
@@ -53,7 +68,7 @@ $styles = array(
     "default.css"
 );
 
-$prefs = array(
+$prefs   = array(
     'push_callback' => 'myErrorHandler',
 );
 $attribs = null;
@@ -62,9 +77,10 @@ $css = new HTML_CSS($attribs, $prefs);
 
 $res = $css->parseData($styles);
 if ($css->isError($res)) {
-    $line = __LINE__ - 1;
+    $line  = __LINE__ - 1;
     $style = 'background-color:red; color:yellow; font-weight:bold; padding:0.4em;';
-    echo '<p style="'.$style.'">Error message detected by isError() at line ' . $line . '</p>';
+    echo '<p style="'.$style.'">Error message detected by isError() at line ' .
+        $line . '</p>';
 }
 print 'Still alive !';
 ?>

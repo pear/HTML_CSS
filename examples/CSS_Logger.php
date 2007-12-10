@@ -6,29 +6,36 @@
  * as an error handler for HTML_CSS.
  * It used the new plug-in system introduces in version 1.0.0RC1
  *
+ * PHP versions 4 and 5
+ *
  * @category   HTML
  * @package    HTML_CSS
  * @subpackage Examples
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @copyright  2005-2007 Klaus Guenther, Laurent Laville
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
  * @since      File available since Release 1.0.0RC1
+ * @ignore
  */
 
 require_once 'HTML/CSS.php';
 require_once 'PEAR.php';
 
-class myErrorHandler
+/**
+ * @ignore
+ */
+class MyErrorHandler
 {
     var $_display;
 
-    function myErrorHandler($display = null)
+    function MyErrorHandler($display = null)
     {
         $default = array('lineFormat' => '<b>%1$s</b>: %2$s %3$s',
-                         'contextFormat' => ' in <b>%3$s</b> (file <b>%1$s</b> at line <b>%2$s</b>)',
+                         'contextFormat' => ' in <b>%3$s</b> ' .
+                             '(file <b>%1$s</b> at line <b>%2$s</b>)',
                          'eol' => "\n"
                          );
 
@@ -47,11 +54,11 @@ class myErrorHandler
     function errorCallback($err)
     {
         $display_errors = ini_get('display_errors');
-        $log_errors = ini_get('log_errors');
+        $log_errors     = ini_get('log_errors');
 
-        $info = $err->getUserInfo();
-        $level = isset($info['errorLevel']) ? $info['errorLevel'] : 'notice';
-        $message = $err->getMessage();
+        $info      = $err->getUserInfo();
+        $level     = isset($info['errorLevel']) ? $info['errorLevel'] : 'notice';
+        $message   = $err->getMessage();
         $backtrace = $err->getBacktrace();
 
         if ($display_errors) {
@@ -73,8 +80,7 @@ class myErrorHandler
                        strftime($log['timeFormat'], time()),
                        $_SERVER['REMOTE_ADDR'],
                        $level,
-                       $message
-                       );
+                       $message);
 
         error_log($msg, 3, 'htmlcss.log');
     }
@@ -96,24 +102,25 @@ class myErrorHandler
             }
         }
 
-        $lineFormat = $this->_display['lineFormat'] . $this->_display['eol'];
+        $lineFormat    = $this->_display['lineFormat'] . $this->_display['eol'];
         $contextFormat = $this->_display['contextFormat'];
-        $contextExec = sprintf($contextFormat, $file, $line, $func);
+        $contextExec   = sprintf($contextFormat, $file, $line, $func);
 
         printf($lineFormat, ucfirst($level), $message, $contextExec);
     }
 }
 
 
-$myErrorHandler = new myErrorHandler();
-PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$myErrorHandler, 'errorCallback'));
+$myErrorHandler = new MyErrorHandler();
+PEAR::setErrorHandling(PEAR_ERROR_CALLBACK,
+    array(&$myErrorHandler, 'errorCallback'));
 
 ini_set('display_errors', 1);
 ini_set('log_errors', 1);
 
-$includes = get_included_files();
+$includes       = get_included_files();
 $display_errors = ini_get('display_errors');
-$log_errors = ini_get('log_errors');
+$log_errors     = ini_get('log_errors');
 
 echo '<pre>';
 print_r($includes);
@@ -136,11 +143,13 @@ $group2 = $css->createGroup('p, html', 'grp1');
 echo '<hr />';
 
 $options = array('lineFormat' => '<b>%1$s :</b> %2$s <br />%3$s',
-                 'contextFormat' => '<b>Function :</b> %3$s <br/><b>File :</b> %1$s <br /><b>Line :</b> %2$s <br/>'
+                 'contextFormat' => '<b>Function :</b> %3$s <br/>'.
+                     '<b>File :</b> %1$s <br /><b>Line :</b> %2$s <br/>'
                  );
 
-$myErrorHandler = new myErrorHandler($options);
-PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$myErrorHandler, 'errorCallback'));
+$myErrorHandler = new MyErrorHandler($options);
+PEAR::setErrorHandling(PEAR_ERROR_CALLBACK,
+    array(&$myErrorHandler, 'errorCallback'));
 
 $css->setXhtmlCompliance('true');  // generate an API exception
 

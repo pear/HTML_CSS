@@ -2,19 +2,21 @@
 /**
  * Example to produces an external stylesheet declarations
  *
+ * PHP versions 4 and 5
+ *
  * @category   HTML
  * @package    HTML_CSS
  * @subpackage Examples
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @copyright  2003-2007 Klaus Guenther, Laurent Laville
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
+ * @ignore
  */
 
 require_once 'HTML/CSS.php';
-
 
 $css = new HTML_CSS();
 

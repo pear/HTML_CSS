@@ -2,22 +2,30 @@
 /**
  * Customize error renderer with PEAR_ErrorStack.
  *
+ * PHP versions 4 and 5
+ *
  * @category   HTML
  * @package    HTML_CSS
  * @subpackage Examples
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
  * @copyright  2005-2007 Klaus Guenther, Laurent Laville
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
  * @since      File available since Release 1.0.0RC1
+ * @ignore
  */
 
 require_once 'HTML/CSS.php';
 require_once 'HTML/CSS/Error.php';
 require_once 'PEAR/ErrorStack.php';
 
+/**
+ * This class creates a css error stack object with help of PEAR_ErrorStack
+ *
+ * @ignore
+ */
 class HTML_CSS_ErrorStack
 {
     function HTML_CSS_ErrorStack()
@@ -52,7 +60,7 @@ class HTML_CSS_ErrorStack
     {
         global $prefs;
 
-        $lineFormat = '<b>%1$s:</b> %2$s<br/>[%3$s]<hr/>'."<br/>\n";
+        $lineFormat    = '<b>%1$s:</b> %2$s<br/>[%3$s]<hr/>'."<br/>\n";
         $contextFormat = 'in <b>%1$s</b> on line <b>%2$s</b>';
 
         if (isset($prefs['handler']['display']['lineFormat'])) {
@@ -65,8 +73,8 @@ class HTML_CSS_ErrorStack
         $context = $err['context'];
 
         if ($context) {
-            $file  = $context['file'];
-            $line  = $context['line'];
+            $file = $context['file'];
+            $line = $context['line'];
 
             $contextExec = sprintf($contextFormat, $file, $line);
         } else {
@@ -100,7 +108,7 @@ $halt_onException = false;
 $stack =& new HTML_CSS_ErrorStack();
 
 $attribs = array();
-$prefs = array('error_handler' => array(&$stack, 'push'));
+$prefs   = array('error_handler' => array(&$stack, 'push'));
 
 // A1. Error
 $css1 = new HTML_CSS($attribs, $prefs);
@@ -116,8 +124,8 @@ $displayConfig = array(
     'contextFormat' =>   '<b>File:</b> %1$s <br/>'
                        . '<b>Line:</b> %2$s '
 );
-$attribs = array();
-$prefs = array(
+$attribs       = array();
+$prefs         = array(
     'error_handler' => array(&$stack, 'push'),
     'handler' => array('display' => $displayConfig)
 );
