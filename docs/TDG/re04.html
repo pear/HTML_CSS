@@ -5,15 +5,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      HTML_CSS::setCache
+      HTML_CSS::setSingleLineOutput
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch08.html#reference.api.init" title=
+    <link rel="up" href="ch09.html#reference.api.init" title=
     "Initialize parser/writer options" />
-    <link rel="prev" href="re03.html" title="HTML_CSS::parseFile" />
-    <link rel="next" href="re05.html" title="HTML_CSS::setSingleLineOutput" />
+    <link rel="prev" href="re03.html" title="HTML_CSS::setCache" />
+    <link rel="next" href="re05.html" title="HTML_CSS::setOutputGroupsFirst" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -39,7 +39,7 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  <code class="function">HTML_CSS::setCache</code>
+                  <code class="function">HTML_CSS::setSingleLineOutput</code>
                 </th>
               </tr>
               <tr>
@@ -59,16 +59,16 @@
       </tr>
     </table>
     <div class="refentry" lang="en" xml:lang="en">
-      <a name="package.html.html-css.html-css.setcache" id=
-      "package.html.html-css.html-css.setcache"></a>
+      <a name="package.html.html-css.html-css.setsinglelineoutput" id=
+      "package.html.html-css.html-css.setsinglelineoutput"></a>
       <div class="titlepage"></div>
       <div class="refnamediv">
         <h2>
           Name
         </h2>
         <p>
-          <code class="function">HTML_CSS::setCache</code> &mdash; Defines if
-          the document should be cached by the browser. Defaults to false.
+          <code class="function">HTML_CSS::setSingleLineOutput</code> &mdash;
+          Determines whether definitions are output single line or multiline
         </p>
       </div>
       <div class="refsynopsisdiv">
@@ -85,10 +85,10 @@
             <tr>
               <td>
                 <code class="funcdef">void|PEAR_Error <b class=
-                "fsfunc">HTML_CSS::setCache</b>(</code>
+                "fsfunc">HTML_CSS::setSingleLineOutput</b>(</code>
               </td>
               <td>
-                <var class="pdparam">$cache = TRUE</var><code>)</code>;
+                <var class="pdparam">$value</var><code>)</code>;
               </td>
               <td>
                 &nbsp;
@@ -102,15 +102,15 @@
                 bool &nbsp;
               </td>
               <td>
-                <var class="pdparam">$cache = TRUE</var>;
+                <var class="pdparam">$value</var>;
               </td>
             </tr>
           </table>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcache.desc" id=
-        "package.html.html-css.html-css.setcache.desc"></a>
+        <a name="package.html.html-css.html-css.setsinglelineoutput.desc" id=
+        "package.html.html-css.html-css.setsinglelineoutput.desc"></a>
         <h2>
           Description
         </h2>
@@ -119,8 +119,8 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcache.param" id=
-        "package.html.html-css.html-css.setcache.param"></a>
+        <a name="package.html.html-css.html-css.setsinglelineoutput.param" id=
+        "package.html.html-css.html-css.setsinglelineoutput.param"></a>
         <h2>
           Parameter
         </h2>
@@ -128,19 +128,14 @@
           <dl>
             <dt>
               <span class="term"><span class="type">boolean</span> <em class=
-              "parameter"><code>$cache</code></em></span>
+              "parameter"><code>$value</code></em></span>
             </dt>
-            <dd>
-              <p>
-                (optional)
-              </p>
-            </dd>
           </dl>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcache.throws" id=
-        "package.html.html-css.html-css.setcache.throws"></a>
+        <a name="package.html.html-css.html-css.setsinglelineoutput.throws" id=
+        "package.html.html-css.html-css.setsinglelineoutput.throws"></a>
         <h2>
           Throws
         </h2>
@@ -150,18 +145,18 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcache.since" id=
-        "package.html.html-css.html-css.setcache.since"></a>
+        <a name="package.html.html-css.html-css.setsinglelineoutput.since" id=
+        "package.html.html-css.html-css.setsinglelineoutput.since"></a>
         <h2>
           Since
         </h2>
         <p>
-          Release 0.2.0 (2003-07-31)
+          Release 0.3.3 (2004-05-20)
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcache.note" id=
-        "package.html.html-css.html-css.setcache.note"></a>
+        <a name="package.html.html-css.html-css.setsinglelineoutput.note" id=
+        "package.html.html-css.html-css.setsinglelineoutput.note"></a>
         <h2>
           Note
         </h2>
@@ -176,7 +171,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -188,7 +183,7 @@
             <a accesskey="p" href="re03.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch08.html#reference.api.init">Up</a>
+            <a accesskey="u" href="ch09.html#reference.api.init">Up</a>
           </td>
           <td width="40%" align="right">
             &nbsp;<a accesskey="n" href="re05.html">Next</a>
@@ -196,13 +191,13 @@
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            <code class="function">HTML_CSS::parseFile</code>&nbsp;
+            <code class="function">HTML_CSS::setCache</code>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;<code class="function">HTML_CSS::setSingleLineOutput</code>
+            &nbsp;<code class="function">HTML_CSS::setOutputGroupsFirst</code>
           </td>
         </tr>
       </table>

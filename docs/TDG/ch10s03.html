@@ -5,13 +5,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Searching for usage
+      Controlling error generation
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch10.html" title="Chapter&nbsp;10.&nbsp;Examples" />
-    <link rel="prev" href="ch10s02.html" title="Parsing data sources usage " />
+    <link rel="up" href="ch10.html" title=
+    "Chapter&nbsp;10.&nbsp;Error Handler" />
+    <link rel="prev" href="ch10s02.html" title="Configuring a Handler " />
+    <link rel="next" href="ch10s04.html" title="Error Context Display " />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -21,7 +23,7 @@
     :link { color: #0000FF }
     :visited { color: #840084 }
     :active { color: #0000FF }
-    p.c3 {font-weight: bold}
+    div.c3 {margin-left: 0.5in; margin-right: 0.5in;}
     div.c2 {font-family: monospace;}
     h2.c1 {clear: both}
     /*]]>*/
@@ -39,7 +41,7 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Searching for usage
+                  Controlling error generation
                 </th>
               </tr>
               <tr>
@@ -47,10 +49,10 @@
                   <a accesskey="p" href="ch10s02.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Chapter&nbsp;10.&nbsp;Examples
+                  Chapter&nbsp;10.&nbsp;Error Handler
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;
+                  &nbsp;<a accesskey="n" href="ch10s04.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -61,511 +63,399 @@
     <div class="sect1" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title c1">
-          <a name="examples.grep" id="examples.grep"></a>Searching for usage
+          <a name="id4802225" id="id4802225"></a>Controlling error generation
         </h2>
       </div>
-      <div class="toc">
-        <dl>
-          <dt>
-            <span class="sect2"><a href=
-            "ch10s03.html#examples.grep.1">Searching for selectors and
-            properties</a></span>
-          </dt>
-        </dl>
+      <p>
+        There are many scenarios in which fine-grained control over error
+        raising is absolutely necessary.
+      </p>
+      <p>
+        The first level to control error generation is the <code class=
+        "filename">php.ini</code> directives <span class=
+        "emphasis"><em>display_errors</em></span> and <span class=
+        "emphasis"><em>log_errors</em></span>. When these directives are set to
+        <code class="constant">TRUE</code>, then browser and file outputs are
+        effective.
+      </p>
+      <div class="tip c3">
+        <table border="0" summary="Tip">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="48">
+              <img alt="[Tip]" src="img/admons/tip.png" />
+            </td>
+            <th align="left">
+              Tip
+            </th>
+          </tr>
+          <tr>
+            <td align="left" valign="top">
+              If you want to ignore all errors raised (no display, no logs) and
+              avoid to include PEAR core class, then you should have something
+              like :
+              <div class="php c2">
+                <ol>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="kw2">&lt;?php</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="kw1">require_once</span> <span class=
+                      "st0">'HTML/CSS.php'</span>;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      &nbsp;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="kw2">function</span>
+                      myErrorHandler<span class="br0">(</span><span class=
+                      "br0">)</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="br0">{</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      &nbsp; &nbsp; <span class="kw1">return</span>
+                      <span class="kw2">null</span>;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="br0">}</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      &nbsp;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="re0">$errorConf</span> = <span class=
+                      "kw3">array</span><span class="br0">(</span><span class=
+                      "st0">'error_handler'</span> =&gt; <span class=
+                      "st0">'myErrorHandler'</span><span class="br0">)</span>;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="re0">$css</span> = <span class=
+                      "kw2">new</span> HTML_CSS<span class=
+                      "br0">(</span><span class="kw2">null</span>, <span class=
+                      "re0">$errorConf</span><span class="br0">)</span>;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="co1">// ...</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="kw2">?&gt;</span>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </td>
+          </tr>
+        </table>
       </div>
-      <div class="sect2" lang="en" xml:lang="en">
-        <div class="titlepage">
-          <h3 class="title">
-            <a name="examples.grep.1" id="examples.grep.1"></a>Searching for
-            selectors and properties
-          </h3>
-        </div>
-        <p>
-          This example give you ability to find if a selector is defined
-          (<code class="literal">$style1</code>) and get all properties values.
-          This example give you also ability to find in which selector a
-          property is defined (<code class="literal">$style2</code>).
-        </p>
-        <p>
-          Suppose we have this stylesheet :
-        </p>
-        <div class="css c2">
-          <ol>
-            <li class="li1">
-              <div class="de1">
-                <span class="re0">#PB1</span> <span class="re1">.cellI</span>,
-                <span class="re0">#PB1</span> <span class="re1">.cellA</span>
-                <span class="br0">{</span>
+      <div class="note c3">
+        <table border="0" summary=
+        "Note: Note for users of HTML_CSS 1.4.0 or greater">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="48">
+              <img alt="[Note]" src="img/admons/note.png" />
+            </td>
+            <th align="left">
+              Note for users of HTML_CSS 1.4.0 or greater
+            </th>
+          </tr>
+          <tr>
+            <td align="left" valign="top">
+              You may want to decide to print (yes/no), log (yes/no) error
+              messages with a full free user function local to HTML_CSS
+              <div class="php c2">
+                <ol>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="kw2">&lt;?php</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="kw1">require_once</span> <span class=
+                      "st0">'HTML/CSS.php'</span>;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      &nbsp;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="kw2">function</span>
+                      myErrorAction<span class="br0">(</span><span class=
+                      "re0">$css_error</span><span class="br0">)</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="br0">{</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      &nbsp; &nbsp; <span class="co1">// do what you want:
+                      print and/or log $css_error instance of HTML_CSS_Error
+                      object</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="br0">}</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      &nbsp;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="re0">$errorConf</span> = <span class=
+                      "kw3">array</span><span class="br0">(</span><span class=
+                      "st0">'error_callback'</span> =&gt; <span class=
+                      "st0">'myErrorAction'</span><span class="br0">)</span>;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="re0">$css</span> = <span class=
+                      "kw2">new</span> HTML_CSS<span class=
+                      "br0">(</span><span class="kw2">null</span>, <span class=
+                      "re0">$errorConf</span><span class="br0">)</span>;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="co1">// ...</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="kw2">?&gt;</span>
+                    </div>
+                  </li>
+                </ol>
+              </div>rather than using global PEAR error handler
+              (PEAR::setErrorHandling, PEAR::pushErrorHandling,
+              PEAR::popErrorHandling).
+              <div class="php c2">
+                <ol>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="kw2">&lt;?php</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="kw1">require_once</span> <span class=
+                      "st0">'HTML/CSS.php'</span>;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      &nbsp;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="kw2">function</span>
+                      myErrorAction<span class="br0">(</span><span class=
+                      "re0">$css_error</span><span class="br0">)</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="br0">{</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      &nbsp; &nbsp; <span class="co1">// do what you want:
+                      print and/or log $css_error instance of HTML_CSS_Error
+                      object</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="br0">}</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      &nbsp;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      PEAR::<span class=
+                      "me2">setErrorHandling</span><span class=
+                      "br0">(</span>PEAR_ERROR_CALLBACK, <span class=
+                      "st0">'myErrorAction'</span><span class="br0">)</span>;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      &nbsp;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="re0">$css</span> = <span class=
+                      "kw2">new</span> HTML_CSS<span class=
+                      "br0">(</span><span class="br0">)</span>;
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="co1">// ...</span>
+                    </div>
+                  </li>
+                  <li class="li1">
+                    <div class="de1">
+                      <span class="kw2">?&gt;</span>
+                    </div>
+                  </li>
+                </ol>
               </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">width</span>: <span class=
-                "re3">10px</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">height</span>: <span class=
-                "re3">20px</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">font-family</span>: Courier, Verdana;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">font-size</span>: <span class=
-                "re3">8px</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">float</span>: <span class=
-                "kw1">left</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="re0">#PB1</span> <span class=
-                "re1">.progressBorder</span> <span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">width</span>: <span class=
-                "re3">122px</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">height</span>: <span class=
-                "re3">24px</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">border-width</span>: <span class=
-                "re3">1px</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">border-style</span>: <span class=
-                "kw2">solid</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">border-color</span>: <span class=
-                "kw2">navy</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">background-color</span>: <span class=
-                "re0">#FFFFFF</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="re0">#PB1</span> <span class=
-                "re1">.progressPercentLabel</span> <span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">width</span>: <span class=
-                "re3">60px</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">text-align</span>: <span class=
-                "kw2">center</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">background-color</span>: <span class=
-                "kw2">transparent</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">font-size</span>: <span class=
-                "re3">14px</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">font-family</span>: Verdana, Tahoma,
-                Arial;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">font-weight</span>: <span class=
-                "kw2">normal</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">color</span>: <span class=
-                "re0">#<span class="nu0">000000</span></span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="re0">#PB1</span> <span class="re1">.cellI</span>
-                <span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">background-color</span>: <span class=
-                "re0">#EEEECC</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="re0">#PB1</span> <span class="re1">.cellA</span>
-                <span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">background-color</span>: <span class=
-                "re0">#3874B4</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                body <span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; &nbsp; <span class="kw1">background-color</span>:
-                <span class="re0">#E0E0E0</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; &nbsp; <span class="kw1">color</span>: <span class=
-                "kw2">navy</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; &nbsp; <span class="kw1">font-family</span>: Verdana,
-                Arial;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-          </ol>
-        </div>
-        <div class="example">
-          <a name="id4804115" id="id4804115"></a>
-          <p class="title c3">
-            Example&nbsp;10.5.&nbsp;Searching for selectors and properties
-          </p>
-          <div class="php c2">
-            <ol>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw2">&lt;?php</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw1">require_once</span> <span class=
-                  "st0">'HTML/CSS.php'</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="re0">$css</span> = <span class="kw2">new</span>
-                  HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
-                </div>
-              </li>
-              <li class="li1 ln-xtra">
-                <div class="de1">
-                  <span class="re0">$css</span>-&gt;<span class=
-                  "me1">parseFile</span><span class="br0">(</span><span class=
-                  "st0">'grep1.css'</span><span class="br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="co1">// find all selectors beginning with
-                  #PB1</span>
-                </div>
-              </li>
-              <li class="li1 ln-xtra">
-                <div class="de1">
-                  <span class="re0">$style1</span> = <span class=
-                  "re0">$css</span>-&gt;<span class=
-                  "me1">grepStyle</span><span class="br0">(</span><span class=
-                  "st0">'/^#PB1/'</span><span class="br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="co1">// find all selectors that set the color
-                  property</span>
-                </div>
-              </li>
-              <li class="li1 ln-xtra">
-                <div class="de1">
-                  <span class="re0">$style2</span> = <span class=
-                  "re0">$css</span>-&gt;<span class=
-                  "me1">grepStyle</span><span class="br0">(</span><span class=
-                  "st0">'/./'</span>, <span class=
-                  "st0">'/^color$/'</span><span class="br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="co1">// dump a resume of selectors where to find
-                  your style request</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="re0">$kstyle1</span> = <span class=
-                  "kw3">array_keys</span><span class="br0">(</span><span class=
-                  "re0">$style1</span><span class="br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw3">echo</span> <span class=
-                  "st0">'&lt;p&gt;Selectors defined with "#PB1" are :&lt;br
-                  /&gt;'</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw3">echo</span> <span class=
-                  "kw3">implode</span><span class="br0">(</span><span class=
-                  "st0">', '</span>, <span class=
-                  "re0">$kstyle1</span><span class="br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw3">echo</span> <span class=
-                  "st0">'&lt;/p&gt;'</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="re0">$kstyle2</span> = <span class=
-                  "kw3">array_keys</span><span class="br0">(</span><span class=
-                  "re0">$style2</span><span class="br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw3">echo</span> <span class=
-                  "st0">'&lt;p&gt;Selectors defined with property "color" are
-                  :&lt;br /&gt;'</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw3">echo</span> <span class=
-                  "kw3">implode</span><span class="br0">(</span><span class=
-                  "st0">', '</span>, <span class=
-                  "re0">$kstyle2</span><span class="br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw3">echo</span> <span class=
-                  "st0">'&lt;/p&gt;'</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="co1">// dump all details of grep results</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw1">for</span> <span class=
-                  "br0">(</span><span class="re0">$i</span> = <span class=
-                  "nu0">1</span>; <span class="re0">$i</span> &lt; <span class=
-                  "nu0">3</span>; <span class="re0">$i</span>++<span class=
-                  "br0">)</span> <span class="br0">{</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp; &nbsp; <span class="re0">$bg</span> = <span class=
-                  "br0">(</span><span class="br0">(</span><span class=
-                  "re0">$i</span> % <span class="nu0">2</span><span class=
-                  "br0">)</span> == <span class="nu0">0</span><span class=
-                  "br0">)</span> ? <span class="st0">"#fff"</span> :
-                  <span class="st0">"#eee"</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp; &nbsp; <span class="kw3">echo</span> <span class=
-                  "st0">'&lt;pre style="background-color:'</span>.<span class=
-                  "re0">$bg</span>.<span class="st0">'"&gt;'</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp; &nbsp; <span class="kw3">var_dump</span><span class=
-                  "br0">(</span>$<span class="br0">{</span><span class=
-                  "st0">"style$i"</span><span class="br0">}</span><span class=
-                  "br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp; &nbsp; <span class="kw3">echo</span> <span class=
-                  "st0">'&lt;/pre&gt;'</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="br0">}</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw2">?&gt;</span>
-                </div>
-              </li>
-            </ol>
-          </div>
-        </div>
-        <div class="variablelist">
-          <dl>
-            <dt>
-              <span class="term">Line 5 :</span>
-            </dt>
-            <dd>
-              <p>
-                Load the stylesheet definition. You may also load it by other
-                methods such as <code class=
-                "methodname">HTML_CSS::parseString()</code> or <code class=
-                "methodname">HTML_CSS::parseData()</code>.
-              </p>
-            </dd>
-            <dt>
-              <span class="term">Line 8 :</span>
-            </dt>
-            <dd>
-              <p>
-                We set here the Perl pattern definition to find all selectors
-                (single or group) beginning by <code class=
-                "literal">#PB1</code>.
-              </p>
-            </dd>
-            <dt>
-              <span class="term">Line 11 :</span>
-            </dt>
-            <dd>
-              <p>
-                We set here the Perl pattern definition to find all selectors
-                (single or group) that have a <code class=
-                "literal">color</code> property defined.
-              </p>
-            </dd>
-          </dl>
-        </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        With <span class="bold"><strong>push_callback</strong></span> option,
+        you can decides to stop script execution (as done with exceptions by
+        default: returns <code class="constant">PEAR_ERROR_DIE</code>
+        constant), or continue without filtering (returns <code class=
+        "constant">NULL</code>).
+      </p>
+      <p>
+        If you want to write your own callback function for the <span class=
+        "emphasis"><em>push_callback</em></span> option, this one should have
+        two arguments: first one will get the error code, and second will get
+        error level. These are all the necessary informations to do a
+        filtering. Example that follow show how to be aware that a script use
+        wrong argument data type.
+      </p>
+      <div class="php c2">
+        <ol>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">&lt;?php</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw1">require_once</span> <span class=
+              "st0">'HTML/CSS.php'</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">function</span> myErrorFilter<span class=
+              "br0">(</span><span class="re0">$code</span>, <span class=
+              "re0">$level</span><span class="br0">)</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="br0">{</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; <span class="kw1">if</span> <span class=
+              "br0">(</span><span class="re0">$code</span> ===
+              HTML_CSS_ERROR_INVALID_INPUT<span class="br0">)</span>
+              <span class="br0">{</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; &nbsp; &nbsp; <span class=
+              "kw3">error_log</span><span class="br0">(</span><span class=
+              "st0">'script: '</span>.<span class=
+              "kw2">__FILE__</span>.<span class="st0">' used wrong argument
+              data type'</span>, <span class="nu0">1</span>, <span class=
+              "st0">'admin@yoursite.com'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; <span class="br0">}</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; <span class="kw1">return</span> <span class=
+              "kw2">null</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="br0">}</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$errorConf</span> = <span class=
+              "kw3">array</span><span class="br0">(</span><span class=
+              "st0">'push_callback'</span> =&gt; <span class=
+              "st0">'myErrorFilter'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span> = <span class="kw2">new</span>
+              HTML_CSS<span class="br0">(</span><span class="kw2">null</span>,
+              <span class="re0">$errorConf</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="co1">// ...</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">?&gt;</span>
+            </div>
+          </li>
+        </ol>
       </div>
     </div>
     <table class="htmlcssFooter">
@@ -574,7 +464,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -589,18 +479,18 @@
             <a accesskey="u" href="ch10.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;
+            &nbsp;<a accesskey="n" href="ch10s04.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Parsing data sources usage &nbsp;
+            Configuring a Handler &nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;
+            &nbsp;Error Context Display
           </td>
         </tr>
       </table>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>
+      Custom Error Message Generation
+    </title>
+    <link rel="stylesheet" href="book.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
+    <link rel="start" href="index.html" title="HTML_CSS Manual" />
+    <link rel="up" href="ch10.html" title=
+    "Chapter&nbsp;10.&nbsp;Error Handler" />
+    <link rel="prev" href="ch10s04.html" title="Error Context Display " />
+    <link rel="next" href="pt04.html" title="Part&nbsp;IV.&nbsp;Appendixes" />
+    <style type="text/css">
+/*<![CDATA[*/
+    body {
+    background-color: white;
+    color: black;
+    }
+    :link { color: #0000FF }
+    :visited { color: #840084 }
+    :active { color: #0000FF }
+    div.c2 {font-family: monospace;}
+    h2.c1 {clear: both}
+    /*]]>*/
+    </style>
+  </head>
+  <body>
+    <table class="htmlcssHeader">
+      <tr>
+        <td>
+          <img src="img/pearsmall.gif" align="left" alt="PEAR logo" />
+          <h1>
+            HTML_CSS : The Definitive Guide
+          </h1>
+          <div class="navheader">
+            <table width="100%" summary="Navigation header">
+              <tr>
+                <th colspan="3" align="center">
+                  Custom Error Message Generation
+                </th>
+              </tr>
+              <tr>
+                <td width="20%" align="left">
+                  <a accesskey="p" href="ch10s04.html">Prev</a>&nbsp;
+                </td>
+                <th width="60%" align="center">
+                  Chapter&nbsp;10.&nbsp;Error Handler
+                </th>
+                <td width="20%" align="right">
+                  &nbsp;<a accesskey="n" href="pt04.html">Next</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="sect1" lang="en" xml:lang="en">
+      <div class="titlepage">
+        <h2 class="title c1">
+          <a name="id4803176" id="id4803176"></a>Custom Error Message
+          Generation
+        </h2>
+      </div>
+      <div class="toc">
+        <dl>
+          <dt>
+            <span class="sect2"><a href="ch10s05.html#id4803189">Option:
+            message_callback</a></span>
+          </dt>
+          <dt>
+            <span class="sect2"><a href="ch10s05.html#id4803222">Option:
+            context_callback</a></span>
+          </dt>
+        </dl>
+      </div>
+      <p>
+        There are two methods of <code class="classname">HTML_CSS_Error</code>
+        designed for use with generating error messages efficiently. To use
+        them, you must set the options below in the HTML_CSS class constructor
+        (argument #2):
+      </p>
+      <div class="sect2" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <h3 class="title">
+            <a name="id4803189" id="id4803189"></a>Option: message_callback
+          </h3>
+        </div>
+        <p>
+          The default message handling callback (<code class=
+          "methodname">HTML_CSS_Error::_getErrorMessage</code>) get an array
+          mapping error codes to error message templates, like so:
+        </p>
+        <div class="php c2">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw2">&lt;?php</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$messages</span> = <span class=
+                "kw3">array</span><span class="br0">(</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; &nbsp; HTML_CSS_ERROR_UNKNOWN =&gt;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; &nbsp; &nbsp; &nbsp; <span class="st0">'unknown
+                error'</span>,
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; &nbsp; HTML_CSS_ERROR_INVALID_INPUT =&gt;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; &nbsp; &nbsp; &nbsp; <span class="st0">'invalid input,
+                parameter #%paramnum% '</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; &nbsp; &nbsp; . <span class="st0">'"%var%" was expecting
+                '</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp; &nbsp; &nbsp; . <span class="st0">'"%expected%", instead
+                got "%was%"'</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw2">?&gt;</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <p>
+          Basically, if a variable name is enclosed in percent signs (%), it
+          will be replaced with the value passed in the associative array.
+        </p>
+      </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <h3 class="title">
+            <a name="id4803222" id="id4803222"></a>Option: context_callback
+          </h3>
+        </div>
+        <p>
+          The default context handling callback (<code class=
+          "methodname">HTML_CSS_Error::getBackTrace</code>) gets an array of
+          execution functions and discovers where the error was generated.
+        </p>
+      </div>
+    </div>
+    <table class="htmlcssFooter">
+      <tr>
+        <td align="left">
+          HTML_CSS : The Definitive Guide
+        </td>
+        <td align="right">
+          v 1.4.0 : December 14, 2007
+        </td>
+      </tr>
+    </table>
+    <div class="navfooter">
+      <hr />
+      <table width="100%" summary="Navigation footer">
+        <tr>
+          <td width="40%" align="left">
+            <a accesskey="p" href="ch10s04.html">Prev</a>&nbsp;
+          </td>
+          <td width="20%" align="center">
+            <a accesskey="u" href="ch10.html">Up</a>
+          </td>
+          <td width="40%" align="right">
+            &nbsp;<a accesskey="n" href="pt04.html">Next</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="40%" align="left" valign="top">
+            Error Context Display &nbsp;
+          </td>
+          <td width="20%" align="center">
+            <a accesskey="h" href="index.html">Home</a>
+          </td>
+          <td width="40%" align="right" valign="top">
+            &nbsp;Part&nbsp;IV.&nbsp;Appendixes
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

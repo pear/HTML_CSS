@@ -5,16 +5,17 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      HTML_CSS::setContentDisposition
+      HTML_CSS::grepStyle
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch08s05.html" title="Output " />
-    <link rel="prev" href="re24.html" title=
-    "HTML_CSS::getContentDisposition" />
-    <link rel="next" href="ch08s06.html" title=
+    <link rel="up" href="ch09s06.html" title=
     "Searching for selectors and/or properties" />
+    <link rel="prev" href="ch09s06.html" title=
+    "Searching for selectors and/or properties" />
+    <link rel="next" href="ch10.html" title=
+    "Chapter&nbsp;10.&nbsp;Error Handler" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -40,18 +41,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  <code class="function">HTML_CSS::setContentDisposition</code>
+                  <code class="function">HTML_CSS::grepStyle</code>
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="re24.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="ch09s06.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Output
+                  Searching for selectors and/or properties
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="ch08s06.html">Next</a>
+                  &nbsp;<a accesskey="n" href="ch10.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -60,16 +61,16 @@
       </tr>
     </table>
     <div class="refentry" lang="en" xml:lang="en">
-      <a name="package.html.html-css.html-css.setcontentdisposition" id=
-      "package.html.html-css.html-css.setcontentdisposition"></a>
+      <a name="package.html.html-css.html-css.grepstyle" id=
+      "package.html.html-css.html-css.grepstyle"></a>
       <div class="titlepage"></div>
       <div class="refnamediv">
         <h2>
           Name
         </h2>
         <p>
-          <code class="function">HTML_CSS::setContentDisposition</code> &mdash;
-          Defines the Content-Disposition filename for the browser output.
+          <code class="function">HTML_CSS::grepStyle</code> &mdash; Return
+          array entries of styles that match patterns (Perl compatible)
         </p>
       </div>
       <div class="refsynopsisdiv">
@@ -85,11 +86,11 @@
           cellpadding="0" class="c1">
             <tr>
               <td>
-                <code class="funcdef">void|PEAR_Error <b class=
-                "fsfunc">HTML_CSS::setContentDisposition</b>(</code>
+                <code class="funcdef">array|PEAR_Error <b class=
+                "fsfunc">HTML_CSS::grepStyle</b>(</code>
               </td>
               <td>
-                <var class="pdparam">$enable = TRUE</var>,
+                <var class="pdparam">$elmPattern</var>,
               </td>
               <td>
                 &nbsp;
@@ -100,7 +101,7 @@
                 &nbsp;
               </td>
               <td>
-                <var class="pdparam">$filename = ''</var><code>)</code>;
+                <var class="pdparam">$proPattern</var><code>)</code>;
               </td>
               <td>
                 &nbsp;
@@ -111,10 +112,10 @@
           "0" cellpadding="0">
             <tr>
               <td>
-                boolean &nbsp;
+                string &nbsp;
               </td>
               <td>
-                <var class="pdparam">$enable = TRUE</var>;
+                <var class="pdparam">$elmPattern</var>;
               </td>
             </tr>
             <tr>
@@ -122,38 +123,37 @@
                 string &nbsp;
               </td>
               <td>
-                <var class="pdparam">$filename = ''</var>;
+                <var class="pdparam">$proPattern</var>;
               </td>
             </tr>
           </table>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcontentdisposition.desc" id=
-        "package.html.html-css.html-css.setcontentdisposition.desc"></a>
+        <a name="package.html.html-css.html-css.grepStyle.desc" id=
+        "package.html.html-css.html-css.grepStyle.desc"></a>
         <h2>
           Description
         </h2>
         <p>
-          Defines the Content-Disposition filename for the browser output.
-          Defaults to basename($_SERVER['PHP_SELF']).'.css'
+          This package is not documented yet.
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcontentdisposition.param"
-        id="package.html.html-css.html-css.setcontentdisposition.param"></a>
+        <a name="package.html.html-css.html-css.grepStyle.param" id=
+        "package.html.html-css.html-css.grepStyle.param"></a>
         <h2>
           Parameter
         </h2>
         <div class="variablelist">
           <dl>
             <dt>
-              <span class="term"><span class="type">boolean</span> <em class=
-              "parameter"><code>$enable</code></em></span>
+              <span class="term"><span class="type">string</span> <em class=
+              "parameter"><code>$elmPattern</code></em></span>
             </dt>
             <dd>
               <p>
-                (optional)
+                Element or class pattern to retrieve
               </p>
             </dd>
           </dl>
@@ -162,19 +162,32 @@
           <dl>
             <dt>
               <span class="term"><span class="type">string</span> <em class=
-              "parameter"><code>$filename</code></em></span>
+              "parameter"><code>$proPattern</code></em></span>
             </dt>
             <dd>
               <p>
-                (optional)
+                (optional) Property pattern to retrieve
               </p>
             </dd>
           </dl>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcontentdisposition.throws"
-        id="package.html.html-css.html-css.setcontentdisposition.throws"></a>
+        <a name="package.html.html-css.html-css.grepStyle.see" id=
+        "package.html.html-css.html-css.grepStyle.see"></a>
+        <h2>
+          See
+        </h2>
+        <p>
+          <span class="emphasis"><em>see</em></span> <a class="external" href=
+          "http://www.php.net/manual/en/ref.pcre.php" title=
+          "http://www.php.net/manual/en/ref.pcre.php">Regular Expression
+          Functions (Perl-Compatible)</a>
+        </p>
+      </div>
+      <div class="refsect1" lang="en" xml:lang="en">
+        <a name="package.html.html-css.html-css.grepStyle.throws" id=
+        "package.html.html-css.html-css.grepStyle.throws"></a>
         <h2>
           Throws
         </h2>
@@ -184,36 +197,18 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcontentdisposition.since"
-        id="package.html.html-css.html-css.setcontentdisposition.since"></a>
+        <a name="package.html.html-css.html-css.grepStyle.since" id=
+        "package.html.html-css.html-css.grepStyle.since"></a>
         <h2>
           Since
         </h2>
         <p>
-          Release 1.3.0 (2007-10-22)
+          Release 1.1.0 (2007-01-01)
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcontentdisposition.see" id=
-        "package.html.html-css.html-css.setcontentdisposition.see"></a>
-        <h2>
-          See
-        </h2>
-        <p>
-          <span class="emphasis"><em>see</em></span> <a href="re24.html" title=
-          "HTML_CSS::getContentDisposition"><code class=
-          "function">HTML_CSS::getContentDisposition</code></a>
-        </p>
-        <p>
-          <span class="emphasis"><em>see</em></span> <a class="external" href=
-          "http://pear.php.net/bugs/bug.php?id=12195" title=
-          "http://pear.php.net/bugs/bug.php?id=12195">http://pear.php.net/bugs/bug.php?id=12195
-          Patch by Carsten Wiedmann</a>
-        </p>
-      </div>
-      <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setcontentdisposition.note" id=
-        "package.html.html-css.html-css.setcontentdisposition.note"></a>
+        <a name="package.html.html-css.html-css.grepStyle.note" id=
+        "package.html.html-css.html-css.grepStyle.note"></a>
         <h2>
           Note
         </h2>
@@ -228,7 +223,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -237,24 +232,24 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="re24.html">Prev</a>&nbsp;
+            <a accesskey="p" href="ch09s06.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch08s05.html">Up</a>
+            <a accesskey="u" href="ch09s06.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="ch08s06.html">Next</a>
+            &nbsp;<a accesskey="n" href="ch10.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            <code class="function">HTML_CSS::getContentDisposition</code>&nbsp;
+            Searching for selectors and/or properties&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Searching for selectors and/or properties
+            &nbsp;Chapter&nbsp;10.&nbsp;Error Handler
           </td>
         </tr>
       </table>

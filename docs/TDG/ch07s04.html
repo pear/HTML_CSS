@@ -5,15 +5,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Parse multi data sources
+      To File
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch06.html" title=
-    "Chapter&nbsp;6.&nbsp;Parsing data sources" />
-    <link rel="prev" href="ch06s03.html" title="Parse a file contents" />
-    <link rel="next" href="ch06s05.html" title="Allow duplicate definitions" />
+    <link rel="up" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Output" />
+    <link rel="prev" href="ch07s03.html" title="To Inline" />
+    <link rel="next" href="ch07s05.html" title="To String" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -23,7 +22,8 @@
     :link { color: #0000FF }
     :visited { color: #840084 }
     :active { color: #0000FF }
-    div.c2 {font-family: monospace;}
+    div.c3 {font-family: monospace;}
+    div.c2 {margin-left: 0.5in; margin-right: 0.5in;}
     h2.c1 {clear: both}
     /*]]>*/
     </style>
@@ -40,18 +40,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Parse multi data sources
+                  To File
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="ch06s03.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="ch07s03.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Chapter&nbsp;6.&nbsp;Parsing data sources
+                  Chapter&nbsp;7.&nbsp;Output
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="ch06s05.html">Next</a>
+                  &nbsp;<a accesskey="n" href="ch07s05.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -62,25 +62,36 @@
     <div class="sect1" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title c1">
-          <a name="developers.parse.data" id="developers.parse.data"></a>Parse
-          multi data sources
+          <a name="developers.output.file" id="developers.output.file"></a>To
+          File
         </h2>
       </div>
       <p>
-        We have already seen two single sources where CSS data could come from.
-        The last one allow to parse data from multiple sources at once.
-        <code class="methodname">HTML_CSS::parseData()</code> function take an
-        array as first argument. Each item is either a filename (with .css
-        extension) or a string. Each source is merge to produce at end a unique
-        style sheet.
+        <code class="methodname">HTML_CSS::toFile()</code> is probably the most
+        interresting solution. You can create a pure CSS file on the fly.
       </p>
+      <div class="warning c2">
+        <table border="0" summary="Warning">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="48">
+              <img alt="[Warning]" src="img/admons/warning.png" />
+            </td>
+            <th align="left">
+              Warning
+            </th>
+          </tr>
+          <tr>
+            <td align="left" valign="top">
+              If file already exists, it will be replace without warning !
+            </td>
+          </tr>
+        </table>
+      </div>
       <p>
-        In script below we load selector definitions from two independent
-        sources: a string and a css file which contents duplicate definitions
-        (parseFile() 2nd argument to set to true to catch this situation; see
-        next section for explains). Internet Explorer).
+        This script will load an existing style sheet and replace the body
+        definition :
       </p>
-      <div class="php c2">
+      <div class="php c3">
         <ol>
           <li class="li1">
             <div class="de1">
@@ -111,64 +122,9 @@
           </li>
           <li class="li1">
             <div class="de1">
-              <span class="co1">// 1. a string to parse</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="re0">$strcss</span> = <span class="st0">'</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">body, p { background-color: white; font: 1.2em
-              Arial; }</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">p, div#black { color: black; }</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">div{ color: green; }</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">p { margin-left: 3em; }</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">'</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="re0">$css</span>-&gt;<span class=
-              "me1">parseString</span><span class="br0">(</span><span class=
-              "re0">$strcss</span><span class="br0">)</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="co1">// 2. a css file with duplicate
-              definitions</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
               <span class="re0">$css</span>-&gt;<span class=
               "me1">parseFile</span><span class="br0">(</span><span class=
-              "st0">'iehack.css'</span>, <span class=
-              "kw2">true</span><span class="br0">)</span>;
+              "st0">'example.css'</span><span class="br0">)</span>;
             </div>
           </li>
           <li class="li1">
@@ -179,8 +135,29 @@
           <li class="li1">
             <div class="de1">
               <span class="re0">$css</span>-&gt;<span class=
-              "me1">display</span><span class="br0">(</span><span class=
-              "br0">)</span>;
+              "me1">setStyle</span><span class="br0">(</span><span class=
+              "st0">'body'</span>, <span class="st0">'background-color'</span>,
+              <span class="st0">'#0c0c0c'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span>-&gt;<span class=
+              "me1">setStyle</span><span class="br0">(</span><span class=
+              "st0">'body'</span>, <span class="st0">'color'</span>,
+              <span class="st0">'#ffffff'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span>-&gt;<span class=
+              "me1">toFile</span><span class="br0">(</span><span class=
+              "st0">'example.css'</span><span class="br0">)</span>;
             </div>
           </li>
           <li class="li1">
@@ -206,24 +183,24 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="ch06s03.html">Prev</a>&nbsp;
+            <a accesskey="p" href="ch07s03.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch06.html">Up</a>
+            <a accesskey="u" href="ch07.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="ch06s05.html">Next</a>
+            &nbsp;<a accesskey="n" href="ch07s05.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Parse a file contents&nbsp;
+            To Inline&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Allow duplicate definitions
+            &nbsp;To String
           </td>
         </tr>
       </table>

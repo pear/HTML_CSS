@@ -5,15 +5,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      HTML_CSS::setStyle
+      HTML_CSS::createGroup
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch08s02.html" title=
-    "Handle selector and property values" />
-    <link rel="prev" href="re07.html" title="HTML_CSS::getStyle" />
-    <link rel="next" href="ch08s03.html" title="Grouping selectors" />
+    <link rel="up" href="ch09s03.html" title="Grouping selectors" />
+    <link rel="prev" href="ch09s03.html" title="Grouping selectors" />
+    <link rel="next" href="re09.html" title="HTML_CSS::unsetGroup" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -39,18 +38,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  <code class="function">HTML_CSS::setStyle</code>
+                  <code class="function">HTML_CSS::createGroup</code>
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="re07.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="ch09s03.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Handle selector and property values
+                  Grouping selectors
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="ch08s03.html">Next</a>
+                  &nbsp;<a accesskey="n" href="re09.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -59,16 +58,16 @@
       </tr>
     </table>
     <div class="refentry" lang="en" xml:lang="en">
-      <a name="package.html.html-css.html-css.setstyle" id=
-      "package.html.html-css.html-css.setstyle"></a>
+      <a name="package.html.html-css.html-css.creategroup" id=
+      "package.html.html-css.html-css.creategroup"></a>
       <div class="titlepage"></div>
       <div class="refnamediv">
         <h2>
           Name
         </h2>
         <p>
-          <code class="function">HTML_CSS::setStyle</code> &mdash; Sets or adds
-          a CSS definition
+          <code class="function">HTML_CSS::createGroup</code> &mdash; Creates a
+          new CSS definition group. Returns an integer identifying the group.
         </p>
       </div>
       <div class="refsynopsisdiv">
@@ -84,22 +83,11 @@
           cellpadding="0" class="c1">
             <tr>
               <td>
-                <code class="funcdef">void|PEAR_Error <b class=
-                "fsfunc">HTML_CSS::setStyle</b>(</code>
+                <code class="funcdef">mixed|PEAR_Error <b class=
+                "fsfunc">HTML_CSS::createGroup</b>(</code>
               </td>
               <td>
-                <var class="pdparam">$element</var>,
-              </td>
-              <td>
-                &nbsp;
-              </td>
-            </tr>
-            <tr>
-              <td>
-                &nbsp;
-              </td>
-              <td>
-                <var class="pdparam">$property</var>,
+                <var class="pdparam">$selectors</var>,
               </td>
               <td>
                 &nbsp;
@@ -110,18 +98,7 @@
                 &nbsp;
               </td>
               <td>
-                <var class="pdparam">$value</var>,
-              </td>
-              <td>
-                &nbsp;
-              </td>
-            </tr>
-            <tr>
-              <td>
-                &nbsp;
-              </td>
-              <td>
-                <var class="pdparam">$duplicates = NULL</var><code>)</code>;
+                <var class="pdparam">$group = NULL</var><code>)</code>;
               </td>
               <td>
                 &nbsp;
@@ -135,39 +112,23 @@
                 string &nbsp;
               </td>
               <td>
-                <var class="pdparam">$element</var>;
+                <var class="pdparam">$selectors</var>;
               </td>
             </tr>
             <tr>
               <td>
-                string &nbsp;
+                mixed &nbsp;
               </td>
               <td>
-                <var class="pdparam">$property</var>;
-              </td>
-            </tr>
-            <tr>
-              <td>
-                string &nbsp;
-              </td>
-              <td>
-                <var class="pdparam">$value</var>;
-              </td>
-            </tr>
-            <tr>
-              <td>
-                bool &nbsp;
-              </td>
-              <td>
-                <var class="pdparam">$duplicates = NULL</var>;
+                <var class="pdparam">$group = NULL</var>;
               </td>
             </tr>
           </table>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setstyle.desc" id=
-        "package.html.html-css.html-css.setstyle.desc"></a>
+        <a name="package.html.html-css.html-css.creategroup.desc" id=
+        "package.html.html-css.html-css.creategroup.desc"></a>
         <h2>
           Description
         </h2>
@@ -176,8 +137,8 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setstyle.param" id=
-        "package.html.html-css.html-css.setstyle.param"></a>
+        <a name="package.html.html-css.html-css.creategroup.param" id=
+        "package.html.html-css.html-css.creategroup.param"></a>
         <h2>
           Parameter
         </h2>
@@ -185,11 +146,11 @@
           <dl>
             <dt>
               <span class="term"><span class="type">string</span> <em class=
-              "parameter"><code>$element</code></em></span>
+              "parameter"><code>$selectors</code></em></span>
             </dt>
             <dd>
               <p>
-                Element (or class) to be defined
+                Selector(s) to be defined, comma delimited.
               </p>
             </dd>
           </dl>
@@ -197,79 +158,54 @@
         <div class="variablelist">
           <dl>
             <dt>
-              <span class="term"><span class="type">string</span> <em class=
-              "parameter"><code>$property</code></em></span>
+              <span class="term"><span class="type">mixed</span> <em class=
+              "parameter"><code>$group</code></em></span>
             </dt>
             <dd>
               <p>
-                Property defined
-              </p>
-            </dd>
-          </dl>
-        </div>
-        <div class="variablelist">
-          <dl>
-            <dt>
-              <span class="term"><span class="type">string</span> <em class=
-              "parameter"><code>$value</code></em></span>
-            </dt>
-            <dd>
-              <p>
-                Value assigned
-              </p>
-            </dd>
-          </dl>
-        </div>
-        <div class="variablelist">
-          <dl>
-            <dt>
-              <span class="term"><span class="type">boolean</span> <em class=
-              "parameter"><code>$duplicates</code></em></span>
-            </dt>
-            <dd>
-              <p>
-                (optional) Allow or disallow duplicates.
+                (optional) Group identifier. If not passed, will return an
+                automatically assigned integer.
               </p>
             </dd>
           </dl>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setstyle.see" id=
-        "package.html.html-css.html-css.setstyle.see"></a>
+        <a name="package.html.html-css.html-css.creategroup.see" id=
+        "package.html.html-css.html-css.creategroup.see"></a>
         <h2>
           See
         </h2>
         <p>
-          <span class="emphasis"><em>see</em></span> <a href="re07.html" title=
-          "HTML_CSS::getStyle"><code class=
-          "function">HTML_CSS::getStyle</code></a>
+          <span class="emphasis"><em>see</em></span> <a href="re09.html" title=
+          "HTML_CSS::unsetGroup"><code class=
+          "function">HTML_CSS::unsetGroup</code></a>
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setstyle.throws" id=
-        "package.html.html-css.html-css.setstyle.throws"></a>
+        <a name="package.html.html-css.html-css.creategroup.throws" id=
+        "package.html.html-css.html-css.creategroup.throws"></a>
         <h2>
           Throws
         </h2>
         <p>
           <span class="emphasis"><em>throws</em></span>
-          HTML_CSS_ERROR_INVALID_INPUT
+          HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_INVALID_GROUP
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setstyle.since" id=
-        "package.html.html-css.html-css.setstyle.since"></a>
+        <a name="package.html.html-css.html-css.creategroup.since" id=
+        "package.html.html-css.html-css.creategroup.since"></a>
         <h2>
           Since
         </h2>
         <p>
-          Release 0.2.0 (2003-07-31)
+          Release 0.3.0 (2003-11-03)
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setstyle.note" id=
-        "package.html.html-css.html-css.setstyle.note"></a>
+        <a name="package.html.html-css.html-css.creategroup.note" id=
+        "package.html.html-css.html-css.creategroup.note"></a>
         <h2>
           Note
         </h2>
@@ -284,7 +220,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -293,24 +229,24 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="re07.html">Prev</a>&nbsp;
+            <a accesskey="p" href="ch09s03.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch08s02.html">Up</a>
+            <a accesskey="u" href="ch09s03.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="ch08s03.html">Next</a>
+            &nbsp;<a accesskey="n" href="re09.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            <code class="function">HTML_CSS::getStyle</code>&nbsp;
+            Grouping selectors&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Grouping selectors
+            &nbsp;<code class="function">HTML_CSS::unsetGroup</code>
           </td>
         </tr>
       </table>

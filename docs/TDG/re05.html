@@ -5,15 +5,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      HTML_CSS::setSingleLineOutput
+      HTML_CSS::setOutputGroupsFirst
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch08.html#reference.api.init" title=
+    <link rel="up" href="ch09.html#reference.api.init" title=
     "Initialize parser/writer options" />
-    <link rel="prev" href="re04.html" title="HTML_CSS::setCache" />
-    <link rel="next" href="re06.html" title="HTML_CSS::setOutputGroupsFirst" />
+    <link rel="prev" href="re04.html" title="HTML_CSS::setSingleLineOutput" />
+    <link rel="next" href="ch09s02.html" title=
+    "Handle selector and property values" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -39,7 +40,7 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  <code class="function">HTML_CSS::setSingleLineOutput</code>
+                  <code class="function">HTML_CSS::setOutputGroupsFirst</code>
                 </th>
               </tr>
               <tr>
@@ -50,7 +51,7 @@
                   Initialize parser/writer options
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="re06.html">Next</a>
+                  &nbsp;<a accesskey="n" href="ch09s02.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -59,16 +60,16 @@
       </tr>
     </table>
     <div class="refentry" lang="en" xml:lang="en">
-      <a name="package.html.html-css.html-css.setsinglelineoutput" id=
-      "package.html.html-css.html-css.setsinglelineoutput"></a>
+      <a name="package.html.html-css.html-css.setoutputgroupsfirst" id=
+      "package.html.html-css.html-css.setoutputgroupsfirst"></a>
       <div class="titlepage"></div>
       <div class="refnamediv">
         <h2>
           Name
         </h2>
         <p>
-          <code class="function">HTML_CSS::setSingleLineOutput</code> &mdash;
-          Determines whether definitions are output single line or multiline
+          <code class="function">HTML_CSS::setOutputGroupsFirst</code> &mdash;
+          Determines whether groups are output before elements or not
         </p>
       </div>
       <div class="refsynopsisdiv">
@@ -85,7 +86,7 @@
             <tr>
               <td>
                 <code class="funcdef">void|PEAR_Error <b class=
-                "fsfunc">HTML_CSS::setSingleLineOutput</b>(</code>
+                "fsfunc">HTML_CSS::setOutputGroupsFirst</b>(</code>
               </td>
               <td>
                 <var class="pdparam">$value</var><code>)</code>;
@@ -109,8 +110,8 @@
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setsinglelineoutput.desc" id=
-        "package.html.html-css.html-css.setsinglelineoutput.desc"></a>
+        <a name="package.html.html-css.html-css.setoutputgroupsfirst.desc" id=
+        "package.html.html-css.html-css.setoutputgroupsfirst.desc"></a>
         <h2>
           Description
         </h2>
@@ -119,8 +120,8 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setsinglelineoutput.param" id=
-        "package.html.html-css.html-css.setsinglelineoutput.param"></a>
+        <a name="package.html.html-css.html-css.setoutputgroupsfirst.param" id=
+        "package.html.html-css.html-css.setoutputgroupsfirst.param"></a>
         <h2>
           Parameter
         </h2>
@@ -132,10 +133,18 @@
             </dt>
           </dl>
         </div>
+        <div class="variablelist">
+          <dl>
+            <dt>
+              <span class="term"><span class="type">boolean</span> <em class=
+              "parameter"><code>$value</code></em></span>
+            </dt>
+          </dl>
+        </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setsinglelineoutput.throws" id=
-        "package.html.html-css.html-css.setsinglelineoutput.throws"></a>
+        <a name="package.html.html-css.html-css.setoutputgroupsfirst.throws"
+        id="package.html.html-css.html-css.setoutputgroupsfirst.throws"></a>
         <h2>
           Throws
         </h2>
@@ -145,8 +154,8 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setsinglelineoutput.since" id=
-        "package.html.html-css.html-css.setsinglelineoutput.since"></a>
+        <a name="package.html.html-css.html-css.setoutputgroupsfirst.since" id=
+        "package.html.html-css.html-css.setoutputgroupsfirst.since"></a>
         <h2>
           Since
         </h2>
@@ -155,8 +164,8 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setsinglelineoutput.note" id=
-        "package.html.html-css.html-css.setsinglelineoutput.note"></a>
+        <a name="package.html.html-css.html-css.setoutputgroupsfirst.note" id=
+        "package.html.html-css.html-css.setoutputgroupsfirst.note"></a>
         <h2>
           Note
         </h2>
@@ -171,7 +180,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -183,21 +192,21 @@
             <a accesskey="p" href="re04.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch08.html#reference.api.init">Up</a>
+            <a accesskey="u" href="ch09.html#reference.api.init">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="re06.html">Next</a>
+            &nbsp;<a accesskey="n" href="ch09s02.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            <code class="function">HTML_CSS::setCache</code>&nbsp;
+            <code class="function">HTML_CSS::setSingleLineOutput</code>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;<code class="function">HTML_CSS::setOutputGroupsFirst</code>
+            &nbsp;Handle selector and property values
           </td>
         </tr>
       </table>

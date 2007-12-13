@@ -5,14 +5,17 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Parsing data sources usage
+      Configuring a Handler
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch10.html" title="Chapter&nbsp;10.&nbsp;Examples" />
-    <link rel="prev" href="ch10.html" title="Chapter&nbsp;10.&nbsp;Examples" />
-    <link rel="next" href="ch10s03.html" title="Searching for usage " />
+    <link rel="up" href="ch10.html" title=
+    "Chapter&nbsp;10.&nbsp;Error Handler" />
+    <link rel="prev" href="ch10.html" title=
+    "Chapter&nbsp;10.&nbsp;Error Handler" />
+    <link rel="next" href="ch10s03.html" title=
+    "Controlling error generation " />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -40,7 +43,7 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Parsing data sources usage
+                  Configuring a Handler
                 </th>
               </tr>
               <tr>
@@ -48,7 +51,7 @@
                   <a accesskey="p" href="ch10.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Chapter&nbsp;10.&nbsp;Examples
+                  Chapter&nbsp;10.&nbsp;Error Handler
                 </th>
                 <td width="20%" align="right">
                   &nbsp;<a accesskey="n" href="ch10s03.html">Next</a>
@@ -62,476 +65,175 @@
     <div class="sect1" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title c1">
-          <a name="examples.parse" id="examples.parse"></a>Parsing data sources
-          usage
+          <a name="id4802036" id="id4802036"></a>Configuring a Handler
         </h2>
       </div>
-      <div class="toc">
-        <dl>
-          <dt>
-            <span class="sect2"><a href="ch10s02.html#examples.parse.1">Parse a
-            string that contains CSS information</a></span>
-          </dt>
-          <dt>
-            <span class="sect2"><a href="ch10s02.html#examples.parse.2">Parse
-            multiple data sources at once</a></span>
-          </dt>
-        </dl>
+      <p>
+        A error handler's configuration is determined by the arguments used in
+        its construction. Here's an overview of these parameters.
+      </p>
+      <div class="php c2">
+        <ol>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">&lt;?php</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw1">require_once</span> <span class=
+              "st0">'HTML/CSS.php'</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$errorConf</span> = <span class=
+              "kw3">array</span><span class="br0">(</span><span class=
+              "st0">'error_handler'</span> =&gt; <span class=
+              "st0">'myErrorHandler'</span>,
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp;<span class="st0">'push_callback'</span> =&gt; <span class=
+              "st0">'myError'</span>,
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp;<span class="co1">// ... more options</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              <span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span> = <span class="kw2">new</span>
+              HTML_CSS<span class="br0">(</span><span class="kw2">null</span>,
+              <span class="re0">$errorConf</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">?&gt;</span>
+            </div>
+          </li>
+        </ol>
       </div>
-      <div class="sect2" lang="en" xml:lang="en">
-        <div class="titlepage">
-          <h3 class="title">
-            <a name="examples.parse.1" id="examples.parse.1"></a>Parse a string
-            that contains CSS information
-          </h3>
-        </div>
-        <p>
-          In this example, here are our goal :
+      <div class="table">
+        <a name="id4802059" id="id4802059"></a>
+        <p class="title c3">
+          Table&nbsp;10.1.&nbsp;Error Handler configuration parameters
         </p>
-        <div class="itemizedlist">
-          <ul type="disc">
-            <li>load CSS definitions from a simple PHP string
-            </li>
-          </ul>
-        </div>
-        <div class="css c2">
-          <ol>
-            <li class="li1">
-              <div class="de1">
-                *<span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw1">margin</span>: <span class="re3">0px</span>;
-                <span class="kw1">padding</span>: <span class="re3">0px</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                body<span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw1">font-family</span>: Lucida Grande, Tahoma,
-                Verdana, Arial, <span class="kw2">sans-serif</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                text-align<span class="re2">:center</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw1">background-color</span>:<span class=
-                "re0">#fff</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-          </ol>
-        </div>
-        <div class="example">
-          <a name="id4804240" id="id4804240"></a>
-          <p class="title c3">
-            Example&nbsp;10.3.&nbsp;Simple string parsing
-          </p>
-          <div class="php c2">
-            <ol>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw2">&lt;?php</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw1">require_once</span> <span class=
-                  "st0">'HTML/CSS.php'</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="re0">$styles</span> = <span class="st0">'</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="st0">*{</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="st0">margin: 0px; padding: 0px;</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="st0">}</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="st0">body{</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="st0">font-family: Lucida Grande, Tahoma,
-                  Verdana, Arial, sans-serif;</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="st0">text-align:center;</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="st0">background-color:#fff;</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="st0">}</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="st0">'</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="re0">$css</span> = <span class="kw2">new</span>
-                  HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="re0">$css</span>-&gt;<span class=
-                  "me1">parseString</span><span class=
-                  "br0">(</span><span class="re0">$styles</span><span class=
-                  "br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw2">?&gt;</span>
-                </div>
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div>
-      <div class="sect2" lang="en" xml:lang="en">
-        <div class="titlepage">
-          <h3 class="title">
-            <a name="examples.parse.2" id="examples.parse.2"></a>Parse multiple
-            data sources at once
-          </h3>
-        </div>
-        <p>
-          In this example, here are our goals :
-        </p>
-        <div class="itemizedlist">
-          <ul type="disc">
-            <li>load CSS definitions from a simple PHP string
-            </li>
-            <li>load CSS definitions from multiple CSS files
-            </li>
-          </ul>
-        </div>
-        <p>
-          Here is content of <code class="filename">print.css</code> file :
-        </p>
-        <div class="css c2">
-          <ol>
-            <li class="li1">
-              <div class="de1">
-                *<span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw1">margin</span>: <span class="re3">4px</span>;
-                <span class="kw1">padding</span>: <span class="re3">0px</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                body<span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw1">font-family</span>: Tahoma, Verdana,
-                Helvetica, Arial, <span class="kw2">sans-serif</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                text-align<span class="re2">:center</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw1">background-color</span>:<span class=
-                "re0">#fff</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-          </ol>
-        </div>
-        <p>
-          Here is content of <code class="filename">default.css</code> file :
-        </p>
-        <div class="css c2">
-          <ol>
-            <li class="li1">
-              <div class="de1">
-                *<span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw1">margin</span>: <span class="re3">0px</span>;
-                <span class="kw1">padding</span>: <span class="re3">0px</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                body<span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw1">font-family</span>: Lucida Grande, Tahoma,
-                Verdana, Arial, <span class="kw2">sans-serif</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                text-align<span class="re2">:center</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw1">background-color</span>:<span class=
-                "re0">#fff</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-          </ol>
-        </div>
-        <div class="example">
-          <a name="id4804473" id="id4804473"></a>
-          <p class="title c3">
-            Example&nbsp;10.4.&nbsp;Multiple data sources parsing
-          </p>
-          <div class="php c2">
-            <ol>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw2">&lt;?php</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw1">require_once</span> <span class=
-                  "st0">'HTML/CSS.php'</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="re0">$styles</span> = <span class=
-                  "kw3">array</span><span class="br0">(</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp; &nbsp; <span class="st0">"body { font-size: 1em;
-                  }"</span>,
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp; &nbsp; <span class="st0">"print.css"</span>,
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp; &nbsp; <span class="st0">"default.css"</span>
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  &nbsp;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="re0">$css</span> = <span class="kw2">new</span>
-                  HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="re0">$css</span>-&gt;<span class=
-                  "me1">parseData</span><span class="br0">(</span><span class=
-                  "re0">$styles</span><span class="br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="re0">$css</span>-&gt;<span class=
-                  "me1">display</span><span class="br0">(</span><span class=
-                  "br0">)</span>;
-                </div>
-              </li>
-              <li class="li1">
-                <div class="de1">
-                  <span class="kw2">?&gt;</span>
-                </div>
-              </li>
-            </ol>
-          </div>
-        </div>
-        <p>
-          And here are the result we should expected :
-        </p>
-        <div class="css c2">
-          <ol>
-            <li class="li1">
-              <div class="de1">
-                body <span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">font-size</span>: <span class=
-                "re3">1em</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">font-family</span>: Lucida Grande,
-                Tahoma, Verdana, Arial, <span class="kw2">sans-serif</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">text-align</span>: <span class=
-                "kw2">center</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">background-color</span>: <span class=
-                "re0">#fff</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                * <span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">margin</span>: <span class=
-                "re3">0px</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; <span class="kw1">padding</span>: <span class=
-                "re3">0px</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-          </ol>
-        </div>
+        <table summary="Error Handler configuration parameters" border="1">
+          <colgroup>
+            <col />
+            <col />
+            <col />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                Option
+              </th>
+              <th>
+                Type
+              </th>
+              <th>
+                Description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                error_handler
+              </td>
+              <td>
+                callback
+              </td>
+              <td>
+                A valid callback (function) to manage errors raised by the
+                <code class="methodname">HTML_CSS::raiseError()</code> method.
+                Default is: <code class=
+                "methodname">HTML_CSS::_errorHandler</code>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                push_callback
+              </td>
+              <td>
+                callback
+              </td>
+              <td>
+                A valid callback (function) that decides to following action.
+                Default return: <code class="constant">PEAR_ERROR_DIE</code> if
+                exception, <code class="constant">NULL</code> otherwise.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                error_callback
+              </td>
+              <td>
+                callback
+              </td>
+              <td>
+                A valid callback (function) that decides to call a real free
+                user function. Default call: none
+              </td>
+            </tr>
+            <tr>
+              <td>
+                message_callback
+              </td>
+              <td>
+                callback
+              </td>
+              <td>
+                A valid callback (function) to control message generation.
+                Default is: <code class=
+                "methodname">HTML_CSS_Error::_msgCallback</code>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                context_callback
+              </td>
+              <td>
+                callback
+              </td>
+              <td>
+                A valid callback (function) to control error context
+                generation. Default is: <code class=
+                "methodname">HTML_CSS_Error::getBacktrace</code>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                handler
+              </td>
+              <td>
+                mixed
+              </td>
+              <td>
+                any handler-specific settings
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <table class="htmlcssFooter">
@@ -540,7 +242,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -560,13 +262,13 @@
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Chapter&nbsp;10.&nbsp;Examples&nbsp;
+            Chapter&nbsp;10.&nbsp;Error Handler&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Searching for usage
+            &nbsp;Controlling error generation
           </td>
         </tr>
       </table>

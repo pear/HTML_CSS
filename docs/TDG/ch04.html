@@ -5,15 +5,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Chapter&nbsp;4.&nbsp;Grouping selectors
+      Chapter&nbsp;4.&nbsp;Overview
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
     <link rel="up" href="pt02.html" title=
     "Part&nbsp;II.&nbsp;Getting Started" />
-    <link rel="prev" href="ch03s02.html" title="Basic concepts" />
-    <link rel="next" href="ch04s02.html" title="Create group" />
+    <link rel="prev" href="pt02.html" title=
+    "Part&nbsp;II.&nbsp;Getting Started" />
+    <link rel="next" href="ch04s02.html" title="Basic concepts" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -40,12 +41,12 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Chapter&nbsp;4.&nbsp;Grouping selectors
+                  Chapter&nbsp;4.&nbsp;Overview
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="ch03s02.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="pt02.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
                   Part&nbsp;II.&nbsp;Getting Started
@@ -62,8 +63,8 @@
     <div class="chapter" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title">
-          <a name="developers.group" id=
-          "developers.group"></a>Chapter&nbsp;4.&nbsp;Grouping selectors
+          <a name="developers.intro" id=
+          "developers.intro"></a>Chapter&nbsp;4.&nbsp;Overview
         </h2>
       </div>
       <div class="toc">
@@ -72,51 +73,66 @@
         </p>
         <dl>
           <dt>
-            <span class="sect1"><a href="ch04.html#developers.group.purpose">In
+            <span class="sect1"><a href="ch04.html#developers.intro.purpose">In
             brief</a></span>
           </dt>
           <dt>
-            <span class="sect1"><a href="ch04s02.html">Create group</a></span>
+            <span class="sect1"><a href="ch04s02.html">Basic
+            concepts</a></span>
           </dt>
           <dd>
             <dl>
               <dt>
-                <span class="sect2"><a href="ch04s02.html#id4781598">Identify
-                the group yourself</a></span>
+                <span class="sect2"><a href="ch04s02.html#id4780902">What is a
+                rule or "rule set" ?</a></span>
               </dt>
               <dt>
-                <span class="sect2"><a href="ch04s02.html#id4781623">Let
-                HTML_CSS do it itself</a></span>
+                <span class="sect2"><a href="ch04s02.html#id4780918">Rule
+                structure</a></span>
+              </dt>
+              <dt>
+                <span class="sect2"><a href=
+                "ch04s02.html#id4782045">Declaration block</a></span>
+              </dt>
+              <dt>
+                <span class="sect2"><a href="ch04s02.html#id4782093">Grouping
+                declarations</a></span>
+              </dt>
+              <dt>
+                <span class="sect2"><a href="ch04s02.html#id4782159">Grouping
+                selectors</a></span>
+              </dt>
+              <dt>
+                <span class="sect2"><a href="ch04s02.html#id4782260">CSS
+                comments</a></span>
               </dt>
             </dl>
           </dd>
-          <dt>
-            <span class="sect1"><a href="ch04s03.html">Handle group
-            selector</a></span>
-          </dt>
         </dl>
       </div>
       <div class="sect1" lang="en" xml:lang="en">
         <div class="titlepage">
           <h2 class="title c2">
-            <a name="developers.group.purpose" id=
-            "developers.group.purpose"></a>In brief
+            <a name="developers.intro.purpose" id=
+            "developers.intro.purpose"></a>In brief
           </h2>
         </div>
         <p>
-          Remember, when several selectors share the same declarations, they
-          may be grouped together to save writing the same rule more than once.
-          Each selector must be separated by a comma.
+          The purpose of this tutorial is to give the new users of HTML_CSS an
+          overview of its features and usage patterns. It describes a small
+          subset of available functionality, but points to the parts of the
+          documentation that give a more in-depth overview.
         </p>
         <p>
-          Two cases exists to handle group of selector. The quick and limited
-          solution (accept only two selectors in a same group) with :
-          <code class="methodname">HTML_CSS::setSameStyle()</code>. And the
-          extended/common solution with : <code class=
-          "methodname">HTML_CSS::createGroup()</code>, <code class=
-          "methodname">HTML_CSS::setGroupStyle()</code>, <code class=
-          "methodname">HTML_CSS::addGroupSelector()</code> and <code class=
-          "methodname">HTML_CSS::removeGroupSelector()</code>.
+          Selectors are one of the most important aspects of CSS as they are
+          used to "select" elements on an HTML page so that they can be styled.
+          We will try to explain basic concepts, and how to do the same with
+          HTML_CSS.
+        </p>
+        <p>
+          A complete tutorial about CSS selectors can be find at <a class=
+          "external" href="http://css.maxdesign.com.au/index.htm" title=
+          "http://css.maxdesign.com.au/index.htm">maxDesign</a>.
         </p>
       </div>
     </div>
@@ -126,7 +142,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -135,7 +151,7 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="ch03s02.html">Prev</a>&nbsp;
+            <a accesskey="p" href="pt02.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="u" href="pt02.html">Up</a>
@@ -146,13 +162,13 @@
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Basic concepts&nbsp;
+            Part&nbsp;II.&nbsp;Getting Started&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Create group
+            &nbsp;Basic concepts
           </td>
         </tr>
       </table>

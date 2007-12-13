@@ -5,16 +5,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Intended Audience
+      Searching for selectors and/or properties
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch01.html" title=
-    "Chapter&nbsp;1.&nbsp;About HTML_CSS" />
-    <link rel="prev" href="ch01.html" title=
-    "Chapter&nbsp;1.&nbsp;About HTML_CSS" />
-    <link rel="next" href="ch01s03.html" title="Why use HTML_CSS ?" />
+    <link rel="up" href="ch09.html" title=
+    "Chapter&nbsp;9.&nbsp;API - Application Programming Interface" />
+    <link rel="prev" href="re24.html" title=
+    "HTML_CSS::setContentDisposition" />
+    <link rel="next" href="re25.html" title="HTML_CSS::grepStyle" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -24,6 +24,7 @@
     :link { color: #0000FF }
     :visited { color: #840084 }
     :active { color: #0000FF }
+    div.c2 {margin-left: 0.5in; margin-right: 0.5in;}
     h2.c1 {clear: both}
     /*]]>*/
     </style>
@@ -40,18 +41,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Intended Audience
+                  Searching for selectors and/or properties
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="ch01.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="re24.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Chapter&nbsp;1.&nbsp;About HTML_CSS
+                  Chapter&nbsp;9.&nbsp;API - Application Programming Interface
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="ch01s03.html">Next</a>
+                  &nbsp;<a accesskey="n" href="re25.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -62,13 +63,41 @@
     <div class="sect1" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title c1">
-          <a name="intro.audience" id="intro.audience"></a>Intended Audience
+          <a name="reference.api.grep" id="reference.api.grep"></a>Searching
+          for selectors and/or properties
         </h2>
       </div>
+      <div class="toc">
+        <dl>
+          <dt>
+            <span class="refentrytitle"><a href="re25.html"><code class=
+            "function">HTML_CSS::grepStyle</code></a></span> <span class=
+            "refpurpose">- Return array entries of styles that match patterns
+            (Perl compatible)</span>
+          </dt>
+        </dl>
+      </div>
       <p>
-        This document is written as a guide to and reference for the HTML_CSS
-        package, for both beginner and expert users.
+        Ability to find if a selector or a property (with perl-compatible
+        pattern) is already defined.
       </p>
+      <div class="important c2">
+        <table border="0" summary="Important">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="48">
+              <img alt="[Important]" src="img/admons/important.png" />
+            </td>
+            <th align="left">
+              Important
+            </th>
+          </tr>
+          <tr>
+            <td align="left" valign="top">
+              This function is available since version 1.1.0
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
     <table class="htmlcssFooter">
       <tr>
@@ -85,24 +114,24 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="ch01.html">Prev</a>&nbsp;
+            <a accesskey="p" href="re24.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch01.html">Up</a>
+            <a accesskey="u" href="ch09.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="ch01s03.html">Next</a>
+            &nbsp;<a accesskey="n" href="re25.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Chapter&nbsp;1.&nbsp;About HTML_CSS&nbsp;
+            <code class="function">HTML_CSS::setContentDisposition</code>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Why use HTML_CSS ?
+            &nbsp;<code class="function">HTML_CSS::grepStyle</code>
           </td>
         </tr>
       </table>

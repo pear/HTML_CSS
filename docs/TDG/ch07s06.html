@@ -5,16 +5,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Intended Audience
+      Display
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch01.html" title=
-    "Chapter&nbsp;1.&nbsp;About HTML_CSS" />
-    <link rel="prev" href="ch01.html" title=
-    "Chapter&nbsp;1.&nbsp;About HTML_CSS" />
-    <link rel="next" href="ch01s03.html" title="Why use HTML_CSS ?" />
+    <link rel="up" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Output" />
+    <link rel="prev" href="ch07s05.html" title="To String" />
+    <link rel="next" href="ch08.html" title=
+    "Chapter&nbsp;8.&nbsp;Searching for selectors and properties " />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -24,6 +23,7 @@
     :link { color: #0000FF }
     :visited { color: #840084 }
     :active { color: #0000FF }
+    div.c2 {font-family: monospace;}
     h2.c1 {clear: both}
     /*]]>*/
     </style>
@@ -40,18 +40,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Intended Audience
+                  Display
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="ch01.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="ch07s05.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Chapter&nbsp;1.&nbsp;About HTML_CSS
+                  Chapter&nbsp;7.&nbsp;Output
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="ch01s03.html">Next</a>
+                  &nbsp;<a accesskey="n" href="ch08.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -62,12 +62,42 @@
     <div class="sect1" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title c1">
-          <a name="intro.audience" id="intro.audience"></a>Intended Audience
+          <a name="developers.output.display" id=
+          "developers.output.display"></a>Display
         </h2>
       </div>
       <p>
-        This document is written as a guide to and reference for the HTML_CSS
-        package, for both beginner and expert users.
+        <code class="methodname">HTML_CSS::display()</code> is no more no less
+        than just a
+      </p>
+      <div class="php c2">
+        <ol>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">&lt;?php</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw3">echo</span> <span class=
+              "re0">$css</span>-&gt;<span class=
+              "me1">toString</span><span class="br0">(</span><span class=
+              "br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">?&gt;</span>
+            </div>
+          </li>
+        </ol>
+      </div>
+      <p>
+        with cache and charset management for browser output.
+      </p>
+      <p>
+        See also : <code class="methodname">HTML_CSS::setCharset()</code> and
+        <code class="methodname">HTML_CSS::setCache()</code> functions.
       </p>
     </div>
     <table class="htmlcssFooter">
@@ -85,24 +115,24 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="ch01.html">Prev</a>&nbsp;
+            <a accesskey="p" href="ch07s05.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch01.html">Up</a>
+            <a accesskey="u" href="ch07.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="ch01s03.html">Next</a>
+            &nbsp;<a accesskey="n" href="ch08.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Chapter&nbsp;1.&nbsp;About HTML_CSS&nbsp;
+            To String&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Why use HTML_CSS ?
+            &nbsp;Chapter&nbsp;8.&nbsp;Searching for selectors and properties
           </td>
         </tr>
       </table>

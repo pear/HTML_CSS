@@ -5,17 +5,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Searching for selectors that set a property
+      To Inline
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch07.html" title=
-    "Chapter&nbsp;7.&nbsp;Searching for selectors and properties " />
-    <link rel="prev" href="ch07s02.html" title=
-    "Searching for a group of selectors " />
-    <link rel="next" href="pt03.html" title=
-    "Part&nbsp;III.&nbsp;Reference Guide" />
+    <link rel="up" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Output" />
+    <link rel="prev" href="ch07s02.html" title="To Array" />
+    <link rel="next" href="ch07s04.html" title="To File" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -25,7 +22,8 @@
     :link { color: #0000FF }
     :visited { color: #840084 }
     :active { color: #0000FF }
-    div.c2 {font-family: monospace;}
+    div.c3 {font-family: monospace;}
+    div.c2 {margin-left: 0.5in; margin-right: 0.5in;}
     h2.c1 {clear: both}
     /*]]>*/
     </style>
@@ -42,7 +40,7 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Searching for selectors that set a property
+                  To Inline
                 </th>
               </tr>
               <tr>
@@ -50,10 +48,10 @@
                   <a accesskey="p" href="ch07s02.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Chapter&nbsp;7.&nbsp;Searching for selectors and properties
+                  Chapter&nbsp;7.&nbsp;Output
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="pt03.html">Next</a>
+                  &nbsp;<a accesskey="n" href="ch07s04.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -64,20 +62,37 @@
     <div class="sect1" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title c1">
-          <a name="developers.find.properties" id=
-          "developers.find.properties"></a>Searching for selectors that set a
-          property
+          <a name="developers.output.inline" id=
+          "developers.output.inline"></a>To Inline
         </h2>
       </div>
       <p>
-        We still used the CSS definitions of previous example, identified by
-        <code class="filename">progress2.css</code> file :
+        <code class="methodname">HTML_CSS::toInline()</code> allow to integrate
+        html tags with styles.
       </p>
+      <div class="warning c2">
+        <table border="0" summary="Warning">
+          <tr>
+            <td rowspan="2" align="center" valign="top" width="48">
+              <img alt="[Warning]" src="img/admons/warning.png" />
+            </td>
+            <th align="left">
+              Warning
+            </th>
+          </tr>
+          <tr>
+            <td align="left" valign="top">
+              Dissociate html code and presentation layout (CSS) is more than
+              recommanded
+            </td>
+          </tr>
+        </table>
+      </div>
       <p>
-        Very easy with such script to find where is declared <code class=
-        "literal">color</code> property.
+        Here is a basic example that show a white 'Hello World' on a black
+        background :
       </p>
-      <div class="php c2">
+      <div class="php c3">
         <ol>
           <li class="li1">
             <div class="de1">
@@ -103,9 +118,23 @@
           </li>
           <li class="li1">
             <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
               <span class="re0">$css</span>-&gt;<span class=
-              "me1">parseFile</span><span class="br0">(</span><span class=
-              "st0">'progress2.css'</span><span class="br0">)</span>;
+              "me1">setStyle</span><span class="br0">(</span><span class=
+              "st0">'body'</span>, <span class="st0">'background-color'</span>,
+              <span class="st0">'#0c0c0c'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span>-&gt;<span class=
+              "me1">setStyle</span><span class="br0">(</span><span class=
+              "st0">'body'</span>, <span class="st0">'color'</span>,
+              <span class="st0">'#ffffff'</span><span class="br0">)</span>;
             </div>
           </li>
           <li class="li1">
@@ -115,26 +144,23 @@
           </li>
           <li class="li1">
             <div class="de1">
-              <span class="co1">// find all selectors that set the color
-              property</span>
+              <span class="kw3">echo</span> <span class="st0">'&lt;body
+              style="'</span> . <span class="re0">$css</span>-&gt;<span class=
+              "me1">toInline</span><span class="br0">(</span><span class=
+              "st0">'body'</span><span class="br0">)</span> . <span class=
+              "st0">'"&gt;'</span>;
             </div>
           </li>
           <li class="li1">
             <div class="de1">
-              <span class="re0">$styles</span> = <span class=
-              "re0">$css</span>-&gt;<span class=
-              "me1">grepStyle</span><span class="br0">(</span><span class=
-              "st0">'/./'</span>, <span class=
-              "st0">'/^color$/'</span><span class="br0">)</span>;
+              <span class="kw3">echo</span> <span class="st0">'&lt;p&gt;Hello
+              World&lt;/p&gt;'</span>;
             </div>
           </li>
           <li class="li1">
             <div class="de1">
               <span class="kw3">echo</span> <span class=
-              "st0">'&lt;pre&gt;'</span>; <span class=
-              "kw3">var_dump</span><span class="br0">(</span><span class=
-              "re0">$styles</span><span class="br0">)</span>; <span class=
-              "kw3">echo</span> <span class="st0">'&lt;/pre&gt;'</span>;
+              "st0">'&lt;/body&gt;'</span>;
             </div>
           </li>
           <li class="li1">
@@ -151,7 +177,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -166,18 +192,18 @@
             <a accesskey="u" href="ch07.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="pt03.html">Next</a>
+            &nbsp;<a accesskey="n" href="ch07s04.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Searching for a group of selectors &nbsp;
+            To Array&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Part&nbsp;III.&nbsp;Reference Guide
+            &nbsp;To File
           </td>
         </tr>
       </table>

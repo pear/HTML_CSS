@@ -5,15 +5,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      HTML_CSS::getContentDisposition
+      HTML_CSS::setContentDisposition
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch08s05.html" title="Output " />
-    <link rel="prev" href="re23.html" title="HTML_CSS::display" />
-    <link rel="next" href="re25.html" title=
-    "HTML_CSS::setContentDisposition" />
+    <link rel="up" href="ch09s05.html" title="Output" />
+    <link rel="prev" href="re23.html" title=
+    "HTML_CSS::getContentDisposition" />
+    <link rel="next" href="ch09s06.html" title=
+    "Searching for selectors and/or properties" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -23,6 +24,7 @@
     :link { color: #0000FF }
     :visited { color: #840084 }
     :active { color: #0000FF }
+    table.c1 {padding-bottom: 1em}
     /*]]>*/
     </style>
   </head>
@@ -38,7 +40,7 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  <code class="function">HTML_CSS::getContentDisposition</code>
+                  <code class="function">HTML_CSS::setContentDisposition</code>
                 </th>
               </tr>
               <tr>
@@ -49,7 +51,7 @@
                   Output
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="re25.html">Next</a>
+                  &nbsp;<a accesskey="n" href="ch09s06.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -58,16 +60,16 @@
       </tr>
     </table>
     <div class="refentry" lang="en" xml:lang="en">
-      <a name="package.html.html-css.html-css.getcontentdisposition" id=
-      "package.html.html-css.html-css.getcontentdisposition"></a>
+      <a name="package.html.html-css.html-css.setcontentdisposition" id=
+      "package.html.html-css.html-css.setcontentdisposition"></a>
       <div class="titlepage"></div>
       <div class="refnamediv">
         <h2>
           Name
         </h2>
         <p>
-          <code class="function">HTML_CSS::getContentDisposition</code> &mdash;
-          Returns the Content-Disposition header ability (inline filename)
+          <code class="function">HTML_CSS::setContentDisposition</code> &mdash;
+          Defines the Content-Disposition filename for the browser output.
         </p>
       </div>
       <div class="refsynopsisdiv">
@@ -79,37 +81,111 @@
     require_once 'HTML/CSS.php';
    
 </pre>
-          <p>
-            <code class="funcdef">mixed <b class=
-            "fsfunc">HTML_CSS::getContentDisposition</b>(</code><code>)</code>;<br />
-
-            ;
-          </p>
+          <table border="0" summary="Function synopsis" cellspacing="0"
+          cellpadding="0" class="c1">
+            <tr>
+              <td>
+                <code class="funcdef">void|PEAR_Error <b class=
+                "fsfunc">HTML_CSS::setContentDisposition</b>(</code>
+              </td>
+              <td>
+                <var class="pdparam">$enable = TRUE</var>,
+              </td>
+              <td>
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td>
+                &nbsp;
+              </td>
+              <td>
+                <var class="pdparam">$filename = ''</var><code>)</code>;
+              </td>
+              <td>
+                &nbsp;
+              </td>
+            </tr>
+          </table>
+          <table border="0" summary="Function argument synopsis" cellspacing=
+          "0" cellpadding="0">
+            <tr>
+              <td>
+                boolean &nbsp;
+              </td>
+              <td>
+                <var class="pdparam">$enable = TRUE</var>;
+              </td>
+            </tr>
+            <tr>
+              <td>
+                string &nbsp;
+              </td>
+              <td>
+                <var class="pdparam">$filename = ''</var>;
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.getcontentdisposition.desc" id=
-        "package.html.html-css.html-css.getcontentdisposition.desc"></a>
+        <a name="package.html.html-css.html-css.setcontentdisposition.desc" id=
+        "package.html.html-css.html-css.setcontentdisposition.desc"></a>
         <h2>
           Description
         </h2>
         <p>
-          Returns the Content-Disposition header ability (inline filename)
+          Defines the Content-Disposition filename for the browser output.
+          Defaults to basename($_SERVER['PHP_SELF']).'.css'
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.getcontentdisposition.throws"
-        id="package.html.html-css.html-css.getcontentdisposition.throws"></a>
+        <a name="package.html.html-css.html-css.setcontentdisposition.param"
+        id="package.html.html-css.html-css.setcontentdisposition.param"></a>
+        <h2>
+          Parameter
+        </h2>
+        <div class="variablelist">
+          <dl>
+            <dt>
+              <span class="term"><span class="type">boolean</span> <em class=
+              "parameter"><code>$enable</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                (optional)
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <div class="variablelist">
+          <dl>
+            <dt>
+              <span class="term"><span class="type">string</span> <em class=
+              "parameter"><code>$filename</code></em></span>
+            </dt>
+            <dd>
+              <p>
+                (optional)
+              </p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="refsect1" lang="en" xml:lang="en">
+        <a name="package.html.html-css.html-css.setcontentdisposition.throws"
+        id="package.html.html-css.html-css.setcontentdisposition.throws"></a>
         <h2>
           Throws
         </h2>
         <p>
-          <span class="emphasis"><em>throws</em></span> no exceptions thrown
+          <span class="emphasis"><em>throws</em></span>
+          HTML_CSS_ERROR_INVALID_INPUT
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.getcontentdisposition.since"
-        id="package.html.html-css.html-css.getcontentdisposition.since"></a>
+        <a name="package.html.html-css.html-css.setcontentdisposition.since"
+        id="package.html.html-css.html-css.setcontentdisposition.since"></a>
         <h2>
           Since
         </h2>
@@ -118,42 +194,31 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.getcontentdisposition.note" id=
-        "package.html.html-css.html-css.getcontentdisposition.note"></a>
-        <h2>
-          Note
-        </h2>
-        <p>
-          This function can not be called statically.
-        </p>
-      </div>
-      <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.getcontentdisposition.returns"
-        id="package.html.html-css.html-css.getcontentdisposition.returns"></a>
-        <h2>
-          Return value
-        </h2>
-        <p>
-          <span class="emphasis"><em>returns</em></span> boolean FALSE if no
-          content disposition, otherwise string for inline filename
-        </p>
-      </div>
-      <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.getcontentdisposition.see" id=
-        "package.html.html-css.html-css.getcontentdisposition.see"></a>
+        <a name="package.html.html-css.html-css.setcontentdisposition.see" id=
+        "package.html.html-css.html-css.setcontentdisposition.see"></a>
         <h2>
           See
         </h2>
         <p>
-          <span class="emphasis"><em>see</em></span> <a href="re25.html" title=
-          "HTML_CSS::setContentDisposition"><code class=
-          "function">HTML_CSS::setContentDisposition</code></a>
+          <span class="emphasis"><em>see</em></span> <a href="re23.html" title=
+          "HTML_CSS::getContentDisposition"><code class=
+          "function">HTML_CSS::getContentDisposition</code></a>
         </p>
         <p>
           <span class="emphasis"><em>see</em></span> <a class="external" href=
           "http://pear.php.net/bugs/bug.php?id=12195" title=
           "http://pear.php.net/bugs/bug.php?id=12195">http://pear.php.net/bugs/bug.php?id=12195
           Patch by Carsten Wiedmann</a>
+        </p>
+      </div>
+      <div class="refsect1" lang="en" xml:lang="en">
+        <a name="package.html.html-css.html-css.setcontentdisposition.note" id=
+        "package.html.html-css.html-css.setcontentdisposition.note"></a>
+        <h2>
+          Note
+        </h2>
+        <p>
+          This function can not be called statically.
         </p>
       </div>
     </div>
@@ -163,7 +228,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -175,21 +240,21 @@
             <a accesskey="p" href="re23.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch08s05.html">Up</a>
+            <a accesskey="u" href="ch09s05.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="re25.html">Next</a>
+            &nbsp;<a accesskey="n" href="ch09s06.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            <code class="function">HTML_CSS::display</code>&nbsp;
+            <code class="function">HTML_CSS::getContentDisposition</code>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;<code class="function">HTML_CSS::setContentDisposition</code>
+            &nbsp;Searching for selectors and/or properties
           </td>
         </tr>
       </table>

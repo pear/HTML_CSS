@@ -5,16 +5,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Intended Audience
+      Version 1.4.x
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch01.html" title=
-    "Chapter&nbsp;1.&nbsp;About HTML_CSS" />
-    <link rel="prev" href="ch01.html" title=
-    "Chapter&nbsp;1.&nbsp;About HTML_CSS" />
-    <link rel="next" href="ch01s03.html" title="Why use HTML_CSS ?" />
+    <link rel="up" href="ch02.html" title=
+    "Chapter&nbsp;2.&nbsp;What's New in version ?" />
+    <link rel="prev" href="ch02s06.html" title="Version 1.3.x" />
+    <link rel="next" href="ch03.html" title=
+    "Chapter&nbsp;3.&nbsp;FAQ - Frequently Asked Questions" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -40,18 +40,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Intended Audience
+                  Version 1.4.x
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="ch01.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="ch02s06.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Chapter&nbsp;1.&nbsp;About HTML_CSS
+                  Chapter&nbsp;2.&nbsp;What's New in version ?
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="ch01s03.html">Next</a>
+                  &nbsp;<a accesskey="n" href="ch03.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -62,13 +62,49 @@
     <div class="sect1" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title c1">
-          <a name="intro.audience" id="intro.audience"></a>Intended Audience
+          <a name="about.whatsnew.14x" id="about.whatsnew.14x"></a>Version
+          1.4.x
         </h2>
       </div>
-      <p>
-        This document is written as a guide to and reference for the HTML_CSS
-        package, for both beginner and expert users.
-      </p>
+      <div class="itemizedlist">
+        <ul type="disc">
+          <li>
+            <p>
+              <span class="bold"><strong>Upgrade requirement</strong></span> to
+              PHP 4.3.0 and PEAR 1.5.4 (to avoid security vulnerability)
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="bold"><strong>Coding Standard fixes:</strong></span>
+              (errors/warnings) following recommandation by <a class="external"
+              href="http://pear.php.net/package/PHP_CodeSniffer" title=
+              "http://pear.php.net/package/PHP_CodeSniffer">PHP_CodeSniffer</a>
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="bold"><strong>Unit test suites</strong></span>
+              migrated from PHPUnit 1.x to 3.x
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="bold"><strong>API 1.4.0 introduces new
+              setter/getter</strong></span> PHP5 facility compatible (magic
+              function __set, __get) for read/write CSS options.
+            </p>
+          </li>
+          <li>
+            <p>
+              <span class="bold"><strong>Error handler</strong></span> allow
+              now to use PEAR_ERROR_CALLBACK (local to HTML_CSS) to customize
+              action when an error/exception is raised. No more need to use
+              global PEAR::setErrorHandling.
+            </p>
+          </li>
+        </ul>
+      </div>
     </div>
     <table class="htmlcssFooter">
       <tr>
@@ -85,24 +121,24 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="ch01.html">Prev</a>&nbsp;
+            <a accesskey="p" href="ch02s06.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch01.html">Up</a>
+            <a accesskey="u" href="ch02.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="ch01s03.html">Next</a>
+            &nbsp;<a accesskey="n" href="ch03.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Chapter&nbsp;1.&nbsp;About HTML_CSS&nbsp;
+            Version 1.3.x&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Why use HTML_CSS ?
+            &nbsp;Chapter&nbsp;3.&nbsp;FAQ - Frequently Asked Questions
           </td>
         </tr>
       </table>

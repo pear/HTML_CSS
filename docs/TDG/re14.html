@@ -5,14 +5,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      HTML_CSS::removeGroupSelector
+      HTML_CSS::setSameStyle
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch08s03.html" title="Grouping selectors" />
-    <link rel="prev" href="re13.html" title="HTML_CSS::addGroupSelector" />
-    <link rel="next" href="re15.html" title="HTML_CSS::setSameStyle" />
+    <link rel="up" href="ch09s03.html" title="Grouping selectors" />
+    <link rel="prev" href="re13.html" title="HTML_CSS::removeGroupSelector" />
+    <link rel="next" href="ch09s04.html" title="Parsing data sources" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -38,7 +38,7 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  <code class="function">HTML_CSS::removeGroupSelector</code>
+                  <code class="function">HTML_CSS::setSameStyle</code>
                 </th>
               </tr>
               <tr>
@@ -49,7 +49,7 @@
                   Grouping selectors
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="re15.html">Next</a>
+                  &nbsp;<a accesskey="n" href="ch09s04.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -58,16 +58,17 @@
       </tr>
     </table>
     <div class="refentry" lang="en" xml:lang="en">
-      <a name="package.html.html-css.html-css.removegroupselector" id=
-      "package.html.html-css.html-css.removegroupselector"></a>
+      <a name="package.html.html-css.html-css.setsamestyle" id=
+      "package.html.html-css.html-css.setsamestyle"></a>
       <div class="titlepage"></div>
       <div class="refnamediv">
         <h2>
           Name
         </h2>
         <p>
-          <code class="function">HTML_CSS::removeGroupSelector</code> &mdash;
-          Removes a selector from a group.
+          <code class="function">HTML_CSS::setSameStyle</code> &mdash; Sets or
+          changes the properties of new selectors to the values of an existing
+          selector
         </p>
       </div>
       <div class="refsynopsisdiv">
@@ -84,10 +85,10 @@
             <tr>
               <td>
                 <code class="funcdef">void|PEAR_Error <b class=
-                "fsfunc">HTML_CSS::removeGroupSelector</b>(</code>
+                "fsfunc">HTML_CSS::setSameStyle</b>(</code>
               </td>
               <td>
-                <var class="pdparam">$group</var>,
+                <var class="pdparam">$new</var>,
               </td>
               <td>
                 &nbsp;
@@ -98,7 +99,7 @@
                 &nbsp;
               </td>
               <td>
-                <var class="pdparam">$selectors</var><code>)</code>;
+                <var class="pdparam">$old</var><code>)</code>;
               </td>
               <td>
                 &nbsp;
@@ -109,10 +110,10 @@
           "0" cellpadding="0">
             <tr>
               <td>
-                mixed &nbsp;
+                string &nbsp;
               </td>
               <td>
-                <var class="pdparam">$group</var>;
+                <var class="pdparam">$new</var>;
               </td>
             </tr>
             <tr>
@@ -120,15 +121,15 @@
                 string &nbsp;
               </td>
               <td>
-                <var class="pdparam">$selectors</var>;
+                <var class="pdparam">$old</var>;
               </td>
             </tr>
           </table>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.removegroupselector.desc" id=
-        "package.html.html-css.html-css.removegroupselector.desc"></a>
+        <a name="package.html.html-css.html-css.setsamestyle.desc" id=
+        "package.html.html-css.html-css.setsamestyle.desc"></a>
         <h2>
           Description
         </h2>
@@ -137,20 +138,21 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.removegroupselector.param" id=
-        "package.html.html-css.html-css.removegroupselector.param"></a>
+        <a name="package.html.html-css.html-css.setsamestyle.param" id=
+        "package.html.html-css.html-css.setsamestyle.param"></a>
         <h2>
           Parameter
         </h2>
         <div class="variablelist">
           <dl>
             <dt>
-              <span class="term"><span class="type">mixed</span> <em class=
-              "parameter"><code>$group</code></em></span>
+              <span class="term"><span class="type">string</span> <em class=
+              "parameter"><code>$new</code></em></span>
             </dt>
             <dd>
               <p>
-                CSS definition group identifier
+                New selector(s) that should share the same definitions,
+                separated by commas
               </p>
             </dd>
           </dl>
@@ -159,40 +161,40 @@
           <dl>
             <dt>
               <span class="term"><span class="type">string</span> <em class=
-              "parameter"><code>$selectors</code></em></span>
+              "parameter"><code>$old</code></em></span>
             </dt>
             <dd>
               <p>
-                Selector(s) to be removed, comma delimited.
+                Selector that is already defined
               </p>
             </dd>
           </dl>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.removegroupselector.throws" id=
-        "package.html.html-css.html-css.removegroupselector.throws"></a>
+        <a name="package.html.html-css.html-css.setsamestyle.throws" id=
+        "package.html.html-css.html-css.setsamestyle.throws"></a>
         <h2>
           Throws
         </h2>
         <p>
           <span class="emphasis"><em>throws</em></span>
-          HTML_CSS_ERROR_NO_GROUP, HTML_CSS_ERROR_INVALID_INPUT
+          HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_ELEMENT
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.removegroupselector.since" id=
-        "package.html.html-css.html-css.removegroupselector.since"></a>
+        <a name="package.html.html-css.html-css.setsamestyle.since" id=
+        "package.html.html-css.html-css.setsamestyle.since"></a>
         <h2>
           Since
         </h2>
         <p>
-          Release 0.3.0 (2003-11-03)
+          Release 0.2.0 (2003-07-31)
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.removegroupselector.note" id=
-        "package.html.html-css.html-css.removegroupselector.note"></a>
+        <a name="package.html.html-css.html-css.setsamestyle.note" id=
+        "package.html.html-css.html-css.setsamestyle.note"></a>
         <h2>
           Note
         </h2>
@@ -207,7 +209,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -219,21 +221,21 @@
             <a accesskey="p" href="re13.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch08s03.html">Up</a>
+            <a accesskey="u" href="ch09s03.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="re15.html">Next</a>
+            &nbsp;<a accesskey="n" href="ch09s04.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            <code class="function">HTML_CSS::addGroupSelector</code>&nbsp;
+            <code class="function">HTML_CSS::removeGroupSelector</code>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;<code class="function">HTML_CSS::setSameStyle</code>
+            &nbsp;Parsing data sources
           </td>
         </tr>
       </table>

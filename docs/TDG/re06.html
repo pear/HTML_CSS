@@ -5,16 +5,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      HTML_CSS::setOutputGroupsFirst
+      HTML_CSS::getStyle
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch08.html#reference.api.init" title=
-    "Initialize parser/writer options" />
-    <link rel="prev" href="re05.html" title="HTML_CSS::setSingleLineOutput" />
-    <link rel="next" href="ch08s02.html" title=
+    <link rel="up" href="ch09s02.html" title=
     "Handle selector and property values" />
+    <link rel="prev" href="ch09s02.html" title=
+    "Handle selector and property values" />
+    <link rel="next" href="re07.html" title="HTML_CSS::setStyle" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -40,18 +40,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  <code class="function">HTML_CSS::setOutputGroupsFirst</code>
+                  <code class="function">HTML_CSS::getStyle</code>
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="re05.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="ch09s02.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Initialize parser/writer options
+                  Handle selector and property values
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="ch08s02.html">Next</a>
+                  &nbsp;<a accesskey="n" href="re07.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -60,16 +60,16 @@
       </tr>
     </table>
     <div class="refentry" lang="en" xml:lang="en">
-      <a name="package.html.html-css.html-css.setoutputgroupsfirst" id=
-      "package.html.html-css.html-css.setoutputgroupsfirst"></a>
+      <a name="package.html.html-css.html-css.getstyle" id=
+      "package.html.html-css.html-css.getstyle"></a>
       <div class="titlepage"></div>
       <div class="refnamediv">
         <h2>
           Name
         </h2>
         <p>
-          <code class="function">HTML_CSS::setOutputGroupsFirst</code> &mdash;
-          Determines whether groups are output before elements or not
+          <code class="function">HTML_CSS::getStyle</code> &mdash; Retrieves
+          the value of a CSS property
         </p>
       </div>
       <div class="refsynopsisdiv">
@@ -85,11 +85,22 @@
           cellpadding="0" class="c1">
             <tr>
               <td>
-                <code class="funcdef">void|PEAR_Error <b class=
-                "fsfunc">HTML_CSS::setOutputGroupsFirst</b>(</code>
+                <code class="funcdef">mixed|PEAR_Error <b class=
+                "fsfunc">HTML_CSS::getStyle</b>(</code>
               </td>
               <td>
-                <var class="pdparam">$value</var><code>)</code>;
+                <var class="pdparam">$element</var>,
+              </td>
+              <td>
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td>
+                &nbsp;
+              </td>
+              <td>
+                <var class="pdparam">$property</var><code>)</code>;
               </td>
               <td>
                 &nbsp;
@@ -100,18 +111,26 @@
           "0" cellpadding="0">
             <tr>
               <td>
-                bool &nbsp;
+                string &nbsp;
               </td>
               <td>
-                <var class="pdparam">$value</var>;
+                <var class="pdparam">$element</var>;
+              </td>
+            </tr>
+            <tr>
+              <td>
+                string &nbsp;
+              </td>
+              <td>
+                <var class="pdparam">$property</var>;
               </td>
             </tr>
           </table>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setoutputgroupsfirst.desc" id=
-        "package.html.html-css.html-css.setoutputgroupsfirst.desc"></a>
+        <a name="package.html.html-css.html-css.getstyle.desc" id=
+        "package.html.html-css.html-css.getstyle.desc"></a>
         <h2>
           Description
         </h2>
@@ -120,52 +139,75 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setoutputgroupsfirst.param" id=
-        "package.html.html-css.html-css.setoutputgroupsfirst.param"></a>
+        <a name="package.html.html-css.html-css.getstyle.param" id=
+        "package.html.html-css.html-css.getstyle.param"></a>
         <h2>
           Parameter
         </h2>
         <div class="variablelist">
           <dl>
             <dt>
-              <span class="term"><span class="type">boolean</span> <em class=
-              "parameter"><code>$value</code></em></span>
+              <span class="term"><span class="type">string</span> <em class=
+              "parameter"><code>$element</code></em></span>
             </dt>
+            <dd>
+              <p>
+                Element (or class) to be defined
+              </p>
+            </dd>
           </dl>
         </div>
         <div class="variablelist">
           <dl>
             <dt>
-              <span class="term"><span class="type">boolean</span> <em class=
-              "parameter"><code>$value</code></em></span>
+              <span class="term"><span class="type">string</span> <em class=
+              "parameter"><code>$property</code></em></span>
             </dt>
+            <dd>
+              <p>
+                Property defined
+              </p>
+            </dd>
           </dl>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setoutputgroupsfirst.throws"
-        id="package.html.html-css.html-css.setoutputgroupsfirst.throws"></a>
+        <a name="package.html.html-css.html-css.getstyle.see" id=
+        "package.html.html-css.html-css.getstyle.see"></a>
+        <h2>
+          See
+        </h2>
+        <p>
+          <span class="emphasis"><em>see</em></span> <a href="re07.html" title=
+          "HTML_CSS::setStyle"><code class=
+          "function">HTML_CSS::setStyle</code></a>
+        </p>
+      </div>
+      <div class="refsect1" lang="en" xml:lang="en">
+        <a name="package.html.html-css.html-css.getstyle.throws" id=
+        "package.html.html-css.html-css.getstyle.throws"></a>
         <h2>
           Throws
         </h2>
         <p>
           <span class="emphasis"><em>throws</em></span>
-          HTML_CSS_ERROR_INVALID_INPUT
+          HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_ELEMENT,
+          HTML_CSS_ERROR_NO_ELEMENT_PROPERTY
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setoutputgroupsfirst.since" id=
-        "package.html.html-css.html-css.setoutputgroupsfirst.since"></a>
+        <a name="package.html.html-css.html-css.getstyle.since" id=
+        "package.html.html-css.html-css.getstyle.since"></a>
         <h2>
           Since
         </h2>
         <p>
-          Release 0.3.3 (2004-05-20)
+          Release 0.3.0 (2003-11-03)
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setoutputgroupsfirst.note" id=
-        "package.html.html-css.html-css.setoutputgroupsfirst.note"></a>
+        <a name="package.html.html-css.html-css.getstyle.note" id=
+        "package.html.html-css.html-css.getstyle.note"></a>
         <h2>
           Note
         </h2>
@@ -180,7 +222,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -189,24 +231,24 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="re05.html">Prev</a>&nbsp;
+            <a accesskey="p" href="ch09s02.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch08.html#reference.api.init">Up</a>
+            <a accesskey="u" href="ch09s02.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="ch08s02.html">Next</a>
+            &nbsp;<a accesskey="n" href="re07.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            <code class="function">HTML_CSS::setSingleLineOutput</code>&nbsp;
+            Handle selector and property values&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Handle selector and property values
+            &nbsp;<code class="function">HTML_CSS::setStyle</code>
           </td>
         </tr>
       </table>

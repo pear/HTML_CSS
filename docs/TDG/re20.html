@@ -5,14 +5,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      HTML_CSS::toInline
+      HTML_CSS::toFile
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch08s05.html" title="Output " />
-    <link rel="prev" href="re19.html" title="HTML_CSS::toArray" />
-    <link rel="next" href="re21.html" title="HTML_CSS::toFile" />
+    <link rel="up" href="ch09s05.html" title="Output" />
+    <link rel="prev" href="re19.html" title="HTML_CSS::toInline" />
+    <link rel="next" href="re21.html" title="HTML_CSS::toString" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -38,7 +38,7 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  <code class="function">HTML_CSS::toInline</code>
+                  <code class="function">HTML_CSS::toFile</code>
                 </th>
               </tr>
               <tr>
@@ -58,17 +58,16 @@
       </tr>
     </table>
     <div class="refentry" lang="en" xml:lang="en">
-      <a name="package.html.html-css.html-css.toinline" id=
-      "package.html.html-css.html-css.toinline"></a>
+      <a name="package.html.html-css.html-css.tofile" id=
+      "package.html.html-css.html-css.tofile"></a>
       <div class="titlepage"></div>
       <div class="refnamediv">
         <h2>
           Name
         </h2>
         <p>
-          <code class="function">HTML_CSS::toInline</code> &mdash; Generates
-          and returns the CSS properties of an element or class as a string for
-          inline use.
+          <code class="function">HTML_CSS::toFile</code> &mdash; Generates CSS
+          and stores it in a file.
         </p>
       </div>
       <div class="refsynopsisdiv">
@@ -84,11 +83,11 @@
           cellpadding="0" class="c1">
             <tr>
               <td>
-                <code class="funcdef">string|PEAR_Error <b class=
-                "fsfunc">HTML_CSS::toInline</b>(</code>
+                <code class="funcdef">void|PEAR_Error <b class=
+                "fsfunc">HTML_CSS::toFile</b>(</code>
               </td>
               <td>
-                <var class="pdparam">$element</var><code>)</code>;
+                <var class="pdparam">$filename</var><code>)</code>;
               </td>
               <td>
                 &nbsp;
@@ -102,15 +101,15 @@
                 string &nbsp;
               </td>
               <td>
-                <var class="pdparam">$element</var>;
+                <var class="pdparam">$filename</var>;
               </td>
             </tr>
           </table>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.toinline.desc" id=
-        "package.html.html-css.html-css.toinline.desc"></a>
+        <a name="package.html.html-css.html-css.tofile.desc" id=
+        "package.html.html-css.html-css.tofile.desc"></a>
         <h2>
           Description
         </h2>
@@ -119,8 +118,8 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.toinline.param" id=
-        "package.html.html-css.html-css.toinline.param"></a>
+        <a name="package.html.html-css.html-css.tofile.param" id=
+        "package.html.html-css.html-css.tofile.param"></a>
         <h2>
           Parameter
         </h2>
@@ -128,40 +127,52 @@
           <dl>
             <dt>
               <span class="term"><span class="type">string</span> <em class=
-              "parameter"><code>$element</code></em></span>
+              "parameter"><code>$filename</code></em></span>
             </dt>
             <dd>
               <p>
-                Element or class for which inline CSS should be generated
+                Name of file that content the stylesheet
               </p>
             </dd>
           </dl>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.toinline.throws" id=
-        "package.html.html-css.html-css.toinline.throws"></a>
+        <a name="package.html.html-css.html-css.tofile.see" id=
+        "package.html.html-css.html-css.tofile.see"></a>
+        <h2>
+          See
+        </h2>
+        <p>
+          <span class="emphasis"><em>see</em></span> <a href="re21.html" title=
+          "HTML_CSS::toString"><code class=
+          "function">HTML_CSS::toString</code></a>
+        </p>
+      </div>
+      <div class="refsect1" lang="en" xml:lang="en">
+        <a name="package.html.html-css.html-css.tofile.throws" id=
+        "package.html.html-css.html-css.tofile.throws"></a>
         <h2>
           Throws
         </h2>
         <p>
           <span class="emphasis"><em>throws</em></span>
-          HTML_CSS_ERROR_INVALID_INPUT
+          HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_WRITE_FILE
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.toinline.since" id=
-        "package.html.html-css.html-css.toinline.since"></a>
+        <a name="package.html.html-css.html-css.tofile.since" id=
+        "package.html.html-css.html-css.tofile.since"></a>
         <h2>
           Since
         </h2>
         <p>
-          Release 0.2.0 (2003-07-31)
+          Release 0.3.0 (2003-11-03)
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.toinline.note" id=
-        "package.html.html-css.html-css.toinline.note"></a>
+        <a name="package.html.html-css.html-css.tofile.note" id=
+        "package.html.html-css.html-css.tofile.note"></a>
         <h2>
           Note
         </h2>
@@ -176,7 +187,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -188,7 +199,7 @@
             <a accesskey="p" href="re19.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch08s05.html">Up</a>
+            <a accesskey="u" href="ch09s05.html">Up</a>
           </td>
           <td width="40%" align="right">
             &nbsp;<a accesskey="n" href="re21.html">Next</a>
@@ -196,13 +207,13 @@
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            <code class="function">HTML_CSS::toArray</code>&nbsp;
+            <code class="function">HTML_CSS::toInline</code>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;<code class="function">HTML_CSS::toFile</code>
+            &nbsp;<code class="function">HTML_CSS::toString</code>
           </td>
         </tr>
       </table>

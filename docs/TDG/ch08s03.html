@@ -5,15 +5,17 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Grouping selectors
+      Searching for selectors that set a property
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
     <link rel="up" href="ch08.html" title=
-    "Chapter&nbsp;8.&nbsp;API - Application Programming Interface" />
-    <link rel="prev" href="re08.html" title="HTML_CSS::setStyle" />
-    <link rel="next" href="re09.html" title="HTML_CSS::createGroup" />
+    "Chapter&nbsp;8.&nbsp;Searching for selectors and properties " />
+    <link rel="prev" href="ch08s02.html" title=
+    "Searching for a group of selectors " />
+    <link rel="next" href="pt03.html" title=
+    "Part&nbsp;III.&nbsp;Reference Guide" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -23,6 +25,7 @@
     :link { color: #0000FF }
     :visited { color: #840084 }
     :active { color: #0000FF }
+    div.c2 {font-family: monospace;}
     h2.c1 {clear: both}
     /*]]>*/
     </style>
@@ -39,18 +42,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Grouping selectors
+                  Searching for selectors that set a property
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="re08.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="ch08s02.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Chapter&nbsp;8.&nbsp;API - Application Programming Interface
+                  Chapter&nbsp;8.&nbsp;Searching for selectors and properties
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="re09.html">Next</a>
+                  &nbsp;<a accesskey="n" href="pt03.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -61,59 +64,86 @@
     <div class="sect1" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title c1">
-          <a name="reference.api.group" id="reference.api.group"></a>Grouping
-          selectors
+          <a name="developers.find.properties" id=
+          "developers.find.properties"></a>Searching for selectors that set a
+          property
         </h2>
       </div>
-      <div class="toc">
-        <dl>
-          <dt>
-            <span class="refentrytitle"><a href="re09.html"><code class=
-            "function">HTML_CSS::createGroup</code></a></span> <span class=
-            "refpurpose">- Creates a new CSS definition group. Returns an
-            integer identifying the group.</span>
-          </dt>
-          <dt>
-            <span class="refentrytitle"><a href="re10.html"><code class=
-            "function">HTML_CSS::unsetGroup</code></a></span> <span class=
-            "refpurpose">- Sets or adds a CSS definition for a CSS definition
-            group</span>
-          </dt>
-          <dt>
-            <span class="refentrytitle"><a href="re11.html"><code class=
-            "function">HTML_CSS::getGroupStyle</code></a></span> <span class=
-            "refpurpose">- Returns a CSS definition for a CSS definition
-            group</span>
-          </dt>
-          <dt>
-            <span class="refentrytitle"><a href="re12.html"><code class=
-            "function">HTML_CSS::setGroupStyle</code></a></span> <span class=
-            "refpurpose">- Sets or adds a CSS definition for a CSS definition
-            group</span>
-          </dt>
-          <dt>
-            <span class="refentrytitle"><a href="re13.html"><code class=
-            "function">HTML_CSS::addGroupSelector</code></a></span>
-            <span class="refpurpose">- Adds a selector to a CSS definition
-            group.</span>
-          </dt>
-          <dt>
-            <span class="refentrytitle"><a href="re14.html"><code class=
-            "function">HTML_CSS::removeGroupSelector</code></a></span>
-            <span class="refpurpose">- Removes a selector from a group.</span>
-          </dt>
-          <dt>
-            <span class="refentrytitle"><a href="re15.html"><code class=
-            "function">HTML_CSS::setSameStyle</code></a></span> <span class=
-            "refpurpose">- Sets or changes the properties of new selectors to
-            the values of an existing selector</span>
-          </dt>
-        </dl>
-      </div>
       <p>
-        The most advanced/complex functions are those which handle group of
-        selectors
+        We still used the CSS definitions of previous example, identified by
+        <code class="filename">progress2.css</code> file :
       </p>
+      <p>
+        Very easy with such script to find where is declared <code class=
+        "literal">color</code> property.
+      </p>
+      <div class="php c2">
+        <ol>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">&lt;?php</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw1">require_once</span> <span class=
+              "st0">'HTML/CSS.php'</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span> = <span class="kw2">new</span>
+              HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span>-&gt;<span class=
+              "me1">parseFile</span><span class="br0">(</span><span class=
+              "st0">'progress2.css'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="co1">// find all selectors that set the color
+              property</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$styles</span> = <span class=
+              "re0">$css</span>-&gt;<span class=
+              "me1">grepStyle</span><span class="br0">(</span><span class=
+              "st0">'/./'</span>, <span class=
+              "st0">'/^color$/'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw3">echo</span> <span class=
+              "st0">'&lt;pre&gt;'</span>; <span class=
+              "kw3">var_dump</span><span class="br0">(</span><span class=
+              "re0">$styles</span><span class="br0">)</span>; <span class=
+              "kw3">echo</span> <span class="st0">'&lt;/pre&gt;'</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">?&gt;</span>
+            </div>
+          </li>
+        </ol>
+      </div>
     </div>
     <table class="htmlcssFooter">
       <tr>
@@ -121,7 +151,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -130,24 +160,24 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="re08.html">Prev</a>&nbsp;
+            <a accesskey="p" href="ch08s02.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="u" href="ch08.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="re09.html">Next</a>
+            &nbsp;<a accesskey="n" href="pt03.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            <code class="function">HTML_CSS::setStyle</code>&nbsp;
+            Searching for a group of selectors &nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;<code class="function">HTML_CSS::createGroup</code>
+            &nbsp;Part&nbsp;III.&nbsp;Reference Guide
           </td>
         </tr>
       </table>

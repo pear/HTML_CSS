@@ -5,15 +5,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Chapter&nbsp;5.&nbsp;Parsing data sources
+      Chapter&nbsp;5.&nbsp;Grouping selectors
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
     <link rel="up" href="pt02.html" title=
     "Part&nbsp;II.&nbsp;Getting Started" />
-    <link rel="prev" href="ch04s03.html" title="Handle group selector" />
-    <link rel="next" href="ch05s02.html" title="Parse a simple string" />
+    <link rel="prev" href="ch04s02.html" title="Basic concepts" />
+    <link rel="next" href="ch05s02.html" title="Create group" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -40,12 +40,12 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Chapter&nbsp;5.&nbsp;Parsing data sources
+                  Chapter&nbsp;5.&nbsp;Grouping selectors
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="ch04s03.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="ch04s02.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
                   Part&nbsp;II.&nbsp;Getting Started
@@ -62,8 +62,8 @@
     <div class="chapter" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title">
-          <a name="developers.parse" id=
-          "developers.parse"></a>Chapter&nbsp;5.&nbsp;Parsing data sources
+          <a name="developers.group" id=
+          "developers.group"></a>Chapter&nbsp;5.&nbsp;Grouping selectors
         </h2>
       </div>
       <div class="toc">
@@ -72,41 +72,51 @@
         </p>
         <dl>
           <dt>
-            <span class="sect1"><a href="ch05.html#developers.parse.purpose">In
+            <span class="sect1"><a href="ch05.html#developers.group.purpose">In
             brief</a></span>
           </dt>
           <dt>
-            <span class="sect1"><a href="ch05s02.html">Parse a simple
-            string</a></span>
+            <span class="sect1"><a href="ch05s02.html">Create group</a></span>
           </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect2"><a href="ch05s02.html#id4782840">Identify
+                the group yourself</a></span>
+              </dt>
+              <dt>
+                <span class="sect2"><a href="ch05s02.html#id4782865">Let
+                HTML_CSS do it itself</a></span>
+              </dt>
+            </dl>
+          </dd>
           <dt>
-            <span class="sect1"><a href="ch05s03.html">Parse a file
-            contents</a></span>
-          </dt>
-          <dt>
-            <span class="sect1"><a href="ch05s04.html">Parse multi data
-            sources</a></span>
-          </dt>
-          <dt>
-            <span class="sect1"><a href="ch05s05.html">Allow duplicate
-            definitions</a></span>
+            <span class="sect1"><a href="ch05s03.html">Handle group
+            selector</a></span>
           </dt>
         </dl>
       </div>
       <div class="sect1" lang="en" xml:lang="en">
         <div class="titlepage">
           <h2 class="title c2">
-            <a name="developers.parse.purpose" id=
-            "developers.parse.purpose"></a>In brief
+            <a name="developers.group.purpose" id=
+            "developers.group.purpose"></a>In brief
           </h2>
         </div>
         <p>
-          One of the great features of HTML_CSS is to parse and load existing
-          style sheet from different data sources : (simple string, css file,
-          combine). We will see in detail all these possibilities with 3
-          methods : <code class="methodname">HTML_CSS::parseString()</code>,
-          <code class="methodname">HTML_CSS::parseFile()</code> and
-          <code class="methodname">HTML_CSS::parseData()</code>.
+          Remember, when several selectors share the same declarations, they
+          may be grouped together to save writing the same rule more than once.
+          Each selector must be separated by a comma.
+        </p>
+        <p>
+          Two cases exists to handle group of selector. The quick and limited
+          solution (accept only two selectors in a same group) with :
+          <code class="methodname">HTML_CSS::setSameStyle()</code>. And the
+          extended/common solution with : <code class=
+          "methodname">HTML_CSS::createGroup()</code>, <code class=
+          "methodname">HTML_CSS::setGroupStyle()</code>, <code class=
+          "methodname">HTML_CSS::addGroupSelector()</code> and <code class=
+          "methodname">HTML_CSS::removeGroupSelector()</code>.
         </p>
       </div>
     </div>
@@ -116,7 +126,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -125,7 +135,7 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="ch04s03.html">Prev</a>&nbsp;
+            <a accesskey="p" href="ch04s02.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="u" href="pt02.html">Up</a>
@@ -136,13 +146,13 @@
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Handle group selector&nbsp;
+            Basic concepts&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Parse a simple string
+            &nbsp;Create group
           </td>
         </tr>
       </table>

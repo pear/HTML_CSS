@@ -5,15 +5,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Parse a file contents
+      Handle group selector
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
     <link rel="up" href="ch05.html" title=
-    "Chapter&nbsp;5.&nbsp;Parsing data sources" />
-    <link rel="prev" href="ch05s02.html" title="Parse a simple string" />
-    <link rel="next" href="ch05s04.html" title="Parse multi data sources " />
+    "Chapter&nbsp;5.&nbsp;Grouping selectors" />
+    <link rel="prev" href="ch05s02.html" title="Create group" />
+    <link rel="next" href="ch06.html" title=
+    "Chapter&nbsp;6.&nbsp;Parsing data sources" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -41,7 +42,7 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Parse a file contents
+                  Handle group selector
                 </th>
               </tr>
               <tr>
@@ -49,10 +50,10 @@
                   <a accesskey="p" href="ch05s02.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Chapter&nbsp;5.&nbsp;Parsing data sources
+                  Chapter&nbsp;5.&nbsp;Grouping selectors
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="ch05s04.html">Next</a>
+                  &nbsp;<a accesskey="n" href="ch06.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -63,18 +64,38 @@
     <div class="sect1" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title c1">
-          <a name="developers.parse.file" id="developers.parse.file"></a>Parse
-          a file contents
+          <a name="developers.group.selectors" id=
+          "developers.group.selectors"></a>Handle group selector
         </h2>
       </div>
       <p>
-        Another quick way to create multiple selector definitions in one step
-        is to use the <code class="methodname">HTML_CSS::parseFile()</code>
-        function. CSS file to load is supposed to be W3C/CSS compliant.
+        With <code class="methodname">HTML_CSS::addGroupSelector()</code> and
+        <code class="methodname">HTML_CSS::removeGroupSelector()</code>, we
+        have ability to add or remove one selector from a selectors list (of a
+        group).
       </p>
       <p>
-        If previous selector definitions was into a file named 'styles.css',
-        then to parse and load contents will be done with such script :
+        Suppose we have these selectors :
+      </p>
+      <div class="css c2">
+        <ol>
+          <li class="li1">
+            <div class="de1">
+              html, body <span class="br0">{</span> <span class=
+              "kw1">margin</span>: <span class="re3">2px</span>; <span class=
+              "kw1">padding</span>: <span class="nu0">0</span>; <span class=
+              "kw1">border</span>: <span class="nu0">0</span>; <span class=
+              "br0">}</span>
+            </div>
+          </li>
+        </ol>
+      </div>
+      <p>
+        and we want to apply same share properties to new class 'large' and do
+        not anymore apply it to 'body'.
+      </p>
+      <p>
+        Here are how to do :
       </p>
       <div class="php c2">
         <ol>
@@ -102,9 +123,85 @@
           </li>
           <li class="li1">
             <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="co1">// 1. create the pre-requires data</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$g1</span> = <span class=
+              "re0">$css</span>-&gt;<span class=
+              "me1">createGroup</span><span class="br0">(</span><span class=
+              "st0">'html, body'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
               <span class="re0">$css</span>-&gt;<span class=
-              "me1">parseFile</span><span class="br0">(</span><span class=
-              "st0">'styles.css'</span><span class="br0">)</span>;
+              "me1">setGroupStyle</span><span class="br0">(</span><span class=
+              "re0">$g1</span>, <span class="st0">'margin'</span>, <span class=
+              "st0">'2px'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span>-&gt;<span class=
+              "me1">setGroupStyle</span><span class="br0">(</span><span class=
+              "re0">$g1</span>, <span class="st0">'padding'</span>,
+              <span class="st0">'0'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span>-&gt;<span class=
+              "me1">setGroupStyle</span><span class="br0">(</span><span class=
+              "re0">$g1</span>, <span class="st0">'border'</span>, <span class=
+              "st0">'0'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="co1">// 2. remove the body selector</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span>-&gt;<span class=
+              "me1">removeGroupSelector</span><span class=
+              "br0">(</span><span class="nu0">1</span>, <span class=
+              "st0">'body'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="co1">// 3. add the new 'large' class</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span>-&gt;<span class=
+              "me1">addGroupSelector</span><span class=
+              "br0">(</span><span class="nu0">1</span>, <span class=
+              "st0">'.large'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
             </div>
           </li>
           <li class="li1">
@@ -121,43 +218,20 @@
           </li>
         </ol>
       </div>
-      <div class="tip c3">
-        <table border="0" summary="Tip">
+      <div class="note c3">
+        <table border="0" summary="Note">
           <tr>
             <td rowspan="2" align="center" valign="top" width="48">
-              <img alt="[Tip]" src="img/admons/tip.png" />
+              <img alt="[Note]" src="img/admons/note.png" />
             </td>
             <th align="left">
-              Tip
+              Note
             </th>
           </tr>
           <tr>
             <td align="left" valign="top">
-              If there are duplicate definitions into file contents, you should
-              parse file with call :
-              <div class="php c2">
-                <ol>
-                  <li class="li1">
-                    <div class="de1">
-                      <span class="kw2">&lt;?php</span>
-                    </div>
-                  </li>
-                  <li class="li1">
-                    <div class="de1">
-                      <span class="re0">$css</span>-&gt;<span class=
-                      "me1">parseFile</span><span class=
-                      "br0">(</span><span class="st0">'styles.css'</span>,
-                      <span class="kw2">true</span><span class="br0">)</span>;
-                    </div>
-                  </li>
-                  <li class="li1">
-                    <div class="de1">
-                      <span class="kw2">?&gt;</span>
-                    </div>
-                  </li>
-                </ol>
-              </div>We will see next why we may find such duplicate
-              definitions.
+              Remember that HTML_CSS handle group (numeric) identifier itself
+              (begin at 1, and go to 2, 3, and more).
             </td>
           </tr>
         </table>
@@ -169,7 +243,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -184,18 +258,18 @@
             <a accesskey="u" href="ch05.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="ch05s04.html">Next</a>
+            &nbsp;<a accesskey="n" href="ch06.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Parse a simple string&nbsp;
+            Create group&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Parse multi data sources
+            &nbsp;Chapter&nbsp;6.&nbsp;Parsing data sources
           </td>
         </tr>
       </table>

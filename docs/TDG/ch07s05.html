@@ -5,14 +5,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      To Array
+      To String
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
     <link rel="up" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Output" />
-    <link rel="prev" href="ch07.html" title="Chapter&nbsp;7.&nbsp;Output" />
-    <link rel="next" href="ch07s03.html" title="To Inline" />
+    <link rel="prev" href="ch07s04.html" title="To File" />
+    <link rel="next" href="ch07s06.html" title="Display" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -39,18 +39,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  To Array
+                  To String
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="ch07.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="ch07s04.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
                   Chapter&nbsp;7.&nbsp;Output
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="ch07s03.html">Next</a>
+                  &nbsp;<a accesskey="n" href="ch07s06.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -61,86 +61,14 @@
     <div class="sect1" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title c1">
-          <a name="developers.output.array" id="developers.output.array"></a>To
-          Array
+          <a name="developers.output.string" id=
+          "developers.output.string"></a>To String
         </h2>
       </div>
       <p>
-        <code class="methodname">HTML_CSS::toArray()</code> must be considered
-        as a debug/help function. An easy way to explore HTML_CSS data
-        structures.
-      </p>
-      <p>
-        For example, explore these definitions :
-      </p>
-      <div class="css c2">
-        <ol>
-          <li class="li1">
-            <div class="de1">
-              html, body <span class="br0">{</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp; <span class="kw1">margin</span>: <span class=
-              "re3">2px</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp; <span class="kw1">padding</span>: <span class=
-              "re3">0px</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp; <span class="kw1">border</span>: <span class=
-              "re3">0px</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="br0">}</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              p, body <span class="br0">{</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp; <span class="kw1">margin</span>: <span class=
-              "re3">4px</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="br0">}</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              div<span class="re0">#header</span> <span class="br0">{</span>
-              <span class="kw1">text-align</span>: <span class=
-              "kw2">center</span>; <span class="kw1">color</span>: <span class=
-              "kw2">red</span>; <span class="br0">}</span>
-            </div>
-          </li>
-        </ol>
-      </div>
-      <p>
-        With script :
+        <code class="methodname">HTML_CSS::toString()</code> is analogous to
+        <code class="methodname">HTML_CSS::toFile()</code> except that result
+        is capture to a PHP variable rather than to a text/css file.
       </p>
       <div class="php c2">
         <ol>
@@ -178,58 +106,17 @@
           </li>
           <li class="li1">
             <div class="de1">
-              <span class="st0">html, body {</span>
+              <span class="st0">ul, body {</span>
             </div>
           </li>
           <li class="li1">
             <div class="de1">
-              <span class="st0">&nbsp;margin: 2px;</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">&nbsp;padding: 0px;</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">&nbsp;border: 0px;</span>
+              <span class="st0">&nbsp;padding: 1em 2em;</span>
             </div>
           </li>
           <li class="li1">
             <div class="de1">
               <span class="st0">}</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">p, body {</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">&nbsp;margin: 4px;</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">}</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">div#header { text-align: center; color: red;
-              }</span>
             </div>
           </li>
           <li class="li1">
@@ -246,34 +133,39 @@
           </li>
           <li class="li1">
             <div class="de1">
+              <span class="re0">$css</span>-&gt;<span class=
+              "me1">setGroupStyle</span><span class="br0">(</span><span class=
+              "nu0">1</span>, <span class="st0">'color'</span>, <span class=
+              "st0">'red'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
               &nbsp;
             </div>
           </li>
           <li class="li1">
             <div class="de1">
-              <span class="re0">$arr</span> = <span class=
+              <span class="re0">$str</span> = <span class=
               "re0">$css</span>-&gt;<span class=
-              "me1">toArray</span><span class="br0">(</span><span class=
+              "me1">toString</span><span class="br0">(</span><span class=
               "br0">)</span>;
             </div>
           </li>
           <li class="li1">
             <div class="de1">
-              <span class="kw3">echo</span> <span class=
-              "st0">'&lt;pre&gt;'</span>;
+              <span class="kw3">echo</span> <span class="re0">$str</span>;
             </div>
           </li>
           <li class="li1">
             <div class="de1">
-              <span class="kw3">var_dump</span><span class=
-              "br0">(</span><span class="re0">$arr</span><span class=
-              "br0">)</span>;
+              <span class="co1">// will display</span>
             </div>
           </li>
           <li class="li1">
             <div class="de1">
-              <span class="kw3">echo</span> <span class=
-              "st0">'&lt;/pre&gt;'</span>;
+              <span class="co1">// ul, body { padding: 1em 2em; color: red;
+              }</span>
             </div>
           </li>
           <li class="li1">
@@ -299,24 +191,24 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="ch07.html">Prev</a>&nbsp;
+            <a accesskey="p" href="ch07s04.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="u" href="ch07.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="ch07s03.html">Next</a>
+            &nbsp;<a accesskey="n" href="ch07s06.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Chapter&nbsp;7.&nbsp;Output&nbsp;
+            To File&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;To Inline
+            &nbsp;Display
           </td>
         </tr>
       </table>

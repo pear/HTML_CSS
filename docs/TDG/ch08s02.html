@@ -5,15 +5,17 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Handle selector and property values
+      Searching for a group of selectors
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
     <link rel="up" href="ch08.html" title=
-    "Chapter&nbsp;8.&nbsp;API - Application Programming Interface" />
-    <link rel="prev" href="re06.html" title="HTML_CSS::setOutputGroupsFirst" />
-    <link rel="next" href="re07.html" title="HTML_CSS::getStyle" />
+    "Chapter&nbsp;8.&nbsp;Searching for selectors and properties " />
+    <link rel="prev" href="ch08.html" title=
+    "Chapter&nbsp;8.&nbsp;Searching for selectors and properties " />
+    <link rel="next" href="ch08s03.html" title=
+    "Searching for selectors that set a property " />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -23,6 +25,7 @@
     :link { color: #0000FF }
     :visited { color: #840084 }
     :active { color: #0000FF }
+    div.c2 {font-family: monospace;}
     h2.c1 {clear: both}
     /*]]>*/
     </style>
@@ -39,18 +42,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Handle selector and property values
+                  Searching for a group of selectors
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="re06.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="ch08.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Chapter&nbsp;8.&nbsp;API - Application Programming Interface
+                  Chapter&nbsp;8.&nbsp;Searching for selectors and properties
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="re07.html">Next</a>
+                  &nbsp;<a accesskey="n" href="ch08s03.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -61,28 +64,368 @@
     <div class="sect1" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title c1">
-          <a name="reference.api.basic" id="reference.api.basic"></a>Handle
-          selector and property values
+          <a name="developers.find.selectors" id=
+          "developers.find.selectors"></a>Searching for a group of selectors
         </h2>
       </div>
-      <div class="toc">
-        <dl>
-          <dt>
-            <span class="refentrytitle"><a href="re07.html"><code class=
-            "function">HTML_CSS::getStyle</code></a></span> <span class=
-            "refpurpose">- Retrieves the value of a CSS property</span>
-          </dt>
-          <dt>
-            <span class="refentrytitle"><a href="re08.html"><code class=
-            "function">HTML_CSS::setStyle</code></a></span> <span class=
-            "refpurpose">- Sets or adds a CSS definition</span>
-          </dt>
-        </dl>
+      <p>
+        Let creates these definitions into <code class=
+        "filename">progress2.css</code> file :
+      </p>
+      <div class="css c2">
+        <ol>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">#PB1</span><span class="re1">.cellPB1I</span>,
+              <span class="re0">#PB1</span><span class="re1">.cellPB1A</span>
+              <span class="br0">{</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">width</span>: <span class=
+              "re3">15px</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">height</span>: <span class=
+              "re3">20px</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">font-family</span>: Courier, Verdana;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">font-size</span>: <span class=
+              "re3">8px</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">float</span>: <span class=
+              "kw1">left</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="br0">}</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">#PB1</span><span class=
+              "re1">.progressBorderPB1</span> <span class="br0">{</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">width</span>: <span class=
+              "re3">172px</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">height</span>: <span class=
+              "re3">24px</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">border-width</span>: <span class=
+              "re3">1px</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">border-style</span>: <span class=
+              "kw2">solid</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">border-color</span>: <span class=
+              "re0">#<span class="nu0">404040</span></span> <span class=
+              "re0">#dfdfdf</span> <span class="re0">#dfdfdf</span>
+              <span class="re0">#<span class="nu0">404040</span></span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">background-color</span>: <span class=
+              "re0">#CCCCCC</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="br0">}</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re1">.progressPercentLabelpct1PB1</span>
+              <span class="br0">{</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">width</span>: <span class=
+              "re3">50px</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">text-align</span>: <span class=
+              "kw1">right</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">background-color</span>: <span class=
+              "kw2">transparent</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">font-size</span>: <span class=
+              "re3">11px</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">font-family</span>: Verdana, Tahoma,
+              Arial;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">font-weight</span>: <span class=
+              "kw2">normal</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">color</span>: <span class=
+              "re0">#<span class="nu0">000000</span></span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="br0">}</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re1">.progressTextLabeltxt1PB1</span> <span class=
+              "br0">{</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">text-align</span>: <span class=
+              "kw1">left</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">background-color</span>: <span class=
+              "kw2">transparent</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">font-size</span>: <span class=
+              "re3">11px</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">font-family</span>: Verdana, Tahoma,
+              Arial;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">font-weight</span>: <span class=
+              "kw2">normal</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">color</span>: <span class=
+              "re0">#<span class="nu0">000000</span></span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="br0">}</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re1">.cellPB1I</span> <span class="br0">{</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">background-color</span>: <span class=
+              "re0">#CCCCCC</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="br0">}</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re1">.cellPB1A</span> <span class="br0">{</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; <span class="kw1">background-color</span>: <span class=
+              "re0">#0033FF</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="br0">}</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              body <span class="br0">{</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; <span class="kw1">background-color</span>:
+              <span class="re0">#E0E0E0</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; <span class="kw1">color</span>: <span class=
+              "re0">#<span class="nu0">000000</span></span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp; &nbsp; <span class="kw1">font-family</span>: Verdana,
+              Arial;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="br0">}</span>
+            </div>
+          </li>
+        </ol>
       </div>
       <p>
-        Read and write single selector or even descendant selector is made easy
-        with :
+        Very easy with such script to find where is declared <code class=
+        "literal">#PB1</code> class selectors (names like).
       </p>
+      <div class="php c2">
+        <ol>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">&lt;?php</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw1">require_once</span> <span class=
+              "st0">'HTML/CSS.php'</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span> = <span class="kw2">new</span>
+              HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$css</span>-&gt;<span class=
+              "me1">parseFile</span><span class="br0">(</span><span class=
+              "st0">'progress2.css'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              &nbsp;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="co1">// find all selectors beginning with
+              #PB1</span>
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="re0">$styles</span> = <span class=
+              "re0">$css</span>-&gt;<span class=
+              "me1">grepStyle</span><span class="br0">(</span><span class=
+              "st0">'/^#PB1/'</span><span class="br0">)</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw3">echo</span> <span class=
+              "st0">'&lt;pre&gt;'</span>; <span class=
+              "kw3">var_dump</span><span class="br0">(</span><span class=
+              "re0">$styles</span><span class="br0">)</span>; <span class=
+              "kw3">echo</span> <span class="st0">'&lt;/pre&gt;'</span>;
+            </div>
+          </li>
+          <li class="li1">
+            <div class="de1">
+              <span class="kw2">?&gt;</span>
+            </div>
+          </li>
+        </ol>
+      </div>
     </div>
     <table class="htmlcssFooter">
       <tr>
@@ -90,7 +433,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -99,24 +442,24 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="re06.html">Prev</a>&nbsp;
+            <a accesskey="p" href="ch08.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="u" href="ch08.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="re07.html">Next</a>
+            &nbsp;<a accesskey="n" href="ch08s03.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            <code class="function">HTML_CSS::setOutputGroupsFirst</code>&nbsp;
+            Chapter&nbsp;8.&nbsp;Searching for selectors and properties &nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;<code class="function">HTML_CSS::getStyle</code>
+            &nbsp;Searching for selectors that set a property
           </td>
         </tr>
       </table>

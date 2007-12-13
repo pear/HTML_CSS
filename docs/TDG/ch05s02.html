@@ -5,16 +5,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Parse a simple string
+      Create group
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
     <link rel="up" href="ch05.html" title=
-    "Chapter&nbsp;5.&nbsp;Parsing data sources" />
+    "Chapter&nbsp;5.&nbsp;Grouping selectors" />
     <link rel="prev" href="ch05.html" title=
-    "Chapter&nbsp;5.&nbsp;Parsing data sources" />
-    <link rel="next" href="ch05s03.html" title="Parse a file contents" />
+    "Chapter&nbsp;5.&nbsp;Grouping selectors" />
+    <link rel="next" href="ch05s03.html" title="Handle group selector" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -24,6 +24,7 @@
     :link { color: #0000FF }
     :visited { color: #840084 }
     :active { color: #0000FF }
+    div.c3 {margin-left: 0.5in; margin-right: 0.5in;}
     div.c2 {font-family: monospace;}
     h2.c1 {clear: both}
     /*]]>*/
@@ -41,7 +42,7 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Parse a simple string
+                  Create group
                 </th>
               </tr>
               <tr>
@@ -49,7 +50,7 @@
                   <a accesskey="p" href="ch05.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Chapter&nbsp;5.&nbsp;Parsing data sources
+                  Chapter&nbsp;5.&nbsp;Grouping selectors
                 </th>
                 <td width="20%" align="right">
                   &nbsp;<a accesskey="n" href="ch05s03.html">Next</a>
@@ -63,183 +64,227 @@
     <div class="sect1" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title c1">
-          <a name="developers.parse.string" id=
-          "developers.parse.string"></a>Parse a simple string
+          <a name="developers.group.create" id=
+          "developers.group.create"></a>Create group
         </h2>
       </div>
+      <div class="toc">
+        <dl>
+          <dt>
+            <span class="sect2"><a href="ch05s02.html#id4782840">Identify the
+            group yourself</a></span>
+          </dt>
+          <dt>
+            <span class="sect2"><a href="ch05s02.html#id4782865">Let HTML_CSS
+            do it itself</a></span>
+          </dt>
+        </dl>
+      </div>
       <p>
-        A quick way to create multiple selector definitions in one step is to
-        use the <code class="methodname">HTML_CSS::parseString()</code>
-        function.
+        <code class="methodname">HTML_CSS::createGroup()</code> creates
+        basically a group for selectors given as first argument. You can
+        identify this group by an identifier (alphanumeric) or let HTML_CSS
+        manage an internal numeric identifier itself.
       </p>
       <p>
-        Let creates these definitions :
+        Let creates this group of selectors :
       </p>
       <div class="css c2">
         <ol>
           <li class="li1">
             <div class="de1">
-              html, body <span class="br0">{</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp; <span class="kw1">margin</span>: <span class=
-              "re3">2px</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp; <span class="kw1">padding</span>: <span class=
-              "re3">0px</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp; <span class="kw1">border</span>: <span class=
-              "re3">0px</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="br0">}</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              p, body <span class="br0">{</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp; <span class="kw1">margin</span>: <span class=
-              "re3">4px</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
+              <span class="re0">#main</span> p, <span class="re0">#main</span>
+              ul <span class="br0">{</span> <span class=
+              "kw1">padding-top</span>: <span class="re3">1em</span>;
+              <span class="kw1">color</span>: <span class="kw2">red</span>;
               <span class="br0">}</span>
             </div>
           </li>
         </ol>
       </div>
-      <p>
-        Very easy with such script :
-      </p>
-      <div class="php c2">
-        <ol>
-          <li class="li1">
-            <div class="de1">
-              <span class="kw2">&lt;?php</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="kw1">require_once</span> <span class=
-              "st0">'HTML/CSS.php'</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="re0">$css</span> = <span class="kw2">new</span>
-              HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="re0">$strcss</span> = <span class="st0">'</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">html, body {</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">&nbsp;margin: 2px;</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">&nbsp;padding: 0px;</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">&nbsp;border: 0px;</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">}</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">p, body {</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">&nbsp;margin: 4px;</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">}</span>
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="st0">'</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="re0">$css</span>-&gt;<span class=
-              "me1">parseString</span><span class="br0">(</span><span class=
-              "re0">$strcss</span><span class="br0">)</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              &nbsp;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="re0">$css</span>-&gt;<span class=
-              "me1">display</span><span class="br0">(</span><span class=
-              "br0">)</span>;
-            </div>
-          </li>
-          <li class="li1">
-            <div class="de1">
-              <span class="kw2">?&gt;</span>
-            </div>
-          </li>
-        </ol>
+      <div class="sect2" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <h3 class="title">
+            <a name="id4782840" id="id4782840"></a>Identify the group yourself
+          </h3>
+        </div>
+        <p>
+          Identifier is named <span class=
+          "bold"><strong>myGroupID</strong></span> in this example:
+        </p>
+        <div class="php c2">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw2">&lt;?php</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">require_once</span> <span class=
+                "st0">'HTML/CSS.php'</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span> = <span class="kw2">new</span>
+                HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$g1</span> = <span class=
+                "re0">$css</span>-&gt;<span class=
+                "me1">createGroup</span><span class="br0">(</span><span class=
+                "st0">'#main p, #main ul'</span>, <span class=
+                "st0">'myGroupID'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setGroupStyle</span><span class=
+                "br0">(</span><span class="re0">$g1</span>, <span class=
+                "st0">'padding-top'</span>, <span class=
+                "st0">'1em'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setGroupStyle</span><span class=
+                "br0">(</span><span class="re0">$g1</span>, <span class=
+                "st0">'color'</span>, <span class=
+                "st0">'red'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">display</span><span class="br0">(</span><span class=
+                "br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw2">?&gt;</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+      <div class="sect2" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <h3 class="title">
+            <a name="id4782865" id="id4782865"></a>Let HTML_CSS do it itself
+          </h3>
+        </div>
+        <div class="note c3">
+          <table border="0" summary="Note">
+            <tr>
+              <td rowspan="2" align="center" valign="top" width="48">
+                <img alt="[Note]" src="img/admons/note.png" />
+              </td>
+              <th align="left">
+                Note
+              </th>
+            </tr>
+            <tr>
+              <td align="left" valign="top">
+                This is the default behavior.
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="php c2">
+          <ol>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw2">&lt;?php</span>
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw1">require_once</span> <span class=
+                "st0">'HTML/CSS.php'</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span> = <span class="kw2">new</span>
+                HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$g1</span> = <span class=
+                "re0">$css</span>-&gt;<span class=
+                "me1">createGroup</span><span class="br0">(</span><span class=
+                "st0">'#main p, #main ul'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setGroupStyle</span><span class=
+                "br0">(</span><span class="re0">$g1</span>, <span class=
+                "st0">'padding-top'</span>, <span class=
+                "st0">'1em'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">setGroupStyle</span><span class=
+                "br0">(</span><span class="re0">$g1</span>, <span class=
+                "st0">'color'</span>, <span class=
+                "st0">'red'</span><span class="br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                &nbsp;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="re0">$css</span>-&gt;<span class=
+                "me1">display</span><span class="br0">(</span><span class=
+                "br0">)</span>;
+              </div>
+            </li>
+            <li class="li1">
+              <div class="de1">
+                <span class="kw2">?&gt;</span>
+              </div>
+            </li>
+          </ol>
+        </div>
       </div>
     </div>
     <table class="htmlcssFooter">
@@ -248,7 +293,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -268,13 +313,13 @@
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Chapter&nbsp;5.&nbsp;Parsing data sources&nbsp;
+            Chapter&nbsp;5.&nbsp;Grouping selectors&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Parse a file contents
+            &nbsp;Handle group selector
           </td>
         </tr>
       </table>

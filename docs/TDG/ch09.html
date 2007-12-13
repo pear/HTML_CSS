@@ -5,16 +5,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Chapter&nbsp;9.&nbsp;Error Handler
+      Chapter&nbsp;9.&nbsp;API - Application Programming Interface
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
     <link rel="up" href="pt03.html" title=
     "Part&nbsp;III.&nbsp;Reference Guide" />
-    <link rel="prev" href="ch08s06.html" title=
-    "Searching for selectors and/or properties" />
-    <link rel="next" href="ch09s02.html" title="Configuring a Handler " />
+    <link rel="prev" href="pt03.html" title=
+    "Part&nbsp;III.&nbsp;Reference Guide" />
+    <link rel="next" href="re01.html" title="constructor HTML_CSS::HTML_CSS" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -24,8 +24,8 @@
     :link { color: #0000FF }
     :visited { color: #840084 }
     :active { color: #0000FF }
-    div.c4 {font-family: monospace;}
-    div.c3 {margin-left: 0.5in; margin-right: 0.5in;}
+    div.c4 {margin-left: 0.5in; margin-right: 0.5in;}
+    div.c3 {font-family: monospace;}
     h2.c2 {clear: both}
     p.c1 {font-weight: bold}
     /*]]>*/
@@ -43,18 +43,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Chapter&nbsp;9.&nbsp;Error Handler
+                  Chapter&nbsp;9.&nbsp;API - Application Programming Interface
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="ch08s06.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="pt03.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
                   Part&nbsp;III.&nbsp;Reference Guide
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="ch09s02.html">Next</a>
+                  &nbsp;<a accesskey="n" href="re01.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -65,8 +65,9 @@
     <div class="chapter" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title">
-          <a name="reference.errorhandler" id=
-          "reference.errorhandler"></a>Chapter&nbsp;9.&nbsp;Error Handler
+          <a name="reference.api" id=
+          "reference.api"></a>Chapter&nbsp;9.&nbsp;API - Application
+          Programming Interface
         </h2>
       </div>
       <div class="toc">
@@ -76,57 +77,112 @@
         <dl>
           <dt>
             <span class="sect1"><a href=
-            "ch09.html#id4800414">Introduction</a></span>
+            "ch09.html#reference.api.init">Initialize parser/writer
+            options</a></span>
           </dt>
           <dt>
-            <span class="sect1"><a href="ch09s02.html">Configuring a
-            Handler</a></span>
+            <span class="sect1"><a href="ch09s02.html">Handle selector and
+            property values</a></span>
           </dt>
           <dt>
-            <span class="sect1"><a href="ch09s03.html">Controlling error
-            generation</a></span>
+            <span class="sect1"><a href="ch09s03.html">Grouping
+            selectors</a></span>
           </dt>
           <dt>
-            <span class="sect1"><a href="ch09s04.html">Error Context
-            Display</a></span>
+            <span class="sect1"><a href="ch09s04.html">Parsing data
+            sources</a></span>
           </dt>
           <dt>
-            <span class="sect1"><a href="ch09s05.html">Custom Error Message
-            Generation</a></span>
+            <span class="sect1"><a href="ch09s05.html">Output</a></span>
           </dt>
-          <dd>
-            <dl>
-              <dt>
-                <span class="sect2"><a href="ch09s05.html#id4802450">Option:
-                message_callback</a></span>
-              </dt>
-              <dt>
-                <span class="sect2"><a href="ch09s05.html#id4802483">Option:
-                context_callback</a></span>
-              </dt>
-            </dl>
-          </dd>
+          <dt>
+            <span class="sect1"><a href="ch09s06.html">Searching for selectors
+            and/or properties</a></span>
+          </dt>
         </dl>
       </div>
       <div class="sect1" lang="en" xml:lang="en">
         <div class="titlepage">
           <h2 class="title c2">
-            <a name="id4800414" id="id4800414"></a>Introduction
+            <a name="reference.api.init" id="reference.api.init"></a>Initialize
+            parser/writer options
           </h2>
         </div>
+        <div class="toc">
+          <dl>
+            <dt>
+              <span class="refentrytitle"><a href="re01.html">constructor
+              <code class="function">HTML_CSS::HTML_CSS</code></a></span>
+              <span class="refpurpose">- Class constructor</span>
+            </dt>
+            <dt>
+              <span class="refentrytitle"><a href="re02.html"><code class=
+              "function">HTML_CSS::setXhtmlCompliance</code></a></span>
+              <span class="refpurpose">- Sets XHTML compliance</span>
+            </dt>
+            <dt>
+              <span class="refentrytitle"><a href="re03.html"><code class=
+              "function">HTML_CSS::setCache</code></a></span> <span class=
+              "refpurpose">- Defines if the document should be cached by the
+              browser. Defaults to false.</span>
+            </dt>
+            <dt>
+              <span class="refentrytitle"><a href="re04.html"><code class=
+              "function">HTML_CSS::setSingleLineOutput</code></a></span>
+              <span class="refpurpose">- Determines whether definitions are
+              output single line or multiline</span>
+            </dt>
+            <dt>
+              <span class="refentrytitle"><a href="re05.html"><code class=
+              "function">HTML_CSS::setOutputGroupsFirst</code></a></span>
+              <span class="refpurpose">- Determines whether groups are output
+              before elements or not</span>
+            </dt>
+          </dl>
+        </div>
         <p>
-          The HTML_CSS package is implemented with a flexible error handler
-          plug-in system. You may use any error handler that you want. Using
-          <code class="classname">PEAR_Error</code> object (default), but also
-          the <code class="classname">PEAR_ErrorStack</code> package, or any
-          other error handler you might want to plug in.
+          With the class constructor, you have ability to set many options :
         </p>
-        <p>
-          Without any configuration, each HTML_CSS API error (basic or
-          exception) will raise a <code class="classname">HTML_CSS_Error</code>
-          object that will be return to call script (user script).
-        </p>
-        <div class="tip c3">
+        <div class="itemizedlist">
+          <ul type="disc">
+            <li>
+              <span class="bold"><strong>xhtml</strong></span> option defines
+              whether element selectors should be automatically lowercased. See
+              also: <code class=
+              "methodname">HTML_CSS::setXhtmlCompliance()</code>.
+            </li>
+            <li>
+              <span class="bold"><strong>tab</strong></span> option defines the
+              string used to indent CSS text. See also: <code class=
+              "methodname">HTML_Common::setTab()</code>.
+            </li>
+            <li>
+              <span class="bold"><strong>filename</strong></span> option allow
+              to parse an external css file. See also: <code class=
+              "methodname">HTML_CSS::parseFile()</code>.
+            </li>
+            <li>
+              <span class="bold"><strong>cache</strong></span> option controls
+              caching of the page. See also: <code class=
+              "methodname">HTML_CSS::setCache()</code>.
+            </li>
+            <li>
+              <span class="bold"><strong>oneline</strong></span> option defines
+              whether to output all properties on one line. See also:
+              <code class="methodname">HTML_CSS::setSingleLineOutput()</code>.
+            </li>
+            <li>
+              <span class="bold"><strong>groupsfirst</strong></span> option
+              determines whether to output groups before elements. See also:
+              <code class="methodname">HTML_CSS::setOutputGroupsFirst()</code>.
+            </li>
+            <li>
+              <span class="bold"><strong>allowduplicates</strong></span> option
+              allow to have duplicate rules in selector.
+            </li>
+          </ul>
+        </div>
+        <div class="tip c4">
           <table border="0" summary="Tip">
             <tr>
               <td rowspan="2" align="center" valign="top" width="48">
@@ -138,170 +194,75 @@
             </tr>
             <tr>
               <td align="left" valign="top">
-                Easy to distinct basic PEAR_Error from other PEAR packages to
-                HTML_CSS errors, even if there is a better and more robust
-                solution: <code class="methodname">HTML_CSS::isError()</code>.
-                But also provide a unique way to retrieve the level of error
-                (warning, error, exception) with the <code class=
-                "methodname">HTML_CSS_Error::getLevel()</code> method.
-              </td>
-            </tr>
-          </table>
-        </div>
-        <p>
-          As usual you can use the PEAR error API as well.
-        </p>
-        <div class="php c4">
-          <ol>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw2">&lt;?php</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw1">require_once</span> <span class=
-                "st0">'HTML/CSS.php'</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="re0">$css</span> = <span class="kw2">new</span>
-                HTML_CSS<span class="br0">(</span><span class="br0">)</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="re0">$result</span> = <span class=
-                "re0">$css</span>-&gt;<span class=
-                "me1">setStyle</span><span class="br0">(</span><span class=
-                "st0">'div'</span>, <span class="st0">'color'</span>,
-                <span class="nu0">5</span><span class="br0">)</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw1">if</span> <span class=
-                "br0">(</span>PEAR::<span class=
-                "me2">isError</span><span class="br0">(</span><span class=
-                "re0">$result</span><span class="br0">)</span><span class=
-                "br0">)</span> <span class="br0">{</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; &nbsp; <span class="co1">// do something when an error
-                is raised</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">}</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw2">?&gt;</span>
-              </div>
-            </li>
-          </ol>
-        </div>
-        <p>
-          and output to screen will give something like :
-        </p>
-        <div class="informalexample screenco">
-          <pre class="screen">
-Exception<a name="error.1.level" id="error.1.level"></a><img src=
-"img/callouts/1.gif" alt="1" border=
-"0" />: invalid input, parameter #3 "$value" was expecting "string",
-instead got "integer"<a name="error.1.message" id=
-"error.1.message"></a><img src="img/callouts/2.gif" alt="2" border=
-"0" /> in html_css-&gt;setstyle (file [path_to]\[filename] on line 6)<a name=
-"error.1.context" id="error.1.context"></a><img src="img/callouts/3.gif" alt=
-"3" border="0" />
-     
-</pre>
-          <div class="calloutlist">
-            <table border="0" summary="Callout list">
-              <tr>
-                <td width="5%" valign="top" align="left">
-                  <a href="#error.1.level"><img src="img/callouts/1.gif" alt=
-                  "1" border="0" /></a>
-                </td>
-                <td valign="top" align="left">
-                  <p>
-                    error level
-                  </p>
-                </td>
-              </tr>
-              <tr>
-                <td width="5%" valign="top" align="left">
-                  <a href="#error.1.message"><img src="img/callouts/2.gif" alt=
-                  "2" border="0" /></a>
-                </td>
-                <td valign="top" align="left">
-                  <p>
-                    message body with context informations
-                  </p>
-                </td>
-              </tr>
-              <tr>
-                <td width="5%" valign="top" align="left">
-                  <a href="#error.1.context"><img src="img/callouts/3.gif" alt=
-                  "3" border="0" /></a>
-                </td>
-                <td valign="top" align="left">
-                  <p>
-                    call context
-                  </p>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <p>
-          Perhaps this standard behavior is not what you want. Don't worry, you
-          can change everything :
-        </p>
-        <div class="itemizedlist">
-          <ul type="disc">
-            <li>display or ignore the error
-            </li>
-            <li>display or hide part of message (error level, body, context)
-            </li>
-          </ul>
-        </div>
-        <div class="important c3">
-          <table border="0" summary="Important">
-            <tr>
-              <td rowspan="2" align="center" valign="top" width="48">
-                <img alt="[Important]" src="img/admons/important.png" />
-              </td>
-              <th align="left">
-                Important
-              </th>
-            </tr>
-            <tr>
-              <td align="left" valign="top">
-                HTML_CSS obey at <a class="external" href=
-                "http://www.php.net/manual/en/ref.errorfunc.php#ini.display-errors"
-                title=
-                "http://www.php.net/manual/en/ref.errorfunc.php#ini.display-errors">
-                display_errors</a> and <a class="external" href=
-                "http://www.php.net/manual/en/ref.errorfunc.php#ini.log-errors"
-                title=
-                "http://www.php.net/manual/en/ref.errorfunc.php#ini.log-errors">
-                log_errors</a> protocol
+                HTML_CSS 1.4.0+ users may now set a single option directly like
+                that:
+                <div class="php c3">
+                  <ol>
+                    <li class="li1">
+                      <div class="de1">
+                        <span class="kw2">&lt;?php</span>
+                      </div>
+                    </li>
+                    <li class="li1">
+                      <div class="de1">
+                        <span class="kw1">require_once</span> <span class=
+                        "st0">'HTML/CSS.php'</span>;
+                      </div>
+                    </li>
+                    <li class="li1">
+                      <div class="de1">
+                        &nbsp;
+                      </div>
+                    </li>
+                    <li class="li1">
+                      <div class="de1">
+                        <span class="re0">$css</span> = <span class=
+                        "kw2">new</span> HTML_CSS<span class=
+                        "br0">(</span><span class="br0">)</span>;
+                      </div>
+                    </li>
+                    <li class="li1">
+                      <div class="de1">
+                        &nbsp;
+                      </div>
+                    </li>
+                    <li class="li1">
+                      <div class="de1">
+                        <span class="co1">// with PHP5 only</span>
+                      </div>
+                    </li>
+                    <li class="li1">
+                      <div class="de1">
+                        <span class="re0">$css</span>-&gt;<span class=
+                        "me1">allowduplicates</span> = <span class=
+                        "kw2">true</span>;
+                      </div>
+                    </li>
+                    <li class="li1">
+                      <div class="de1">
+                        &nbsp;
+                      </div>
+                    </li>
+                    <li class="li1">
+                      <div class="de1">
+                        <span class="co1">// with PHP4 only</span>
+                      </div>
+                    </li>
+                    <li class="li1">
+                      <div class="de1">
+                        <span class="re0">$css</span>-&gt;__set<span class=
+                        "br0">(</span><span class=
+                        "st0">'allowduplicates'</span>, <span class=
+                        "kw2">true</span><span class="br0">)</span>;
+                      </div>
+                    </li>
+                    <li class="li1">
+                      <div class="de1">
+                        <span class="kw2">?&gt;</span>
+                      </div>
+                    </li>
+                  </ol>
+                </div>
               </td>
             </tr>
           </table>
@@ -314,7 +275,7 @@ instead got "integer"<a name="error.1.message" id=
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -323,24 +284,24 @@ instead got "integer"<a name="error.1.message" id=
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="ch08s06.html">Prev</a>&nbsp;
+            <a accesskey="p" href="pt03.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="u" href="pt03.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="ch09s02.html">Next</a>
+            &nbsp;<a accesskey="n" href="re01.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Searching for selectors and/or properties&nbsp;
+            Part&nbsp;III.&nbsp;Reference Guide&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Configuring a Handler
+            &nbsp;constructor <code class="function">HTML_CSS::HTML_CSS</code>
           </td>
         </tr>
       </table>

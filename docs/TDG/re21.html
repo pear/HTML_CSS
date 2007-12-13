@@ -5,14 +5,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      HTML_CSS::toFile
+      HTML_CSS::toString
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch08s05.html" title="Output " />
-    <link rel="prev" href="re20.html" title="HTML_CSS::toInline" />
-    <link rel="next" href="re22.html" title="HTML_CSS::toString" />
+    <link rel="up" href="ch09s05.html" title="Output" />
+    <link rel="prev" href="re20.html" title="HTML_CSS::toFile" />
+    <link rel="next" href="re22.html" title="HTML_CSS::display" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -22,7 +22,6 @@
     :link { color: #0000FF }
     :visited { color: #840084 }
     :active { color: #0000FF }
-    table.c1 {padding-bottom: 1em}
     /*]]>*/
     </style>
   </head>
@@ -38,7 +37,7 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  <code class="function">HTML_CSS::toFile</code>
+                  <code class="function">HTML_CSS::toString</code>
                 </th>
               </tr>
               <tr>
@@ -58,16 +57,16 @@
       </tr>
     </table>
     <div class="refentry" lang="en" xml:lang="en">
-      <a name="package.html.html-css.html-css.tofile" id=
-      "package.html.html-css.html-css.tofile"></a>
+      <a name="package.html.html-css.html-css.tostring" id=
+      "package.html.html-css.html-css.tostring"></a>
       <div class="titlepage"></div>
       <div class="refnamediv">
         <h2>
           Name
         </h2>
         <p>
-          <code class="function">HTML_CSS::toFile</code> &mdash; Generates CSS
-          and stores it in a file.
+          <code class="function">HTML_CSS::toString</code> &mdash; Generates
+          and returns the complete CSS as a string.
         </p>
       </div>
       <div class="refsynopsisdiv">
@@ -79,37 +78,16 @@
     require_once 'HTML/CSS.php';
    
 </pre>
-          <table border="0" summary="Function synopsis" cellspacing="0"
-          cellpadding="0" class="c1">
-            <tr>
-              <td>
-                <code class="funcdef">void|PEAR_Error <b class=
-                "fsfunc">HTML_CSS::toFile</b>(</code>
-              </td>
-              <td>
-                <var class="pdparam">$filename</var><code>)</code>;
-              </td>
-              <td>
-                &nbsp;
-              </td>
-            </tr>
-          </table>
-          <table border="0" summary="Function argument synopsis" cellspacing=
-          "0" cellpadding="0">
-            <tr>
-              <td>
-                string &nbsp;
-              </td>
-              <td>
-                <var class="pdparam">$filename</var>;
-              </td>
-            </tr>
-          </table>
+          <p>
+            <code class="funcdef">string <b class=
+            "fsfunc">HTML_CSS::toString</b>(</code><code>)</code>;<br />
+            ;
+          </p>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.tofile.desc" id=
-        "package.html.html-css.html-css.tofile.desc"></a>
+        <a name="package.html.html-css.html-css.tostring.desc" id=
+        "package.html.html-css.html-css.tostring.desc"></a>
         <h2>
           Description
         </h2>
@@ -118,61 +96,28 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.tofile.param" id=
-        "package.html.html-css.html-css.tofile.param"></a>
-        <h2>
-          Parameter
-        </h2>
-        <div class="variablelist">
-          <dl>
-            <dt>
-              <span class="term"><span class="type">string</span> <em class=
-              "parameter"><code>$filename</code></em></span>
-            </dt>
-            <dd>
-              <p>
-                Name of file that content the stylesheet
-              </p>
-            </dd>
-          </dl>
-        </div>
-      </div>
-      <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.tofile.see" id=
-        "package.html.html-css.html-css.tofile.see"></a>
-        <h2>
-          See
-        </h2>
-        <p>
-          <span class="emphasis"><em>see</em></span> <a href="re22.html" title=
-          "HTML_CSS::toString"><code class=
-          "function">HTML_CSS::toString</code></a>
-        </p>
-      </div>
-      <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.tofile.throws" id=
-        "package.html.html-css.html-css.tofile.throws"></a>
+        <a name="package.html.html-css.html-css.tostring.throws" id=
+        "package.html.html-css.html-css.tostring.throws"></a>
         <h2>
           Throws
         </h2>
         <p>
-          <span class="emphasis"><em>throws</em></span>
-          HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_WRITE_FILE
+          <span class="emphasis"><em>throws</em></span> no exceptions thrown
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.tofile.since" id=
-        "package.html.html-css.html-css.tofile.since"></a>
+        <a name="package.html.html-css.html-css.tostring.since" id=
+        "package.html.html-css.html-css.tostring.since"></a>
         <h2>
           Since
         </h2>
         <p>
-          Release 0.3.0 (2003-11-03)
+          Release 0.2.0 (2003-07-31)
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.tofile.note" id=
-        "package.html.html-css.html-css.tofile.note"></a>
+        <a name="package.html.html-css.html-css.tostring.note" id=
+        "package.html.html-css.html-css.tostring.note"></a>
         <h2>
           Note
         </h2>
@@ -187,7 +132,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -199,7 +144,7 @@
             <a accesskey="p" href="re20.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch08s05.html">Up</a>
+            <a accesskey="u" href="ch09s05.html">Up</a>
           </td>
           <td width="40%" align="right">
             &nbsp;<a accesskey="n" href="re22.html">Next</a>
@@ -207,13 +152,13 @@
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            <code class="function">HTML_CSS::toInline</code>&nbsp;
+            <code class="function">HTML_CSS::toFile</code>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;<code class="function">HTML_CSS::toString</code>
+            &nbsp;<code class="function">HTML_CSS::display</code>
           </td>
         </tr>
       </table>

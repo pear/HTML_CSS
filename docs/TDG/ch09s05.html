@@ -5,15 +5,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      Custom Error Message Generation
+      Output
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
     <link rel="up" href="ch09.html" title=
-    "Chapter&nbsp;9.&nbsp;Error Handler" />
-    <link rel="prev" href="ch09s04.html" title="Error Context Display " />
-    <link rel="next" href="pt04.html" title="Part&nbsp;IV.&nbsp;Appendixes" />
+    "Chapter&nbsp;9.&nbsp;API - Application Programming Interface" />
+    <link rel="prev" href="re17.html" title="HTML_CSS::parseData" />
+    <link rel="next" href="re18.html" title="HTML_CSS::toArray" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -23,7 +23,6 @@
     :link { color: #0000FF }
     :visited { color: #840084 }
     :active { color: #0000FF }
-    div.c2 {font-family: monospace;}
     h2.c1 {clear: both}
     /*]]>*/
     </style>
@@ -40,18 +39,18 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  Custom Error Message Generation
+                  Output
                 </th>
               </tr>
               <tr>
                 <td width="20%" align="left">
-                  <a accesskey="p" href="ch09s04.html">Prev</a>&nbsp;
+                  <a accesskey="p" href="re17.html">Prev</a>&nbsp;
                 </td>
                 <th width="60%" align="center">
-                  Chapter&nbsp;9.&nbsp;Error Handler
+                  Chapter&nbsp;9.&nbsp;API - Application Programming Interface
                 </th>
                 <td width="20%" align="right">
-                  &nbsp;<a accesskey="n" href="pt04.html">Next</a>
+                  &nbsp;<a accesskey="n" href="re18.html">Next</a>
                 </td>
               </tr>
             </table>
@@ -62,115 +61,56 @@
     <div class="sect1" lang="en" xml:lang="en">
       <div class="titlepage">
         <h2 class="title c1">
-          <a name="id4802437" id="id4802437"></a>Custom Error Message
-          Generation
+          <a name="reference.api.output" id="reference.api.output"></a>Output
         </h2>
       </div>
       <div class="toc">
         <dl>
           <dt>
-            <span class="sect2"><a href="ch09s05.html#id4802450">Option:
-            message_callback</a></span>
+            <span class="refentrytitle"><a href="re18.html"><code class=
+            "function">HTML_CSS::toArray</code></a></span> <span class=
+            "refpurpose">- Returns the array of CSS properties</span>
           </dt>
           <dt>
-            <span class="sect2"><a href="ch09s05.html#id4802483">Option:
-            context_callback</a></span>
+            <span class="refentrytitle"><a href="re19.html"><code class=
+            "function">HTML_CSS::toInline</code></a></span> <span class=
+            "refpurpose">- Generates and returns the CSS properties of an
+            element or class as a string for inline use.</span>
+          </dt>
+          <dt>
+            <span class="refentrytitle"><a href="re20.html"><code class=
+            "function">HTML_CSS::toFile</code></a></span> <span class=
+            "refpurpose">- Generates CSS and stores it in a file.</span>
+          </dt>
+          <dt>
+            <span class="refentrytitle"><a href="re21.html"><code class=
+            "function">HTML_CSS::toString</code></a></span> <span class=
+            "refpurpose">- Generates and returns the complete CSS as a
+            string.</span>
+          </dt>
+          <dt>
+            <span class="refentrytitle"><a href="re22.html"><code class=
+            "function">HTML_CSS::display</code></a></span> <span class=
+            "refpurpose">- Outputs the stylesheet to the browser.</span>
+          </dt>
+          <dt>
+            <span class="refentrytitle"><a href="re23.html"><code class=
+            "function">HTML_CSS::getContentDisposition</code></a></span>
+            <span class="refpurpose">- Returns the Content-Disposition header
+            ability (inline filename)</span>
+          </dt>
+          <dt>
+            <span class="refentrytitle"><a href="re24.html"><code class=
+            "function">HTML_CSS::setContentDisposition</code></a></span>
+            <span class="refpurpose">- Defines the Content-Disposition filename
+            for the browser output.</span>
           </dt>
         </dl>
       </div>
       <p>
-        There are two methods of <code class="classname">HTML_CSS_Error</code>
-        designed for use with generating error messages efficiently. To use
-        them, you must set the options below in the HTML_CSS class constructor
-        (argument #2):
+        Send result directly to browser, send it to file or capture to a PHP
+        variable, you will certainly use one of them.
       </p>
-      <div class="sect2" lang="en" xml:lang="en">
-        <div class="titlepage">
-          <h3 class="title">
-            <a name="id4802450" id="id4802450"></a>Option: message_callback
-          </h3>
-        </div>
-        <p>
-          The default message handling callback (<code class=
-          "methodname">HTML_CSS_Error::_getErrorMessage</code>) get an array
-          mapping error codes to error message templates, like so:
-        </p>
-        <div class="php c2">
-          <ol>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw2">&lt;?php</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="re0">$messages</span> = <span class=
-                "kw3">array</span><span class="br0">(</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; &nbsp; HTML_CSS_ERROR_UNKNOWN =&gt;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; &nbsp; &nbsp; &nbsp; <span class="st0">'unknown
-                error'</span>,
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; &nbsp; HTML_CSS_ERROR_INVALID_INPUT =&gt;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; &nbsp; &nbsp; &nbsp; <span class="st0">'invalid input,
-                parameter #%paramnum% '</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; &nbsp; &nbsp; . <span class="st0">'"%var%" was expecting
-                '</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                &nbsp; &nbsp; &nbsp; . <span class="st0">'"%expected%", instead
-                got "%was%"'</span>
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="br0">)</span>;
-              </div>
-            </li>
-            <li class="li1">
-              <div class="de1">
-                <span class="kw2">?&gt;</span>
-              </div>
-            </li>
-          </ol>
-        </div>
-        <p>
-          Basically, if a variable name is enclosed in percent signs (%), it
-          will be replaced with the value passed in the associative array.
-        </p>
-      </div>
-      <div class="sect2" lang="en" xml:lang="en">
-        <div class="titlepage">
-          <h3 class="title">
-            <a name="id4802483" id="id4802483"></a>Option: context_callback
-          </h3>
-        </div>
-        <p>
-          The default context handling callback (<code class=
-          "methodname">HTML_CSS_Error::getBackTrace</code>) gets an array of
-          execution functions and discovers where the error was generated.
-        </p>
-      </div>
     </div>
     <table class="htmlcssFooter">
       <tr>
@@ -178,7 +118,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -187,24 +127,24 @@
       <table width="100%" summary="Navigation footer">
         <tr>
           <td width="40%" align="left">
-            <a accesskey="p" href="ch09s04.html">Prev</a>&nbsp;
+            <a accesskey="p" href="re17.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="u" href="ch09.html">Up</a>
           </td>
           <td width="40%" align="right">
-            &nbsp;<a accesskey="n" href="pt04.html">Next</a>
+            &nbsp;<a accesskey="n" href="re18.html">Next</a>
           </td>
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            Error Context Display &nbsp;
+            <code class="function">HTML_CSS::parseData</code>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;Part&nbsp;IV.&nbsp;Appendixes
+            &nbsp;<code class="function">HTML_CSS::toArray</code>
           </td>
         </tr>
       </table>

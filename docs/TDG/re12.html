@@ -5,14 +5,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>
-      HTML_CSS::setGroupStyle
+      HTML_CSS::addGroupSelector
     </title>
     <link rel="stylesheet" href="book.css" type="text/css" />
     <meta name="generator" content="DocBook XSL Stylesheets V1.69.1" />
     <link rel="start" href="index.html" title="HTML_CSS Manual" />
-    <link rel="up" href="ch08s03.html" title="Grouping selectors" />
-    <link rel="prev" href="re11.html" title="HTML_CSS::getGroupStyle" />
-    <link rel="next" href="re13.html" title="HTML_CSS::addGroupSelector" />
+    <link rel="up" href="ch09s03.html" title="Grouping selectors" />
+    <link rel="prev" href="re11.html" title="HTML_CSS::setGroupStyle" />
+    <link rel="next" href="re13.html" title="HTML_CSS::removeGroupSelector" />
     <style type="text/css">
 /*<![CDATA[*/
     body {
@@ -38,7 +38,7 @@
             <table width="100%" summary="Navigation header">
               <tr>
                 <th colspan="3" align="center">
-                  <code class="function">HTML_CSS::setGroupStyle</code>
+                  <code class="function">HTML_CSS::addGroupSelector</code>
                 </th>
               </tr>
               <tr>
@@ -58,16 +58,16 @@
       </tr>
     </table>
     <div class="refentry" lang="en" xml:lang="en">
-      <a name="package.html.html-css.html-css.setgroupstyle" id=
-      "package.html.html-css.html-css.setgroupstyle"></a>
+      <a name="package.html.html-css.html-css.addgroupselector" id=
+      "package.html.html-css.html-css.addgroupselector"></a>
       <div class="titlepage"></div>
       <div class="refnamediv">
         <h2>
           Name
         </h2>
         <p>
-          <code class="function">HTML_CSS::setGroupStyle</code> &mdash; Sets or
-          adds a CSS definition for a CSS definition group
+          <code class="function">HTML_CSS::addGroupSelector</code> &mdash; Adds
+          a selector to a CSS definition group.
         </p>
       </div>
       <div class="refsynopsisdiv">
@@ -83,8 +83,8 @@
           cellpadding="0" class="c1">
             <tr>
               <td>
-                <code class="funcdef">void|int|PEAR_Error <b class=
-                "fsfunc">HTML_CSS::setGroupStyle</b>(</code>
+                <code class="funcdef">void|PEAR_Error <b class=
+                "fsfunc">HTML_CSS::addGroupSelector</b>(</code>
               </td>
               <td>
                 <var class="pdparam">$group</var>,
@@ -98,29 +98,7 @@
                 &nbsp;
               </td>
               <td>
-                <var class="pdparam">$property</var>,
-              </td>
-              <td>
-                &nbsp;
-              </td>
-            </tr>
-            <tr>
-              <td>
-                &nbsp;
-              </td>
-              <td>
-                <var class="pdparam">$value</var>,
-              </td>
-              <td>
-                &nbsp;
-              </td>
-            </tr>
-            <tr>
-              <td>
-                &nbsp;
-              </td>
-              <td>
-                <var class="pdparam">$duplicates = NULL</var><code>)</code>;
+                <var class="pdparam">$selectors</var><code>)</code>;
               </td>
               <td>
                 &nbsp;
@@ -142,31 +120,15 @@
                 string &nbsp;
               </td>
               <td>
-                <var class="pdparam">$property</var>;
-              </td>
-            </tr>
-            <tr>
-              <td>
-                string &nbsp;
-              </td>
-              <td>
-                <var class="pdparam">$value</var>;
-              </td>
-            </tr>
-            <tr>
-              <td>
-                bool &nbsp;
-              </td>
-              <td>
-                <var class="pdparam">$duplicates = NULL</var>;
+                <var class="pdparam">$selectors</var>;
               </td>
             </tr>
           </table>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setgroupstyle.desc" id=
-        "package.html.html-css.html-css.setgroupstyle.desc"></a>
+        <a name="package.html.html-css.html-css.addgroupselector.desc" id=
+        "package.html.html-css.html-css.addgroupselector.desc"></a>
         <h2>
           Description
         </h2>
@@ -175,8 +137,8 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setgroupstyle.param" id=
-        "package.html.html-css.html-css.setgroupstyle.param"></a>
+        <a name="package.html.html-css.html-css.addgroupselector.param" id=
+        "package.html.html-css.html-css.addgroupselector.param"></a>
         <h2>
           Parameter
         </h2>
@@ -197,79 +159,30 @@
           <dl>
             <dt>
               <span class="term"><span class="type">string</span> <em class=
-              "parameter"><code>$property</code></em></span>
+              "parameter"><code>$selectors</code></em></span>
             </dt>
             <dd>
               <p>
-                Property defined
-              </p>
-            </dd>
-          </dl>
-        </div>
-        <div class="variablelist">
-          <dl>
-            <dt>
-              <span class="term"><span class="type">string</span> <em class=
-              "parameter"><code>$value</code></em></span>
-            </dt>
-            <dd>
-              <p>
-                Value assigned
-              </p>
-            </dd>
-          </dl>
-        </div>
-        <div class="variablelist">
-          <dl>
-            <dt>
-              <span class="term"><span class="type">boolean</span> <em class=
-              "parameter"><code>$duplicates</code></em></span>
-            </dt>
-            <dd>
-              <p>
-                (optional) Allow or disallow duplicates.
+                Selector(s) to be defined, comma delimited.
               </p>
             </dd>
           </dl>
         </div>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setgroupstyle.returns" id=
-        "package.html.html-css.html-css.setgroupstyle.returns"></a>
-        <h2>
-          Return value
-        </h2>
-        <p>
-          <span class="emphasis"><em>returns</em></span> Returns an integer if
-          duplicates are allowed.
-        </p>
-      </div>
-      <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setgroupstyle.see" id=
-        "package.html.html-css.html-css.setgroupstyle.see"></a>
-        <h2>
-          See
-        </h2>
-        <p>
-          <span class="emphasis"><em>see</em></span> <a href="re11.html" title=
-          "HTML_CSS::getGroupStyle"><code class=
-          "function">HTML_CSS::getGroupStyle</code></a>
-        </p>
-      </div>
-      <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setgroupstyle.throws" id=
-        "package.html.html-css.html-css.setgroupstyle.throws"></a>
+        <a name="package.html.html-css.html-css.addgroupselector.throws" id=
+        "package.html.html-css.html-css.addgroupselector.throws"></a>
         <h2>
           Throws
         </h2>
         <p>
           <span class="emphasis"><em>throws</em></span>
-          HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_GROUP
+          HTML_CSS_ERROR_NO_GROUP, HTML_CSS_ERROR_INVALID_INPUT
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setgroupstyle.since" id=
-        "package.html.html-css.html-css.setgroupstyle.since"></a>
+        <a name="package.html.html-css.html-css.addgroupselector.since" id=
+        "package.html.html-css.html-css.addgroupselector.since"></a>
         <h2>
           Since
         </h2>
@@ -278,8 +191,8 @@
         </p>
       </div>
       <div class="refsect1" lang="en" xml:lang="en">
-        <a name="package.html.html-css.html-css.setgroupstyle.note" id=
-        "package.html.html-css.html-css.setgroupstyle.note"></a>
+        <a name="package.html.html-css.html-css.addgroupselector.note" id=
+        "package.html.html-css.html-css.addgroupselector.note"></a>
         <h2>
           Note
         </h2>
@@ -294,7 +207,7 @@
           HTML_CSS : The Definitive Guide
         </td>
         <td align="right">
-          v 1.3.0 : October 22, 2007
+          v 1.4.0 : December 14, 2007
         </td>
       </tr>
     </table>
@@ -306,7 +219,7 @@
             <a accesskey="p" href="re11.html">Prev</a>&nbsp;
           </td>
           <td width="20%" align="center">
-            <a accesskey="u" href="ch08s03.html">Up</a>
+            <a accesskey="u" href="ch09s03.html">Up</a>
           </td>
           <td width="40%" align="right">
             &nbsp;<a accesskey="n" href="re13.html">Next</a>
@@ -314,13 +227,13 @@
         </tr>
         <tr>
           <td width="40%" align="left" valign="top">
-            <code class="function">HTML_CSS::getGroupStyle</code>&nbsp;
+            <code class="function">HTML_CSS::setGroupStyle</code>&nbsp;
           </td>
           <td width="20%" align="center">
             <a accesskey="h" href="index.html">Home</a>
           </td>
           <td width="40%" align="right" valign="top">
-            &nbsp;<code class="function">HTML_CSS::addGroupSelector</code>
+            &nbsp;<code class="function">HTML_CSS::removeGroupSelector</code>
           </td>
         </tr>
       </table>
