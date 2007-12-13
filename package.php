@@ -55,12 +55,16 @@ $p2->setNotes('* changes
   (magic function __set, __get) for read/write CSS options.
 
 * QA
+- PHP minimum set to 4.3.0
+- PEAR installer minimum set to 1.5.4 (to avoid security vulnerability)
 - Coding Standard fixes (recommandation by PHP_CodeSniffer)
 - tests suite migrated from PHPUnit 1.x to 3.x
 - User Guide 1.4.0 included in this release cover all versions
 1.x.x, 1.1.x, 1.2.x, 1.3.x, 1.4.x
 ');
-$p2->setLicense('BSD', 'http://www.opensource.org/licenses/bsd-license.php');
+//$p2->setLicense('BSD', 'http://www.opensource.org/licenses/bsd-license.php');
+$p2->setPhpDep('4.3.0');
+$p2->setPearinstallerDep('1.5.4');
 
 if (isset($_GET['make'])
     || (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 'make')) {

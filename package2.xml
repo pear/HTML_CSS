@@ -29,11 +29,11 @@ In addition, it shares the following with HTML_Common based classes:
   <email>klaus@capitalfocus.org</email>
   <active>no</active>
  </lead>
- <date>2007-10-22</date>
- <time>15:35:51</time>
+ <date>2007-12-14</date>
+ <time>00:10:34</time>
  <version>
-  <release>1.3.0</release>
-  <api>1.3.0</api>
+  <release>1.4.0</release>
+  <api>1.4.0</api>
  </version>
  <stability>
   <release>stable</release>
@@ -41,13 +41,25 @@ In addition, it shares the following with HTML_Common based classes:
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
  <notes>* changes
-- prevent invalide CSS data source in to parse
+- removed old class (private) properties related to options ($_xhtmlCompliant,
+  $_cache, $_singleLine, $_charset, $_contentDisposition, $_groupsFirst,
+  $_allowDuplicates), now group by in a private array $options.
+- added class constructor (ZE2) for PHP5.
+- Error handler allow now to use PEAR_ERROR_CALLBACK to customize action
+  (log yes/no, print yes/no) when an error/exception is raised.
+- remove trailing EOL in toString() output (with oneline option set to true)
 
 * news
-- add Content-Disposition to the headers in display(); implement request #12195
+- API 1.4.0 allow now a setter/getter PHP5 facility compatible
+  (magic function __set, __get) for read/write CSS options.
 
 * QA
-User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x, 1.3.x
+- PHP minimum set to 4.3.0
+- PEAR installer minimum set to 1.5.4 (to avoid security vulnerability)
+- Coding Standard fixes (recommandation by PHP_CodeSniffer)
+- tests suite migrated from PHPUnit 1.x to 3.x
+- User Guide 1.4.0 included in this release cover all versions
+1.x.x, 1.1.x, 1.2.x, 1.3.x, 1.4.x
  </notes>
  <contents>
   <dir baseinstalldir="HTML" name="/">
@@ -77,39 +89,46 @@ User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
      <file name="ch01s02.html" role="doc" />
      <file name="ch01s03.html" role="doc" />
      <file name="ch02.html" role="doc" />
+     <file name="ch02s02.html" role="doc" />
+     <file name="ch02s03.html" role="doc" />
+     <file name="ch02s04.html" role="doc" />
+     <file name="ch02s05.html" role="doc" />
+     <file name="ch02s06.html" role="doc" />
+     <file name="ch02s07.html" role="doc" />
      <file name="ch03.html" role="doc" />
-     <file name="ch03s02.html" role="doc" />
      <file name="ch04.html" role="doc" />
      <file name="ch04s02.html" role="doc" />
-     <file name="ch04s03.html" role="doc" />
      <file name="ch05.html" role="doc" />
      <file name="ch05s02.html" role="doc" />
      <file name="ch05s03.html" role="doc" />
-     <file name="ch05s04.html" role="doc" />
-     <file name="ch05s05.html" role="doc" />
      <file name="ch06.html" role="doc" />
      <file name="ch06s02.html" role="doc" />
      <file name="ch06s03.html" role="doc" />
      <file name="ch06s04.html" role="doc" />
      <file name="ch06s05.html" role="doc" />
-     <file name="ch06s06.html" role="doc" />
      <file name="ch07.html" role="doc" />
      <file name="ch07s02.html" role="doc" />
      <file name="ch07s03.html" role="doc" />
+     <file name="ch07s04.html" role="doc" />
+     <file name="ch07s05.html" role="doc" />
+     <file name="ch07s06.html" role="doc" />
      <file name="ch08.html" role="doc" />
      <file name="ch08s02.html" role="doc" />
      <file name="ch08s03.html" role="doc" />
-     <file name="ch08s04.html" role="doc" />
-     <file name="ch08s05.html" role="doc" />
-     <file name="ch08s06.html" role="doc" />
      <file name="ch09.html" role="doc" />
      <file name="ch09s02.html" role="doc" />
      <file name="ch09s03.html" role="doc" />
      <file name="ch09s04.html" role="doc" />
      <file name="ch09s05.html" role="doc" />
+     <file name="ch09s06.html" role="doc" />
      <file name="ch10.html" role="doc" />
      <file name="ch10s02.html" role="doc" />
      <file name="ch10s03.html" role="doc" />
+     <file name="ch10s04.html" role="doc" />
+     <file name="ch10s05.html" role="doc" />
+     <file name="ch11.html" role="doc" />
+     <file name="ch11s02.html" role="doc" />
+     <file name="ch11s03.html" role="doc" />
      <file name="index.html" role="doc" />
      <file name="pr01.html" role="doc" />
      <file name="pr01s02.html" role="doc" />
@@ -142,10 +161,11 @@ User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
      <file name="re23.html" role="doc" />
      <file name="re24.html" role="doc" />
      <file name="re25.html" role="doc" />
-     <file name="re26.html" role="doc" />
     </dir> <!-- /docs/TDG -->
    </dir> <!-- /docs -->
    <dir name="examples">
+    <file name="CSS_Advanced.php" role="doc" />
+    <file name="CSS_DisplayOnline.php" role="doc" />
     <file name="css_errorstack_custom.php" role="doc" />
     <file name="css_errorstack_logger.php" role="doc" />
     <file name="css_error_custom.php" role="doc" />
@@ -157,37 +177,18 @@ User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
     <file name="CSS_Logger.php" role="doc" />
     <file name="CSS_parseData.php" role="doc" />
     <file name="CSS_Stylesheet.php" role="doc" />
-    <file name="CSS_DisplayOnline.php" role="doc" />
    </dir> <!-- /examples -->
    <dir name="tests">
-    <file name="HTML_CSS_TestCase_addGroupSelector.php" role="test" />
-    <file name="HTML_CSS_TestCase_bug725.php" role="test" />
-    <file name="HTML_CSS_TestCase_bug998.php" role="test" />
-    <file name="HTML_CSS_TestCase_bug1066.php" role="test" />
-    <file name="HTML_CSS_TestCase_bug1072.php" role="test" />
-    <file name="HTML_CSS_TestCase_bug1084.php" role="test" />
-    <file name="HTML_CSS_TestCase_bug10103.php" role="test" />
-    <file name="HTML_CSS_TestCase_createGroup.php" role="test" />
-    <file name="HTML_CSS_TestCase_getGroupStyle.php" role="test" />
-    <file name="HTML_CSS_TestCase_getStyle.php" role="test" />
-    <file name="HTML_CSS_TestCase_parseFile.php" role="test" />
-    <file name="HTML_CSS_TestCase_parseSelectors.php" role="test" />
-    <file name="HTML_CSS_TestCase_parseString.php" role="test" />
-    <file name="HTML_CSS_TestCase_removeGroupSelector.php" role="test" />
-    <file name="HTML_CSS_TestCase_setCache.php" role="test" />
-    <file name="HTML_CSS_TestCase_setCharset.php" role="test" />
-    <file name="HTML_CSS_TestCase_setGroupStyle.php" role="test" />
-    <file name="HTML_CSS_TestCase_setSameStyle.php" role="test" />
-    <file name="HTML_CSS_TestCase_setSingleLineOutput.php" role="test" />
-    <file name="HTML_CSS_TestCase_setStyle.php" role="test" />
-    <file name="HTML_CSS_TestCase_setXhtmlCompliance.php" role="test" />
-    <file name="HTML_CSS_TestCase_toFile.php" role="test" />
-    <file name="HTML_CSS_TestCase_toInline.php" role="test" />
-    <file name="HTML_CSS_TestCase_unsetGroup.php" role="test" />
-    <file name="HTML_TestListener.php" role="test" />
-    <file name="index.php" role="test" />
+    <file name="AllTests.php" role="test">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="HTML_CSS_TestSuite_Bugs.php" role="test">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="HTML_CSS_TestSuite_Standard.php" role="test">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
     <file name="stylesheet.css" role="test" />
-    <file name="TestUnit.php" role="test" />
    </dir> <!-- /tests -->
    <file name="ChangeLog" role="doc" />
    <file name="CSS.php" role="php">
@@ -199,15 +200,15 @@ User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
  <dependencies>
   <required>
    <php>
-    <min>4.0.6</min>
+    <min>4.3.0</min>
    </php>
    <pearinstaller>
-    <min>1.4.3</min>
+    <min>1.5.4</min>
    </pearinstaller>
    <package>
     <name>HTML_Common</name>
     <channel>pear.php.net</channel>
-    <min>1.2</min>
+    <min>1.2.4</min>
    </package>
   </required>
   <optional>
@@ -219,6 +220,39 @@ User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
  </dependencies>
  <phprelease />
  <changelog>
+  <release>
+   <version>
+    <release>1.4.0</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-12-14</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>* changes
+- removed old class (private) properties related to options ($_xhtmlCompliant,
+  $_cache, $_singleLine, $_charset, $_contentDisposition, $_groupsFirst,
+  $_allowDuplicates), now group by in a private array $options.
+- added class constructor (ZE2) for PHP5.
+- Error handler allow now to use PEAR_ERROR_CALLBACK to customize action
+  (log yes/no, print yes/no) when an error/exception is raised.
+- remove trailing EOL in toString() output (with oneline option set to true)
+
+* news
+- API 1.4.0 allow now a setter/getter PHP5 facility compatible
+  (magic function __set, __get) for read/write CSS options.
+
+* QA
+- PHP minimum set to 4.3.0
+- PEAR installer minimum set to 1.5.4 (to avoid security vulnerability)
+- Coding Standard fixes (recommandation by PHP_CodeSniffer)
+- tests suite migrated from PHPUnit 1.x to 3.x
+- User Guide 1.4.0 included in this release cover all versions
+1.x.x, 1.1.x, 1.2.x, 1.3.x, 1.4.x
+   </notes>
+  </release>
   <release>
    <version>
     <release>1.3.0</release>
@@ -237,8 +271,7 @@ User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
 - add Content-Disposition to the headers in display(); implement request #12195
 
 * QA
-User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x, 1.3.x
-   </notes>
+User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x, 1.3.x</notes>
   </release>
   <release>
    <version>
