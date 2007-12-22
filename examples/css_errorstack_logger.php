@@ -9,7 +9,7 @@
  * @subpackage Examples
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2005-2007 Klaus Guenther, Laurent Laville
+ * @copyright  2005-2008 Klaus Guenther, Laurent Laville
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
@@ -25,10 +25,24 @@ require_once 'Log.php';
 /**
  * This class creates a css error stack object with help of PEAR_ErrorStack
  *
+ * PHP versions 4 and 5
+ *
+ * @category   HTML
+ * @package    HTML_CSS
+ * @subpackage Examples
+ * @author     Klaus Guenther <klaus@capitalfocus.org>
+ * @author     Laurent Laville <pear@laurent-laville.org>
+ * @copyright  2005-2008 Klaus Guenther, Laurent Laville
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
+ * @link       http://pear.php.net/package/HTML_CSS
+ * @since      File available since Release 1.0.0RC1
  * @ignore
  */
 class HTML_CSS_ErrorStack
 {
+    /**
+     * HTML_CSS_ErrorStack class constructor
+     */
     function HTML_CSS_ErrorStack()
     {
         $s = &PEAR_ErrorStack::singleton('HTML_CSS');
@@ -53,6 +67,15 @@ class HTML_CSS_ErrorStack
         $s->pushCallback(array(&$this,'errorHandler'));
     }
 
+    /**
+     * Add an error to the HTML_CSS error stack
+     *
+     * @param int    $code   Package-specific error code
+     * @param string $level  Error level.  This is NOT spell-checked
+     * @param array  $params Associative array of error parameters
+     *
+     * @return PEAR_Error|array if compatibility mode is on
+     */
     function push($code, $level, $params)
     {
         $s = &PEAR_ErrorStack::singleton('HTML_CSS');
@@ -60,8 +83,14 @@ class HTML_CSS_ErrorStack
     }
 
     /**
-     *  default ErrorStack message callback is
-     *  PEAR_ErrorStack::getErrorMessage()
+     * Default ErrorStack message callback is
+     * PEAR_ErrorStack::getErrorMessage()
+     *
+     * @param PEAR_ErrorStack &$stack   error stack
+     * @param array           $err      user info error with call context
+     * @param string|false    $template Pre-generated error message template
+     *
+     * @return string
      */
     function getMessage(&$stack, $err, $template = false)
     {
@@ -96,6 +125,11 @@ class HTML_CSS_ErrorStack
         return trim($msg);
     }
 
+    /**
+     * Get the call backtrace from where the error was generated.
+     *
+     * @return mixed bool|array
+     */
     function getBacktrace()
     {
         if (function_exists('debug_backtrace')) {
@@ -107,6 +141,13 @@ class HTML_CSS_ErrorStack
         return $backtrace;
     }
 
+    /**
+     * Error Callback used by PEAR_ErrorStack on each error raised
+     *
+     * @param array $err user info error with call context
+     *
+     * @return void|int
+     */
     function errorHandler($err)
     {
         global $halt_onException;

@@ -13,7 +13,7 @@
  * @subpackage Examples
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2005-2007 Klaus Guenther, Laurent Laville
+ * @copyright  2005-2008 Klaus Guenther, Laurent Laville
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
@@ -25,12 +25,28 @@ require_once 'HTML/CSS.php';
 require_once 'PEAR.php';
 
 /**
+ * This class creates a css error object
+ *
+ * @category   HTML
+ * @package    HTML_CSS
+ * @subpackage Examples
+ * @author     Klaus Guenther <klaus@capitalfocus.org>
+ * @author     Laurent Laville <pear@laurent-laville.org>
+ * @copyright  2005-2008 Klaus Guenther, Laurent Laville
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
+ * @link       http://pear.php.net/package/HTML_CSS
+ * @since      File available since Release 1.0.0RC1
  * @ignore
  */
 class MyErrorHandler
 {
     var $_display;
 
+    /**
+     * class constructor
+     *
+     * @param null|array $display (optional) display options hash
+     */
     function MyErrorHandler($display = null)
     {
         $default = array('lineFormat' => '<b>%1$s</b>: %2$s %3$s',
@@ -46,11 +62,26 @@ class MyErrorHandler
         }
     }
 
+    /**
+     * HTML_CSS push_callback that won't die on Exception
+     *
+     * @param integer $code  Error code.
+     * @param string  $level The error level of the message.
+     *
+     * @return void
+     */
     function _handleError($code, $level)
     {
         return null;
     }
 
+    /**
+     * Global PEAR error callback
+     *
+     * @param object $err PEAR_Error instance
+     *
+     * @return void
+     */
     function errorCallback($err)
     {
         $display_errors = ini_get('display_errors');
@@ -69,6 +100,14 @@ class MyErrorHandler
         }
     }
 
+    /**
+     * Print the current error in user log file
+     *
+     * @param string $message error message body
+     * @param string $level   error level
+     *
+     * @return void
+     */
     function log($message, $level)
     {
         $log = array('eol' => "\n",
@@ -85,6 +124,15 @@ class MyErrorHandler
         error_log($msg, 3, 'htmlcss.log');
     }
 
+    /**
+     * Print the current error to main output (browser)
+     *
+     * @param string $message   error message body
+     * @param string $level     error level
+     * @param array  $backtrace call context
+     *
+     * @return void
+     */
     function display($message, $level, $backtrace)
     {
         $backtrace = array_pop($backtrace);

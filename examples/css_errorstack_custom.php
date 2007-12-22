@@ -9,7 +9,7 @@
  * @subpackage Examples
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2005-2007 Klaus Guenther, Laurent Laville
+ * @copyright  2005-2008 Klaus Guenther, Laurent Laville
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
@@ -24,10 +24,21 @@ require_once 'PEAR/ErrorStack.php';
 /**
  * This class creates a css error stack object with help of PEAR_ErrorStack
  *
+ * @category   HTML
+ * @package    HTML_CSS
+ * @subpackage Examples
+ * @author     Klaus Guenther <klaus@capitalfocus.org>
+ * @author     Laurent Laville <pear@laurent-laville.org>
+ * @copyright  2005-2008 Klaus Guenther, Laurent Laville
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
+ * @link       http://pear.php.net/package/HTML_CSS
  * @ignore
  */
 class HTML_CSS_ErrorStack
 {
+    /**
+     * HTML_CSS_ErrorStack class constructor
+     */
     function HTML_CSS_ErrorStack()
     {
         $s = &PEAR_ErrorStack::singleton('HTML_CSS');
@@ -39,12 +50,26 @@ class HTML_CSS_ErrorStack
         $s->pushCallback(array(&$this,'errorHandler'));
     }
 
+    /**
+     * Add an error to the HTML_CSS error stack
+     *
+     * @param int    $code   Package-specific error code
+     * @param string $level  Error level.  This is NOT spell-checked
+     * @param array  $params Associative array of error parameters
+     *
+     * @return PEAR_Error|array if compatibility mode is on
+     */
     function push($code, $level, $params)
     {
         $s = &PEAR_ErrorStack::singleton('HTML_CSS');
         return $s->push($code, $level, $params);
     }
 
+    /**
+     * Get the call backtrace from where the error was generated.
+     *
+     * @return mixed bool|array
+     */
     function getBacktrace()
     {
         if (function_exists('debug_backtrace')) {
@@ -56,6 +81,13 @@ class HTML_CSS_ErrorStack
         return $backtrace;
     }
 
+    /**
+     * Print the current error
+     *
+     * @param array $err user info error with call context
+     *
+     * @return void
+     */
     function log($err)
     {
         global $prefs;
@@ -87,6 +119,13 @@ class HTML_CSS_ErrorStack
                $contextExec);
     }
 
+    /**
+     * Error Callback used by PEAR_ErrorStack on each error raised
+     *
+     * @param array $err user info error with call context
+     *
+     * @return void|int
+     */
     function errorHandler($err)
     {
         global $halt_onException;
