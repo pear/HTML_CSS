@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2003-2007, Klaus Guenther <klaus@capitalfocus.org>
+ * Copyright (c) 2003-2008, Klaus Guenther <klaus@capitalfocus.org>
  *                          Laurent Laville <pear@laurent-laville.org>
  *
  * All rights reserved.
@@ -36,7 +36,7 @@
  * @package   HTML_CSS
  * @author    Klaus Guenther <klaus@capitalfocus.org>
  * @author    Laurent Laville <pear@laurent-laville.org>
- * @copyright 2003-2007 Klaus Guenther, Laurent Laville
+ * @copyright 2003-2008 Klaus Guenther, Laurent Laville
  * @license   http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/HTML_CSS
@@ -71,8 +71,8 @@ define('HTML_CSS_ERROR_WRITE_FILE', -106);
  * @package   HTML_CSS
  * @author    Klaus Guenther <klaus@capitalfocus.org>
  * @author    Laurent Laville <pear@laurent-laville.org>
- * @copyright 2003-2007 Klaus Guenther, Laurent Laville
- * @license   http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @copyright 2003-2008 Klaus Guenther, Laurent Laville
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/HTML_CSS
  * @since     Class available since Release 0.2.0
@@ -248,7 +248,10 @@ class HTML_CSS extends HTML_Common
 
 
     /**
-     * Class constructor (ZE1)
+     * Class constructor
+     *
+     * Class constructors :
+     * Zend Engine 1 uses HTML_CSS, while Zend Engine 2 uses __construct
      *
      * @param array $attributes (optional) Pass options to the constructor.
      *                          Valid options are :
@@ -265,7 +268,7 @@ class HTML_CSS extends HTML_Common
      *                             in selector)
      * @param array $errorPrefs (optional) has to configure error handler
      *
-     * @since      0.2.0
+     * @since      version 0.2.0 (2003-07-31)
      * @access     public
      */
     function HTML_CSS($attributes = array(), $errorPrefs = array())
@@ -274,7 +277,10 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Class constructor (ZE2)
+     * Class constructor
+     *
+     * Class constructors :
+     * Zend Engine 1 uses HTML_CSS, while Zend Engine 2 uses __construct
      *
      * @param array $attributes (optional) Pass options to the constructor.
      *                          Valid options are :
@@ -291,7 +297,7 @@ class HTML_CSS extends HTML_Common
      *                             in selector)
      * @param array $errorPrefs (optional) has to configure error handler
      *
-     * @since      1.4.0
+     * @since      version 1.4.0 (2007-12-13)
      * @access     protected
      */
     function __construct($attributes = array(), $errorPrefs = array())
@@ -321,12 +327,12 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Returns the current API version
+     * Return the current API version
      *
      * Since 1.0.0 a string is returned rather than a float (for previous versions).
      *
      * @return     string                   compatible with php.version_compare()
-     * @since      0.2.0
+     * @since      version 0.2.0 (2003-07-31)
      * @access     public
      */
     function apiVersion()
@@ -335,13 +341,15 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Sets options for the class.
+     * Set option for the class
+     *
+     * Set an individual option value. Option must exist.
      *
      * @param string $option Name of option to set
      * @param string $val    Value of option to set
      *
      * @return void
-     * @since  1.4.0
+     * @since  version 1.4.0 (2007-12-13)
      * @access public
      */
     function __set($option, $val)
@@ -352,12 +360,15 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Gets options for the class.
+     * Get option for the class
+     *
+     * Return current value of an individual option. If option does not exist,
+     * returns value is NULL.
      *
      * @param string $option Name of option to set
      *
      * @return mixed
-     * @since  1.4.0
+     * @since  version 1.4.0 (2007-12-13)
      * @access public
      */
     function __get($option)
@@ -371,11 +382,29 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
+     * Return all options for the class
+     *
+     * Return all configuration options at once
+     *
+     * @param string $option Name of option to set
+     *
+     * @return array
+     * @since  version 1.5.0 (2008-01-15)
+     * @access public
+     */
+    function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set tab value
+     *
      * Sets the string used to indent HTML
      *
      * @param string $string String used to indent ("\11", "\t", '  ', etc.).
      *
-     * @since     1.4.0
+     * @since     version 1.4.0 (2007-12-13)
      * @access    public
      * @return    void
      */
@@ -386,11 +415,13 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Sets the line end style to Windows, Mac, Unix or a custom string.
+     * Set lineend value
+     *
+     * Set the line end style to Windows, Mac, Unix or a custom string
      *
      * @param string $style "win", "mac", "unix" or custom string.
      *
-     * @since   1.4.0
+     * @since   version 1.4.0 (2007-12-13)
      * @access  public
      * @return  void
      */
@@ -401,12 +432,14 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Determines whether definitions are output single line or multiline
+     * Set oneline flag
      *
-     * @param bool $value flag to true if single line, false for multiline
+     * Determine whether definitions are output on a single line or multi lines
+     *
+     * @param bool $value flag to true if single line, false for multi lines
      *
      * @return     void|PEAR_Error
-     * @since      0.3.3
+     * @since      version 0.3.3 (2004-05-20)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      */
@@ -423,13 +456,15 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Determines whether groups are output before elements or not
+     * Set groupsfirst flag
+     *
+     * Determine whether groups are output before elements or not
      *
      * @param bool $value flag to true if groups are output before elements,
      *                    false otherwise
      *
      * @return     void|PEAR_Error
-     * @since      0.3.3
+     * @since      version 0.3.3 (2004-05-20)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      */
@@ -446,7 +481,7 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Parses a string containing selector(s).
+     * Parse a string containing selector(s)
      *
      * It processes it and returns an array or string containing
      * modified selectors (depends on XHTML compliance setting;
@@ -456,7 +491,7 @@ class HTML_CSS extends HTML_Common
      * @param int    $outputMode (optional) 0 = string; 1 = array; 2 = deep array
      *
      * @return     mixed|PEAR_Error
-     * @since      0.3.2
+     * @since      version 0.3.2 (2004-03-24)
      * @access     protected
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      */
@@ -559,7 +594,7 @@ class HTML_CSS extends HTML_Common
      * @param string $subject string to format
      *
      * @return     string
-     * @since      0.3.2
+     * @since      version 0.3.2 (2004-03-24)
      * @access     protected
      */
     function collapseInternalSpaces($subject)
@@ -569,13 +604,15 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Sets XHTML compliance
+     * Set xhtml flag
+     *
+     * Active or not the XHTML mode compliant
      *
      * @param bool $value flag to true if XHTML compliance needed,
      *                    false otherwise
      *
      * @return     void|PEAR_Error
-     * @since      0.3.2
+     * @since      version 0.3.2 (2004-03-24)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      */
@@ -592,16 +629,16 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Creates a new CSS definition group.
+     * Create a new CSS definition group
      *
-     * Returns an integer identifying the group.
+     * Create a new CSS definition group. Return an integer identifying the group.
      *
      * @param string $selectors Selector(s) to be defined, comma delimited.
      * @param mixed  $group     (optional) Group identifier. If not passed,
      *                          will return an automatically assigned integer.
      *
      * @return     mixed|PEAR_Error
-     * @since      0.3.0
+     * @since      version 0.3.0 (2003-11-03)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_INVALID_GROUP
      * @see        unsetGroup()
@@ -639,12 +676,14 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Sets or adds a CSS definition for a CSS definition group
+     * Remove a CSS definition group
+     *
+     * Remove a CSS definition group. Use the same identifier as for group creation.
      *
      * @param mixed $group CSS definition group identifier
      *
      * @return     void|PEAR_Error
-     * @since      0.3.0
+     * @since      version 0.3.0 (2003-11-03)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_GROUP
      * @see        createGroup()
@@ -682,7 +721,10 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Sets or adds a CSS definition for a CSS definition group
+     * Set or add a CSS definition for a CSS group
+     *
+     * Define the new value of a property for a CSS group. The group should exist.
+     * If not, use HTML_CSS::createGroup first
      *
      * @param mixed  $group      CSS definition group identifier
      * @param string $property   Property defined
@@ -691,7 +733,7 @@ class HTML_CSS extends HTML_Common
      *
      * @return     void|int|PEAR_Error     Returns an integer if duplicates
      *                                     are allowed.
-     * @since      0.3.0
+     * @since      version 0.3.0 (2003-11-03)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_GROUP
      * @see        getGroupStyle()
@@ -748,13 +790,15 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Returns a CSS definition for a CSS definition group
+     * Return CSS definition for a CSS group
+     *
+     * Get the CSS definition for group created by setGroupStyle()
      *
      * @param mixed  $group    CSS definition group identifier
      * @param string $property Property defined
      *
      * @return     mixed|PEAR_Error
-     * @since      0.3.0
+     * @since      version 0.3.0 (2003-11-03)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_GROUP,
      *             HTML_CSS_ERROR_NO_ELEMENT
@@ -804,13 +848,15 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Adds a selector to a CSS definition group.
+     * Add a selector to a CSS definition group.
+     *
+     * Add a selector to a CSS definition group
      *
      * @param mixed  $group     CSS definition group identifier
      * @param string $selectors Selector(s) to be defined, comma delimited.
      *
      * @return   void|PEAR_Error
-     * @since    0.3.0
+     * @since    version 0.3.0 (2003-11-03)
      * @access   public
      * @throws   HTML_CSS_ERROR_NO_GROUP, HTML_CSS_ERROR_INVALID_INPUT
      */
@@ -840,13 +886,15 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Removes a selector from a group.
+     * Remove a selector from a group
+     *
+     * Definitively remove a selector from a CSS group
      *
      * @param mixed  $group     CSS definition group identifier
      * @param string $selectors Selector(s) to be removed, comma delimited.
      *
      * @return   void|PEAR_Error
-     * @since    0.3.0
+     * @since    version 0.3.0 (2003-11-03)
      * @access   public
      * @throws   HTML_CSS_ERROR_NO_GROUP, HTML_CSS_ERROR_INVALID_INPUT
      */
@@ -883,7 +931,9 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Sets or adds a CSS definition
+     * Set or add a CSS definition
+     *
+     * Add or change a single value for an element property
      *
      * @param string $element    Element (or class) to be defined
      * @param string $property   Property defined
@@ -891,7 +941,7 @@ class HTML_CSS extends HTML_Common
      * @param bool   $duplicates (optional) Allow or disallow duplicates.
      *
      * @return     void|PEAR_Error
-     * @since      0.2.0
+     * @since      version 0.2.0 (2003-07-31)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      * @see        getStyle()
@@ -951,13 +1001,15 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Retrieves the value of a CSS property
+     * Return the value of a CSS property
+     *
+     * Get the value of a property to an identifed simple CSS element
      *
      * @param string $element  Element (or class) to be defined
      * @param string $property Property defined
      *
      * @return     mixed|PEAR_Error
-     * @since      0.3.0
+     * @since      version 0.3.0 (2003-11-03)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT,
      *             HTML_CSS_ERROR_NO_ELEMENT, HTML_CSS_ERROR_NO_ELEMENT_PROPERTY
@@ -1020,13 +1072,15 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
+     * Retrieve styles corresponding to an element filter
+     *
      * Return array entries of styles that match patterns (Perl compatible)
      *
      * @param string $elmPattern Element or class pattern to retrieve
      * @param string $proPattern (optional) Property pattern to retrieve
      *
      * @return     array|PEAR_Error
-     * @since      1.1.0
+     * @since      version 1.1.0 (2007-01-01)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      * @link       http://www.php.net/en/ref.pcre.php
@@ -1098,7 +1152,9 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Sets or changes the properties of new selectors
+     * Apply same styles on two selectors
+     *
+     * Set or change the properties of new selectors
      * to the values of an existing selector
      *
      * @param string $new New selector(s) that should share the same
@@ -1106,7 +1162,7 @@ class HTML_CSS extends HTML_Common
      * @param string $old Selector that is already defined
      *
      * @return     void|PEAR_Error
-     * @since      0.2.0
+     * @since      version 0.2.0 (2003-07-31)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_ELEMENT
      */
@@ -1152,12 +1208,14 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Defines if the document should be cached by the browser. Defaults to false.
+     * Set cache flag
+     *
+     * Define if the document should be cached by the browser. Default to false.
      *
      * @param bool $cache (optional) flag to true to cache result, false otherwise
      *
      * @return     void|PEAR_Error
-     * @since      0.2.0
+     * @since      version 0.2.0 (2003-07-31)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      */
@@ -1177,7 +1235,7 @@ class HTML_CSS extends HTML_Common
      * Returns the cache option value
      *
      * @return     boolean
-     * @since      1.4.0
+     * @since      version 1.4.0 (2007-12-13)
      * @access     public
      * @see        setCache()
      */
@@ -1187,14 +1245,17 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Defines the Content-Disposition filename for the browser output.
-     * Defaults to basename($_SERVER['PHP_SELF']).'.css'
+     * Set Content-Disposition header
+     *
+     * Define the Content-Disposition header to supply a recommended filename
+     * and force the browser to display the save dialog.
+     * Default to basename($_SERVER['PHP_SELF']).'.css'
      *
      * @param bool   $enable   (optional)
      * @param string $filename (optional)
      *
      * @return     void|PEAR_Error
-     * @since      1.3.0
+     * @since      version 1.3.0 (2007-10-22)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      * @see        getContentDisposition()
@@ -1227,11 +1288,14 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Returns the Content-Disposition header ability (inline filename)
+     * Return the Content-Disposition header
+     *
+     * Get value of Content-Disposition header (inline filename) used
+     * to display results
      *
      * @return     mixed     boolean FALSE if no content disposition, otherwise
      *                       string for inline filename
-     * @since      1.3.0
+     * @since      version 1.3.0 (2007-10-22)
      * @access     public
      * @see        setContentDisposition()
      * @link       http://pear.php.net/bugs/bug.php?id=12195
@@ -1243,13 +1307,15 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Defines the charset for the file. defaults to ISO-8859-1 because of CSS1
+     * Set charset value
+     *
+     * Define the charset for the file. Default to ISO-8859-1 because of CSS1
      * compatability issue for older browsers.
      *
      * @param string $type (optional) Charset encoding; defaults to ISO-8859-1.
      *
      * @return     void|PEAR_Error
-     * @since      0.2.0
+     * @since      version 0.2.0 (2003-07-31)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      * @see        getCharset()
@@ -1267,10 +1333,12 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Returns the charset encoding string
+     * Return the charset encoding string
+     *
+     * By default, HTML_CSS uses iso-8859-1 encoding.
      *
      * @return     string
-     * @since      0.2.0
+     * @since      version 0.2.0 (2003-07-31)
      * @access     public
      * @see        setCharset()
      */
@@ -1280,14 +1348,16 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Parse a textstring that contains css information
+     * Parse a string
+     *
+     * Parse a string that contains CSS information
      *
      * @param string $str        text string to parse
      * @param bool   $duplicates (optional) Allows or disallows
      *                           duplicate style definitions
      *
      * @return     void|PEAR_Error
-     * @since      0.3.0
+     * @since      version 0.3.0 (2003-11-03)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      * @see        createGroup(), setGroupStyle(), setStyle()
@@ -1403,13 +1473,15 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
+     * Parse file content
+     *
      * Parse a file that contains CSS information
      *
      * @param string $filename   file to parse
      * @param bool   $duplicates (optional) Allow or disallow duplicates.
      *
      * @return     void|PEAR_Error
-     * @since      0.3.0
+     * @since      version 0.3.0 (2003-11-03)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_FILE
      * @see        parseString()
@@ -1444,13 +1516,15 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
+     * Parse multiple data sources
+     *
      * Parse data sources, file(s) or string(s), that contains CSS information
      *
      * @param array $styles     data sources to parse
      * @param bool  $duplicates (optional) Allow or disallow duplicates.
      *
      * @return     void|PEAR_Error
-     * @since      1.0.0RC2
+     * @since      version 1.0.0RC2 (2005-12-15)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      * @see        parseString(), parseFile()
@@ -1489,10 +1563,12 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Returns the array of CSS properties
+     * Return the CSS contents in an array
+     *
+     * Return the full contents of CSS data sources (parsed) in an array
      *
      * @return     array
-     * @since      0.2.0
+     * @since      version 0.2.0 (2003-07-31)
      * @access     public
      */
     function toArray()
@@ -1508,14 +1584,16 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Generates and returns the CSS properties of an element or class
+     * Return a string-properties for style attribute of an HTML element
+     *
+     * Generate and return the CSS properties of an element or class
      * as a string for inline use.
      *
      * @param string $element Element or class
      *                        for which inline CSS should be generated
      *
      * @return     string|PEAR_Error
-     * @since      0.2.0
+     * @since      version 0.2.0 (2003-07-31)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT
      */
@@ -1567,12 +1645,14 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Generates CSS and stores it in a file.
+     * Generate CSS and stores it in a file
+     *
+     * Generate current parsed CSS data sources and write result in a user file
      *
      * @param string $filename Name of file that content the stylesheet
      *
      * @return     void|PEAR_Error
-     * @since      0.3.0
+     * @since      version 0.3.0 (2003-11-03)
      * @access     public
      * @throws     HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_WRITE_FILE
      * @see        toString()
@@ -1601,10 +1681,12 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Generates and returns the complete CSS as a string.
+     * Return current CSS parsed data as a string
+     *
+     * Generate current parsed CSS data sources and return result as a string
      *
      * @return     string
-     * @since      0.2.0
+     * @since      version 0.2.0 (2003-07-31)
      * @access     public
      */
     function toString()
@@ -1688,10 +1770,13 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
-     * Outputs the stylesheet to the browser.
+     * Output CSS Code.
+     *
+     * Send the stylesheet content to standard output, handling cacheControl
+     * and contentDisposition headers
      *
      * @return     void
-     * @since      0.2.0
+     * @since      version 0.2.0 (2003-07-31)
      * @access     public
      * @see        toString()
      */
@@ -1723,7 +1808,7 @@ class HTML_CSS extends HTML_Common
      * @param array $prefs (optional) hash of params to customize error generation
      *
      * @return     void
-     * @since      0.3.3
+     * @since      version 0.3.3 (2004-05-20)
      * @access     private
      */
     function _initErrorStack($prefs = array())
@@ -1786,7 +1871,7 @@ class HTML_CSS extends HTML_Common
      * @param array   $params Associative array of error parameters
      *
      * @return     PEAR_Error
-     * @since      1.0.0
+     * @since      version 1.0.0 (2006-06-24)
      * @access     private
      */
     function _errorHandler($code, $level, $params)
@@ -1817,8 +1902,11 @@ class HTML_CSS extends HTML_Common
     /**
      * A basic wrapper around the default PEAR_Error object
      *
+     * This method is a wrapper that returns an instance of the configured
+     * error class with this object's default error handling applied.
+     *
      * @return     object    PEAR_Error when default error handler is used
-     * @since      0.3.3
+     * @since      version 0.3.3 (2004-05-20)
      * @access     public
      * @see        _errorHandler()
      */
@@ -1833,8 +1921,10 @@ class HTML_CSS extends HTML_Common
     /**
      * Determine whether there is an error
      *
+     * Determine whether last action raised an error or not
+     *
      * @return     boolean               TRUE if error raised, FALSE otherwise
-     * @since      1.0.0RC2
+     * @since      version 1.0.0RC2 (2005-12-15)
      * @access     public
      */
     function isError()
