@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2005-2007, Laurent Laville <pear@laurent-laville.org>
+ * Copyright (c) 2005-2008, Laurent Laville <pear@laurent-laville.org>
  *
  * All rights reserved.
  *
@@ -34,8 +34,8 @@
  * @category  HTML
  * @package   HTML_CSS
  * @author    Laurent Laville <pear@laurent-laville.org>
- * @copyright 2005-2007 Laurent Laville
- * @license   http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @copyright 2005-2008 Laurent Laville
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/HTML_CSS
  * @since     File available since Release 1.0.0RC1
@@ -49,8 +49,8 @@ require_once 'PEAR.php';
  * @category  HTML
  * @package   HTML_CSS
  * @author    Laurent Laville <pear@laurent-laville.org>
- * @copyright 2005-2007 Laurent Laville
- * @license   http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @copyright 2005-2008 Laurent Laville
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/HTML_CSS
  * @since     Class available since Release 1.0.0RC1
@@ -71,7 +71,7 @@ class HTML_CSS_Error extends PEAR_Error
      *                         or object/method tuple.
      * @param string $userinfo (optional) additional user/debug info
      *
-     * @since      1.0.0
+     * @since      version 1.0.0 (2006-06-24)
      * @access     public
      */
     function HTML_CSS_Error($message = null,
@@ -95,7 +95,7 @@ class HTML_CSS_Error extends PEAR_Error
      *                         or object/method tuple.
      * @param string $userinfo (optional) additional user/debug info
      *
-     * @since      1.0.0
+     * @since      version 1.0.0 (2006-06-24)
      * @access     public
      */
     function __construct($message = null,
@@ -155,7 +155,7 @@ class HTML_CSS_Error extends PEAR_Error
      * Get error level from an error object
      *
      * @return     int                      error level
-     * @since      1.0.0
+     * @since      version 1.0.0 (2006-06-24)
      * @access     public
      */
     function getLevel()
@@ -167,7 +167,7 @@ class HTML_CSS_Error extends PEAR_Error
      * Default callback function/method from an error object
      *
      * @return     void
-     * @since      1.0.0
+     * @since      version 1.0.0 (2006-06-24)
      * @access     public
      */
     function log()
@@ -192,7 +192,7 @@ class HTML_CSS_Error extends PEAR_Error
      * @param string $format the context of execution format
      *
      * @return     string
-     * @since      1.0.0
+     * @since      version 1.0.0 (2006-06-24)
      * @access     public
      */
     function sprintContextExec($format)
@@ -230,7 +230,7 @@ class HTML_CSS_Error extends PEAR_Error
      * @param array $userinfo hash of parameters
      *
      * @return     void
-     * @since      1.0.0
+     * @since      version 1.0.0 (2006-06-24)
      * @access     private
      */
     function _display($userinfo)
@@ -256,7 +256,7 @@ class HTML_CSS_Error extends PEAR_Error
      * @param array $userinfo hash of parameters
      *
      * @return     void
-     * @since      1.0.0
+     * @since      version 1.0.0 (2006-06-24)
      * @access     private
      */
     function _log($userinfo)
@@ -322,7 +322,7 @@ class HTML_CSS_Error extends PEAR_Error
      * @param string $level error level ('exception', 'error', 'warning', ...)
      *
      * @return     mixed
-     * @since      0.3.3
+     * @since      version 0.3.3 (2004-05-20)
      * @access     private
      */
     function _handleError($code, $level)
@@ -343,7 +343,7 @@ class HTML_CSS_Error extends PEAR_Error
      *                        for dynamic messages
      *
      * @return     string
-     * @since      1.0.0
+     * @since      version 1.0.0 (2006-06-24)
      * @access     private
      */
     function _msgCallback($code, $userinfo)
@@ -380,7 +380,7 @@ class HTML_CSS_Error extends PEAR_Error
      * Error Message Template array
      *
      * @return     string
-     * @since      1.0.0
+     * @since      version 1.0.0 (2006-06-24)
      * @access     private
      */
     function _getErrorMessage()
