@@ -59,6 +59,8 @@ define('HTML_CSS_ERROR_NO_ELEMENT', -103);
 define('HTML_CSS_ERROR_NO_ELEMENT_PROPERTY', -104);
 define('HTML_CSS_ERROR_NO_FILE', -105);
 define('HTML_CSS_ERROR_WRITE_FILE', -106);
+define('HTML_CSS_ERROR_INVALID_SOURCE', -107);
+define('HTML_CSS_ERROR_INVALID_DEPS', -108);
 /**#@-*/
 
 /**
@@ -1568,6 +1570,79 @@ class HTML_CSS extends HTML_Common
                 return $res;
             }
         }
+    }
+
+    /**
+     * Validate a CSS data source
+     *
+     * Execute the W3C CSS validator service on each data source (filename
+     * or string) given by parameter $styles.
+     *
+     * @param array $styles Data sources to check validity
+     *
+     * @return     boolean|PEAR_Error
+     * @since      version 1.5.0 (2008-01-15)
+     * @access     public
+     * @throws     HTML_CSS_ERROR_INVALID_INPUT,
+     *             HTML_CSS_ERROR_INVALID_DEPS, HTML_CSS_ERROR_INVALID_SOURCE
+     */
+    function validate($styles)
+    {
+        $php = phpversion();
+        if (version_compare($php, '5.0.0', '<')) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_DEPS, 'exception',
+                array('funcname' => __FUNCTION__,
+                      'dependency' => 'PHP 5',
+                      'currentdep' => "PHP $php"));
+        }
+        @include_once 'Services/W3C/CSSValidator.php';
+        if (class_exists('Services_W3C_CSSValidator', false) === false) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_DEPS, 'exception',
+                array('funcname' => __FUNCTION__,
+                      'dependency' => 'PEAR::Services_W3C_CSSValidator',
+                      'currentdep' => 'nothing'));
+        }
+        if (!is_array($styles)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$styles',
+                      'was' => gettype($styles),
+                      'expected' => 'array',
+                      'paramnum' => 1));
+        }
+
+        // prepare to call the W3C CSS validator service
+        $v        = new Services_W3C_CSSValidator();
+        $validity = true;
+
+        foreach ($styles as $i => $source) {
+            if (!is_string($source)) {
+                return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                    array('var' => '$styles[' . $i . ']',
+                          'was' => gettype($styles[$i]),
+                          'expected' => 'string',
+                          'paramnum' => 1));
+            }
+            if (strcasecmp(substr($source, -4, 4), '.css') == 0) {
+                // validate a file as CSS content
+                $r = $v->validateFile($source);
+            } else {
+                // validate a string as CSS content
+                $r = $v->validateFragment($source);
+            }
+            if ($r === false) {
+                $validity = false;
+                break;
+            }
+            if ($r->isValid() === false) {
+                $validity = false;
+                $this->raiseError(HTML_CSS_ERROR_INVALID_SOURCE,
+                    ((count($r->errors) == 0) ? 'warning' : 'error'),
+                    array('sourcenum' => $i,
+                          'errcount' => count($r->errors),
+                          'warncount' => count($r->warnings)));
+            }
+        }
+        return $validity;
     }
 
     /**
