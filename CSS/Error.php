@@ -403,7 +403,15 @@ class HTML_CSS_Error extends PEAR_Error
             HTML_CSS_ERROR_NO_FILE =>
                 'filename "%identifier%" does not exist ',
             HTML_CSS_ERROR_WRITE_FILE =>
-                'failed to write to "%filename%"'
+                'failed to write to "%filename%"',
+            HTML_CSS_ERROR_INVALID_DEPS =>
+                'invalid dependencies, %funcname% function '
+              . 'require %dependency% '
+              . 'but found %currentdep%',
+            HTML_CSS_ERROR_INVALID_SOURCE =>
+                'invalid input, source #%sourcenum% : '
+              . '%errcount% error(s), '
+              . '%warncount% warning(s)'
         );
         return $messages;
     }
