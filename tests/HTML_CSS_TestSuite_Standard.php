@@ -564,7 +564,7 @@ p { margin-left: 3em; }
     }
 
     /**
-     * Tests data source checking validity with W3C validator service
+     * Tests data source checking validity with W3C CSS validator service
      *
      * @return void
      */
