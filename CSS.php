@@ -304,6 +304,9 @@ class HTML_CSS extends HTML_Common
     {
         $this->_initErrorStack($errorPrefs);
 
+        if (!is_array($attributes)) {
+            $attributes = array($attributes);
+        }
         if ($attributes) {
             $attributes = $this->_parseAttributes($attributes);
         }
@@ -1548,7 +1551,14 @@ class HTML_CSS extends HTML_Common
             $duplicates = $this->__get('allowduplicates');
         }
 
-        foreach ($styles as $style) {
+        foreach ($styles as $i => $style) {
+            if (!is_string($style)) {
+                return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                    array('var' => '$styles[' . $i . ']',
+                          'was' => gettype($styles[$i]),
+                          'expected' => 'string',
+                          'paramnum' => 1));
+            }
             if (strcasecmp(substr($style, -4, 4), '.css') == 0) {
                 $res = $this->parseFile($style, $duplicates);
             } else {
