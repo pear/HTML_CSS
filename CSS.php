@@ -386,8 +386,6 @@ class HTML_CSS extends HTML_Common
      *
      * Return all configuration options at once
      *
-     * @param string $option Name of option to set
-     *
      * @return array
      * @since  version 1.5.0 (2008-01-15)
      * @access public
