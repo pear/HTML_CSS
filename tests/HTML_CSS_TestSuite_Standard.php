@@ -564,6 +564,28 @@ p { margin-left: 3em; }
     }
 
     /**
+     * Tests data source checking validity with W3C validator service
+     *
+     * @return void
+     */
+    public function testValidate()
+    {
+        $strcss   = '
+body, p { background-color: white; font: 1.2em Arial; }
+p, div#black { color: black; }
+div{ color: green; }
+p { margin-left: 3em; }
+';
+        $fn       = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'stylesheet.css';
+        $css_data = array($fn, $strcss);
+
+        $e   = $this->css->validate($css_data);
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+        $this->assertTrue($e, 'CSS data source is invalid');
+    }
+
+    /**
      * Tests parsing data source with allow duplicates option activated.
      *
      * Internet Explorer <= 6 does not handle box model in same way as others
