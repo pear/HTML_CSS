@@ -1578,7 +1578,9 @@ class HTML_CSS extends HTML_Common
      * Execute the W3C CSS validator service on each data source (filename
      * or string) given by parameter $styles.
      *
-     * @param array $styles Data sources to check validity
+     * @param array $styles    Data sources to check validity
+     * @param array &$messages Error and Warning messages
+     *                         issue from W3C CSS validator service
      *
      * @return     boolean|PEAR_Error
      * @since      version 1.5.0 (2008-01-15)
@@ -1586,7 +1588,7 @@ class HTML_CSS extends HTML_Common
      * @throws     HTML_CSS_ERROR_INVALID_INPUT,
      *             HTML_CSS_ERROR_INVALID_DEPS, HTML_CSS_ERROR_INVALID_SOURCE
      */
-    function validate($styles)
+    function validate($styles, &$messages)
     {
         $php = phpversion();
         if (version_compare($php, '5.0.0', '<')) {
@@ -1608,11 +1610,19 @@ class HTML_CSS extends HTML_Common
                       'was' => gettype($styles),
                       'expected' => 'array',
                       'paramnum' => 1));
+
+        } elseif (!is_array($messages)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$messages',
+                      'was' => gettype($messages),
+                      'expected' => 'array',
+                      'paramnum' => 2));
         }
 
         // prepare to call the W3C CSS validator service
         $v        = new Services_W3C_CSSValidator();
         $validity = true;
+        $messages = array('errors' => array(), 'warnings' => array());
 
         foreach ($styles as $i => $source) {
             if (!is_string($source)) {
@@ -1631,10 +1641,17 @@ class HTML_CSS extends HTML_Common
             }
             if ($r === false) {
                 $validity = false;
-                break;
             }
             if ($r->isValid() === false) {
                 $validity = false;
+                foreach ($r->errors as $error) {
+                    $properties           = get_object_vars($error);
+                    $messages['errors'][] = $properties;
+                }
+                foreach ($r->warnings as $warning) {
+                    $properties             = get_object_vars($warning);
+                    $messages['warnings'][] = $properties;
+                }
                 $this->raiseError(HTML_CSS_ERROR_INVALID_SOURCE,
                     ((count($r->errors) == 0) ? 'warning' : 'error'),
                     array('sourcenum' => $i,
