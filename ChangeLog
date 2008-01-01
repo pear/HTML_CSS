@@ -1,5 +1,13 @@
 $Id$
 
+2008-01-15 Laurent Laville <pear@laurent-laville.org>
+
+  * VERSION: Final version (stable) 1.5.0 released.
+  - implement request#12194 : support of At-Rules
+  - add new function getOptions() to retrieve easily all configuration options at once
+  - add new function validate() to check data source with the W3C CSS validator service
+    see file examples/CSS_validate.php
+
 2007-12-14 Laurent Laville <pear@laurent-laville.org>
 
   * VERSION: Final version (stable) 1.4.0 released.
