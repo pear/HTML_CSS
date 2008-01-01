@@ -578,8 +578,9 @@ p { margin-left: 3em; }
 ';
         $fn       = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'stylesheet.css';
         $css_data = array($fn, $strcss);
+        $messages = array();
 
-        $e   = $this->css->validate($css_data);
+        $e   = $this->css->validate($css_data, $messages);
         $msg = PEAR::isError($e) ? $e->getMessage() : null;
         $this->assertFalse(PEAR::isError($e), $msg);
         $this->assertTrue($e, 'CSS data source is invalid');
