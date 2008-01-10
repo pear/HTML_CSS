@@ -61,6 +61,7 @@ define('HTML_CSS_ERROR_NO_FILE', -105);
 define('HTML_CSS_ERROR_WRITE_FILE', -106);
 define('HTML_CSS_ERROR_INVALID_SOURCE', -107);
 define('HTML_CSS_ERROR_INVALID_DEPS', -108);
+define('HTML_CSS_ERROR_NO_ATRULE', -109);
 /**#@-*/
 
 /**
@@ -607,6 +608,39 @@ class HTML_CSS extends HTML_Common
     }
 
     /**
+     * sort and move simple declarative At-Rules to the top
+     *
+     * @return     void
+     * @access     protected
+     * @since      version 1.5.0 (2008-01-15)
+     */
+    function sortAtRules()
+    {
+        // split simple declarative At-Rules from the other
+        $return   = array('atrules' => array(), 'newcss'  => array());
+        $function = '
+            if ((0 === strpos($key, "@")) && (1 !== strpos($key, "-"))) {
+                $return["atrules"][$key] = $value;
+            } else {
+                $return["newcss"][$key] = $value;
+            }
+        ';
+        array_walk($this->_css,
+            create_function('$value, $key, &$return', $function), &$return);
+
+        // bring sprecial rules to the top
+        foreach (array('@namespace', '@import', '@charset') as $name) {
+            if (isset($return['atrules'][$name])) {
+                $rule = array($name => $return['atrules'][$name]);
+                unset($return['atrules'][$name]);
+                $return['atrules'] = $rule + $return['atrules'];
+            }
+        }
+
+        $this->_css = $return['atrules'] + $return['newcss'];
+    }
+
+    /**
      * Set xhtml flag
      *
      * Active or not the XHTML mode compliant
@@ -629,6 +663,276 @@ class HTML_CSS extends HTML_Common
                       'paramnum' => 1));
         }
         $this->options['xhtml'] = $value;
+    }
+
+    /**
+     * Return list of supported At-Rules
+     *
+     * Return the list of At-Rules supported by API 1.5.0 of HTML_CSS
+     *
+     * @return void
+     * @since  version 1.5.0 (2008-01-15)
+     * @access public
+     */
+    function getAtRulesList()
+    {
+        $atRules = array('@charset', '@font-face',
+                         '@import', '@media', '@page', '@namespace');
+        return $atRules;
+    }
+
+    /**
+     * Create a new simple declarative At-Rule
+     *
+     * Create a simple at-rule without declaration style blocks.
+     * That include @charset, @import and @namespace
+     *
+     * @param string $atKeyword at-rule keyword
+     * @param string $arguments argument list for @charset, @import or @namespace
+     *
+     * @return void|PEAR_Error
+     * @since  version 1.5.0 (2008-01-15)
+     * @access public
+     * @throws HTML_CSS_ERROR_INVALID_INPUT
+     */
+    function createAtRule($atKeyword, $arguments = '')
+    {
+        $allowed_atrules = array('@charset', '@import', '@namespace');
+
+        if (!is_string($atKeyword)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$atKeyword',
+                      'was' => gettype($atKeyword),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+
+        } elseif (!in_array(strtolower($atKeyword), $allowed_atrules)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                array('var' => '$atKeyword',
+                      'was' => $atKeyword,
+                      'expected' => implode('|', $allowed_atrules),
+                      'paramnum' => 1));
+
+        } elseif (!is_string($arguments)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$arguments',
+                      'was' => gettype($arguments),
+                      'expected' => 'string',
+                      'paramnum' => 2));
+        }
+
+        if (empty($arguments)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                array('var' => '$arguments',
+                      'was' => $arguments,
+                      'expected' => 'not empty value',
+                      'paramnum' => 2));
+        } else {
+            $this->_css[strtolower($atKeyword)] = array($arguments => '');
+        }
+    }
+
+    /**
+     * Remove an existing At-Rule
+     *
+     * Remove an existing and supported at-rule. See HTML_CSS::getAtRulesList()
+     * for a full list of supported At-Rules.
+     *
+     * @param string $atKeyword at-rule keyword
+     *
+     * @return void|PEAR_Error
+     * @since  version 1.5.0 (2008-01-15)
+     * @access public
+     * @throws HTML_CSS_ERROR_INVALID_INPUT, HTML_CSS_ERROR_NO_ATRULE
+     */
+    function unsetAtRule($atKeyword)
+    {
+        $allowed_atrules = $this->getAtRulesList();
+
+        if (!is_string($atKeyword)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$atKeyword',
+                      'was' => gettype($atKeyword),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+
+        } elseif (!in_array(strtolower($atKeyword), $allowed_atrules)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                array('var' => '$atKeyword',
+                      'was' => $atKeyword,
+                      'expected' => implode('|', $allowed_atrules),
+                      'paramnum' => 1));
+
+        } elseif (!isset($this->_css[strtolower($atKeyword)])) {
+            return $this->raiseError(HTML_CSS_ERROR_NO_ATRULE, 'error',
+                array('identifier' => $atKeyword));
+        }
+
+        unset($this->_css[strtolower($atKeyword)]);
+    }
+
+    /**
+     * Define a conditional/informative At-Rule
+     *
+     * Set arguments and declaration style block for at-rules that follow :
+     * "@media, @page, @font-face"
+     *
+     * @param string $atKeyword  at-rule keyword
+     * @param string $arguments  argument list
+     *                           (optional for @font-face)
+     * @param string $selectors  selectors of declaration style block
+     *                           (optional for @media, @page, @font-face)
+     * @param string $property   property of a single declaration style block
+     * @param string $value      value of a single declaration style block
+     * @param bool   $duplicates (optional) Allow or disallow duplicates
+     *
+     * @return void|PEAR_Error
+     * @since  version 1.5.0 (2008-01-15)
+     * @access public
+     * @throws HTML_CSS_ERROR_INVALID_INPUT
+     */
+    function setAtRuleStyle($atKeyword, $arguments, $selectors, $property, $value,
+        $duplicates = null)
+    {
+        $allowed_atrules = array('@media', '@page', '@font-face');
+
+        if (!is_string($atKeyword)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$atKeyword',
+                      'was' => gettype($atKeyword),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+
+        } elseif (!in_array(strtolower($atKeyword), $allowed_atrules)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                array('var' => '$atKeyword',
+                      'was' => $atKeyword,
+                      'expected' => implode('|', $allowed_atrules),
+                      'paramnum' => 1));
+
+        } elseif (empty($arguments) && strtolower($atKeyword) != '@font-face') {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                array('var' => '$arguments',
+                      'was' => $arguments,
+                      'expected' => 'not empty value for '. $atKeyword,
+                      'paramnum' => 2));
+
+        } elseif (!is_string($selectors)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$selectors',
+                      'was' => gettype($selectors),
+                      'expected' => 'string',
+                      'paramnum' => 3));
+
+        } elseif (!is_string($property)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$property',
+                      'was' => gettype($property),
+                      'expected' => 'string',
+                      'paramnum' => 4));
+
+        } elseif (!is_string($value)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$value',
+                      'was' => gettype($value),
+                      'expected' => 'string',
+                      'paramnum' => 5));
+
+        } elseif (empty($property)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                array('var' => '$property',
+                      'was' => $property,
+                      'expected' => 'no empty string',
+                      'paramnum' => 4));
+
+        } elseif (empty($value)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                array('var' => '$value',
+                      'was' => gettype($value),
+                      'expected' => 'no empty string',
+                      'paramnum' => 5));
+        }
+
+        if (!isset($duplicates)) {
+            $duplicates = $this->__get('allowduplicates');
+        }
+
+        $atKeyword = strtolower($atKeyword);
+
+        if ($selectors == '') {
+            $this->_css[$atKeyword][$arguments][$selectors][$property] = $value;
+        } else {
+            $selectors = $this->parseSelectors($selectors, 1);
+            foreach ($selectors as $selector) {
+                $this->_css[$atKeyword][$arguments][$selector][$property] = $value;
+            }
+        }
+    }
+
+    /**
+     * Get style value of an existing At-Rule
+     *
+     * Retrieve arguments or style value of an existing At-Rule.
+     * See HTML_CSS::getAtRulesList() for a full list of supported At-Rules.
+     *
+     * @param string $atKeyword at-rule keyword
+     * @param string $arguments argument list
+     *                          (optional for @font-face)
+     * @param string $selectors selectors of declaration style block
+     *                          (optional for @media, @page, @font-face)
+     * @param string $property  property of a single declaration style block
+     *
+     * @return void|PEAR_Error
+     * @since  version 1.5.0 (2008-01-15)
+     * @access public
+     * @throws HTML_CSS_ERROR_INVALID_INPUT
+     */
+    function getAtRuleStyle($atKeyword, $arguments, $selectors, $property)
+    {
+        $allowed_atrules = $this->getAtRulesList();
+
+        if (!is_string($atKeyword)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$atKeyword',
+                      'was' => gettype($atKeyword),
+                      'expected' => 'string',
+                      'paramnum' => 1));
+
+        } elseif (!in_array(strtolower($atKeyword), $allowed_atrules)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                array('var' => '$atKeyword',
+                      'was' => $atKeyword,
+                      'expected' => implode('|', $allowed_atrules),
+                      'paramnum' => 1));
+
+        } elseif (!is_string($arguments)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$arguments',
+                      'was' => gettype($arguments),
+                      'expected' => 'string',
+                      'paramnum' => 2));
+
+        } elseif (!is_string($selectors)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$selectors',
+                      'was' => gettype($selectors),
+                      'expected' => 'string',
+                      'paramnum' => 3));
+
+        } elseif (!is_string($property)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$property',
+                      'was' => gettype($property),
+                      'expected' => 'string',
+                      'paramnum' => 4));
+        }
+
+        if (isset($this->_css[$atKeyword][$arguments][$selectors][$property])) {
+            $val = $this->_css[$atKeyword][$arguments][$selectors][$property];
+        } else {
+            $val = null;
+        }
+        return $val;
     }
 
     /**
@@ -1392,81 +1696,131 @@ class HTML_CSS extends HTML_Common
         // Protect parser vs IE hack
         $str = str_replace('"\"}\""', '#34#125#34', $str);
 
+        // Parse simple declarative At-Rules
+        $atRules = array();
+        if (preg_match_all('/^\s*(@[a-z\-]+)\s+(.+);\s*$/m', $str, $atRules,
+            PREG_SET_ORDER)) {
+            foreach ($atRules as $value) {
+                $this->createAtRule(trim($value[1]), trim($value[2]));
+            }
+            $str = preg_replace('/^\s*@[a-z\-]+\s+.+;\s*$/m', '', $str);
+        }
+
         // Parse each element of csscode
-        $parts = explode("}", $str);
-        foreach ($parts as $part) {
-            $part = trim($part);
-            if (strlen($part) > 0) {
+        $parse = preg_split('/\{(.*)\}/', $str, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-                // prevent invalide css data structure
-                $pos = strpos($part, '{');
-                if (strpos($part, '{', $pos+1) !== false) {
+        $elements   = array();
+        $properties = array();
 
-                    $context  = debug_backtrace();
-                    $context  = @array_pop($context);
-                    $function = strtolower($context['function']);
-                    if ($function === 'parsestring') {
-                        $var = 'str';
-                    } elseif ($function === 'parsefile') {
-                        $var = 'filename';
-                    } else {
-                        $var = 'styles';
-                    }
-
-                    return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
-                        array('var' => '$'.$var,
-                              'was' => 'invalid data source',
-                              'expected' => 'valid CSS structure',
-                              'paramnum' => 1));
-                }
-
-                // Parse each group of element in csscode
-                list($keystr, $codestr) = explode("{", $part);
-
-                $key_a  = $this->parseSelectors($keystr, 1);
-                $keystr = implode(', ', $key_a);
-                // Check if there are any groups.
-                if (strpos($keystr, ',')) {
-                    $group = $this->createGroup($keystr);
-
-                    // Parse each property of an element
-                    $codes = explode(";", trim($codestr));
-                    foreach ($codes as $code) {
-                        if (strlen(trim($code)) > 0) {
-                            // find the property and the value
-                            $property
-                                = trim(substr($code, 0, strpos($code, ':', 0)));
-                            $value
-                                = trim(substr($code, strpos($code, ':', 0) + 1));
-                            // IE hack only
-                            if (strcasecmp($property, 'voice-family') == 0) {
-                                $value
-                                    = str_replace('#34#125#34', '"\"}\""', $value);
-                            }
-                            $this->setGroupStyle($group, $property, $value,
-                                $duplicates);
-                        }
-                    }
+        foreach ($parse as $i => $part) {
+            if ($i%2 == 0) {
+                $part = ltrim($part, "\r\n}");
+                $pos  = strpos($part, '{');
+                if ($pos === false) {
+                    $elements[] = trim($part);
                 } else {
+                    // Remove eol
+                    $part = preg_replace("/\r?\n?/", '', $part);
 
-                    // let's get on with regular definitions
-                    $key = trim($keystr);
-                    if (strlen($key) > 0) {
-                        // Parse each property of an element
-                        $codes = explode(";", trim($codestr));
-                        foreach ($codes as $code) {
-                            if (strlen(trim($code)) > 0) {
-                                $property
-                                    = trim(substr($code, 0, strpos($code, ':')));
-                                $value
-                                    = substr($code, strpos($code, ':') + 1);
-                                // IE hack only
-                                if (strcasecmp($property, 'voice-family') == 0) {
-                                    $value = str_replace('#34#125#34', '"\"}\""',
-                                                 $value);
-                                }
-                                $this->setStyle($key, $property, trim($value),
-                                    $duplicates);
+                    if (strpos($part, '}', $pos+1) === false) {
+                        // complex declaration block style (nested)
+                        list($keystr, $codestr) = explode("{", $part);
+                        $elements[]             = trim($part);
+                    } else {
+                        // simple declaration block style
+                        $parse        = preg_split('/\{(.*)\}/', $part, -1,
+                                            PREG_SPLIT_DELIM_CAPTURE);
+                        $elements[]   = trim($parse[0]);
+                        $properties[] = trim($parse[1]);
+                    }
+                }
+            } else {
+                $properties[] = trim($part);
+            }
+        }
+
+        foreach ($elements as $i => $keystr) {
+            if (strpos($keystr, '{') === false) {
+                $nested_bloc = false;
+            } else {
+                $nested_bloc = true;
+
+                list($keystr, $nestedsel) = explode("{", $keystr);
+            }
+
+            $key_a   = $this->parseSelectors($keystr, 1);
+            $keystr  = implode(', ', $key_a);
+            $codestr = $properties[$i];
+            // Check if there are any groups; in standard selectors exclude at-rules
+            if (strpos($keystr, ',') && $keystr{0} !== '@') {
+                $group = $this->createGroup($keystr);
+
+                // Parse each property of an element
+                $codes = explode(";", trim($codestr));
+                foreach ($codes as $code) {
+                    if (strlen(trim($code)) > 0) {
+                        // find the property and the value
+                        $property
+                            = trim(substr($code, 0, strpos($code, ':', 0)));
+                        $value
+                            = trim(substr($code, strpos($code, ':', 0) + 1));
+                        // IE hack only
+                        if (strcasecmp($property, 'voice-family') == 0) {
+                            $value
+                                = str_replace('#34#125#34', '"\"}\""', $value);
+                        }
+                        $this->setGroupStyle($group, $property, $value,
+                            $duplicates);
+                    }
+                }
+            } else {
+                // let's get on with regular definitions
+                $key = trim($keystr);
+
+                // Parse each property of an element
+                $codes = explode(";", trim($codestr));
+                foreach ($codes as $code) {
+                    if (strlen(trim($code)) == 0) {
+                        continue;
+                    }
+
+                    $property
+                        = trim(substr($code, 0, strpos($code, ':')));
+                    $value
+                        = substr($code, strpos($code, ':') + 1);
+                    // IE hack only
+                    if (strcasecmp($property, 'voice-family') == 0) {
+                        $value = str_replace('#34#125#34', '"\"}\""',
+                                     $value);
+                    }
+
+                    list($atKeyword, $arguments) = explode(' ', $key);
+                    if ($nested_bloc) {
+                        $declarations = explode(';', $properties[$i]);
+                        foreach ($declarations as $decla) {
+                            if (strlen(trim($decla)) == 0) {
+                                continue;
+                            }
+                            $p = trim(substr($decla, 0, strpos($decla, ':')));
+                            $v = trim(substr($decla, strpos($decla, ':') + 1));
+
+                            $this->setAtRuleStyle($atKeyword, $arguments, $nestedsel,
+                                $p, $v, $duplicates);
+                        }
+                    } else {
+                        $declarations = explode(';', $properties[$i]);
+                        foreach ($declarations as $decla) {
+                            if (strlen(trim($decla)) == 0) {
+                                continue;
+                            }
+                            $p = trim(substr($decla, 0, strpos($decla, ':')));
+                            $v = trim(substr($decla, strpos($decla, ':') + 1));
+
+                            if ($keystr{0} == '@') {
+                                $this->setAtRuleStyle($atKeyword, $arguments, '',
+                                    $p, $v, $duplicates);
+                            } else {
+                                $this->setStyle($key, $p, $v, $duplicates);
                             }
                         }
                     }
@@ -1674,6 +2028,10 @@ class HTML_CSS extends HTML_Common
     function toArray()
     {
         $css = array();
+
+        // bring AtRules in correct order
+        $this->sortAtRules();
+
         foreach ($this->_css as $key => $value) {
             if (strpos($key, '@-') === 0) {
                 $key = implode(', ', $this->_groups[$key]);
@@ -1738,7 +2096,13 @@ class HTML_CSS extends HTML_Common
         }
 
         foreach ($newCssArray as $key => $value) {
-            $strCss .= $key . ':' . $value . ";";
+            if ((0 === strpos($element, '@')) && ('' == $value)) {
+                // simple declarative At-Rule definition
+                $strCss .= $key . ';';
+            } else {
+                // other CSS definition
+                $strCss .= $key . ':' . $value . ";";
+            }
         }
 
         return $strCss;
@@ -1799,7 +2163,8 @@ class HTML_CSS extends HTML_Common
         // initialize $alibis
         $alibis = array();
 
-        $strCss = '';
+        $strCss     = '';
+        $strAtRules = '';
 
         // Allow a CSS comment
         if ($this->_comment) {
@@ -1810,6 +2175,9 @@ class HTML_CSS extends HTML_Common
         if ($this->__get('groupsfirst')) {
             $strCssElements = '';
         }
+
+        // bring AtRules in correct order
+        $this->sortAtRules();
 
         // Iterate through the array and process each element
         foreach ($this->_css as $identifier => $rank) {
@@ -1822,45 +2190,81 @@ class HTML_CSS extends HTML_Common
                 $element = $identifier;
             }
 
-            // Start CSS element definition
-            $definition = $element . ' {' . $lnEnd;
+            if ((0 === strpos($element, '@')) && (1 !== strpos($element, '-'))) {
+                // simple declarative At-Rule definition
+                foreach ($rank as $arg => $decla) {
+                    if (is_array($decla)) {
+                        $strAtRules .= $element . ' ' . $arg;
+                        foreach ($decla as $s => $d) {
+                            $t = $tabs . $tab;
+                            if (empty($s)) {
+                                $strAtRules .= ' {' . $lnEnd;
+                            } else {
+                                $t          .= $tab;
+                                $strAtRules .= ' {' . $lnEnd .
+                                    $tab . $s . ' {' . $lnEnd;
+                            }
+                            foreach ($d as $p => $v) {
+                                $strAtRules .= $t . $p . ': ' . $v . ';' . $lnEnd;
+                            }
+                            if (empty($s)) {
+                                $strAtRules .= $tabs . '}';
+                            } else {
+                                $strAtRules .=  $tabs . $tab . '}' . $lnEnd . '}';
+                            }
+                        }
+                        $strAtRules .=  $lnEnd . $lnEnd;;
+                    } else {
+                        $strAtRules .= $element . ' ' . $arg . ';' . $lnEnd . $lnEnd;
+                    }
+                }
+            } else {
+                // Start CSS element definition
+                $definition = $element . ' {' . $lnEnd;
 
-            // Iterate through the array of properties
-            foreach ($rank as $pos => $property) {
-                // check to see if it is a duplicate
-                if (!is_numeric($pos)) {
-                    $property = array($pos => $property);
-                    unset($pos);
+                // Iterate through the array of properties
+                foreach ($rank as $pos => $property) {
+                    // check to see if it is a duplicate
+                    if (!is_numeric($pos)) {
+                        $property = array($pos => $property);
+                        unset($pos);
+                    }
+                    foreach ($property as $key => $value) {
+                        $definition .= $tabs . $tab
+                                    . $key . ': ' . $value . ';' . $lnEnd;
+                    }
                 }
-                foreach ($property as $key => $value) {
-                    $definition .= $tabs . $tab
-                                . $key . ': ' . $value . ';' . $lnEnd;
-                }
+
+                // end CSS element definition
+                $definition .= $tabs . '}';
             }
-
-            // end CSS element definition
-            $definition .= $tabs . '}';
 
             // if this is to be on a single line, collapse
             if ($this->options['oneline']) {
                 $definition = $this->collapseInternalSpaces($definition);
+                $strAtRules = $this->collapseInternalSpaces($strAtRules);
             }
 
             // if groups are to be output first, elements must be placed in a
             // different string which will be appended in the end
-            if ($this->__get('groupsfirst') === true
-                && strpos($identifier, '@-') === false) {
-                // add to elements
-                $strCssElements .= $lnEnd . $tabs . $definition . $lnEnd;
-            } else {
-                // add to strCss
-                $strCss .= $lnEnd . $tabs . $definition . $lnEnd;
+            if (isset($definition)) {
+                if ($this->__get('groupsfirst') === true
+                    && strpos($identifier, '@-') === false) {
+                    // add to elements
+                    $strCssElements .= $lnEnd . $tabs . $definition . $lnEnd;
+                } else {
+                    // add to strCss
+                    $strCss .= $lnEnd . $tabs . $definition . $lnEnd;
+                }
             }
         }
 
         if ($this->__get('groupsfirst')) {
             $strCss .= $strCssElements;
         }
+
+        $strAtRules = rtrim($strAtRules) . $lnEnd;
+        $strCss     = $strAtRules . $strCss;
 
         if ($this->options['oneline']) {
             $strCss = preg_replace('/(\n|\r\n|\r)/', '', $strCss);
