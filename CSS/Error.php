@@ -411,7 +411,9 @@ class HTML_CSS_Error extends PEAR_Error
             HTML_CSS_ERROR_INVALID_SOURCE =>
                 'invalid input, source #%sourcenum% : '
               . '%errcount% error(s), '
-              . '%warncount% warning(s)'
+              . '%warncount% warning(s)',
+            HTML_CSS_ERROR_NO_ATRULE =>
+                'At-Rule "%identifier%" does not exist '
         );
         return $messages;
     }
