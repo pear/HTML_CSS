@@ -694,6 +694,7 @@ class HTML_CSS extends HTML_Common
      * @since  version 1.5.0 (2008-01-15)
      * @access public
      * @throws HTML_CSS_ERROR_INVALID_INPUT
+     * @see    unsetAtRule()
      */
     function createAtRule($atKeyword, $arguments = '')
     {
@@ -790,6 +791,7 @@ class HTML_CSS extends HTML_Common
      * @since  version 1.5.0 (2008-01-15)
      * @access public
      * @throws HTML_CSS_ERROR_INVALID_INPUT
+     * @see    getAtRuleStyle()
      */
     function setAtRuleStyle($atKeyword, $arguments, $selectors, $property, $value,
         $duplicates = null)
@@ -886,6 +888,7 @@ class HTML_CSS extends HTML_Common
      * @since  version 1.5.0 (2008-01-15)
      * @access public
      * @throws HTML_CSS_ERROR_INVALID_INPUT
+     * @see    setAtRuleStyle()
      */
     function getAtRuleStyle($atKeyword, $arguments, $selectors, $property)
     {
