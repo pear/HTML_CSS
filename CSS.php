@@ -1709,36 +1709,71 @@ class HTML_CSS extends HTML_Common
             $str = preg_replace('/^\s*@[a-z\-]+\s+.+;\s*$/m', '', $str);
         }
 
-        // Parse each element of csscode
-        $parse = preg_split('/\{(.*)\}/', $str, -1, PREG_SPLIT_DELIM_CAPTURE);
-
         $elements   = array();
         $properties = array();
 
-        foreach ($parse as $i => $part) {
-            if ($i%2 == 0) {
-                $part = ltrim($part, "\r\n}");
-                $pos  = strpos($part, '{');
-                if ($pos === false) {
-                    $elements[] = trim($part);
-                } else {
-                    // Remove eol
-                    $part = preg_replace("/\r?\n?/", '', $part);
+        // Parse each element of csscode
+        $parts = explode("}", $str);
+        foreach ($parts as $part) {
+            $part = trim($part);
+            if (strlen($part) == 0) {
+                continue;
+            }
+            // prevent invalide css data structure
+            $pos = strpos($part, '{');
+            if (strpos($part, '{', $pos+1) !== false && $part{0} !== '@') {
 
-                    if (strpos($part, '}', $pos+1) === false) {
-                        // complex declaration block style (nested)
-                        list($keystr, $codestr) = explode("{", $part);
-                        $elements[]             = trim($part);
+                $context  = debug_backtrace();
+                $context  = @array_pop($context);
+                $function = strtolower($context['function']);
+                if ($function === 'parsestring') {
+                    $var = 'str';
+                } elseif ($function === 'parsefile') {
+                    $var = 'filename';
+                } else {
+                    $var = 'styles';
+                }
+
+                return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                    array('var' => '$'.$var,
+                          'was' => 'invalid data source',
+                          'expected' => 'valid CSS structure',
+                          'paramnum' => 1));
+            }
+            $parse = preg_split('/\{(.*)\}/', "$part }", -1,
+                         PREG_SPLIT_DELIM_CAPTURE);
+
+            if (count($parse) == 1) {
+                list($keystr, $codestr) = explode("{", $part);
+                $elements[]             = trim($keystr);
+                $properties[]           = trim($codestr);
+            } else {
+                for ($i = 0; $i < 2; $i++) {
+                    if ($i == 0) {
+                        $part = ltrim($parse[$i], "\r\n}");
+                        $pos  = strpos($part, '{');
+                        if ($pos === false) {
+                            $elements[] = trim($part);
+                        } else {
+                            // Remove eol
+                            $part = preg_replace("/\r?\n?/", '', $part);
+
+                            if (strpos($part, '}', $pos+1) === false) {
+                                // complex declaration block style (nested)
+                                list($keystr, $codestr) = explode("{", $part);
+                                $elements[]             = trim($part);
+                            } else {
+                                // simple declaration block style
+                                $parse        = preg_split('/\{(.*)\}/', "$part }",
+                                                    -1, PREG_SPLIT_DELIM_CAPTURE);
+                                $elements[]   = trim($parse[0]);
+                                $properties[] = trim($parse[1]);
+                            }
+                        }
                     } else {
-                        // simple declaration block style
-                        $parse        = preg_split('/\{(.*)\}/', $part, -1,
-                                            PREG_SPLIT_DELIM_CAPTURE);
-                        $elements[]   = trim($parse[0]);
-                        $properties[] = trim($parse[1]);
+                        $properties[] = trim($parse[$i]);
                     }
                 }
-            } else {
-                $properties[] = trim($part);
             }
         }
 
