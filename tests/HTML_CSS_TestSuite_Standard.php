@@ -817,7 +817,187 @@ body {
         // find all selectors that set the color property
         $style2 = $this->css->grepStyle('/./', '/^color$/');
         $this->assertSame($gs, $style2, 'search for pattern 2 does not match');
+    }
 
+    /**
+     * Tests building/removing CSS simple At-Rule
+     * "@charset, @import and @namespace"
+     *
+     * @return void
+     */
+    public function testSimpleAtRule()
+    {
+        $this->css->setStyle('html', 'height', '100%');
+
+        $e   = $this->css->createAtRule('@charset', '"UTF-8"');
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        $e   = $this->css->createAtRule('@import', 'url("foo.css") screen, print');
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        $e   = $this->css->createAtRule('@namespace',
+                   'foo url("http://www.example.com/")');
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        $gs  = array('@charset' =>
+                   array('"UTF-8"' => ''),
+                    '@import' =>
+                   array('url("foo.css") screen, print' => ''),
+                    '@namespace' =>
+                   array('foo url("http://www.example.com/")' => ''),
+                    'html' =>
+                   array('height' => '100%'));
+        $def = $this->css->toArray();
+        $this->assertSame($gs, $def, 'array output does not match');
+
+        $e   = $this->css->unsetAtRule('@CharSet');
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        unset($gs['@charset']);
+        $def = $this->css->toArray();
+        $this->assertSame($gs, $def, 'array clean does not match');
+    }
+
+    /**
+     * Tests conditional/informative At-Rules
+     * "@media, @page, @font-face"
+     *
+     * @return void
+     */
+    public function testAtRuleStyle()
+    {
+        $this->css->setStyle('html', 'height', '100%');
+
+        $e   = $this->css->setAtRuleStyle('@media',
+                   'screen', '', 'color', 'green');
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        $e   = $this->css->setAtRuleStyle('@media',
+                   'screen', '', 'background-color', 'yellow');
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        $e   = $this->css->setAtRuleStyle('@media',
+                   'print', 'blockquote', 'font-size', '16pt');
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        $e   = $this->css->setAtRuleStyle('@page',
+                   ':first', '', 'size', '3in 8in');
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        $e   = $this->css->setAtRuleStyle('@font-face',
+                   '', '', 'font-family', 'dreamy');
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        $e   = $this->css->setAtRuleStyle('@font-face',
+                   '', '', 'font-weight', 'bold');
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        $e   = $this->css->setAtRuleStyle('@font-face',
+                   '', '', 'src', 'url(http://www.example.com/font.eot)');
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        $gs  = array('@media' => array(
+                   'screen' => array(
+                     '' => array('color' => 'green',
+                                 'background-color' => 'yellow'),
+                     ),
+                   'print' => array(
+                     'blockquote' => array('font-size' => '16pt'),
+                     )
+                   ),
+                   '@page' => array(
+                   ':first' => array(
+                     '' => array('size' => '3in 8in'),
+                     )
+                   ),
+                   '@font-face' => array(
+                   '' => array(
+                     '' => array('font-family' => 'dreamy',
+                                 'font-weight' => 'bold',
+                                 'src' => 'url(http://www.example.com/font.eot)')
+                     )
+                   ),
+                   'html' => array('height' => '100%'));
+        $def = $this->css->toArray();
+        $this->assertSame($gs, $def, 'array does not match');
+    }
+
+    /**
+     * Tests parsing CSS string that contains At-Rules
+     *
+     * @return void
+     */
+    public function testParseAtRuleString()
+    {
+        $strcss = <<<EOD
+@media screen { color: green; background-color: yellow; }
+@media    print {
+    blockquote { font-size: 16pt; font-weight: bold; }
+}
+html { height: 100%; }
+@page thin:first  { size: 3in 8in }
+@font-face {
+    font-family: dreamy;
+    font-weight: bold;
+    src: url(http://www.example.com/font.eot);
+}
+EOD;
+
+        $e   = $this->css->parseString($strcss);
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        $gs  = array('@media' => array(
+                   'screen' => array(
+                     '' => array('color' => 'green',
+                                 'background-color' => 'yellow'),
+                     ),
+                   'print' => array(
+                     'blockquote' => array('font-size' => '16pt',
+                                           'font-weight' => 'bold'),
+                     )
+                   ),
+                   '@page' => array(
+                   'thin:first' => array(
+                     '' => array('size' => '3in 8in'),
+                     )
+                   ),
+                   '@font-face' => array(
+                   '' => array(
+                     '' => array('font-family' => 'dreamy',
+                                 'font-weight' => 'bold',
+                                 'src' => 'url(http://www.example.com/font.eot)')
+                     )
+                   ),
+                   'html' => array('height' => '100%'));
+        $def = $this->css->toArray();
+        $this->assertSame($gs, $def, 'array does not match');
+    }
+
+    /**
+     * Tests list of supported At-Rules by API 1.5.0
+     *
+     * @return void
+     */
+    public function testGetAtRulesList()
+    {
+        $expected = array('@charset', '@font-face',
+                          '@import', '@media', '@page', '@namespace');
+        $atRules  = $this->css->getAtRulesList();
+        sort($atRules);
+        sort($expected);
+        $this->assertSame($atRules, $expected, 'unexpected At-Rules list');
     }
 }
 
