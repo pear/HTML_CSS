@@ -1821,46 +1821,30 @@ class HTML_CSS extends HTML_Common
                     if (strlen(trim($code)) == 0) {
                         continue;
                     }
+                    $code = ltrim($code, "\r\n}");
 
-                    $property
-                        = trim(substr($code, 0, strpos($code, ':')));
-                    $value
-                        = substr($code, strpos($code, ':') + 1);
+                    $p = trim(substr($code, 0, strpos($code, ':')));
+                    $v = trim(substr($code, strpos($code, ':') + 1));
                     // IE hack only
-                    if (strcasecmp($property, 'voice-family') == 0) {
-                        $value = str_replace('#34#125#34', '"\"}\""',
-                                     $value);
+                    if (strcasecmp($p, 'voice-family') == 0) {
+                        $v = str_replace('#34#125#34', '"\"}\""',
+                                     $v);
                     }
 
-                    list($atKeyword, $arguments) = explode(' ', $key);
-                    if ($nested_bloc) {
-                        $declarations = explode(';', $properties[$i]);
-                        foreach ($declarations as $decla) {
-                            if (strlen(trim($decla)) == 0) {
-                                continue;
-                            }
-                            $p = trim(substr($decla, 0, strpos($decla, ':')));
-                            $v = trim(substr($decla, strpos($decla, ':') + 1));
-
+                    if ($key{0} == '@') {
+                        // at-rules
+                        list($atKeyword, $arguments) = explode(' ', $key);
+                        if ($nested_bloc) {
                             $this->setAtRuleStyle($atKeyword, $arguments, $nestedsel,
                                 $p, $v, $duplicates);
+                        } else {
+                            $this->setAtRuleStyle($atKeyword, $arguments, '',
+                                $p, $v, $duplicates);
                         }
-                    } else {
-                        $declarations = explode(';', $properties[$i]);
-                        foreach ($declarations as $decla) {
-                            if (strlen(trim($decla)) == 0) {
-                                continue;
-                            }
-                            $p = trim(substr($decla, 0, strpos($decla, ':')));
-                            $v = trim(substr($decla, strpos($decla, ':') + 1));
 
-                            if ($keystr{0} == '@') {
-                                $this->setAtRuleStyle($atKeyword, $arguments, '',
-                                    $p, $v, $duplicates);
-                            } else {
-                                $this->setStyle($key, $p, $v, $duplicates);
-                            }
-                        }
+                    } else {
+                        // simple declarative style
+                        $this->setStyle($key, $p, $v, $duplicates);
                     }
                 }
             }
@@ -2301,7 +2285,10 @@ class HTML_CSS extends HTML_Common
             $strCss .= $strCssElements;
         }
 
-        $strAtRules = rtrim($strAtRules) . $lnEnd;
+        $strAtRules = rtrim($strAtRules);
+        if (!empty($strAtRules)) {
+            $strAtRules .= $lnEnd;
+        }
         $strCss     = $strAtRules . $strCss;
 
         if ($this->options['oneline']) {
