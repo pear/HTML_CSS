@@ -2289,7 +2289,7 @@ class HTML_CSS extends HTML_Common
         if (!empty($strAtRules)) {
             $strAtRules .= $lnEnd;
         }
-        $strCss     = $strAtRules . $strCss;
+        $strCss = $strAtRules . $strCss;
 
         if ($this->options['oneline']) {
             $strCss = preg_replace('/(\n|\r\n|\r)/', '', $strCss);
