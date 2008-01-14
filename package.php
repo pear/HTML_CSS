@@ -10,8 +10,8 @@
  * @category  HTML
  * @package   HTML_CSS
  * @author    Laurent Laville <pear@laurent-laville.org>
- * @copyright 2006-2007 Laurent Laville
- * @license   http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @copyright 2006-2008 Laurent Laville
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/HTML_CSS
  * @since     File available since Release 1.0.1
@@ -37,34 +37,27 @@ $p2 = &PEAR_PackageFileManager2::importOptions($packagefile, $options);
 $p2->setPackageType('php');
 $p2->addRelease();
 $p2->generateContents();
-$p2->setReleaseVersion('1.4.0');
-$p2->setAPIVersion('1.4.0');
+$p2->setReleaseVersion('1.5.0');
+$p2->setAPIVersion('1.5.0');
 $p2->setReleaseStability('stable');
 $p2->setAPIStability('stable');
 $p2->setNotes('* changes
-- removed old class (private) properties related to options ($_xhtmlCompliant,
-  $_cache, $_singleLine, $_charset, $_contentDisposition, $_groupsFirst,
-  $_allowDuplicates), now group by in a private array $options.
-- added class constructor (ZE2) for PHP5.
-- Error handler allow now to use PEAR_ERROR_CALLBACK to customize action
-  (log yes/no, print yes/no) when an error/exception is raised.
-- remove trailing EOL in toString() output (with oneline option set to true)
+- copyright year bump
 
 * news
-- API 1.4.0 allow now a setter/getter PHP5 facility compatible
-  (magic function __set, __get) for read/write CSS options.
+- implement request #12194 : support of At-Rules
+- add new function getOptions() to retrieve easily all configuration options at once
+- add new function validate() to check data source with W3C CSS validator service.
+  Require PHP5. See file examples/CSS_validate.php
 
 * QA
-- PHP minimum set to 4.3.0
-- PEAR installer minimum set to 1.5.4 (to avoid security vulnerability)
-- Coding Standard fixes (recommandation by PHP_CodeSniffer)
-- tests suite migrated from PHPUnit 1.x to 3.x
-- User Guide 1.4.0 included in this release cover all versions
-1.x.x, 1.1.x, 1.2.x, 1.3.x, 1.4.x
+- User Guide (HTML version) included in previous versions was removed, since
+its now part of PEAR manual
 ');
 //$p2->setLicense('BSD', 'http://www.opensource.org/licenses/bsd-license.php');
-$p2->setPhpDep('4.3.0');
-$p2->setPearinstallerDep('1.5.4');
+//$p2->setPhpDep('4.3.0');
+//$p2->setPearinstallerDep('1.5.4');
+$p2->addPackageDepWithChannel('optional', 'Services_W3C_CSSValidator', 'pear.php.net', '0.1.0');
 
 if (isset($_GET['make'])
     || (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 'make')) {
