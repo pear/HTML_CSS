@@ -58,6 +58,7 @@ its now part of PEAR manual
 //$p2->setPhpDep('4.3.0');
 //$p2->setPearinstallerDep('1.5.4');
 $p2->addPackageDepWithChannel('optional', 'Services_W3C_CSSValidator', 'pear.php.net', '0.1.0');
+$p2->addPackageDepWithChannel('optional', 'PHPUnit', 'pear.phpunit.de', '3.2.0');
 
 if (isset($_GET['make'])
     || (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 'make')) {

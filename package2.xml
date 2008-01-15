@@ -30,7 +30,7 @@ In addition, it shares the following with HTML_Common based classes:
   <active>no</active>
  </lead>
  <date>2008-01-15</date>
- <time>20:57:36</time>
+ <time>20:45:09</time>
  <version>
   <release>1.5.0</release>
   <api>1.5.0</api>
@@ -120,6 +120,11 @@ its now part of PEAR manual
     <name>Services_W3C_CSSValidator</name>
     <channel>pear.php.net</channel>
     <min>0.1.0</min>
+   </package>
+   <package>
+    <name>PHPUnit</name>
+    <channel>pear.phpunit.de</channel>
+    <min>3.2.0</min>
    </package>
   </optional>
  </dependencies>
