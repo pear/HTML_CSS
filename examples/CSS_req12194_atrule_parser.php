@@ -1,4 +1,7 @@
 <?php
+/**
+ * @ignore
+ */
 header('Content-Type: text/plain');
 require_once 'HTML/CSS.php';
 
