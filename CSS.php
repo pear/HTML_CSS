@@ -1833,7 +1833,7 @@ class HTML_CSS extends HTML_Common
 
                     if ($key{0} == '@') {
                         // at-rules
-                        list($atKeyword, $arguments) = explode(' ', $key);
+                        list($atKeyword, $arguments) = explode(' ', "$key ");
                         if ($nested_bloc) {
                             $this->setAtRuleStyle($atKeyword, $arguments, $nestedsel,
                                 $p, $v, $duplicates);
