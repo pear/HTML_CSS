@@ -618,15 +618,14 @@ class HTML_CSS extends HTML_Common
     {
         // split simple declarative At-Rules from the other
         $return   = array('atrules' => array(), 'newcss'  => array());
-        $function = '
+
+        foreach ($this->_css as $key => $value) {
             if ((0 === strpos($key, "@")) && (1 !== strpos($key, "-"))) {
                 $return["atrules"][$key] = $value;
             } else {
                 $return["newcss"][$key] = $value;
             }
-        ';
-        array_walk($this->_css,
-            create_function('$value, $key, &$return', $function), &$return);
+        }
 
         // bring sprecial rules to the top
         foreach (array('@namespace', '@import', '@charset') as $name) {
