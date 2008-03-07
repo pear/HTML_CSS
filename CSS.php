@@ -617,7 +617,7 @@ class HTML_CSS extends HTML_Common
     function sortAtRules()
     {
         // split simple declarative At-Rules from the other
-        $return   = array('atrules' => array(), 'newcss'  => array());
+        $return = array('atrules' => array(), 'newcss' => array());
 
         foreach ($this->_css as $key => $value) {
             if ((0 === strpos($key, "@")) && (1 !== strpos($key, "-"))) {
