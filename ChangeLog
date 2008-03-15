@@ -1,5 +1,11 @@
 $Id$
 
+2008-03-15 Laurent Laville <pear@laurent-laville.org>
+
+  * VERSION: Final version (stable) 1.5.1 released.
+  - fixed bug #12996 : Call-time pass-by-reference has been deprecated
+  - fixed bug #13314 : Notice error raised on parsing string
+
 2008-01-15 Laurent Laville <pear@laurent-laville.org>
 
   * VERSION: Final version (stable) 1.5.0 released.

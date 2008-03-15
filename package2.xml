@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.6.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.7.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>HTML_CSS</name>
  <channel>pear.php.net</channel>
  <summary>HTML_CSS is a class for generating CSS declarations.</summary>
@@ -29,10 +29,10 @@ In addition, it shares the following with HTML_Common based classes:
   <email>klaus@capitalfocus.org</email>
   <active>no</active>
  </lead>
- <date>2008-01-15</date>
- <time>20:45:09</time>
+ <date>2008-03-15</date>
+ <time>10:54:33</time>
  <version>
-  <release>1.5.0</release>
+  <release>1.5.1</release>
   <api>1.5.0</api>
  </version>
  <stability>
@@ -40,18 +40,10 @@ In addition, it shares the following with HTML_Common based classes:
   <api>stable</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
- <notes>* changes
-- copyright year bump
+ <notes>* bugs
+- fix bug #12996 : Call-time pass-by-reference has been deprecated
+- fix bug #13314 : Notice error raised on parsing string
 
-* news
-- implement request #12194 : support of At-Rules
-- add new function getOptions() to retrieve easily all configuration options at once
-- add new function validate() to check data source with W3C CSS validator service.
-  Require PHP5. See file examples/CSS_validate.php
-
-* QA
-- User Guide (HTML version) included in previous versions was removed, since
-its now part of PEAR manual
  </notes>
  <contents>
   <dir baseinstalldir="HTML" name="/">
@@ -132,6 +124,23 @@ its now part of PEAR manual
  <changelog>
   <release>
    <version>
+    <release>1.5.1</release>
+    <api>1.5.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-03-15</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>* bugs
+- fix bug #12996 : Call-time pass-by-reference has been deprecated
+- fix bug #13314 : Notice error raised on parsing string
+
+   </notes>
+  </release>
+  <release>
+   <version>
     <release>1.5.0</release>
     <api>1.5.0</api>
    </version>
@@ -152,8 +161,7 @@ its now part of PEAR manual
 
 * QA
 - User Guide (HTML version) included in previous versions was removed, since
-its now part of PEAR manual
-   </notes>
+its now part of PEAR manual</notes>
   </release>
   <release>
    <version>

@@ -37,28 +37,20 @@ $p2 = &PEAR_PackageFileManager2::importOptions($packagefile, $options);
 $p2->setPackageType('php');
 $p2->addRelease();
 $p2->generateContents();
-$p2->setReleaseVersion('1.5.0');
+$p2->setReleaseVersion('1.5.1');
 $p2->setAPIVersion('1.5.0');
 $p2->setReleaseStability('stable');
 $p2->setAPIStability('stable');
-$p2->setNotes('* changes
-- copyright year bump
+$p2->setNotes('* bugs
+- fix bug #12996 : Call-time pass-by-reference has been deprecated
+- fix bug #13314 : Notice error raised on parsing string
 
-* news
-- implement request #12194 : support of At-Rules
-- add new function getOptions() to retrieve easily all configuration options at once
-- add new function validate() to check data source with W3C CSS validator service.
-  Require PHP5. See file examples/CSS_validate.php
-
-* QA
-- User Guide (HTML version) included in previous versions was removed, since
-its now part of PEAR manual
 ');
 //$p2->setLicense('BSD', 'http://www.opensource.org/licenses/bsd-license.php');
 //$p2->setPhpDep('4.3.0');
 //$p2->setPearinstallerDep('1.5.4');
-$p2->addPackageDepWithChannel('optional', 'Services_W3C_CSSValidator', 'pear.php.net', '0.1.0');
-$p2->addPackageDepWithChannel('optional', 'PHPUnit', 'pear.phpunit.de', '3.2.0');
+//$p2->addPackageDepWithChannel('optional', 'Services_W3C_CSSValidator', 'pear.php.net', '0.1.0');
+//$p2->addPackageDepWithChannel('optional', 'PHPUnit', 'pear.phpunit.de', '3.2.0');
 
 if (isset($_GET['make'])
     || (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 'make')) {
