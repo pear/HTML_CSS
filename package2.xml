@@ -102,6 +102,9 @@ In addition, it shares the following with HTML_Common based classes:
     <channel>pear.php.net</channel>
     <min>1.2.4</min>
    </package>
+   <extension>
+    <name>pcre</name>
+   </extension>
   </required>
   <optional>
    <package>
