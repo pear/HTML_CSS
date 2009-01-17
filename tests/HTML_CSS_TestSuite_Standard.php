@@ -110,6 +110,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests setting options all at once.
      *
      * @return void
+     * @group  standard
      */
     public function testSetOptions()
     {
@@ -132,6 +133,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests setting the 'xhtml' option.
      *
      * @return void
+     * @group  standard
      */
     public function testSetXhtmlCompliance()
     {
@@ -146,6 +148,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests setting the 'tab' option.
      *
      * @return void
+     * @group  standard
      */
     public function testSetTab()
     {
@@ -159,6 +162,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests setting the 'cache' option.
      *
      * @return void
+     * @group  standard
      */
     public function testSetCache()
     {
@@ -173,6 +177,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests setting the 'oneline' option.
      *
      * @return void
+     * @group  standard
      */
     public function testSetSingleLineOutput()
     {
@@ -187,6 +192,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests setting the 'charset' option.
      *
      * @return void
+     * @group  standard
      */
     public function testSetCharset()
     {
@@ -201,6 +207,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests setting the 'contentDisposition' option.
      *
      * @return void
+     * @group  standard
      */
     public function testSetContentDisposition()
     {
@@ -217,6 +224,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests setting the 'lineEnd' option.
      *
      * @return void
+     * @group  standard
      */
     public function testSetLineEnd()
     {
@@ -230,6 +238,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests setting the 'groupsfirst' option.
      *
      * @return void
+     * @group  standard
      */
     public function testSetOutputGroupsFirst()
     {
@@ -244,6 +253,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests setting the 'allowduplicates' option.
      *
      * @return void
+     * @group  standard
      */
     public function testSetAllowDuplicates()
     {
@@ -257,6 +267,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests handling selector and property values
      *
      * @return void
+     * @group  standard
      */
     public function testStyle()
     {
@@ -283,6 +294,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests building/removing CSS definition group
      *
      * @return void
+     * @group  standard
      */
     public function testGroup()
     {
@@ -301,6 +313,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests setting/getting styles for a CSS definition group
      *
      * @return void
+     * @group  standard
      */
     public function testGroupStyle()
     {
@@ -325,6 +338,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests add/remove selector to a CSS definition group
      *
      * @return void
+     * @group  standard
      */
     public function testGroupSelector()
     {
@@ -362,6 +376,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      * Tests parsing a simple string that contains CSS information.
      *
      * @return void
+     * @group  standard
      */
     public function testParseString()
     {
@@ -395,6 +410,7 @@ p, body {
      * Tests parsing a file that contains CSS information.
      *
      * @return void
+     * @group  standard
      */
     public function testParseFile()
     {
@@ -474,6 +490,7 @@ p, body {
      * that contains CSS information, at once.
      *
      * @return void
+     * @group  standard
      */
     public function testParseData()
     {
@@ -567,6 +584,7 @@ p { margin-left: 3em; }
      * Tests data source checking validity with W3C CSS validator service
      *
      * @return void
+     * @group  standard
      */
     public function testValidate()
     {
@@ -595,6 +613,7 @@ p { margin-left: 3em; }
      * You can notice the duplicate 'voice-family' and 'height' properties.
      *
      * @return void
+     * @group  standard
      */
     public function testAllowDuplicates()
     {
@@ -640,6 +659,7 @@ p { margin-left: 3em; }
      * Tests render to inline html code, array, string or file.
      *
      * @return void
+     * @group  standard
      */
     public function testOutput()
     {
@@ -719,6 +739,7 @@ p { margin-left: 3em; }
      * Tests searching for selectors and properties
      *
      * @return void
+     * @group  standard
      */
     public function testGrepStyle()
     {
@@ -824,6 +845,7 @@ body {
      * "@charset, @import and @namespace"
      *
      * @return void
+     * @group  standard
      */
     public function testSimpleAtRule()
     {
@@ -867,6 +889,7 @@ body {
      * "@media, @page, @font-face"
      *
      * @return void
+     * @group  standard
      */
     public function testAtRuleStyle()
     {
@@ -937,6 +960,7 @@ body {
      * Tests parsing CSS string that contains At-Rules
      *
      * @return void
+     * @group  standard
      */
     public function testParseAtRuleString()
     {
@@ -989,6 +1013,7 @@ EOD;
      * Tests list of supported At-Rules by API 1.5.0
      *
      * @return void
+     * @group  standard
      */
     public function testGetAtRulesList()
     {

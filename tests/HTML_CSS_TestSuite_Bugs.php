@@ -126,6 +126,7 @@ class HTML_CSS_TestSuite_Bugs extends PHPUnit_Framework_TestCase
      * @return void
      * @link   http://pear.php.net/bugs/bug.php?id=725
      *         differs hierarchy elements with difference in spaces between
+     * @group  bugs
      */
     public function testBug725()
     {
@@ -184,6 +185,7 @@ class HTML_CSS_TestSuite_Bugs extends PHPUnit_Framework_TestCase
      * @return void
      * @link   http://pear.php.net/bugs/bug.php?id=998
      *         parseString incorrectly reads attribute values with colons in
+     * @group  bugs
      */
     public function testBug998()
     {
@@ -214,6 +216,7 @@ class HTML_CSS_TestSuite_Bugs extends PHPUnit_Framework_TestCase
      * @return void
      * @link   http://pear.php.net/bugs/bug.php?id=1066
      *         Values are not trimmed
+     * @group  bugs
      */
     public function testBug1066()
     {
@@ -238,6 +241,7 @@ html {
      * @return void
      * @link   http://pear.php.net/bugs/bug.php?id=1072
      *         HTML_CSS Not cascading properties
+     * @group  bugs
      */
     public function testBug1072()
     {
@@ -271,6 +275,7 @@ td p { font-family: Comic; }
      * @return void
      * @link   http://pear.php.net/bugs/bug.php?id=1084
      *         parseSelectors incorrectly assumes selector structure
+     * @group  bugs
      */
     public function testBug1084()
     {
@@ -311,6 +316,7 @@ td p { font-family: Comic; }
      *
      * @return void
      * @link   http://pear.php.net/bugs/bug.php?id=12039
+     * @group  bugs
      */
     public function testBug12039()
     {
@@ -345,6 +351,7 @@ a.top {
      * @return void
      * @link   http://pear.php.net/bugs/bug.php?id=3920
      *         Inappropriate style rule reordering
+     * @group  bugs
      */
     public function testBug3920()
     {
@@ -402,7 +409,7 @@ a.top {
      *
      * @return void
      * @link   http://pear.php.net/bugs/bug.php?id=10103
-     *
+     * @group  bugs
      */
     public function testBug10103()
     {
