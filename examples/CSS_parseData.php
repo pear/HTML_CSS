@@ -9,7 +9,7 @@
  * @package    HTML_CSS
  * @subpackage Examples
  * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2005-2008 Laurent Laville
+ * @copyright  2005-2009 Laurent Laville
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS

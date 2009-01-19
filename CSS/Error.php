@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2005-2008, Laurent Laville <pear@laurent-laville.org>
+ * Copyright (c) 2005-2009, Laurent Laville <pear@laurent-laville.org>
  *
  * All rights reserved.
  *
@@ -34,7 +34,7 @@
  * @category  HTML
  * @package   HTML_CSS
  * @author    Laurent Laville <pear@laurent-laville.org>
- * @copyright 2005-2008 Laurent Laville
+ * @copyright 2005-2009 Laurent Laville
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/HTML_CSS
@@ -49,7 +49,7 @@ require_once 'PEAR.php';
  * @category  HTML
  * @package   HTML_CSS
  * @author    Laurent Laville <pear@laurent-laville.org>
- * @copyright 2005-2008 Laurent Laville
+ * @copyright 2005-2009 Laurent Laville
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/HTML_CSS

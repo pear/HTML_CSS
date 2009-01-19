@@ -9,7 +9,7 @@
  * @subpackage Examples
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2005-2008 Klaus Guenther, Laurent Laville
+ * @copyright  2005-2009 Klaus Guenther, Laurent Laville
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTML_CSS
@@ -32,7 +32,7 @@ require_once 'Log.php';
  * @subpackage Examples
  * @author     Klaus Guenther <klaus@capitalfocus.org>
  * @author     Laurent Laville <pear@laurent-laville.org>
- * @copyright  2005-2008 Klaus Guenther, Laurent Laville
+ * @copyright  2005-2009 Klaus Guenther, Laurent Laville
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD
  * @link       http://pear.php.net/package/HTML_CSS
  * @since      File available since Release 1.0.0RC1

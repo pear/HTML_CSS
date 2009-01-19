@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2003-2008, Klaus Guenther <klaus@capitalfocus.org>
+ * Copyright (c) 2003-2009, Klaus Guenther <klaus@capitalfocus.org>
  *                          Laurent Laville <pear@laurent-laville.org>
  *
  * All rights reserved.
@@ -36,7 +36,7 @@
  * @package   HTML_CSS
  * @author    Klaus Guenther <klaus@capitalfocus.org>
  * @author    Laurent Laville <pear@laurent-laville.org>
- * @copyright 2003-2008 Klaus Guenther, Laurent Laville
+ * @copyright 2003-2009 Klaus Guenther, Laurent Laville
  * @license   http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/HTML_CSS
@@ -74,7 +74,7 @@ define('HTML_CSS_ERROR_NO_ATRULE', -109);
  * @package   HTML_CSS
  * @author    Klaus Guenther <klaus@capitalfocus.org>
  * @author    Laurent Laville <pear@laurent-laville.org>
- * @copyright 2003-2008 Klaus Guenther, Laurent Laville
+ * @copyright 2003-2009 Klaus Guenther, Laurent Laville
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/HTML_CSS
