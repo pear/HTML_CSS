@@ -702,7 +702,7 @@ p { margin-left: 3em; }
              ->method('validate')
              ->will($this->returnValue(true));
 
-        $e   = $stub->css->validate($css_data, $messages);
+        $e   = $stub->validate($css_data, $messages);
         $msg = PEAR::isError($e) ? $e->getMessage() : null;
         $this->assertFalse(PEAR::isError($e), $msg);
         $this->assertTrue($e, 'CSS data source is invalid');
