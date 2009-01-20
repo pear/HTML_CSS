@@ -10,7 +10,7 @@
  * @category  HTML
  * @package   HTML_CSS
  * @author    Laurent Laville <pear@laurent-laville.org>
- * @copyright 2006-2008 Laurent Laville
+ * @copyright 2006-2009 Laurent Laville
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/HTML_CSS
@@ -37,14 +37,14 @@ $p2 = &PEAR_PackageFileManager2::importOptions($packagefile, $options);
 $p2->setPackageType('php');
 $p2->addRelease();
 $p2->generateContents();
-$p2->setReleaseVersion('1.5.1');
+$p2->setReleaseVersion('1.5.2');
 $p2->setAPIVersion('1.5.0');
 $p2->setReleaseStability('stable');
 $p2->setAPIStability('stable');
-$p2->setNotes('* bugs
-- fix bug #12996 : Call-time pass-by-reference has been deprecated
-- fix bug #13314 : Notice error raised on parsing string
-
+$p2->setNotes('* QA
+- fix minor notice errors
+- implement Mock Object (PHPUnit feature) to replace call to W3C CSS Validator Web Service
+- add many new unit test cases to improve code coverage from 77 to 96%
 ');
 //$p2->setLicense('BSD', 'http://www.opensource.org/licenses/bsd-license.php');
 //$p2->setPhpDep('4.3.0');
