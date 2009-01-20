@@ -2331,20 +2331,22 @@ class HTML_CSS extends HTML_Common
      */
     function display()
     {
-        if ($this->__get('cache') !== true) {
-            header("Expires: Tue, 1 Jan 1980 12:00:00 GMT");
-            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-            header("Cache-Control: no-cache");
-            header("Pragma: no-cache");
-        }
+        if (!headers_sent()) {
+            if ($this->__get('cache') !== true) {
+                header("Expires: Tue, 1 Jan 1980 12:00:00 GMT");
+                header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+                header("Cache-Control: no-cache");
+                header("Pragma: no-cache");
+            }
 
-        // set character encoding
-        header("Content-Type: text/css; charset=" . $this->__get('charset'));
+            // set character encoding
+            header("Content-Type: text/css; charset=" . $this->__get('charset'));
 
-        // set Content-Disposition
-        if ($this->__get('contentDisposition') !== false) {
-            header('Content-Disposition: inline; filename="' .
-                $this->__get('contentDisposition') . '"');
+            // set Content-Disposition
+            if ($this->__get('contentDisposition') !== false) {
+                header('Content-Disposition: inline; filename="' .
+                    $this->__get('contentDisposition') . '"');
+            }
         }
 
         $strCss = $this->toString();
