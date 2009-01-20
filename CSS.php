@@ -1962,12 +1962,9 @@ class HTML_CSS extends HTML_Common
                           'paramnum' => 1));
             }
             if (strcasecmp(substr($style, -4, 4), '.css') == 0) {
-                $res = $this->parseFile($style, $duplicates);
+                $this->parseFile($style, $duplicates);
             } else {
-                $res = $this->parseString($style, $duplicates);
-            }
-            if (!is_bool($this->_lastError)) {
-                return $res;
+                $this->parseString($style, $duplicates);
             }
         }
     }
