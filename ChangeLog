@@ -1,5 +1,12 @@
 $Id$
 
+2009-01-20 Laurent Laville <pear@laurent-laville.org>
+
+  * VERSION: Final version (stable) 1.5.2 released.
+  - fix minor notice errors
+  - implement Mock Object (PHPUnit feature) to replace call to W3C CSS Validator Web Service
+  - add many new unit test cases to improve code coverage from 77 to 96%
+
 2008-03-15 Laurent Laville <pear@laurent-laville.org>
 
   * VERSION: Final version (stable) 1.5.1 released.
