@@ -107,6 +107,25 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * tests API throws error
+     *
+     * @param object $error PEAR_Error instance
+     * @param int    $code  error code
+     * @param string $level error level (exception or error)
+     *
+     * @return void
+     */
+    public function catchError($error, $code, $level)
+    {
+        $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_OBJECT, $error);
+        if ($error instanceof PEAR_Error) {
+            $this->assertEquals($error->getCode(), $code);
+            $user_info = $error->getUserInfo();
+            $this->assertEquals($user_info['level'], $level);
+        }
+    }
+
+    /**
      * Tests setting options all at once.
      *
      * @return void
@@ -335,6 +354,25 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting styles duplicated for a CSS definition group
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testGroupStyleDuplicates()
+    {
+        $g = $this->css->createGroup('html, #header');
+        $r = $this->css->setGroupStyle($g, 'voice-family', '"\"}\""', true);
+        $r = $this->css->setGroupStyle($g, 'voice-family', 'inherit', true);
+
+        $gs  = array('html, #header' => array(1 => array('voice-family' => '"\"}\""'),
+                                              2 => array('voice-family' => 'inherit'))
+                     );
+        $def = $this->css->toArray();
+        $this->assertSame($gs, $def, 'invalid group selector result');
+    }
+
+    /**
      * Tests add/remove selector to a CSS definition group
      *
      * @return void
@@ -404,6 +442,67 @@ p, body {
                   array('margin' => '4px'));
         $def = $this->css->toArray();
         $this->assertSame($gs, $def, 'string parses does not match');
+    }
+
+    /**
+     * Tests parsing a simple string that contains invalid CSS information.
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testParseStringWithInvalidContent()
+    {
+        $strcss = '
+img.thumbs {
+ width: {IMG_THUMBS_WIDTH} px;
+ height: {IMG_THUMBS_HEIGHT} px;
+}
+';
+
+        $e = $this->css->parseString($strcss);
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertTrue(PEAR::isError($e), $msg);
+    }
+
+    /**
+     * Tests parsing a simple string that contains a simple AT Rule
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testParseStringWithSimpleAtRule()
+    {
+        $simpleAtRule = '
+html { height: 100%; }
+@charset "UTF-8";
+';
+        $this->css->parseString($simpleAtRule);
+
+        $r        = $this->css->toArray();
+        $expected = array('@charset' => array('"UTF-8"' => ''),
+                          'html' => array('height' => '100%'));
+        $this->assertSame($expected, $r);
+    }
+
+    /**
+     * Tests parsing a simple string that contains a complex AT Rule
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testParseStringWithComplexAtRule()
+    {
+        $complexAtRule = '@media screen { color: green; background-color: yellow; }';
+        $this->css->parseString($complexAtRule);
+
+        $r        = $this->css->toArray();
+        $expected = array('@media' =>
+                        array('screen' =>
+                            array('' =>
+                                array('color' => 'green',
+                                      'background-color' => 'yellow'),
+                        )));
+        $this->assertSame($expected, $r);
     }
 
     /**
@@ -598,7 +697,12 @@ p { margin-left: 3em; }
         $css_data = array($fn, $strcss);
         $messages = array();
 
-        $e   = $this->css->validate($css_data, $messages);
+        $stub = $this->getMock('HTML_CSS', array('validate'));
+        $stub->expects($this->any())
+             ->method('validate')
+             ->will($this->returnValue(true));
+
+        $e   = $stub->css->validate($css_data, $messages);
         $msg = PEAR::isError($e) ? $e->getMessage() : null;
         $this->assertFalse(PEAR::isError($e), $msg);
         $this->assertTrue($e, 'CSS data source is invalid');
@@ -750,6 +854,7 @@ p { margin-left: 3em; }
   font-family: Courier, Verdana;
   font-size: 8px;
   float: left;
+  background-color: transparent;
 }
 
 #PB1 .progressBorder {
@@ -1023,6 +1128,462 @@ EOD;
         sort($atRules);
         sort($expected);
         $this->assertSame($atRules, $expected, 'unexpected At-Rules list');
+    }
+
+    /**
+     * Tests API version number
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testApiVersion()
+    {
+        $expected = '@api_version@';
+        $expected = '1.5.0';
+        if ($expected == '@'.'api_version@') {
+            $this->markTestSkipped('Could not be run from CVS repository');
+        }
+        $actual   = $this->css->apiVersion();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests read one or all options
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testReadOptions()
+    {
+        $tab = '  ';
+        $eol = strtolower(substr(PHP_OS, 0, 3)) == 'win' ? "\r\n" : "\n";
+
+        $expected = array('xhtml' => true, 'tab' => $tab, 'cache' => true,
+            'oneline' => false, 'charset' => 'iso-8859-1',
+            'contentDisposition' => false, 'lineEnd' => $eol,
+            'groupsfirst' => true, 'allowduplicates' => false);
+        $actual   = $this->css->getOptions();
+        // read all default options
+        $this->assertEquals($expected, $actual);
+
+        // read an invalid/unknown option
+        $actual   = $this->css->__get('unknown');
+        $this->assertEquals(null, $actual);
+    }
+
+    /**
+     * Tests to parse a string containing selector(s)
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testParsingSelectors()
+    {
+        $r = $this->css->parseSelectors('#pb1 blockquote .large', 2);
+        $expected = array(array('inheritance' => array(
+                                array('element' => '',
+                                      'id' => '#pb1', 'class' => '', 'pseudo' => ''),
+                                array('element' => 'blockquote',
+                                      'id' => '', 'class' => '', 'pseudo' => ''),
+                                array('element' => '',
+                                      'id' => '', 'class' => '.large', 'pseudo' => '')))
+                          );
+        $this->assertEquals($expected, $r);
+    }
+
+    /**
+     * Tests to get value of a valid At rule
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testGettingValidAtRule()
+    {
+        $this->css->setAtRuleStyle('@media', 'screen', '', 'background-color', 'yellow');
+
+        $r = $this->css->getAtRuleStyle('@media', 'screen', '', 'background-color');
+        $expected = 'yellow';
+        $this->assertEquals($expected, $r);
+    }
+
+    /**
+     * Tests to retrieve undefined At rule
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testGettingUndefinedAtRule()
+    {
+        $r = $this->css->getAtRuleStyle('@page', ':first', '', 'size');
+        $expected = null;
+        $this->assertEquals($expected, $r);
+    }
+
+    /**
+     * Tests reading the 'cache' option.
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testReadCacheOption()
+    {
+        $o = $this->css->getOptions();
+        $r = $this->css->getCache();
+        $this->assertSame($o['cache'], $r);
+    }
+
+    /**
+     * Tests reading the 'contentDisposition' option.
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testReadContentDispositionOption()
+    {
+        $o = $this->css->getOptions();
+        $r = $this->css->getContentDisposition();
+        $this->assertSame($o['contentDisposition'], $r);
+    }
+
+    /**
+     * Tests reading the 'charset' option.
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testReadCharsetOption()
+    {
+        $o = $this->css->getOptions();
+        $r = $this->css->getCharset();
+        $this->assertSame($o['charset'], $r);
+    }
+
+    /**
+     * Tests to catch exception on invalid parameters, when calling functions
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testInvalidParametersApiCall()
+    {
+        // setSingleLineOutput
+        $r = $this->css->setSingleLineOutput('1');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // setOutputGroupsFirst
+        $r = $this->css->setOutputGroupsFirst('1');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // parseSelectors
+        $r = $this->css->parseSelectors(true);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->parseSelectors('color: green; background-color: yellow;', '4');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->parseSelectors('color: green; background-color: yellow;', 4);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'error');
+
+        // setXhtmlCompliance
+        $r = $this->css->setXhtmlCompliance('1');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // createAtRule
+        $r = $this->css->createAtRule(true);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->createAtRule('myatrule');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'error');
+
+        $r = $this->css->createAtRule('@namespace', true);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->createAtRule('@charset');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'error');
+
+        // unsetAtRule
+        $r = $this->css->unsetAtRule(true);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->unsetAtRule('@myspace');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'error');
+
+        $r = $this->css->unsetAtRule('@charset');
+        $this->catchError($r, HTML_CSS_ERROR_NO_ATRULE, 'error');
+
+        // setAtRuleStyle
+        $r = $this->css->setAtRuleStyle(1, 'print', 'blockquote', 'font-size', '16pt');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setAtRuleStyle('@namespace', '', '', '', '');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'error');
+
+        $r = $this->css->setAtRuleStyle('@media', '', '', '', '');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'error');
+
+        $r = $this->css->setAtRuleStyle('@font-face', '', '', '', '');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'error');
+
+        $r = $this->css->setAtRuleStyle('@media', 'print', true, 'font-size', '16pt');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setAtRuleStyle('@media', 'print', 'blockquote', 16, '16pt');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setAtRuleStyle('@media', 'print', 'blockquote', '', '16pt');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'error');
+
+        $r = $this->css->setAtRuleStyle('@media', 'print', 'blockquote', 'font-size', 16);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setAtRuleStyle('@media', 'print', 'blockquote', 'font-size', '');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'error');
+
+        // getAtRuleStyle
+        $r = $this->css->getAtRuleStyle(1, '', '', '', '');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->getAtRuleStyle('@myspace', '', '', '', '');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'error');
+
+        $r = $this->css->getAtRuleStyle('@media', true, 'blockquote', 'font-size');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->getAtRuleStyle('@media', 'print', true, 'font-size');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->getAtRuleStyle('@media', 'print', 'blockquote', true);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // createGroup
+        $r = $this->css->createGroup(1);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->createGroup('body, html');
+        $r = $this->css->createGroup('#main p, #main ul', 1);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_GROUP, 'error');
+
+        // unsetGroup
+        $r = $this->css->unsetGroup(true);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->unsetGroup(0);
+        $this->catchError($r, HTML_CSS_ERROR_NO_GROUP, 'error');
+
+        // setGroupStyle
+        $r = $this->css->setGroupStyle(true, null, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setGroupStyle(1, null, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setGroupStyle(1, '', null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'error');
+
+        $r = $this->css->setGroupStyle(1, 'font-face', null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setGroupStyle(1, 'color', '', '1');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setGroupStyle(0, 'background-color', 'yellow');
+        $this->catchError($r, HTML_CSS_ERROR_NO_GROUP, 'error');
+
+        // getGroupStyle
+        $r = $this->css->getGroupStyle(true, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->getGroupStyle(1, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->getGroupStyle(0, '');
+        $this->catchError($r, HTML_CSS_ERROR_NO_GROUP, 'error');
+
+        // addGroupSelector
+        $r = $this->css->addGroupSelector(true, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->addGroupSelector(0, null);
+        $this->catchError($r, HTML_CSS_ERROR_NO_GROUP, 'error');
+
+        $r = $this->css->addGroupSelector(1, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // removeGroupSelector
+        $r = $this->css->removeGroupSelector(true, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->removeGroupSelector(0, null);
+        $this->catchError($r, HTML_CSS_ERROR_NO_GROUP, 'error');
+
+        $r = $this->css->removeGroupSelector(1, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // setStyle
+        $r = $this->css->setStyle(true, null, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setStyle('body', null, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setStyle('html, body', 'background-color', '#0c0c0c');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'error');
+
+        $r = $this->css->setStyle('body', 'background-color', null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setStyle('body', 'background-color', '#0c0c0c', 1);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // getStyle
+        $r = $this->css->getStyle(true, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->getStyle('body', null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->getStyle('input', 'background-color');
+        $this->catchError($r, HTML_CSS_ERROR_NO_ELEMENT, 'error');
+
+        $this->css->setStyle('body', 'color', '#fff');
+        $r = $this->css->getStyle('body', 'background-color');
+        $this->catchError($r, HTML_CSS_ERROR_NO_ELEMENT_PROPERTY, 'error');
+
+        // grepStyle
+        $r = $this->css->grepStyle(1);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->grepStyle('/^#PB1/', 1);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // setSameStyle
+        $r = $this->css->setSameStyle(null, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setSameStyle('body', 1);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setSameStyle('body', 'p');
+        $this->catchError($r, HTML_CSS_ERROR_NO_ELEMENT, 'error');
+
+        // setCache
+        $r = $this->css->setCache(1);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // setContentDisposition
+        $r = $this->css->setContentDisposition(1, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->setContentDisposition(true, null);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // setCharset
+        $r = $this->css->setCharset(8859);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // parseString
+        $r = $this->css->parseString(intval('iso-8859-1'));
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->parseString("intval('iso-8859-1')", 1);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // parseFile
+        $r = $this->css->parseFile(1);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->parseFile('none.css');
+        $this->catchError($r, HTML_CSS_ERROR_NO_FILE, 'error');
+
+        $r = $this->css->parseFile('stylesheet.css', 1);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // parseData
+        $r = $this->css->parseData('img.thb { width: 80px; }');
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->parseData(array('img.thb { width: 80px; }'), 1);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $r = $this->css->parseData(array('img.thb { width: 80px; }', true));
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // validate
+        $styles   = '';
+        $messages = '';
+        $r = $this->css->validate($styles, $messages);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $styles   = array('p, div#black { color: black; }');
+        $r = $this->css->validate($styles, $messages);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $stub = $this->getMock('HTML_CSS', array('validate'));
+        $stub->expects($this->any())
+             ->method('validate')
+             ->will($this->returnCallback(array(&$this, 'cbMockValidator')));
+
+        $messages = array();
+        $styles   = array('php < 5');
+        $r = $stub->validate($styles, $messages);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_DEPS, 'exception');
+
+        $styles = array('Services_W3C_CSSValidator does not exists');
+        $r      = $stub->validate($styles, $messages);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_DEPS, 'exception');
+
+        $styles = array('p, div#black { color: black; }', true);
+        $r      = $stub->validate($styles, $messages);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // toInline
+        $r = $this->css->toInline(1);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        // toFile
+        $r = $this->css->toFile(1);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+    }
+
+    /**
+     * Stub callback to replace call to the CSS W3C Validator Web Service
+     *
+     * Simulate PHP version < 5,
+     * and class Services_W3C_CSSValidator not available
+     *
+     * @return mixed
+     */
+    public function cbMockValidator()
+    {
+        $args     = func_get_args();
+        $styles   = $args[0];
+        $messages = $args[1];
+
+        $css1 = 'php < 5';
+        $css2 = 'Services_W3C_CSSValidator does not exists';
+
+        foreach ($styles as $i => $source) {
+            if (!is_string($source)) {
+                return $this->css->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                    array('var' => '$styles[' . $i . ']',
+                          'was' => gettype($styles[$i]),
+                          'expected' => 'string',
+                          'paramnum' => 1));
+            }
+            if ($source == $css1) {
+                $php = '4.3.10';
+                return $this->css->raiseError(HTML_CSS_ERROR_INVALID_DEPS, 'exception',
+                    array('funcname' => __FUNCTION__,
+                          'dependency' => 'PHP 5',
+                          'currentdep' => "PHP $php"));
+
+            } elseif ($source == $css2) {
+                return $this->css->raiseError(HTML_CSS_ERROR_INVALID_DEPS, 'exception',
+                    array('funcname' => __FUNCTION__,
+                          'dependency' => 'PEAR::Services_W3C_CSSValidator',
+                          'currentdep' => 'nothing'));
+            }
+        }
     }
 }
 
