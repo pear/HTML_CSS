@@ -1145,6 +1145,10 @@ class HTML_CSS extends HTML_Common
 
         $styles = array();
 
+        if (!isset($this->_css[$groupIdent])) {
+            return $styles;
+        }
+
         foreach ($this->_css[$groupIdent] as $rank => $prop) {
             // if the style is not duplicate
             if (!is_numeric($rank)) {
