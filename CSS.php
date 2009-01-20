@@ -1063,6 +1063,13 @@ class HTML_CSS extends HTML_Common
                       'expected' => 'string',
                       'paramnum' => 2));
 
+        } elseif (empty($property)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                array('var' => '$property',
+                      'was' => gettype($property),
+                      'expected' => 'no empty string',
+                      'paramnum' => 2));
+
         } elseif (!is_string($value)) {
             return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$value',
@@ -1171,6 +1178,13 @@ class HTML_CSS extends HTML_Common
      */
     function addGroupSelector($group, $selectors)
     {
+        if (!is_int($group) && !is_string($group)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$group',
+                      'was' => gettype($group),
+                      'expected' => 'integer | string',
+                      'paramnum' => 1));
+        }
         $groupIdent = '@-'.$group;
         if ($group < 0 || $group > $this->_groupCount ||
             !isset($this->_groups[$groupIdent])) {
@@ -1209,6 +1223,13 @@ class HTML_CSS extends HTML_Common
      */
     function removeGroupSelector($group, $selectors)
     {
+        if (!is_int($group) && !is_string($group)) {
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$group',
+                      'was' => gettype($group),
+                      'expected' => 'integer | string',
+                      'paramnum' => 1));
+        }
         $groupIdent = '@-'.$group;
         if ($group < 0 || $group > $this->_groupCount ||
             !isset($this->_groups[$groupIdent])) {
