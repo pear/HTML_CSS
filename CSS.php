@@ -1370,13 +1370,16 @@ class HTML_CSS extends HTML_Common
                 array('identifier' => $element));
         }
 
-        if (isset($this->_alibis[$element])) {
+        if (isset($this->_css[$element]) && isset($this->_alibis[$element])) {
             $lastImplementation = array_keys($this->_alibis[$element]);
             $lastImplementation = array_pop($lastImplementation);
 
             $group = substr($this->_alibis[$element][$lastImplementation], 2);
 
             $property_value = $this->getGroupStyle($group, $property);
+            if (count($property_value) == 0) {
+                unset($property_value);
+            }
         }
         if (isset($this->_css[$element]) && !isset($property_value)) {
             $property_value = array();
