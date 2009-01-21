@@ -1,5 +1,10 @@
 $Id$
 
+2009-01-21 Laurent Laville <pear@laurent-laville.org>
+
+  * VERSION: Final version (stable) 1.5.3 released.
+  - prevent wrong usage of setSameStyle(); see bug #15690
+
 2009-01-20 Laurent Laville <pear@laurent-laville.org>
 
   * VERSION: Final version (stable) 1.5.2 released.

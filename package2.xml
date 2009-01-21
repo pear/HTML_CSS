@@ -30,10 +30,10 @@ In addition, it shares the following with HTML_Common based classes:
   <email>klaus@capitalfocus.org</email>
   <active>no</active>
  </lead>
- <date>2009-01-20</date>
- <time>10:29:39</time>
+ <date>2009-01-21</date>
+ <time>11:55:01</time>
  <version>
-  <release>1.5.2</release>
+  <release>1.5.3</release>
   <api>1.5.0</api>
  </version>
  <stability>
@@ -42,9 +42,7 @@ In addition, it shares the following with HTML_Common based classes:
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
  <notes>* QA
-- fix minor notice errors
-- implement Mock Object (PHPUnit feature) to replace call to W3C CSS Validator Web Service
-- add many new unit test cases to improve code coverage from 77 to 96%
+- prevent wrong usage of setSameStyle(); see bug #15690
  </notes>
  <contents>
   <dir baseinstalldir="HTML" name="/">
@@ -130,6 +128,21 @@ In addition, it shares the following with HTML_Common based classes:
  </dependencies>
  <phprelease />
  <changelog>
+  <release>
+   <version>
+    <release>1.5.3</release>
+    <api>1.5.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-01-21</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>* QA
+- prevent wrong usage of setSameStyle(); see bug #15690
+   </notes>
+  </release>
   <release>
    <version>
     <release>1.5.2</release>
