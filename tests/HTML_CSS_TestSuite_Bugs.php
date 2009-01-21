@@ -418,6 +418,21 @@ a.top {
                 "option '$opt' sets is invalid");
         }
     }
+
+    /**
+     * Regression test for bug #15690
+     *
+     * @return void
+     * @link   http://pear.php.net/bugs/bug.php?id=15690
+     * @group  bugs
+     */
+    public function testBug15690()
+    {
+        $this->css->setStyle('p','font-size','12px');
+        $e   = $this->css->setSameStyle('body, td, th, li, dt, dd', 'p');
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertTrue(PEAR::isError($e), $msg);
+    }
 }
 
 // Call HTML_CSS_TestSuite_Bugs::main() if file is executed directly.
