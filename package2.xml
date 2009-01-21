@@ -2,8 +2,8 @@
 <package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>HTML_CSS</name>
  <channel>pear.php.net</channel>
- <summary>HTML_CSS is a class for generating CSS declarations.</summary>
- <description>HTML_CSS provides a simple interface for generating a stylesheet declaration.
+ <summary>Provides a simple interface for validate, handle and generate cascading style sheets</summary>
+ <description>HTML_CSS provides a simple interface to handle stylesheets declaration.
 It is completely standards compliant, and has some great features:
 * Simple OO interface to CSS definitions
 * Can parse existing CSS (string or file)
@@ -13,6 +13,7 @@ It is completely standards compliant, and has some great features:
     - Standalone stylesheet declarations
     - Array of definitions
     - File
+* Can validate contents with the WC3 CSS Validator Web Service
 
 In addition, it shares the following with HTML_Common based classes:
 * Indent style support
