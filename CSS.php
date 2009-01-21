@@ -1491,11 +1491,10 @@ class HTML_CSS extends HTML_Common
     /**
      * Apply same styles on two selectors
      *
-     * Set or change the properties of new selectors
+     * Set or change the properties of a new basic selector (not group)
      * to the values of an existing selector
      *
-     * @param string $new New selector(s) that should share the same
-     *                    definitions, separated by commas
+     * @param string $new New selector that should share the same definitions
      * @param string $old Selector that is already defined
      *
      * @return     void|PEAR_Error
