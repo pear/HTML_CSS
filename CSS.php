@@ -1518,6 +1518,22 @@ class HTML_CSS extends HTML_Common
                       'was' => gettype($old),
                       'expected' => 'string',
                       'paramnum' => 2));
+
+        } elseif (strpos($new, ',')) {
+            // Check if there are any groups.
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                array('var' => '$new',
+                      'was' => $new,
+                      'expected' => 'string without comma',
+                      'paramnum' => 1));
+
+        } elseif (strpos($old, ',')) {
+            // Check if there are any groups.
+            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                array('var' => '$old',
+                      'was' => $old,
+                      'expected' => 'string without comma',
+                      'paramnum' => 2));
         }
 
         $old = $this->parseSelectors($old);
