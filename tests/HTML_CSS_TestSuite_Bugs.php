@@ -48,6 +48,12 @@ class HTML_CSS_TestSuite_Bugs extends PHPUnit_Framework_TestCase
     protected $default_options;
 
     /**
+     * Instance of Event_Dispatcher for test listener
+     * @var object
+     */
+    protected $dispatcher;
+
+    /**
      * Runs the test methods of this class.
      *
      * @static
@@ -69,6 +75,8 @@ class HTML_CSS_TestSuite_Bugs extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $this->dispatcher = Event_Dispatcher::getInstance();
+
         $tab = '  ';
         $eol = strtolower(substr(PHP_OS, 0, 3)) == 'win' ? "\r\n" : "\n";
 
@@ -432,6 +440,219 @@ a.top {
         $e   = $this->css->setSameStyle('body, td, th, li, dt, dd', 'p');
         $msg = PEAR::isError($e) ? $e->getMessage() : null;
         $this->assertTrue(PEAR::isError($e), $msg);
+    }
+
+    /**
+     * Regression test for bug #16354
+     *
+     * Does not parse multiple simple At-rules properly
+     *
+     * @return void
+     * @link   http://pear.php.net/bugs/bug.php?id=16354
+     * @group  bugs
+     */
+    public function testBug16354()
+    {
+        $str = "
+@import \"foo.css\";
+@import \"bar.css\";
+";
+        $this->dispatcher->post($this, 'startTest', $str);
+        $this->css->parseString($str, true);
+        $this->dispatcher->post($this, 'endTest', $this->css->toArray());
+
+        $exp = array(
+            '@import' => array(
+                '1' => array(
+                    '"foo.css"' => '',
+                ),
+                '2' => array(
+                    '"bar.css"' => '',
+                ),
+            ),
+        );
+        $this->assertSame($exp, $this->css->toArray());
+    }
+
+    /**
+     * Regression test for bug #16355
+     *
+     * Simple at rules nested within other at rules are reported as top level at rules
+     *
+     * @return void
+     * @link   http://pear.php.net/bugs/bug.php?id=16355
+     * @group  bugs
+     */
+    public function testBug16355()
+    {
+        $str = "
+@media screen {
+  @import \"screen-main.css\";
+  body { font-size: 10pt }
+}
+";
+        $this->dispatcher->post($this, 'startTest', $str);
+        $e = $this->css->parseString($str);
+        $this->dispatcher->post($this, 'endTest', $this->css->toArray());
+
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertTrue(PEAR::isError($e), $msg);
+        $this->assertContains('valid CSS structure', $msg);
+    }
+
+    /**
+     * Regression test for bug #16357
+     *
+     * Multiple equal complex at rules not parsed correctly
+     *
+     * @return void
+     * @link   http://pear.php.net/bugs/bug.php?id=16357
+     * @group  bugs
+     */
+    public function testBug16357()
+    {
+        $str = "
+
+@media print {
+  body { font-size: 10pt }
+}
+
+@media screen {
+  body { font-size: 10pt;
+         font-weight: bold }
+}
+@media screen {
+  body { font-size: 12pt }
+}
+    ";
+        $this->dispatcher->post($this, 'startTest', $str);
+        $this->css->parseString($str, true);
+        $this->dispatcher->post($this, 'endTest', $this->css->toArray());
+
+        $exp = array (
+          '@media' =>
+          array (
+            'print' =>
+            array (
+              'body' =>
+              array (
+                'font-size' => '10pt',
+              ),
+            ),
+            'screen' =>
+            array (
+              'body' =>
+              array (
+                'font-size' => '12pt',
+                'font-weight' => 'bold',
+              ),
+            ),
+          ),
+        );
+        $this->assertSame($exp, $this->css->toArray());
+    }
+
+    /**
+     * Regression test for bug #16358
+     *
+     * Multiple media types on media at rule not parsed correctly
+     *
+     * @return void
+     * @link   http://pear.php.net/bugs/bug.php?id=16358
+     * @group  bugs
+     */
+    public function testBug16358()
+    {
+        $str = "
+
+@media screen, tv, presentation {
+  body { font-size: 12pt }
+}
+    ";
+        $this->dispatcher->post($this, 'startTest', $str);
+        $this->css->parseString($str, true);
+        $this->dispatcher->post($this, 'endTest', $this->css->toArray());
+
+        $exp = array(
+            '@media' => array(
+                'screen, tv, presentation' => array(
+                    'body' => array(
+                        'font-size' => '12pt',
+                    ),
+                ),
+            ),
+        );
+        $this->assertSame($exp, $this->css->toArray());
+    }
+
+    /**
+     * Regression test for bug #16359
+     *
+     * Multiple selectors on a single rule inside a complex at rule not properly parsed
+     *
+     * @return void
+     * @link   http://pear.php.net/bugs/bug.php?id=16359
+     * @group  bugs
+     */
+    public function testBug16359()
+    {
+        $str = "
+
+@media screen {
+  body, p { font-size: 12pt }
+}
+    ";
+        $this->dispatcher->post($this, 'startTest', $str);
+        $this->css->parseString($str, true);
+        $this->dispatcher->post($this, 'endTest', $this->css->toArray());
+
+        $exp = array(
+            '@media' => array(
+                'screen' =>  array(
+                    'body, p' => array(
+                        'font-size' => '12pt',
+                    ),
+                ),
+            ),
+        );
+        $this->assertSame($exp, $this->css->toArray());
+    }
+
+    /**
+     * Regression test for bug #16360
+     *
+     * Multiple selectors inside a complex at rule not properly parsed
+     *
+     * @return void
+     * @link   http://pear.php.net/bugs/bug.php?id=16360
+     * @group  bugs
+     */
+    public function testBug16360()
+    {
+        $str = "
+
+@media screen {
+  body{ font-size: 12pt }
+  p { font-size: 12pt }
+}
+    ";
+        $this->dispatcher->post($this, 'startTest', $str);
+        $this->css->parseString($str, true);
+        $this->dispatcher->post($this, 'endTest', $this->css->toArray());
+
+        $exp = array(
+            '@media' => array(
+                'screen' =>  array(
+                    'body' => array(
+                        'font-size' => '12pt',
+                    ),
+                    'p' => array(
+                        'font-size' => '12pt',
+                    ),
+                ),
+            ),
+        );
+        $this->assertSame($exp, $this->css->toArray());
     }
 }
 
