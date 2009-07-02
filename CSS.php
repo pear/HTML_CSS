@@ -688,6 +688,7 @@ class HTML_CSS extends HTML_Common
      *
      * @param string $atKeyword at-rule keyword
      * @param string $arguments argument list for @charset, @import or @namespace
+     * @param bool   $duplicates (optional) Allow or disallow duplicates
      *
      * @return void|PEAR_Error
      * @since  version 1.5.0 (2008-01-15)
@@ -695,7 +696,7 @@ class HTML_CSS extends HTML_Common
      * @throws HTML_CSS_ERROR_INVALID_INPUT
      * @see    unsetAtRule()
      */
-    function createAtRule($atKeyword, $arguments = '')
+    function createAtRule($atKeyword, $arguments = '', $duplicates = null)
     {
         $allowed_atrules = array('@charset', '@import', '@namespace');
 
@@ -727,6 +728,15 @@ class HTML_CSS extends HTML_Common
                       'was' => $arguments,
                       'expected' => 'not empty value',
                       'paramnum' => 2));
+        }
+
+        if (!isset($duplicates)) {
+            $duplicates = $this->__get('allowduplicates');
+        }
+
+        if ($duplicates) {
+            $this->_duplicateCounter++;
+            $this->_css[strtolower($atKeyword)][$this->_duplicateCounter] = array($arguments => '');
         } else {
             $this->_css[strtolower($atKeyword)] = array($arguments => '');
         }
@@ -860,14 +870,10 @@ class HTML_CSS extends HTML_Common
 
         $atKeyword = strtolower($atKeyword);
 
-        if ($selectors == '') {
-            $this->_css[$atKeyword][$arguments][$selectors][$property] = $value;
-        } else {
-            $selectors = $this->parseSelectors($selectors, 1);
-            foreach ($selectors as $selector) {
-                $this->_css[$atKeyword][$arguments][$selector][$property] = $value;
-            }
+        if (!empty($selectors)) {
+            $selectors = $this->parseSelectors($selectors);
         }
+        $this->_css[$atKeyword][$arguments][$selectors][$property] = $value;
     }
 
     /**
@@ -1491,10 +1497,11 @@ class HTML_CSS extends HTML_Common
     /**
      * Apply same styles on two selectors
      *
-     * Set or change the properties of a new basic selector (not group)
+     * Set or change the properties of new selectors
      * to the values of an existing selector
      *
-     * @param string $new New selector that should share the same definitions
+     * @param string $new New selector(s) that should share the same
+     *                    definitions, separated by commas
      * @param string $old Selector that is already defined
      *
      * @return     void|PEAR_Error
@@ -1742,29 +1749,90 @@ class HTML_CSS extends HTML_Common
         $str = str_replace('"\"}\""', '#34#125#34', $str);
 
         // Parse simple declarative At-Rules
-        $atRules = array();
-        if (preg_match_all('/^\s*(@[a-z\-]+)\s+(.+);\s*$/m', $str, $atRules,
-            PREG_SET_ORDER)) {
-            foreach ($atRules as $value) {
-                $this->createAtRule(trim($value[1]), trim($value[2]));
-            }
-            $str = preg_replace('/^\s*@[a-z\-]+\s+.+;\s*$/m', '', $str);
-        }
-
+        $atRules    = array();
         $elements   = array();
         $properties = array();
 
-        // Parse each element of csscode
-        $parts = explode("}", $str);
-        foreach ($parts as $part) {
-            $part = trim($part);
-            if (strlen($part) == 0) {
+        // core of major 1.5.4 parser
+        preg_match_all(
+            '/(?ims)([a-z0-9\s\.\:#_\-@,]+)\{([^\{|^\}]*)\}/',
+            $str, $rules, PREG_SET_ORDER
+        );
+
+        // structure simplified
+        $structure = preg_replace(
+            '/(?ims)([a-zA-Z0-9\s\.\:#_\-@,]+)\{([^\{|^\}]*)\}/',
+            '\1{}', $str
+        );
+        // structure map
+        $structure = preg_split('/([a-zA-Z0-9\s\.\:#_\-@,]+)\{(.*)\}/', $structure, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+
+        $atRulesMap = array();
+        $atRule = '';
+        foreach ($structure as $struct) {
+            $struct = trim($struct);
+            if (empty($struct)) {
                 continue;
             }
-            // prevent invalide css data structure
-            $pos = strpos($part, '{');
-            if (strpos($part, '{', $pos+1) !== false && $part{0} !== '@') {
+            if ($struct{0} == '}') {
+                $atRule = '';
+                $struct = substr($struct, 1);
+                $struct = ltrim($struct);
+            }
 
+            if ($this->options['xhtml']) {
+                $struct = strtolower($struct);
+            }
+
+            if (preg_match_all('/^(@[a-zA-Z\-]+)\s+(.+);\s*$/m', $struct, $atRules,
+                PREG_SET_ORDER)) {
+                foreach ($atRules as $value) {
+                    $this->createAtRule(trim($value[1]), trim($value[2]), $duplicates);
+                }
+                continue;
+            }
+            $struct = $this->collapseInternalSpaces($struct);
+
+            $pos = strpos($struct, '{');
+            if ($pos
+                || (strpos($struct, ':') && !empty($atRule))
+            ) {
+                $cc = count_chars($struct, 1);
+                if ((isset($cc[64]) && $cc[64] > 1)
+                    || (isset($cc[58]) && $cc[58] == 1)
+                ) {
+                    $context  = debug_backtrace();
+                    $context  = @array_pop($context);
+                    $function = strtolower($context['function']);
+                    if ($function === 'parsestring') {
+                        $var = 'str';
+                    } elseif ($function === 'parsefile') {
+                        $var = 'filename';
+                    } else {
+                        $var = 'styles';
+                    }
+
+                    return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                        array('var' => '$'.$var,
+                              'was' => 'invalid data source',
+                              'expected' => 'valid CSS structure',
+                              'paramnum' => 1));
+                }
+                $atRule = rtrim(substr($struct, 0, $pos));
+
+            } else {
+                $atRulesMap[$struct][] = $atRule;
+            }
+        }
+
+        foreach ($rules as $rule) {
+
+            // prevent invalid css data structure
+            $pos = strpos($rule[0], '{');
+            $sel = trim($rule[1]);
+            if ((strpos($rule[0], '{', $pos+1) !== false)
+                || (substr($sel, -1, 1) == ':')
+            ) {
                 $context  = debug_backtrace();
                 $context  = @array_pop($context);
                 $function = strtolower($context['function']);
@@ -1782,57 +1850,26 @@ class HTML_CSS extends HTML_Common
                           'expected' => 'valid CSS structure',
                           'paramnum' => 1));
             }
-            $parse = preg_split('/\{(.*)\}/', "$part }", -1,
-                         PREG_SPLIT_DELIM_CAPTURE);
 
-            if (count($parse) == 1) {
-                list($keystr, $codestr) = explode("{", $part);
-                $elements[]             = trim($keystr);
-                $properties[]           = trim($codestr);
-            } else {
-                for ($i = 0; $i < 2; $i++) {
-                    if ($i == 0) {
-                        $part = ltrim($parse[$i], "\r\n}");
-                        $pos  = strpos($part, '{');
-                        if ($pos === false) {
-                            $elements[] = trim($part);
-                        } else {
-                            // Remove eol
-                            $part = preg_replace("/\r?\n?/", '', $part);
-
-                            if (strpos($part, '}', $pos+1) === false) {
-                                // complex declaration block style (nested)
-                                list($keystr, $codestr) = explode("{", $part);
-                                $elements[]             = trim($part);
-                            } else {
-                                // simple declaration block style
-                                $parse        = preg_split('/\{(.*)\}/', "$part }",
-                                                    -1, PREG_SPLIT_DELIM_CAPTURE);
-                                $elements[]   = trim($parse[0]);
-                                $properties[] = trim($parse[1]);
-                            }
-                        }
-                    } else {
-                        $properties[] = trim($parse[$i]);
-                    }
-                }
+            if ($this->options['xhtml']) {
+                $rule[1] = strtolower($rule[1]);
             }
+
+            $elements[]   = trim($rule[1]);
+            $properties[] = trim($rule[2]);
         }
 
         foreach ($elements as $i => $keystr) {
-            if (strpos($keystr, '{') === false) {
-                $nested_bloc = false;
-            } else {
-                $nested_bloc = true;
-
-                list($keystr, $nestedsel) = explode("{", $keystr);
-            }
 
             $key_a   = $this->parseSelectors($keystr, 1);
             $keystr  = implode(', ', $key_a);
             $codestr = $properties[$i];
+
+            $key = trim($keystr);
+            $parentAtRule = isset($atRulesMap[$key][$i]) ? $atRulesMap[$key][$i] : $atRulesMap[$key][0];
+
             // Check if there are any groups; in standard selectors exclude at-rules
-            if (strpos($keystr, ',') && $keystr{0} !== '@') {
+            if (strpos($keystr, ',') && (empty($parentAtRule))) {
                 $group = $this->createGroup($keystr);
 
                 // Parse each property of an element
@@ -1854,9 +1891,6 @@ class HTML_CSS extends HTML_Common
                     }
                 }
             } else {
-                // let's get on with regular definitions
-                $key = trim($keystr);
-
                 // Parse each property of an element
                 $codes = explode(";", trim($codestr));
                 foreach ($codes as $code) {
@@ -1873,17 +1907,31 @@ class HTML_CSS extends HTML_Common
                                      $v);
                     }
 
-                    if ($key{0} == '@') {
+                    if (!empty($parentAtRule)) {
                         // at-rules
-                        list($atKeyword, $arguments) = explode(' ', "$key ");
-                        if ($nested_bloc) {
-                            $this->setAtRuleStyle($atKeyword, $arguments, $nestedsel,
-                                $p, $v, $duplicates);
-                        } else {
-                            $this->setAtRuleStyle($atKeyword, $arguments, '',
-                                $p, $v, $duplicates);
+                        $atkw_args = preg_split(
+                            '/(@[a-zA-Z\-]+)\s+(.+)/', $parentAtRule, -1,
+                            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
+                        );
+                        if (count($atkw_args) == 1) {
+                            // special case of @font-face (without argument)
+                            $atkw_args[] = '';
                         }
+                        list($atKeyword, $arguments) = $atkw_args;
+                        $this->setAtRuleStyle($atKeyword, $arguments, $keystr,
+                            $p, $v, $duplicates);
 
+                    } elseif ($key{0} == '@') {
+                        $atkw_args = preg_split(
+                            '/(@[a-zA-Z\-]+)\s+(.+)/', $key, -1,
+                            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
+                        );
+                        if (count($atkw_args) == 1) {
+                            $atkw_args[] = '';
+                        }
+                        list($atKeyword, $arguments) = $atkw_args;
+                        $this->setAtRuleStyle($atKeyword, $arguments, '',
+                            $p, $v, $duplicates);
                     } else {
                         // simple declarative style
                         $this->setStyle($key, $p, $v, $duplicates);
@@ -2254,6 +2302,13 @@ class HTML_CSS extends HTML_Common
             if ((0 === strpos($element, '@')) && (1 !== strpos($element, '-'))) {
                 // simple declarative At-Rule definition
                 foreach ($rank as $arg => $decla) {
+                    // check to see if it is a duplicate
+                    if (is_numeric($arg)) {
+                        $arg   = array_keys($decla);
+                        $arg   = array_shift($arg);
+                        $decla = array_values($decla);
+                        $decla = array_shift($decla);
+                    }
                     if (is_array($decla)) {
                         $strAtRules .= $element . ' ' . $arg;
                         foreach ($decla as $s => $d) {
