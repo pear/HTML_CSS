@@ -450,11 +450,13 @@ class HTML_CSS extends HTML_Common
     function setSingleLineOutput($value)
     {
         if (!is_bool($value)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$value',
                       'was' => gettype($value),
                       'expected' => 'boolean',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
         }
         $this->options['oneline'] = $value;
     }
@@ -475,11 +477,13 @@ class HTML_CSS extends HTML_Common
     function setOutputGroupsFirst($value)
     {
         if (!is_bool($value)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$value',
                       'was' => gettype($value),
                       'expected' => 'boolean',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
         }
         $this->options['groupsfirst'] = $value;
     }
@@ -502,25 +506,31 @@ class HTML_CSS extends HTML_Common
     function parseSelectors($selectors, $outputMode = 0)
     {
         if (!is_string($selectors)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$selectors',
                       'was' => gettype($selectors),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!is_int($outputMode)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$outputMode',
                       'was' => gettype($outputMode),
                       'expected' => 'integer',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
 
         } elseif ($outputMode < 0 || $outputMode > 3) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'error',
                 array('var' => '$outputMode',
                       'was' => $outputMode,
                       'expected' => '0 | 1 | 2 | 3',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
 
         $selectors_array =  explode(',', $selectors);
@@ -655,11 +665,13 @@ class HTML_CSS extends HTML_Common
     function setXhtmlCompliance($value)
     {
         if (!is_bool($value)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$value',
                       'was' => gettype($value),
                       'expected' => 'boolean',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
         }
         $this->options['xhtml'] = $value;
     }
@@ -686,8 +698,8 @@ class HTML_CSS extends HTML_Common
      * Create a simple at-rule without declaration style blocks.
      * That include @charset, @import and @namespace
      *
-     * @param string $atKeyword at-rule keyword
-     * @param string $arguments argument list for @charset, @import or @namespace
+     * @param string $atKeyword  at-rule keyword
+     * @param string $arguments  argument list for @charset, @import or @namespace
      * @param bool   $duplicates (optional) Allow or disallow duplicates
      *
      * @return void|PEAR_Error
@@ -701,33 +713,41 @@ class HTML_CSS extends HTML_Common
         $allowed_atrules = array('@charset', '@import', '@namespace');
 
         if (!is_string($atKeyword)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$atKeyword',
                       'was' => gettype($atKeyword),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!in_array(strtolower($atKeyword), $allowed_atrules)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'error',
                 array('var' => '$atKeyword',
                       'was' => $atKeyword,
                       'expected' => implode('|', $allowed_atrules),
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!is_string($arguments)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$arguments',
                       'was' => gettype($arguments),
                       'expected' => 'string',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
 
         if (empty($arguments)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'error',
                 array('var' => '$arguments',
                       'was' => $arguments,
                       'expected' => 'not empty value',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
 
         if (!isset($duplicates)) {
@@ -736,7 +756,8 @@ class HTML_CSS extends HTML_Common
 
         if ($duplicates) {
             $this->_duplicateCounter++;
-            $this->_css[strtolower($atKeyword)][$this->_duplicateCounter] = array($arguments => '');
+            $this->_css[strtolower($atKeyword)][$this->_duplicateCounter]
+                = array($arguments => '');
         } else {
             $this->_css[strtolower($atKeyword)] = array($arguments => '');
         }
@@ -760,22 +781,28 @@ class HTML_CSS extends HTML_Common
         $allowed_atrules = $this->getAtRulesList();
 
         if (!is_string($atKeyword)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$atKeyword',
                       'was' => gettype($atKeyword),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!in_array(strtolower($atKeyword), $allowed_atrules)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'error',
                 array('var' => '$atKeyword',
                       'was' => $atKeyword,
                       'expected' => implode('|', $allowed_atrules),
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!isset($this->_css[strtolower($atKeyword)])) {
-            return $this->raiseError(HTML_CSS_ERROR_NO_ATRULE, 'error',
-                array('identifier' => $atKeyword));
+            return $this->raiseError(
+                HTML_CSS_ERROR_NO_ATRULE, 'error',
+                array('identifier' => $atKeyword)
+            );
         }
 
         unset($this->_css[strtolower($atKeyword)]);
@@ -803,65 +830,81 @@ class HTML_CSS extends HTML_Common
      * @see    getAtRuleStyle()
      */
     function setAtRuleStyle($atKeyword, $arguments, $selectors, $property, $value,
-        $duplicates = null)
-    {
+        $duplicates = null
+    ) {
         $allowed_atrules = array('@media', '@page', '@font-face');
 
         if (!is_string($atKeyword)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$atKeyword',
                       'was' => gettype($atKeyword),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!in_array(strtolower($atKeyword), $allowed_atrules)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'error',
                 array('var' => '$atKeyword',
                       'was' => $atKeyword,
                       'expected' => implode('|', $allowed_atrules),
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (empty($arguments) && strtolower($atKeyword) != '@font-face') {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'error',
                 array('var' => '$arguments',
                       'was' => $arguments,
                       'expected' => 'not empty value for '. $atKeyword,
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
 
         } elseif (!is_string($selectors)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$selectors',
                       'was' => gettype($selectors),
                       'expected' => 'string',
-                      'paramnum' => 3));
+                      'paramnum' => 3)
+            );
 
         } elseif (!is_string($property)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$property',
                       'was' => gettype($property),
                       'expected' => 'string',
-                      'paramnum' => 4));
+                      'paramnum' => 4)
+            );
 
         } elseif (!is_string($value)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$value',
                       'was' => gettype($value),
                       'expected' => 'string',
-                      'paramnum' => 5));
+                      'paramnum' => 5)
+            );
 
         } elseif (empty($property)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'error',
                 array('var' => '$property',
                       'was' => $property,
                       'expected' => 'no empty string',
-                      'paramnum' => 4));
+                      'paramnum' => 4)
+            );
 
         } elseif (empty($value)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'error',
                 array('var' => '$value',
                       'was' => gettype($value),
                       'expected' => 'no empty string',
-                      'paramnum' => 5));
+                      'paramnum' => 5)
+            );
         }
 
         if (!isset($duplicates)) {
@@ -900,39 +943,49 @@ class HTML_CSS extends HTML_Common
         $allowed_atrules = $this->getAtRulesList();
 
         if (!is_string($atKeyword)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$atKeyword',
                       'was' => gettype($atKeyword),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!in_array(strtolower($atKeyword), $allowed_atrules)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'error',
                 array('var' => '$atKeyword',
                       'was' => $atKeyword,
                       'expected' => implode('|', $allowed_atrules),
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!is_string($arguments)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$arguments',
                       'was' => gettype($arguments),
                       'expected' => 'string',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
 
         } elseif (!is_string($selectors)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$selectors',
                       'was' => gettype($selectors),
                       'expected' => 'string',
-                      'paramnum' => 3));
+                      'paramnum' => 3)
+            );
 
         } elseif (!is_string($property)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$property',
                       'was' => gettype($property),
                       'expected' => 'string',
-                      'paramnum' => 4));
+                      'paramnum' => 4)
+            );
         }
 
         if (isset($this->_css[$atKeyword][$arguments][$selectors][$property])) {
@@ -961,11 +1014,13 @@ class HTML_CSS extends HTML_Common
     function createGroup($selectors, $group = null)
     {
         if (!is_string($selectors)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$selectors',
                       'was' => gettype($selectors),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
         }
 
         if (!isset($group)) {
@@ -973,8 +1028,10 @@ class HTML_CSS extends HTML_Common
             $group = $this->_groupCount;
         } else {
             if (isset($this->_groups['@-'.$group])) {
-                return $this->raiseError(HTML_CSS_ERROR_INVALID_GROUP, 'error',
-                    array('identifier' => $group));
+                return $this->raiseError(
+                    HTML_CSS_ERROR_INVALID_GROUP, 'error',
+                    array('identifier' => $group)
+                );
             }
         }
 
@@ -1006,17 +1063,22 @@ class HTML_CSS extends HTML_Common
     function unsetGroup($group)
     {
         if (!is_int($group) && !is_string($group)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$group',
                       'was' => gettype($group),
                       'expected' => 'integer | string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
         }
         $groupIdent = '@-'.$group;
-        if ($group < 0 || $group > $this->_groupCount ||
-            !isset($this->_groups[$groupIdent])) {
-            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
-                array('identifier' => $group));
+        if ($group < 0 || $group > $this->_groupCount
+            || !isset($this->_groups[$groupIdent])
+        ) {
+            return $this->raiseError(
+                HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group)
+            );
         }
 
         $alibis = $this->_alibis;
@@ -1056,39 +1118,49 @@ class HTML_CSS extends HTML_Common
     function setGroupStyle($group, $property, $value, $duplicates = null)
     {
         if (!is_int($group) && !is_string($group)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$group',
                       'was' => gettype($group),
                       'expected' => 'integer | string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!is_string($property)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$property',
                       'was' => gettype($property),
                       'expected' => 'string',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
 
         } elseif (empty($property)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'error',
                 array('var' => '$property',
                       'was' => gettype($property),
                       'expected' => 'no empty string',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
 
         } elseif (!is_string($value)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$value',
                       'was' => gettype($value),
                       'expected' => 'string',
-                      'paramnum' => 3));
+                      'paramnum' => 3)
+            );
 
         } elseif (isset($duplicates) && !is_bool($duplicates)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$duplicates',
                       'was' => gettype($duplicates),
                       'expected' => 'bool',
-                      'paramnum' => 4));
+                      'paramnum' => 4)
+            );
         }
 
         if (!isset($duplicates)) {
@@ -1096,10 +1168,13 @@ class HTML_CSS extends HTML_Common
         }
 
         $groupIdent = '@-'.$group;
-        if ($group < 0 || $group > $this->_groupCount ||
-            !isset($this->_groups[$groupIdent])) {
-            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
-                array('identifier' => $group));
+        if ($group < 0 || $group > $this->_groupCount
+            || !isset($this->_groups[$groupIdent])
+        ) {
+            return $this->raiseError(
+                HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group)
+            );
         }
 
         if ($duplicates === true) {
@@ -1129,24 +1204,31 @@ class HTML_CSS extends HTML_Common
     function getGroupStyle($group, $property)
     {
         if (!is_int($group) && !is_string($group)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$group',
                       'was' => gettype($group),
                       'expected' => 'integer | string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!is_string($property)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$property',
                       'was' => gettype($property),
                       'expected' => 'string',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
         $groupIdent = '@-'.$group;
-        if ($group < 0 || $group > $this->_groupCount ||
-            !isset($this->_groups[$groupIdent])) {
-            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
-                array('identifier' => $group));
+        if ($group < 0 || $group > $this->_groupCount
+            || !isset($this->_groups[$groupIdent])
+        ) {
+            return $this->raiseError(
+                HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group)
+            );
         }
 
         $styles = array();
@@ -1189,24 +1271,31 @@ class HTML_CSS extends HTML_Common
     function addGroupSelector($group, $selectors)
     {
         if (!is_int($group) && !is_string($group)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$group',
                       'was' => gettype($group),
                       'expected' => 'integer | string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
         }
         $groupIdent = '@-'.$group;
-        if ($group < 0 || $group > $this->_groupCount ||
-            !isset($this->_groups[$groupIdent])) {
-            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
-                array('identifier' => $group));
+        if ($group < 0 || $group > $this->_groupCount
+            || !isset($this->_groups[$groupIdent])
+        ) {
+            return $this->raiseError(
+                HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group)
+            );
 
         } elseif (!is_string($selectors)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$selectors',
                       'was' => gettype($selectors),
                       'expected' => 'string',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
 
         $newSelectors = $this->parseSelectors($selectors, 1);
@@ -1234,24 +1323,31 @@ class HTML_CSS extends HTML_Common
     function removeGroupSelector($group, $selectors)
     {
         if (!is_int($group) && !is_string($group)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$group',
                       'was' => gettype($group),
                       'expected' => 'integer | string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
         }
         $groupIdent = '@-'.$group;
-        if ($group < 0 || $group > $this->_groupCount ||
-            !isset($this->_groups[$groupIdent])) {
-            return $this->raiseError(HTML_CSS_ERROR_NO_GROUP, 'error',
-                array('identifier' => $group));
+        if ($group < 0 || $group > $this->_groupCount
+            || !isset($this->_groups[$groupIdent])
+        ) {
+            return $this->raiseError(
+                HTML_CSS_ERROR_NO_GROUP, 'error',
+                array('identifier' => $group)
+            );
 
         } elseif (!is_string($selectors)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$selectors',
                       'was' => gettype($selectors),
                       'expected' => 'string',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
 
         $oldSelectors = $this->_groups[$groupIdent];
@@ -1289,40 +1385,50 @@ class HTML_CSS extends HTML_Common
     function setStyle($element, $property, $value, $duplicates = null)
     {
         if (!is_string($element)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$element',
                       'was' => gettype($element),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!is_string($property)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$property',
                       'was' => gettype($property),
                       'expected' => 'string',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
 
         } elseif (!is_string($value)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$value',
                       'was' => gettype($value),
                       'expected' => 'string',
-                      'paramnum' => 3));
+                      'paramnum' => 3)
+            );
 
         } elseif (strpos($element, ',')) {
             // Check if there are any groups.
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'error',
                 array('var' => '$element',
                       'was' => $element,
                       'expected' => 'string without comma',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (isset($duplicates) && !is_bool($duplicates)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$duplicates',
                       'was' => gettype($duplicates),
                       'expected' => 'bool',
-                      'paramnum' => 4));
+                      'paramnum' => 4)
+            );
         }
 
         if (!isset($duplicates)) {
@@ -1358,22 +1464,28 @@ class HTML_CSS extends HTML_Common
     function getStyle($element, $property)
     {
         if (!is_string($element)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$element',
                       'was' => gettype($element),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!is_string($property)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$property',
                       'was' => gettype($property),
                       'expected' => 'string',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
         if (!isset($this->_css[$element]) && !isset($this->_alibis[$element])) {
-            return $this->raiseError(HTML_CSS_ERROR_NO_ELEMENT, 'error',
-                array('identifier' => $element));
+            return $this->raiseError(
+                HTML_CSS_ERROR_NO_ELEMENT, 'error',
+                array('identifier' => $element)
+            );
         }
 
         if (isset($this->_css[$element]) && isset($this->_alibis[$element])) {
@@ -1407,9 +1519,11 @@ class HTML_CSS extends HTML_Common
         }
 
         if (!isset($property_value)) {
-            return $this->raiseError(HTML_CSS_ERROR_NO_ELEMENT_PROPERTY, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_NO_ELEMENT_PROPERTY, 'error',
                 array('identifier' => $element,
-                      'property'   => $property));
+                      'property'   => $property)
+            );
         }
         return $property_value;
     }
@@ -1432,18 +1546,22 @@ class HTML_CSS extends HTML_Common
     function grepStyle($elmPattern, $proPattern = null)
     {
         if (!is_string($elmPattern)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$elmPattern',
                       'was' => gettype($elmPattern),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (isset($proPattern) && !is_string($proPattern)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$proPattern',
                       'was' => gettype($proPattern),
                       'expected' => 'string',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
 
         $styles = array();
@@ -1512,40 +1630,50 @@ class HTML_CSS extends HTML_Common
     function setSameStyle($new, $old)
     {
         if (!is_string($new)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$new',
                       'was' => gettype($new),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!is_string($old)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$old',
                       'was' => gettype($old),
                       'expected' => 'string',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
 
         } elseif (strpos($new, ',')) {
             // Check if there are any groups.
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'error',
                 array('var' => '$new',
                       'was' => $new,
                       'expected' => 'string without comma',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (strpos($old, ',')) {
             // Check if there are any groups.
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'error',
                 array('var' => '$old',
                       'was' => $old,
                       'expected' => 'string without comma',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
 
         $old = $this->parseSelectors($old);
         if (!isset($this->_css[$old])) {
-            return $this->raiseError(HTML_CSS_ERROR_NO_ELEMENT, 'error',
-                array('identifier' => $old));
+            return $this->raiseError(
+                HTML_CSS_ERROR_NO_ELEMENT, 'error',
+                array('identifier' => $old)
+            );
         }
 
         $selector = implode(', ', array($old, $new));
@@ -1581,11 +1709,13 @@ class HTML_CSS extends HTML_Common
     function setCache($cache = true)
     {
         if (!is_bool($cache)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$cache',
                       'was' => gettype($cache),
                       'expected' => 'boolean',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
         }
         $this->options['cache'] = $cache;
     }
@@ -1624,17 +1754,21 @@ class HTML_CSS extends HTML_Common
     function setContentDisposition($enable = true, $filename = '')
     {
         if (!is_bool($enable)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$enable',
                       'was' => gettype($enable),
                       'expected' => 'bool',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
         } elseif (!is_string($filename)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$filename',
                       'was' => gettype($filename),
                       'expected' => 'string',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
 
         if ($enable == false) {
@@ -1682,11 +1816,13 @@ class HTML_CSS extends HTML_Common
     function setCharset($type = 'iso-8859-1')
     {
         if (!is_string($type)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$type',
                       'was' => gettype($type),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
         }
         $this->options['charset'] = $type;
     }
@@ -1724,18 +1860,22 @@ class HTML_CSS extends HTML_Common
     function parseString($str, $duplicates = null)
     {
         if (!is_string($str)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$str',
                       'was' => gettype($str),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (isset($duplicates) && !is_bool($duplicates)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$duplicates',
                       'was' => gettype($duplicates),
                       'expected' => 'bool',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
 
         if (!isset($duplicates)) {
@@ -1765,7 +1905,10 @@ class HTML_CSS extends HTML_Common
             '\1{}', $str
         );
         // structure map
-        $structure = preg_split('/([a-zA-Z0-9\s\.\:#_\-@,]+)\{(.*)\}/', $structure, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $structure = preg_split(
+            '/([a-zA-Z0-9\s\.\:#_\-@,]+)\{(.*)\}/', $structure, -1,
+            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
+        );
 
         $atRulesMap = array();
         $atRule = '';
@@ -1784,10 +1927,14 @@ class HTML_CSS extends HTML_Common
                 $struct = strtolower($struct);
             }
 
-            if (preg_match_all('/^(@[a-zA-Z\-]+)\s+(.+);\s*$/m', $struct, $atRules,
-                PREG_SET_ORDER)) {
+            if (preg_match_all(
+                '/^(@[a-zA-Z\-]+)\s+(.+);\s*$/m', $struct, $atRules,
+                PREG_SET_ORDER)
+            ) {
                 foreach ($atRules as $value) {
-                    $this->createAtRule(trim($value[1]), trim($value[2]), $duplicates);
+                    $this->createAtRule(
+                        trim($value[1]), trim($value[2]), $duplicates
+                    );
                 }
                 continue;
             }
@@ -1812,11 +1959,13 @@ class HTML_CSS extends HTML_Common
                         $var = 'styles';
                     }
 
-                    return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                    return $this->raiseError(
+                        HTML_CSS_ERROR_INVALID_INPUT, 'error',
                         array('var' => '$'.$var,
                               'was' => 'invalid data source',
                               'expected' => 'valid CSS structure',
-                              'paramnum' => 1));
+                              'paramnum' => 1)
+                    );
                 }
                 $atRule = rtrim(substr($struct, 0, $pos));
 
@@ -1844,11 +1993,13 @@ class HTML_CSS extends HTML_Common
                     $var = 'styles';
                 }
 
-                return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'error',
+                return $this->raiseError(
+                    HTML_CSS_ERROR_INVALID_INPUT, 'error',
                     array('var' => '$'.$var,
                           'was' => 'invalid data source',
                           'expected' => 'valid CSS structure',
-                          'paramnum' => 1));
+                          'paramnum' => 1)
+                );
             }
 
             if ($this->options['xhtml']) {
@@ -1866,7 +2017,8 @@ class HTML_CSS extends HTML_Common
             $codestr = $properties[$i];
 
             $key = trim($keystr);
-            $parentAtRule = isset($atRulesMap[$key][$i]) ? $atRulesMap[$key][$i] : $atRulesMap[$key][0];
+            $parentAtRule = isset($atRulesMap[$key][$i])
+                ? $atRulesMap[$key][$i] : $atRulesMap[$key][0];
 
             // Check if there are any groups; in standard selectors exclude at-rules
             if (strpos($keystr, ',') && (empty($parentAtRule))) {
@@ -1886,8 +2038,9 @@ class HTML_CSS extends HTML_Common
                             $value
                                 = str_replace('#34#125#34', '"\"}\""', $value);
                         }
-                        $this->setGroupStyle($group, $property, $value,
-                            $duplicates);
+                        $this->setGroupStyle(
+                            $group, $property, $value, $duplicates
+                        );
                     }
                 }
             } else {
@@ -1903,8 +2056,7 @@ class HTML_CSS extends HTML_Common
                     $v = trim(substr($code, strpos($code, ':') + 1));
                     // IE hack only
                     if (strcasecmp($p, 'voice-family') == 0) {
-                        $v = str_replace('#34#125#34', '"\"}\""',
-                                     $v);
+                        $v = str_replace('#34#125#34', '"\"}\""', $v);
                     }
 
                     if (!empty($parentAtRule)) {
@@ -1918,8 +2070,9 @@ class HTML_CSS extends HTML_Common
                             $atkw_args[] = '';
                         }
                         list($atKeyword, $arguments) = $atkw_args;
-                        $this->setAtRuleStyle($atKeyword, $arguments, $keystr,
-                            $p, $v, $duplicates);
+                        $this->setAtRuleStyle(
+                            $atKeyword, $arguments, $keystr, $p, $v, $duplicates
+                        );
 
                     } elseif ($key{0} == '@') {
                         $atkw_args = preg_split(
@@ -1930,8 +2083,9 @@ class HTML_CSS extends HTML_Common
                             $atkw_args[] = '';
                         }
                         list($atKeyword, $arguments) = $atkw_args;
-                        $this->setAtRuleStyle($atKeyword, $arguments, '',
-                            $p, $v, $duplicates);
+                        $this->setAtRuleStyle(
+                            $atKeyword, $arguments, '', $p, $v, $duplicates
+                        );
                     } else {
                         // simple declarative style
                         $this->setStyle($key, $p, $v, $duplicates);
@@ -1958,22 +2112,28 @@ class HTML_CSS extends HTML_Common
     function parseFile($filename, $duplicates = null)
     {
         if (!is_string($filename)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$filename',
                       'was' => gettype($filename),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!file_exists($filename)) {
-            return $this->raiseError(HTML_CSS_ERROR_NO_FILE, 'error',
-                    array('identifier' => $filename));
+            return $this->raiseError(
+                HTML_CSS_ERROR_NO_FILE, 'error',
+                array('identifier' => $filename)
+            );
 
         } elseif (isset($duplicates) && !is_bool($duplicates)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$duplicates',
                       'was' => gettype($duplicates),
                       'expected' => 'bool',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
 
         if (!isset($duplicates)) {
@@ -2001,18 +2161,22 @@ class HTML_CSS extends HTML_Common
     function parseData($styles, $duplicates = null)
     {
         if (!is_array($styles)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$styles',
                       'was' => gettype($styles),
                       'expected' => 'array',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (isset($duplicates) && !is_bool($duplicates)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$duplicates',
                       'was' => gettype($duplicates),
                       'expected' => 'bool',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
 
         if (!isset($duplicates)) {
@@ -2021,11 +2185,13 @@ class HTML_CSS extends HTML_Common
 
         foreach ($styles as $i => $style) {
             if (!is_string($style)) {
-                return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                return $this->raiseError(
+                    HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                     array('var' => '$styles[' . $i . ']',
                           'was' => gettype($styles[$i]),
                           'expected' => 'string',
-                          'paramnum' => 1));
+                          'paramnum' => 1)
+                );
             }
             if (strcasecmp(substr($style, -4, 4), '.css') == 0) {
                 $this->parseFile($style, $duplicates);
@@ -2055,31 +2221,39 @@ class HTML_CSS extends HTML_Common
     {
         $php = phpversion();
         if (version_compare($php, '5.0.0', '<')) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_DEPS, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_DEPS, 'exception',
                 array('funcname' => __FUNCTION__,
                       'dependency' => 'PHP 5',
-                      'currentdep' => "PHP $php"));
+                      'currentdep' => "PHP $php")
+            );
         }
         @include_once 'Services/W3C/CSSValidator.php';
         if (class_exists('Services_W3C_CSSValidator', false) === false) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_DEPS, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_DEPS, 'exception',
                 array('funcname' => __FUNCTION__,
                       'dependency' => 'PEAR::Services_W3C_CSSValidator',
-                      'currentdep' => 'nothing'));
+                      'currentdep' => 'nothing')
+            );
         }
         if (!is_array($styles)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$styles',
                       'was' => gettype($styles),
                       'expected' => 'array',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
 
         } elseif (!is_array($messages)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$messages',
                       'was' => gettype($messages),
                       'expected' => 'array',
-                      'paramnum' => 2));
+                      'paramnum' => 2)
+            );
         }
 
         // prepare to call the W3C CSS validator service
@@ -2089,11 +2263,13 @@ class HTML_CSS extends HTML_Common
 
         foreach ($styles as $i => $source) {
             if (!is_string($source)) {
-                return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                return $this->raiseError(
+                    HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                     array('var' => '$styles[' . $i . ']',
                           'was' => gettype($styles[$i]),
                           'expected' => 'string',
-                          'paramnum' => 1));
+                          'paramnum' => 1)
+                );
             }
             if (strcasecmp(substr($source, -4, 4), '.css') == 0) {
                 // validate a file as CSS content
@@ -2115,11 +2291,13 @@ class HTML_CSS extends HTML_Common
                     $properties             = get_object_vars($warning);
                     $messages['warnings'][] = $properties;
                 }
-                $this->raiseError(HTML_CSS_ERROR_INVALID_SOURCE,
+                $this->raiseError(
+                    HTML_CSS_ERROR_INVALID_SOURCE,
                     ((count($r->errors) == 0) ? 'warning' : 'error'),
                     array('sourcenum' => $i,
                           'errcount' => count($r->errors),
-                          'warncount' => count($r->warnings)));
+                          'warncount' => count($r->warnings))
+                );
             }
         }
         return $validity;
@@ -2167,11 +2345,13 @@ class HTML_CSS extends HTML_Common
     function toInline($element)
     {
         if (!is_string($element)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$element',
                       'was' => gettype($element),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
         }
 
         $strCss      = '';
@@ -2233,11 +2413,13 @@ class HTML_CSS extends HTML_Common
     function toFile($filename)
     {
         if (!is_string($filename)) {
-            return $this->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+            return $this->raiseError(
+                HTML_CSS_ERROR_INVALID_INPUT, 'exception',
                 array('var' => '$filename',
                       'was' => gettype($filename),
                       'expected' => 'string',
-                      'paramnum' => 1));
+                      'paramnum' => 1)
+            );
         }
 
         if (function_exists('file_put_contents')) {
@@ -2248,8 +2430,10 @@ class HTML_CSS extends HTML_Common
             fclose($file);
         }
         if (!file_exists($filename)) {
-            return $this->raiseError(HTML_CSS_ERROR_WRITE_FILE, 'error',
-                    array('filename' => $filename));
+            return $this->raiseError(
+                HTML_CSS_ERROR_WRITE_FILE, 'error',
+                array('filename' => $filename)
+            );
         }
     }
 
@@ -2365,7 +2549,8 @@ class HTML_CSS extends HTML_Common
             // different string which will be appended in the end
             if (isset($definition)) {
                 if ($this->__get('groupsfirst') === true
-                    && strpos($identifier, '@-') === false) {
+                    && strpos($identifier, '@-') === false
+                ) {
                     // add to elements
                     $strCssElements .= $lnEnd . $tabs . $definition . $lnEnd;
                 } else {
@@ -2418,8 +2603,10 @@ class HTML_CSS extends HTML_Common
 
             // set Content-Disposition
             if ($this->__get('contentDisposition') !== false) {
-                header('Content-Disposition: inline; filename="' .
-                    $this->__get('contentDisposition') . '"');
+                header(
+                    'Content-Disposition: inline; filename="' .
+                    $this->__get('contentDisposition') . '"'
+                );
             }
         }
 
@@ -2440,7 +2627,8 @@ class HTML_CSS extends HTML_Common
     {
         // error message mapping callback
         if (isset($prefs['message_callback'])
-            && is_callable($prefs['message_callback'])) {
+            && is_callable($prefs['message_callback'])
+        ) {
             $this->_callback_message = $prefs['message_callback'];
         } else {
             $this->_callback_message = array('HTML_CSS_Error', '_msgCallback');
@@ -2448,7 +2636,8 @@ class HTML_CSS extends HTML_Common
 
         // error context mapping callback
         if (isset($prefs['context_callback'])
-            && is_callable($prefs['context_callback'])) {
+            && is_callable($prefs['context_callback'])
+        ) {
             $this->_callback_context = $prefs['context_callback'];
         } else {
             $this->_callback_context = array('HTML_CSS_Error', 'getBacktrace');
@@ -2456,7 +2645,8 @@ class HTML_CSS extends HTML_Common
 
         // determine whether to allow an error to be pushed or logged
         if (isset($prefs['push_callback'])
-            && is_callable($prefs['push_callback'])) {
+            && is_callable($prefs['push_callback'])
+        ) {
             $this->_callback_push = $prefs['push_callback'];
         } else {
             $this->_callback_push = array('HTML_CSS_Error', '_handleError');
@@ -2464,7 +2654,8 @@ class HTML_CSS extends HTML_Common
 
         // determine whether to display or log an error by a free user function
         if (isset($prefs['error_callback'])
-            && is_callable($prefs['error_callback'])) {
+            && is_callable($prefs['error_callback'])
+        ) {
             $this->_callback_error = $prefs['error_callback'];
         } else {
             $this->_callback_error = null;
@@ -2472,7 +2663,8 @@ class HTML_CSS extends HTML_Common
 
         // default error handler will use PEAR_Error
         if (isset($prefs['error_handler'])
-            && is_callable($prefs['error_handler'])) {
+            && is_callable($prefs['error_handler'])
+        ) {
             $this->_callback_errorhandler = $prefs['error_handler'];
         } else {
             $this->_callback_errorhandler = array(&$this, '_errorHandler');
@@ -2520,8 +2712,9 @@ class HTML_CSS extends HTML_Common
             $userinfo['log'] = array();
         }
 
-        return PEAR::raiseError($message, $code, $mode, $options, $userinfo,
-                   'HTML_CSS_Error');
+        return PEAR::raiseError(
+            $message, $code, $mode, $options, $userinfo, 'HTML_CSS_Error'
+        );
     }
 
     /**
