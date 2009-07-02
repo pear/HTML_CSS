@@ -472,6 +472,7 @@ img.thumbs {
      */
     public function testParseStringWithSimpleAtRule()
     {
+        $this->css->setXhtmlCompliance(false);
         $simpleAtRule = '
 html { height: 100%; }
 @charset "UTF-8";
@@ -513,6 +514,7 @@ html { height: 100%; }
      */
     public function testParseFile()
     {
+        $this->css->setXhtmlCompliance(false);
         // parsing a file contents
         $fn  = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'stylesheet.css';
         $e   = $this->css->parseFile($fn);
@@ -570,11 +572,11 @@ html { height: 100%; }
                      'color' => 'black'),
                    '.Properties' =>
                    array('text-align' => 'right'),
-                   'code.expected' =>
+                   'CODE.expected' =>
                    array('color' => 'green',
                      'background' => 'none',
                      'font-weight' => 'normal'),
-                   'code.actual' =>
+                   'CODE.actual' =>
                    array('color' => 'red',
                      'background' => 'none',
                      'font-weight' => 'normal'),
@@ -593,6 +595,7 @@ html { height: 100%; }
      */
     public function testParseData()
     {
+        $this->css->setXhtmlCompliance(false);
         $strcss   = '
 body, p { background-color: white; font: 1.2em Arial; }
 p, div#black { color: black; }
@@ -658,11 +661,11 @@ p { margin-left: 3em; }
                      'color' => 'black'),
                    '.Properties' =>
                    array('text-align' => 'right'),
-                   'code.expected' =>
+                   'CODE.expected' =>
                    array('color' => 'green',
                      'background' => 'none',
                      'font-weight' => 'normal'),
-                   'code.actual' =>
+                   'CODE.actual' =>
                    array('color' => 'red',
                      'background' => 'none',
                      'font-weight' => 'normal'),
@@ -847,6 +850,7 @@ p { margin-left: 3em; }
      */
     public function testGrepStyle()
     {
+        $this->css->setXhtmlCompliance(false);
         $strcss = '
 #PB1 .cellI, #PB1 .cellA {
   width: 10px;
@@ -1110,6 +1114,48 @@ EOD;
                      )
                    ),
                    'html' => array('height' => '100%'));
+        $def = $this->css->toArray();
+        $this->assertSame($gs, $def, 'array does not match');
+    }
+
+    /**
+     * Tests parsing CSS string that contains At-Rules with rule sets
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testParseAtRuleStringWithManyRuleSets()
+    {
+        $strcss = <<<EOD
+@media print {
+	body {
+		font-size: 10pt;
+		font-family: times new roman, times, serif;
+	}
+
+	#navigation {
+		display: none;
+	}
+}
+
+p {
+	font-weight: bold;
+}
+EOD;
+
+        $e   = $this->css->parseString($strcss);
+        $msg = PEAR::isError($e) ? $e->getMessage() : null;
+        $this->assertFalse(PEAR::isError($e), $msg);
+
+        $gs  = array('@media' => array(
+                   'print' => array(
+                     'body' => array('font-size' => '10pt',
+                                     'font-family' => 'times new roman, times, serif'),
+                     '#navigation' => array('display' => 'none'),
+                     ),
+                   ),
+                   'p' => array('font-weight' => 'bold'),
+        );
         $def = $this->css->toArray();
         $this->assertSame($gs, $def, 'array does not match');
     }
@@ -1509,19 +1555,24 @@ EOD;
         $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
 
         // validate
-        $styles   = '';
-        $messages = '';
-        $r = $this->css->validate($styles, $messages);
-        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
-
-        $styles   = array('p, div#black { color: black; }');
-        $r = $this->css->validate($styles, $messages);
-        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
-
         $stub = $this->getMock('HTML_CSS', array('validate'));
         $stub->expects($this->any())
              ->method('validate')
              ->will($this->returnCallback(array(&$this, 'cbMockValidator')));
+
+        $styles   = ' ';
+        $messages = array();
+        $r = $stub->validate($styles, $messages);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $styles   = array('p, div#black { color: black; }');
+        $messages = '';
+        $r = $stub->validate($styles, $messages);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
+
+        $styles   = array('p, div#black { color: black; }');
+        $r = $stub->validate($styles, $messages);
+        $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
 
         $messages = array();
         $styles   = array('php < 5');
@@ -1558,6 +1609,21 @@ EOD;
         $args     = func_get_args();
         $styles   = $args[0];
         $messages = $args[1];
+
+        if (!is_array($styles)) {
+            return $this->css->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$styles',
+                      'was' => gettype($styles),
+                      'expected' => 'array',
+                      'paramnum' => 1));
+
+        } elseif (!is_array($messages)) {
+            return $this->css->raiseError(HTML_CSS_ERROR_INVALID_INPUT, 'exception',
+                array('var' => '$messages',
+                      'was' => gettype($messages),
+                      'expected' => 'array',
+                      'paramnum' => 2));
+        }
 
         $css1 = 'php < 5';
         $css2 = 'Services_W3C_CSSValidator does not exists';
