@@ -1185,7 +1185,6 @@ EOD;
     public function testApiVersion()
     {
         $expected = '@api_version@';
-        $expected = '1.5.0';
         if ($expected == '@'.'api_version@') {
             $this->markTestSkipped('Could not be run from CVS repository');
         }
