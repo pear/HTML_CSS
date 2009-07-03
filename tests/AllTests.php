@@ -48,7 +48,24 @@ class HTML_CSS_AllTests
      */
     public static function main()
     {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        include_once 'PEAR/Config.php';
+
+        $testListener_installed = HTML_CSS_AllTests::packageInstalled(
+            'PEAR_TestListener', '0.3.0b2', '__URI'
+        );
+        // detect at run-time if PEAR_TestListener is installed ...
+        if ($testListener_installed) {
+            // ... and uses it's benefits
+            include_once 'PEAR/TestRunner.php';
+            include_once 'TestListener.php';
+
+            $logger   = PEAR_TestRunner::getLogger();
+            $listener = new HTML_CSS_TestListener($logger);
+
+            PEAR_TestRunner::run(self::suite(), $listener);
+        } else {
+            PHPUnit_TextUI_TestRunner::run(self::suite());
+        }
     }
 
     /**
@@ -64,6 +81,45 @@ class HTML_CSS_AllTests
         $suite->addTestSuite('HTML_CSS_TestSuite_Output');
         $suite->addTestSuite('HTML_CSS_TestSuite_Bugs');
         return $suite;
+    }
+
+    /**
+     * Check if a package is installed
+     *
+     * Simple function to check if a package is installed under user
+     * or system PEAR installation. Minimal version and channel info are supported.
+     *
+     * @param string $name        Package name
+     * @param string $version     (optional) The minimal version
+     *                            that should be installed
+     * @param string $channel     (optional) The package channel distribution
+     * @param string $user_file   (optional) file to read PEAR user-defined
+     *                            options from
+     * @param string $system_file (optional) file to read PEAR system-wide
+     *                            defaults from
+     *
+     * @static
+     * @return bool
+     * @since  version 1.5.4 (2009-07-04)
+     * @see    PHP_CompatInfo::packageInstalled()
+     */
+    public static function packageInstalled($name, $version = null, $channel = null,
+        $user_file = '', $system_file = ''
+    ) {
+        $config = PEAR_Config::singleton($user_file, $system_file);
+        $reg    = $config->getRegistry();
+
+        if (is_null($version)) {
+            return $reg->packageExists($name, $channel);
+        } else {
+            $info = &$reg->getPackage($name, $channel);
+            if (is_object($info)) {
+                $installed['version'] = $info->getVersion();
+            } else {
+                $installed = $info;
+            }
+            return version_compare($version, $installed['version'], '<=');
+        }
     }
 }
 
