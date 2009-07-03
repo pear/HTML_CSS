@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>HTML_CSS</name>
  <channel>pear.php.net</channel>
  <summary>Provides a simple interface for validate, handle and generate cascading style sheets</summary>
@@ -30,10 +30,10 @@ In addition, it shares the following with HTML_Common based classes:
   <email>klaus@capitalfocus.org</email>
   <active>no</active>
  </lead>
- <date>2009-01-21</date>
- <time>11:55:01</time>
+ <date>2009-07-04</date>
+ <time>18:01:20</time>
  <version>
-  <release>1.5.3</release>
+  <release>1.5.4</release>
   <api>1.5.0</api>
  </version>
  <stability>
@@ -41,8 +41,14 @@ In addition, it shares the following with HTML_Common based classes:
   <api>stable</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
- <notes>* QA
-- prevent wrong usage of setSameStyle(); see bug #15690
+ <notes>
+Bug fixes
+- 16354 : Does not parse multiple simple At-rules properly
+- 16355 : Simple at rules nested within other at rules are reported as top level at rules
+- 16357 : Multiple equal complex at rules not parsed correctly
+- 16358 : Multiple media types on media at rule not parsed correctly
+- 16359 : Multiple selectors on a single rule inside a complex at rule not properly parsed
+- 16360 : Multiple selectors inside a complex at rule not properly parsed
  </notes>
  <contents>
   <dir baseinstalldir="HTML" name="/">
@@ -82,6 +88,12 @@ In addition, it shares the following with HTML_Common based classes:
     <file name="HTML_CSS_TestSuite_Standard.php" role="test">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
      <tasks:replace from="@api_version@" to="api-version" type="package-info" />
+    </file>
+    <file name="TestListener.php" role="test">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="phpunit.xml" role="test">
+     <tasks:replace from="@test_dir@" to="test_dir" type="pear-config" />
     </file>
     <file name="stylesheet.css" role="test" />
    </dir> <!-- /tests -->
@@ -130,6 +142,27 @@ In addition, it shares the following with HTML_Common based classes:
  <changelog>
   <release>
    <version>
+    <release>1.5.4</release>
+    <api>1.5.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-07-04</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>
+Bug fixes
+- 16354 : Does not parse multiple simple At-rules properly
+- 16355 : Simple at rules nested within other at rules are reported as top level at rules
+- 16357 : Multiple equal complex at rules not parsed correctly
+- 16358 : Multiple media types on media at rule not parsed correctly
+- 16359 : Multiple selectors on a single rule inside a complex at rule not properly parsed
+- 16360 : Multiple selectors inside a complex at rule not properly parsed
+   </notes>
+  </release>
+  <release>
+   <version>
     <release>1.5.3</release>
     <api>1.5.0</api>
    </version>
@@ -139,7 +172,8 @@ In addition, it shares the following with HTML_Common based classes:
    </stability>
    <date>2009-01-21</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-   <notes>* QA
+   <notes>
+* QA
 - prevent wrong usage of setSameStyle(); see bug #15690
    </notes>
   </release>
@@ -154,7 +188,8 @@ In addition, it shares the following with HTML_Common based classes:
    </stability>
    <date>2009-01-20</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-   <notes>* QA
+   <notes>
+* QA
 - fix minor notice errors
 - implement Mock Object (PHPUnit feature) to replace call to W3C CSS Validator Web Service
 - add many new unit test cases to improve code coverage from 77 to 96%
@@ -171,7 +206,8 @@ In addition, it shares the following with HTML_Common based classes:
    </stability>
    <date>2008-03-15</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-   <notes>* bugs
+   <notes>
+* bugs
 - fix bug #12996 : Call-time pass-by-reference has been deprecated
 - fix bug #13314 : Notice error raised on parsing string
    </notes>
@@ -187,7 +223,8 @@ In addition, it shares the following with HTML_Common based classes:
    </stability>
    <date>2008-01-15</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-   <notes>* changes
+   <notes>
+* changes
 - copyright year bump
 
 * news
@@ -198,7 +235,8 @@ In addition, it shares the following with HTML_Common based classes:
 
 * QA
 - User Guide (HTML version) included in previous versions was removed, since
-its now part of PEAR manual</notes>
+its now part of PEAR manual
+   </notes>
   </release>
   <release>
    <version>
@@ -211,7 +249,8 @@ its now part of PEAR manual</notes>
    </stability>
    <date>2007-12-14</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-   <notes>* changes
+   <notes>
+* changes
 - removed old class (private) properties related to options ($_xhtmlCompliant,
   $_cache, $_singleLine, $_charset, $_contentDisposition, $_groupsFirst,
   $_allowDuplicates), now group by in a private array $options.
@@ -230,7 +269,8 @@ its now part of PEAR manual</notes>
 - Coding Standard fixes (recommandation by PHP_CodeSniffer)
 - tests suite migrated from PHPUnit 1.x to 3.x
 - User Guide 1.4.0 included in this release cover all versions
-1.x.x, 1.1.x, 1.2.x, 1.3.x, 1.4.x</notes>
+1.x.x, 1.1.x, 1.2.x, 1.3.x, 1.4.x
+   </notes>
   </release>
   <release>
    <version>
@@ -243,14 +283,16 @@ its now part of PEAR manual</notes>
    </stability>
    <date>2007-10-22</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-   <notes>* changes
+   <notes>
+* changes
 - prevent invalide CSS data source in to parse
 
 * news
 - add Content-Disposition to the headers in display(); implement request #12195
 
 * QA
-User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x, 1.3.x</notes>
+User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x, 1.3.x
+   </notes>
   </release>
   <release>
    <version>
@@ -263,12 +305,14 @@ User Guide 1.3.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
    </stability>
    <date>2007-06-12</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-   <notes>* changes
+   <notes>
+* changes
 - No code changes since previous release, but license changed
 from PHP 3.01 to new BSD (give more freedom)
 
 * QA
-User Guide 1.2.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x</notes>
+User Guide 1.2.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
+   </notes>
   </release>
   <release>
    <version>
@@ -281,11 +325,13 @@ User Guide 1.2.0 included in this release cover all versions 1.x.x, 1.1.x, 1.2.x
    </stability>
    <date>2007-02-18</date>
    <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
-   <notes>* bugs
+   <notes>
+* bugs
 - fixed typo error in &quot;oneline&quot; attribute used with class constructor (Bug #10103)
 
 * QA
-User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x</notes>
+User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x
+   </notes>
   </release>
   <release>
    <version>
@@ -298,11 +344,13 @@ User Guide 1.1.3 included in this release cover all versions 1.x.x, 1.1.x</notes
    </stability>
    <date>2007-01-03</date>
    <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
-   <notes>* bugs
+   <notes>
+* bugs
 - fixed error into grepStyle() method : conflict between goup (alibis) and simple element
 
 * QA
-User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (bug fixes)</notes>
+User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (bug fixes)
+   </notes>
   </release>
   <release>
    <version>
@@ -315,9 +363,11 @@ User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (b
    </stability>
    <date>2007-01-01</date>
    <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
-   <notes>* bugs
+   <notes>
+* bugs
 - it was impossible to use isError() in cascade with version 1.1.0
-- fixed version number on license declared and used in CSS.php file</notes>
+- fixed version number on license declared and used in CSS.php file
+   </notes>
   </release>
   <release>
    <version>
@@ -330,14 +380,16 @@ User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (b
    </stability>
    <date>2006-12-30</date>
    <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
-   <notes>* news
+   <notes>
+* news
 - add new feature : ability to search if an element/property is defined or not
 - upgraded copyright notice to new year 2007
 
 * QA
 - add new example CSS_grepStyles.php for function grepStyle()
 - include a new revision of User Guide (TDG).
-  see http://pear.laurent-laville.org/HTML_CSS for more format to download.</notes>
+  see http://pear.laurent-laville.org/HTML_CSS for more format to download.
+   </notes>
   </release>
   <release>
    <version>
@@ -350,9 +402,11 @@ User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (b
    </stability>
    <date>2006-12-21</date>
    <license uri="http://www.php.net/license/3_01.txt">PHP License 3.01</license>
-   <notes>- fix a bug with HTML_CSS::isError() method
+   <notes>
+- fix a bug with HTML_CSS::isError() method
 - drop support of package xml 1.0; Now we must have at least PEAR 1.4.3
-- License change from PHP 3.0 to PHP 3.01</notes>
+- License change from PHP 3.0 to PHP 3.01
+   </notes>
   </release>
   <release>
    <version>
@@ -365,7 +419,8 @@ User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (b
    </stability>
    <date>2006-06-24</date>
    <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
-   <notes>After 2 releases candidate and no bug reported since 6 months, it&apos;s time to build the final stable version 1.0.0
+   <notes>
+After 2 releases candidate and no bug reported since 6 months, it&apos;s time to build the final stable version 1.0.0
 
 * Improvements
 - add @ignore phpdoc tag in all unit tests to hide them in API doc generation.
@@ -373,7 +428,8 @@ User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (b
 
 * Quality Assurance
 - header comment blocks were updated (copyright dates, ...)
-- include a user-guide in html format (others format to download on http://pear.laurent-laville.org/HTML_CSS/docs)</notes>
+- include a user-guide in html format (others format to download on http://pear.laurent-laville.org/HTML_CSS/docs)
+   </notes>
   </release>
   <release>
    <version>
@@ -386,11 +442,13 @@ User Guide 1.1.0 included in this release cover also versions 1.1.1 and 1.1.2 (b
    </stability>
    <date>2005-12-15</date>
    <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
-   <notes>New features:
+   <notes>
+New features:
 - parseData() : Ability to parse multiple data sources (filename, string) at once
 - isError() : Tell whether a value return by HTML_CSS is an error.
 
-See new script:  examples/CSS_parseData.php</notes>
+See new script:  examples/CSS_parseData.php
+   </notes>
   </release>
   <release>
    <version>
@@ -403,7 +461,8 @@ See new script:  examples/CSS_parseData.php</notes>
    </stability>
    <date>2005-07-26</date>
    <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
-   <notes>New features:
+   <notes>
+New features:
 - PEAR_ErrorStack was replaced by a simple way to plug in any error handling system you might want (default used PEAR_Error object)
 - Duplicate properties can now be allowed.
 
@@ -422,7 +481,8 @@ Changes
 - toArray reimplemented (API changed if duplicates allowed)
 
 Quality Assurance
-- Updates headers comment block on all files</notes>
+- Updates headers comment block on all files
+   </notes>
   </release>
   <release>
    <version>
@@ -435,7 +495,8 @@ Quality Assurance
    </stability>
    <date>2004-11-21</date>
    <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
-   <notes>New features:
+   <notes>
+New features:
 * Removes PEAR_ErrorStack and Log packages dependencies
 * Uses the basic error handler PEAR_Error (see examples/CSS_Logger.php)
 
@@ -448,7 +509,8 @@ Changes
 
 Quality Assurance
 * This release follows the rules defined at
-* http://pear.php.net/group/docs/20040226-vn.php</notes>
+* http://pear.php.net/group/docs/20040226-vn.php
+   </notes>
   </release>
   <release>
    <version>
@@ -461,13 +523,15 @@ Quality Assurance
    </stability>
    <date>2004-05-21</date>
    <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
-   <notes>New features:
+   <notes>
+New features:
 * Added testcases for all bugs (Laurent)
 
 Bugfixes:
 * Added dependency on PEAR 1.3.1 or greater (necessary for error handling)
 * Compatibility fix for PHP5 in parseSelectors
-* Now parseSelectors correctly divides selectors with IDs (output mode 2)</notes>
+* Now parseSelectors correctly divides selectors with IDs (output mode 2)
+   </notes>
   </release>
   <release>
    <version>
@@ -480,14 +544,16 @@ Bugfixes:
    </stability>
    <date>2004-05-20</date>
    <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
-   <notes>New features:
+   <notes>
+New features:
 * New error implementation (PEAR_Error_Stack) (Laurent)
 * Added more testcases (Laurent)
 * Output definitions on single line
 
 Bugfixes:
 * #1072 (incomplete internal inheritance support in parseString and getStyle)
-* #1084 (parseSelectors unable to handle inheritance)</notes>
+* #1084 (parseSelectors unable to handle inheritance)
+   </notes>
   </release>
   <release>
    <version>
@@ -500,7 +566,8 @@ Bugfixes:
    </stability>
    <date>2004-03-24</date>
    <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
-   <notes>New features:
+   <notes>
+New features:
 * setXhtmlCompliance(bool)
     Determines whether elements are automatically lowercased
     for XHTML compliance. May also be passed to class constructor
@@ -510,7 +577,8 @@ Bugfixes:
 Bugfixes:
 * #725  (Elements differentiated because of whitespace)
 * #998  (parseString failure to parse property value when it contained a colon)
-* #1066 (Trim property values in parseString)</notes>
+* #1066 (Trim property values in parseString)
+   </notes>
   </release>
   <release>
    <version>
@@ -523,7 +591,8 @@ Bugfixes:
    </stability>
    <date>2003-11-03</date>
    <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
-   <notes>Warning:
+   <notes>
+Warning:
 Major BC break!
 
 License change:
@@ -539,7 +608,8 @@ New features:
 * Added unit tests (Laurent)
 
 Bugfixes:
-* Fixed setSameStyle functionality</notes>
+* Fixed setSameStyle functionality
+   </notes>
   </release>
   <release>
    <version>
@@ -552,7 +622,8 @@ Bugfixes:
    </stability>
    <date>2003-11-03</date>
    <license uri="http://www.php.net/license/3_0.txt">PHP License 3.0</license>
-   <notes>Warning:
+   <notes>
+Warning:
 Major BC break!
 
 License change:
@@ -568,7 +639,8 @@ New features:
 * Added unit tests (Laurent)
 
 Bugfixes:
-* Examples updated</notes>
+* Examples updated
+   </notes>
   </release>
   <release>
    <version>
@@ -581,14 +653,16 @@ Bugfixes:
    </stability>
    <date>2003-07-31</date>
    <license uri="http://www.php.net/license/2_02.txt">PHP License 2.02</license>
-   <notes>It is completely standards compliant, and has some great features:
+   <notes>
+It is completely standards compliant, and has some great features:
 * Inline stylesheet declarations
 * Document internal stylesheet declarations
 * Standalone stylesheet declarations
 
 In addition, it shares the following with HTML_Common based classes:
 * Indent style support
-* Line ending style</notes>
+* Line ending style
+   </notes>
   </release>
  </changelog>
 </package>
