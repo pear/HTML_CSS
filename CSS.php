@@ -1927,10 +1927,12 @@ class HTML_CSS extends HTML_Common
                 $struct = strtolower($struct);
             }
 
-            if (preg_match_all(
+            
+            $has_AtRules = preg_match_all(
                 '/^(@[a-zA-Z\-]+)\s+(.+);\s*$/m', $struct, $atRules,
-                PREG_SET_ORDER)
-            ) {
+                PREG_SET_ORDER
+            );
+            if ($has_AtRules) {
                 foreach ($atRules as $value) {
                     $this->createAtRule(
                         trim($value[1]), trim($value[2]), $duplicates
