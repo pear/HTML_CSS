@@ -1,5 +1,16 @@
 $Id$
 
+2009-07-04 Laurent Laville <pear@laurent-laville.org>
+
+  * VERSION: Final version (stable) 1.5.4 released.
+  - improve support of At-Rules :
+    - fixed bug #16354 : Does not parse multiple simple At-rules properly
+    - fixed bug #16355 : Simple at rules nested within other at rules are reported as top level at rules
+    - fixed bug #16357 : Multiple equal complex at rules not parsed correctly
+    - fixed bug #16358 : Multiple media types on media at rule not parsed correctly
+    - fixed bug #16359 : Multiple selectors on a single rule inside a complex at rule not properly parsed
+    - fixed bug #16360 : Multiple selectors inside a complex at rule not properly parsed
+
 2009-01-21 Laurent Laville <pear@laurent-laville.org>
 
   * VERSION: Final version (stable) 1.5.3 released.
