@@ -75,10 +75,8 @@ class HTML_CSS_Error extends PEAR_Error
      * @access     public
      */
     function HTML_CSS_Error($message = null,
-                            $code = null,
-                            $mode = null, $options = null,
-                            $userinfo = null)
-    {
+        $code = null, $mode = null, $options = null, $userinfo = null
+    ) {
         $this->__construct($message, $code, $mode, $options, $userinfo);
     }
 
@@ -99,10 +97,8 @@ class HTML_CSS_Error extends PEAR_Error
      * @access     public
      */
     function __construct($message = null,
-                         $code = null,
-                         $mode = null, $options = null,
-                         $userinfo = null)
-    {
+        $code = null, $mode = null, $options = null, $userinfo = null
+    ) {
         if ($mode === null) {
             $mode = PEAR_ERROR_RETURN;
         }
@@ -246,8 +242,10 @@ class HTML_CSS_Error extends PEAR_Error
         $display     = array_merge($displayDefault, $displayConf);
         $contextExec = $this->sprintContextExec($display['contextFormat']);
 
-        return sprintf($display['lineFormat'] . $display['eol'],
-                   ucfirst($userinfo['level']), $this->getMessage(), $contextExec);
+        return sprintf(
+            $display['lineFormat'] . $display['eol'],
+            ucfirst($userinfo['level']), $this->getMessage(), $contextExec
+        );
     }
 
     /**
@@ -300,15 +298,18 @@ class HTML_CSS_Error extends PEAR_Error
             $timestamp   = isset($userinfo['time']) ? $userinfo['time'] : $time;
             $contextExec = $this->sprintContextExec($log['contextFormat']);
 
-            $message = sprintf($log['lineFormat'] . $log['eol'],
-                           strftime($log['timeFormat'], $timestamp),
-                           $log['ident'],
-                           $userinfo['level'],
-                           $this->getMessage(),
-                           $contextExec);
+            $message = sprintf(
+                $log['lineFormat'] . $log['eol'],
+                strftime($log['timeFormat'], $timestamp),
+                $log['ident'],
+                $userinfo['level'],
+                $this->getMessage(),
+                $contextExec
+            );
 
-            error_log(strip_tags($message), $message_type, $destination,
-                $extra_headers);
+            error_log(
+                strip_tags($message), $message_type, $destination, $extra_headers
+            );
         }
     }
 
