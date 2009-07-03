@@ -21,6 +21,7 @@ require_once "PHPUnit/Framework/TestSuite.php";
 
 require_once 'HTML/CSS.php';
 require_once 'PEAR.php';
+require_once 'Event/Dispatcher.php';
 
 /**
  * Test suite class to test old bugs of HTML_CSS
