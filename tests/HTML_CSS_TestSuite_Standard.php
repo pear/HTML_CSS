@@ -507,6 +507,30 @@ html { height: 100%; }
     }
 
     /**
+     * Tests create duplicates copies of At-Rules with different strings
+     *
+     * @return void
+     * @group  standard
+     */
+    public function testCreateAtRuleWithManyDefinitions()
+    {
+        $this->css->createAtRule('@import', '"foo.css"', true);
+        $this->css->createAtRule('@import', '"bar.css"', true);
+
+        $exp = array(
+            '@import' => array(
+                '1' => array(
+                    '"foo.css"' => '',
+                ),
+                '2' => array(
+                    '"bar.css"' => '',
+                ),
+            ),
+        );
+        $this->assertSame($exp, $this->css->toArray());
+    }
+
+    /**
      * Tests parsing a file that contains CSS information.
      *
      * @return void
