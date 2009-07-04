@@ -41,14 +41,22 @@ $p2->setReleaseVersion('1.5.4');
 $p2->setAPIVersion('1.5.0');
 $p2->setReleaseStability('stable');
 $p2->setAPIStability('stable');
-$p2->setNotes('Bug fixes
+$p2->setNotes('Changes
+- createAtRule signature changed : add optional duplicates parameter
+
+Bug fixes
 - 16354 : Does not parse multiple simple At-rules properly
 - 16355 : Simple at rules nested within other at rules are reported as top level at rules
 - 16357 : Multiple equal complex at rules not parsed correctly
 - 16358 : Multiple media types on media at rule not parsed correctly
 - 16359 : Multiple selectors on a single rule inside a complex at rule not properly parsed
 - 16360 : Multiple selectors inside a complex at rule not properly parsed
+
+Last action as active package leader
 ');
+$p2->addMaintainer('lead', 'farell',
+                   'Laurent Laville', 'pear@laurent-laville.org', 'no');
+
 //$p2->setLicense('BSD', 'http://www.opensource.org/licenses/bsd-license.php');
 //$p2->setPhpDep('4.3.0');
 //$p2->setPearinstallerDep('1.5.4');

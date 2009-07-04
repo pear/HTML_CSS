@@ -19,19 +19,19 @@ In addition, it shares the following with HTML_Common based classes:
 * Indent style support
 * Line ending style</description>
  <lead>
-  <name>Laurent Laville</name>
-  <user>farell</user>
-  <email>pear@laurent-laville.org</email>
-  <active>yes</active>
- </lead>
- <lead>
   <name>Klaus Guenther</name>
   <user>thesaur</user>
   <email>klaus@capitalfocus.org</email>
   <active>no</active>
  </lead>
+ <lead>
+  <name>Laurent Laville</name>
+  <user>farell</user>
+  <email>pear@laurent-laville.org</email>
+  <active>no</active>
+ </lead>
  <date>2009-07-04</date>
- <time>18:01:20</time>
+ <time>10:23:48</time>
  <version>
   <release>1.5.4</release>
   <api>1.5.0</api>
@@ -42,6 +42,9 @@ In addition, it shares the following with HTML_Common based classes:
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
  <notes>
+Changes
+- createAtRule signature changed : add optional duplicates parameter
+
 Bug fixes
 - 16354 : Does not parse multiple simple At-rules properly
 - 16355 : Simple at rules nested within other at rules are reported as top level at rules
@@ -49,6 +52,8 @@ Bug fixes
 - 16358 : Multiple media types on media at rule not parsed correctly
 - 16359 : Multiple selectors on a single rule inside a complex at rule not properly parsed
 - 16360 : Multiple selectors inside a complex at rule not properly parsed
+
+Last action as active package leader
  </notes>
  <contents>
   <dir baseinstalldir="HTML" name="/">
@@ -96,6 +101,9 @@ Bug fixes
      <tasks:replace from="@test_dir@" to="test_dir" type="pear-config" />
     </file>
     <file name="stylesheet.css" role="test" />
+    <file name="TestListener.php" role="test">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
    </dir> <!-- /tests -->
    <file name="ChangeLog" role="doc" />
    <file name="CSS.php" role="php">
@@ -152,6 +160,9 @@ Bug fixes
    <date>2009-07-04</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
    <notes>
+Changes
+- createAtRule signature changed : add optional duplicates parameter
+
 Bug fixes
 - 16354 : Does not parse multiple simple At-rules properly
 - 16355 : Simple at rules nested within other at rules are reported as top level at rules
@@ -159,6 +170,8 @@ Bug fixes
 - 16358 : Multiple media types on media at rule not parsed correctly
 - 16359 : Multiple selectors on a single rule inside a complex at rule not properly parsed
 - 16360 : Multiple selectors inside a complex at rule not properly parsed
+
+Last action as active package leader
    </notes>
   </release>
   <release>
