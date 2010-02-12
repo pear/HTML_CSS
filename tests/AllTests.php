@@ -17,10 +17,8 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'HTML_CSS_AllTests::main');
 }
 
-require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-chdir(dirname(__FILE__));
 
 require_once 'HTML_CSS_TestSuite_Standard.php';
 require_once 'HTML_CSS_TestSuite_Output.php';
