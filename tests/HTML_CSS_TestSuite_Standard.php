@@ -119,9 +119,9 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
     {
         $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_OBJECT, $error);
         if ($error instanceof PEAR_Error) {
-            $this->assertEquals($error->getCode(), $code);
+            $this->assertEquals($code, $error->getCode());
             $user_info = $error->getUserInfo();
-            $this->assertEquals($user_info['level'], $level);
+            $this->assertEquals($level, $user_info['level']);
         }
     }
 
@@ -1564,7 +1564,7 @@ EOD;
         $r = $this->css->parseFile('none.css');
         $this->catchError($r, HTML_CSS_ERROR_NO_FILE, 'error');
 
-        $r = $this->css->parseFile('stylesheet.css', 1);
+        $r = $this->css->parseFile(dirname(__FILE__) . '/stylesheet.css', 1);
         $this->catchError($r, HTML_CSS_ERROR_INVALID_INPUT, 'exception');
 
         // parseData
