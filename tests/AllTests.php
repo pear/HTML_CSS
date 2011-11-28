@@ -20,9 +20,9 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
 
-require_once 'HTML_CSS_TestSuite_Standard.php';
-require_once 'HTML_CSS_TestSuite_Output.php';
-require_once 'HTML_CSS_TestSuite_Bugs.php';
+require_once 'HTML_CSS_StandardTest.php';
+require_once 'HTML_CSS_OutputTest.php';
+require_once 'HTML_CSS_BugsTest.php';
 
 /**
  * Class for running all test suites for HTML_CSS package.
@@ -75,9 +75,9 @@ class HTML_CSS_AllTests
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('HTML_CSS Test Suite');
-        $suite->addTestSuite('HTML_CSS_TestSuite_Standard');
-        $suite->addTestSuite('HTML_CSS_TestSuite_Output');
-        $suite->addTestSuite('HTML_CSS_TestSuite_Bugs');
+        $suite->addTestSuite('HTML_CSS_StandardTest');
+        $suite->addTestSuite('HTML_CSS_OutputTest');
+        $suite->addTestSuite('HTML_CSS_BugsTest');
         return $suite;
     }
 
@@ -124,4 +124,3 @@ class HTML_CSS_AllTests
 if (PHPUnit_MAIN_METHOD == 'HTML_CSS_AllTests::main') {
     HTML_CSS_AllTests::main();
 }
-?>

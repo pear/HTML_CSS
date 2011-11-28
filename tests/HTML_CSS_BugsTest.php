@@ -34,7 +34,7 @@ require_once 'Event/Dispatcher.php';
  * @link     http://pear.php.net/package/HTML_CSS
  * @since    File available since Release 1.4.0
  */
-class HTML_CSS_TestSuite_Bugs extends PHPUnit_Framework_TestCase
+class HTML_CSS_BugsTest extends PHPUnit_Framework_TestCase
 {
     /**
      * A CSS object

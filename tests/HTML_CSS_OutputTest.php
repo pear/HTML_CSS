@@ -18,7 +18,6 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
-require_once "PHPUnit/Extensions/OutputTestCase.php";
 
 require_once 'HTML/CSS.php';
 require_once 'PEAR.php';
@@ -34,7 +33,7 @@ require_once 'PEAR.php';
  * @link     http://pear.php.net/package/HTML_CSS
  * @since    File available since Release 1.5.2
  */
-class HTML_CSS_TestSuite_Output extends PHPUnit_Framework_TestCase
+class HTML_CSS_OutputTest extends PHPUnit_Framework_TestCase
 {
     /**
      * A CSS object

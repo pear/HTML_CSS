@@ -33,7 +33,7 @@ require_once 'PEAR.php';
  * @link     http://pear.php.net/package/HTML_CSS
  * @since    File available since Release 1.4.0
  */
-class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
+class HTML_CSS_StandardTest extends PHPUnit_Framework_TestCase
 {
     /**
      * A CSS object
