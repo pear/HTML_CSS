@@ -74,6 +74,15 @@ class HTML_CSS_TestSuite_Output extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return string
+     * @see https://github.com/sebastianbergmann/phpunit/commit/6d83db502c9efd38f7df1a6ca90c20436f8105cc#PHPUnit/Extensions/OutputTestCase.php
+     */
+    public function normalizeOutput($buffer)
+    {
+        return str_replace("\r", '', $buffer);
+    }
+
+    /**
      * Tears down the fixture.
      * This method is called after a test is executed.
      *
