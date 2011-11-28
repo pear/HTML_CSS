@@ -117,7 +117,7 @@ class HTML_CSS_TestSuite_Standard extends PHPUnit_Framework_TestCase
      */
     public function catchError($error, $code, $level)
     {
-        $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_OBJECT, $error);
+        $this->assertTrue(is_object($error));
         if ($error instanceof PEAR_Error) {
             $this->assertEquals($code, $error->getCode());
             $user_info = $error->getUserInfo();
