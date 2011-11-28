@@ -34,7 +34,7 @@ require_once 'PEAR.php';
  * @link     http://pear.php.net/package/HTML_CSS
  * @since    File available since Release 1.5.2
  */
-class HTML_CSS_TestSuite_Output extends PHPUnit_Extensions_OutputTestCase
+class HTML_CSS_TestSuite_Output extends PHPUnit_Framework_TestCase
 {
     /**
      * A CSS object
@@ -70,7 +70,7 @@ class HTML_CSS_TestSuite_Output extends PHPUnit_Extensions_OutputTestCase
 
         $this->css = new HTML_CSS($attrs, $prefs);
 
-        $this->setOutputCallback(array(&$this, 'normalizeOutput'));
+        $this->setOutputCallback(array($this, 'normalizeOutput'));
     }
 
     /**
