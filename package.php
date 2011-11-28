@@ -22,10 +22,10 @@ require_once 'PEAR/PackageFileManager2.php';
 
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
 
-$packagefile = 'c:/php/pear/HTML_CSS/package2.xml';
+$packagefile = dirname(__FILE__) . '/package2.xml';
 
-$options = array('filelistgenerator' => 'cvs',
-    'packagefile' => 'package2.xml',
+$options = array('filelistgenerator' => 'git',
+    'packagefile' => 'package.xml',
     'baseinstalldir' => 'HTML',
     'simpleoutput' => true,
     'clearcontents' => false,
@@ -37,22 +37,12 @@ $p2 = &PEAR_PackageFileManager2::importOptions($packagefile, $options);
 $p2->setPackageType('php');
 $p2->addRelease();
 $p2->generateContents();
-$p2->setReleaseVersion('1.5.4');
+$p2->setReleaseVersion('1.5.5');
 $p2->setAPIVersion('1.5.0');
 $p2->setReleaseStability('stable');
 $p2->setAPIStability('stable');
-$p2->setNotes('Changes
-- createAtRule signature changed : add optional duplicates parameter
-
-Bug fixes
-- 16354 : Does not parse multiple simple At-rules properly
-- 16355 : Simple at rules nested within other at rules are reported as top level at rules
-- 16357 : Multiple equal complex at rules not parsed correctly
-- 16358 : Multiple media types on media at rule not parsed correctly
-- 16359 : Multiple selectors on a single rule inside a complex at rule not properly parsed
-- 16360 : Multiple selectors inside a complex at rule not properly parsed
-
-Last action as active package leader
+$p2->setNotes('
+PHPUnit 3.6 compatibility
 ');
 $p2->addMaintainer('lead', 'farell',
                    'Laurent Laville', 'pear@laurent-laville.org', 'no');
@@ -69,4 +59,3 @@ if (isset($_GET['make'])
 } else {
     $p2->debugPackageFile();
 }
-?>
