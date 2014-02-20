@@ -1,0 +1,40 @@
+{
+    "authors": [
+        {
+            "email": "klaus@capitalfocus.org",
+            "name": "Klaus Guenther",
+            "role": "Lead"
+        },
+        {
+            "email": "pear@laurent-laville.org",
+            "name": "Laurent Laville",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "HTML": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/HTML_CSS",
+    "include-path": [
+        "./"
+    ],
+    "license": "BSD",
+    "name": "pear/html_css",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=HTML_CSS",
+        "source": "https://github.com/pear/HTML_CSS"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*",
+        "pear/html_common": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "suggest": {
+        "pear/pear": "Install optionally via your project's composer.json"
+    }
+}
